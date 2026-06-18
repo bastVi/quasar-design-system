@@ -1,0 +1,9 @@
+@layer qds.quasar {
+  .qds-ui .q-menu.q-menu {
+    background: var(--qds-menu-bg);
+    border: var(--qds-border-width-control) solid var(--qds-menu-border);
+    border-radius: var(--qds-menu-radius);
+    box-shadow: var(--qds-menu-shadow);
+    color: var(--qds-text);
+  }
+}

@@ -1,0 +1,24 @@
+/* Selawik (OFL 1.1, Microsoft) — static 400/600/700 */
+@font-face {
+  font-family: 'Selawik';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url('./files/selawik-regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Selawik';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url('./files/selawik-semibold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Selawik';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url('./files/selawik-bold.woff2') format('woff2');
+}

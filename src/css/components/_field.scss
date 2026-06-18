@@ -1,0 +1,14 @@
+@layer qds.quasar {
+  .qds-ui .q-field--outlined .q-field__control::before {
+    border-color: var(--qds-border);
+  }
+
+  .qds-ui .q-field--outlined .q-field__control:hover::before {
+    border-color: var(--qds-interactive-border-strong);
+  }
+
+  .qds-ui .q-field--outlined.q-field--focused .q-field__control::after {
+    border-color: var(--qds-color-primary);
+    border-width: var(--qds-field-focus-border-width);
+  }
+}

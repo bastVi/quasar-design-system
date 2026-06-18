@@ -1,0 +1,130 @@
+@use 'sass:map';
+@use '../tokens/default' as tokens;
+
+// Guaranteed base-token layer: defines every public --qds-* once so a swapped or
+// missing theme, or a Quasar version delta, never leaves a token unresolved.
+// Imported before themes/default; default overrides these in the same layer.
+@layer qds.tokens {
+  :root {
+    --qds-color-primary: #{map.get(tokens.$palette, primary)};
+    --qds-color-primary-light: #{map.get(tokens.$palette, primary-light)};
+    --qds-color-primary-dark: #{map.get(tokens.$palette, primary-dark)};
+    --qds-color-secondary: #{map.get(tokens.$palette, secondary)};
+    --qds-color-accent: #{map.get(tokens.$palette, accent)};
+    --qds-color-positive: #{map.get(tokens.$palette, positive)};
+    --qds-color-negative: #{map.get(tokens.$palette, negative)};
+    --qds-color-warning: #{map.get(tokens.$palette, warning)};
+    --qds-color-info: #{map.get(tokens.$palette, info)};
+
+    --qds-color-primary-rgb: #{map.get(tokens.$palette-rgb, primary)};
+    --qds-color-primary-light-rgb: #{map.get(tokens.$palette-rgb, primary-light)};
+    --qds-color-primary-dark-rgb: #{map.get(tokens.$palette-rgb, primary-dark)};
+    --qds-color-secondary-rgb: #{map.get(tokens.$palette-rgb, secondary)};
+    --qds-color-accent-rgb: #{map.get(tokens.$palette-rgb, accent)};
+    --qds-color-positive-rgb: #{map.get(tokens.$palette-rgb, positive)};
+    --qds-color-negative-rgb: #{map.get(tokens.$palette-rgb, negative)};
+    --qds-color-warning-rgb: #{map.get(tokens.$palette-rgb, warning)};
+    --qds-color-info-rgb: #{map.get(tokens.$palette-rgb, info)};
+
+    --qds-surface-0: #{map.get(tokens.$light-surfaces, 0)};
+    --qds-surface-1: #{map.get(tokens.$light-surfaces, 1)};
+    --qds-surface-2: #{map.get(tokens.$light-surfaces, 2)};
+    --qds-surface-3: #{map.get(tokens.$light-surfaces, 3)};
+    --qds-surface-glass: #{map.get(tokens.$light-surfaces, glass)};
+
+    --qds-text: #{map.get(tokens.$light-text, default)};
+    --qds-text-strong: #{map.get(tokens.$light-text, strong)};
+    --qds-text-muted: #{map.get(tokens.$light-text, muted)};
+    --qds-border: #{map.get(tokens.$borders, light)};
+    --qds-border-subtle: #{map.get(tokens.$borders, subtle)};
+
+    --qds-space-xs: #{map.get(tokens.$space, xs)};
+    --qds-space-sm: #{map.get(tokens.$space, sm)};
+    --qds-space-md: #{map.get(tokens.$space, md)};
+    --qds-space-lg: #{map.get(tokens.$space, lg)};
+    --qds-space-xl: #{map.get(tokens.$space, xl)};
+
+    --qds-radius-xs: #{map.get(tokens.$radius, xs)};
+    --qds-radius-sm: #{map.get(tokens.$radius, sm)};
+    --qds-radius-md: #{map.get(tokens.$radius, md)};
+    --qds-radius-lg: #{map.get(tokens.$radius, lg)};
+    --qds-radius-xl: #{map.get(tokens.$radius, xl)};
+    --qds-radius-full: #{map.get(tokens.$radius, full)};
+    --qds-radius-control: #{map.get(tokens.$radius, control)};
+
+    --qds-shadow-sm: #{map.get(tokens.$shadow, sm)};
+    --qds-shadow-md: #{map.get(tokens.$shadow, md)};
+    --qds-shadow-lg: #{map.get(tokens.$shadow, lg)};
+
+    --qds-elevation-1: var(--qds-shadow-sm);
+    --qds-elevation-2: var(--qds-shadow-md);
+    --qds-elevation-3: var(--qds-shadow-lg);
+
+    --qds-interactive-bg: var(--qds-surface-0);
+    --qds-interactive-bg-hover: var(--qds-surface-1);
+    --qds-interactive-bg-active: var(--qds-surface-2);
+    --qds-interactive-border: var(--qds-border-subtle);
+    --qds-interactive-border-strong: var(--qds-border);
+    --qds-interactive-text: var(--qds-text);
+    --qds-interactive-text-muted: var(--qds-text-muted);
+
+    --qds-font-family: #{map.get(tokens.$font, body)};
+    --qds-font-family-display: #{map.get(tokens.$font, display)};
+    --qds-font-weight-regular: #{map.get(map.get(tokens.$font, weight), regular)};
+    --qds-font-weight-medium: #{map.get(map.get(tokens.$font, weight), medium)};
+    --qds-font-weight-semibold: #{map.get(map.get(tokens.$font, weight), semibold)};
+    --qds-font-weight-bold: #{map.get(map.get(tokens.$font, weight), bold)};
+
+    --qds-motion-fast: #{map.get(tokens.$motion, fast)};
+    --qds-motion-base: #{map.get(tokens.$motion, base)};
+
+    --qds-focus-ring-width: #{map.get(tokens.$focus-ring, width)};
+    --qds-focus-ring-opacity: #{map.get(tokens.$focus-ring, opacity)};
+    --qds-focus-ring: 0 0 0 var(--qds-focus-ring-width) rgba(var(--qds-color-primary-rgb), var(--qds-focus-ring-opacity));
+
+    --qds-state-hover-opacity: #{map.get(tokens.$state-opacity, hover)};
+    --qds-state-focus-opacity: #{map.get(tokens.$state-opacity, focus)};
+    --qds-state-press-opacity: #{map.get(tokens.$state-opacity, press)};
+    --qds-tonal-bg-opacity: #{map.get(tokens.$state-opacity, tonal-bg)};
+    --qds-tonal-hover-opacity: #{map.get(tokens.$state-opacity, tonal-hover)};
+    --qds-tonal-border-opacity: #{map.get(tokens.$state-opacity, tonal-border)};
+
+    --qds-border-width-control: #{map.get(tokens.$border-width, control)};
+
+    --qds-control-letter-spacing: #{map.get(tokens.$control, letter-spacing)};
+    --qds-control-text-transform: #{map.get(tokens.$control, text-transform)};
+    --qds-control-content-line-height: #{map.get(tokens.$control, content-line-height)};
+
+    --qds-button-min-height: #{map.get(map.get(tokens.$components, button), min-height)};
+    --qds-button-padding-inline: #{map.get(map.get(tokens.$components, button), padding-inline)};
+    --qds-button-dense-min-height: #{map.get(map.get(tokens.$components, button), dense-min-height)};
+    --qds-button-dense-padding-inline: #{map.get(map.get(tokens.$components, button), dense-padding-inline)};
+    --qds-button-dense-radius: #{map.get(map.get(tokens.$components, button), dense-radius)};
+    --qds-button-dense-font-size: #{map.get(map.get(tokens.$components, button), dense-font-size)};
+    --qds-button-round-size: #{map.get(map.get(tokens.$components, button), round-size)};
+
+    --qds-badge-min-height: #{map.get(map.get(tokens.$components, badge), min-height)};
+    --qds-badge-padding: #{map.get(map.get(tokens.$components, badge), padding)};
+
+    --qds-field-focus-border-width: #{map.get(map.get(tokens.$components, field), focus-border-width)};
+
+    --qds-glass-blur: #{map.get(map.get(tokens.$effects, glass), blur)};
+    --qds-glass-saturate: #{map.get(map.get(tokens.$effects, glass), saturate)};
+    --qds-glass-border-mix: #{map.get(map.get(tokens.$effects, glass), border-mix)};
+
+    --qds-button-radius: var(--qds-radius-control);
+    --qds-chip-radius: var(--qds-radius-control);
+    --qds-badge-radius: var(--qds-radius-control);
+    --qds-card-bg: var(--qds-surface-0);
+    --qds-card-border: var(--qds-border-subtle);
+    --qds-card-radius: var(--qds-radius-lg);
+    --qds-card-shadow: var(--qds-shadow-sm);
+    --qds-menu-bg: var(--qds-surface-0);
+    --qds-menu-border: var(--qds-border-subtle);
+    --qds-menu-radius: var(--qds-radius-lg);
+    --qds-menu-shadow: var(--qds-shadow-md);
+    --qds-notification-radius: var(--qds-radius-md);
+    --qds-notification-shadow: var(--qds-shadow-md);
+    --qds-toolbar-bg: var(--qds-surface-0);
+  }
+}

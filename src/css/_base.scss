@@ -1,0 +1,13 @@
+@layer qds.base {
+  body.qds-ui {
+    background: var(--qds-surface-1);
+    color: var(--qds-text);
+    font-family: var(--qds-font-family);
+  }
+
+  body.qds-ui :where(h1, h2, h3, h4, h5, h6),
+  body.qds-ui :where(.text-h1, .text-h2, .text-h3, .text-h4, .text-h5, .text-h6),
+  .qds-display {
+    font-family: var(--qds-font-family-display);
+  }
+}

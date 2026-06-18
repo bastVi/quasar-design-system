@@ -1,0 +1,43 @@
+@layer qds.utilities {
+  .qds-surface {
+    background: var(--qds-surface-0);
+    color: var(--qds-text);
+  }
+
+  .qds-surface-muted {
+    background: var(--qds-surface-1);
+    color: var(--qds-text);
+  }
+
+  .qds-glass {
+    background: var(--qds-surface-glass);
+    backdrop-filter: blur(var(--qds-glass-blur)) saturate(var(--qds-glass-saturate));
+    border: var(--qds-border-width-control) solid color-mix(in srgb, var(--qds-border) var(--qds-glass-border-mix), transparent);
+  }
+
+  .qds-card {
+    background: var(--qds-card-bg);
+    border: var(--qds-border-width-control) solid var(--qds-card-border);
+    border-radius: var(--qds-card-radius);
+    box-shadow: var(--qds-card-shadow);
+    color: var(--qds-text);
+  }
+
+  .qds-display {
+    font-family: var(--qds-font-family-display);
+  }
+
+  .qds-text-muted {
+    color: var(--qds-text-muted);
+  }
+
+  .qds-text-strong {
+    color: var(--qds-text-strong);
+    font-weight: var(--qds-font-weight-semibold);
+  }
+
+  .qds-focus-ring:focus-visible {
+    outline: none;
+    box-shadow: var(--qds-focus-ring);
+  }
+}

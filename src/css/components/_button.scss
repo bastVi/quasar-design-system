@@ -1,0 +1,91 @@
+@layer qds.quasar {
+  .qds-ui .q-btn.q-btn {
+    border-radius: var(--qds-button-radius);
+    font-weight: var(--qds-font-weight-medium);
+    letter-spacing: var(--qds-control-letter-spacing);
+    text-transform: var(--qds-control-text-transform);
+    transition:
+      background-color var(--qds-motion-fast),
+      color var(--qds-motion-fast),
+      border-color var(--qds-motion-fast),
+      box-shadow var(--qds-motion-fast),
+      transform var(--qds-motion-fast);
+  }
+
+  .qds-ui .q-btn.q-btn:focus-visible {
+    outline: none;
+    box-shadow: var(--qds-focus-ring);
+  }
+
+  .qds-ui .q-btn.q-btn .q-btn__content {
+    align-items: center;
+    gap: var(--qds-space-xs);
+    line-height: var(--qds-control-content-line-height);
+  }
+
+  .qds-ui .q-btn.q-btn:not(.q-btn--round):not(.q-btn--fab):not(.q-btn--fab-mini) {
+    min-height: var(--qds-button-min-height);
+    padding-inline: var(--qds-button-padding-inline);
+  }
+
+  .qds-ui .q-btn.q-btn.q-btn--dense:not(.q-btn--round):not(.q-btn--fab):not(.q-btn--fab-mini) {
+    min-height: var(--qds-button-dense-min-height);
+    padding-inline: var(--qds-button-dense-padding-inline);
+    border-radius: var(--qds-button-dense-radius);
+    font-size: var(--qds-button-dense-font-size);
+  }
+
+  .qds-ui .q-btn.q-btn.q-btn--round,
+  .qds-ui .q-btn.q-btn.q-btn--fab,
+  .qds-ui .q-btn.q-btn.q-btn--fab-mini {
+    min-width: var(--qds-button-round-size);
+    min-height: var(--qds-button-round-size);
+  }
+
+  .qds-ui .q-btn.q-btn.q-btn--flat,
+  .qds-ui .q-btn.q-btn.q-btn--outline {
+    color: var(--qds-interactive-text);
+  }
+
+  .qds-ui .q-btn.q-btn.q-btn--outline {
+    background-color: var(--qds-interactive-bg);
+    border: var(--qds-border-width-control) solid var(--qds-interactive-border-strong);
+  }
+
+  .qds-ui .q-btn.q-btn.q-btn--unelevated:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.qds-solid) {
+    background-color: var(--qds-interactive-bg);
+    color: var(--qds-interactive-text);
+    border: var(--qds-border-width-control) solid var(--qds-interactive-border);
+  }
+
+  .qds-ui .q-btn.q-btn.q-btn--flat:hover,
+  .qds-ui .q-btn.q-btn.q-btn--outline:hover,
+  .qds-ui .q-btn.q-btn.q-btn--round:hover {
+    background-color: rgba(var(--qds-color-primary-rgb), var(--qds-state-hover-opacity));
+    border-color: var(--qds-interactive-border);
+  }
+
+  @mixin qds-tonal-button($name, $token) {
+    .qds-ui .q-btn.q-btn.bg-#{$name}:not(.q-btn--flat):not(.q-btn--outline):not(.qds-solid) {
+      color: var(--qds-color-#{$token});
+      background-color: rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-bg-opacity));
+      border: var(--qds-border-width-control) solid rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-border-opacity));
+    }
+
+    .qds-ui .q-btn.q-btn.bg-#{$name}:not(.q-btn--flat):not(.q-btn--outline):not(.qds-solid):hover {
+      background-color: rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-hover-opacity));
+    }
+
+    .qds-ui .q-btn.q-btn.q-btn--flat.text-#{$name},
+    .qds-ui .q-btn.q-btn.q-btn--outline.text-#{$name} {
+      color: var(--qds-color-#{$token}) !important;
+    }
+  }
+
+  @include qds-tonal-button('primary', 'primary');
+  @include qds-tonal-button('secondary', 'secondary');
+  @include qds-tonal-button('positive', 'positive');
+  @include qds-tonal-button('negative', 'negative');
+  @include qds-tonal-button('warning', 'warning');
+  @include qds-tonal-button('info', 'info');
+}

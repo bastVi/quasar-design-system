@@ -1,0 +1,9 @@
+@layer qds.quasar {
+  .qds-ui .q-card.q-card {
+    background: var(--qds-card-bg);
+    border: var(--qds-border-width-control) solid var(--qds-card-border);
+    border-radius: var(--qds-card-radius);
+    box-shadow: var(--qds-card-shadow);
+    color: var(--qds-text);
+  }
+}

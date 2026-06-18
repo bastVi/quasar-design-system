@@ -1,0 +1,27 @@
+@layer qds.quasar {
+  .qds-ui .q-badge.q-badge {
+    display: inline-flex;
+    min-height: var(--qds-badge-min-height);
+    justify-content: center;
+    padding: var(--qds-badge-padding);
+    border-radius: var(--qds-badge-radius);
+    font-weight: var(--qds-font-weight-medium);
+    letter-spacing: var(--qds-control-letter-spacing);
+    vertical-align: middle;
+  }
+
+  @mixin qds-tonal-badge($name, $token) {
+    .qds-ui .q-badge.q-badge.bg-#{$name}:not(.qds-solid) {
+      color: var(--qds-color-#{$token});
+      background-color: rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-bg-opacity));
+      border: var(--qds-border-width-control) solid rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-border-opacity));
+    }
+  }
+
+  @include qds-tonal-badge('primary', 'primary');
+  @include qds-tonal-badge('secondary', 'secondary');
+  @include qds-tonal-badge('positive', 'positive');
+  @include qds-tonal-badge('negative', 'negative');
+  @include qds-tonal-badge('warning', 'warning');
+  @include qds-tonal-badge('info', 'info');
+}

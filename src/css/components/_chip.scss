@@ -1,0 +1,38 @@
+@layer qds.quasar {
+  .qds-ui .q-chip.q-chip {
+    border-radius: var(--qds-chip-radius);
+    font-weight: var(--qds-font-weight-medium);
+    letter-spacing: var(--qds-control-letter-spacing);
+    transition:
+      background-color var(--qds-motion-fast),
+      color var(--qds-motion-fast),
+      border-color var(--qds-motion-fast),
+      box-shadow var(--qds-motion-fast);
+  }
+
+  .qds-ui .q-chip.q-chip:focus-visible {
+    outline: none;
+    box-shadow: var(--qds-focus-ring);
+  }
+
+  .qds-ui .q-chip.q-chip .q-chip__content {
+    align-items: center;
+    gap: var(--qds-space-xs);
+    line-height: var(--qds-control-content-line-height);
+  }
+
+  @mixin qds-tonal-chip($name, $token) {
+    .qds-ui .q-chip.q-chip.bg-#{$name}:not(.qds-solid) {
+      color: var(--qds-color-#{$token});
+      background-color: rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-bg-opacity));
+      border: var(--qds-border-width-control) solid rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-border-opacity));
+    }
+  }
+
+  @include qds-tonal-chip('primary', 'primary');
+  @include qds-tonal-chip('secondary', 'secondary');
+  @include qds-tonal-chip('positive', 'positive');
+  @include qds-tonal-chip('negative', 'negative');
+  @include qds-tonal-chip('warning', 'warning');
+  @include qds-tonal-chip('info', 'info');
+}

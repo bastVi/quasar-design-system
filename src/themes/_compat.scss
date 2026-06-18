@@ -1,0 +1,36 @@
+@layer qds.tokens {
+  :root {
+    --color-primary: var(--qds-color-primary);
+    --color-primary-light: var(--qds-color-primary-light);
+    --color-primary-dark: var(--qds-color-primary-dark);
+    --color-secondary: var(--qds-color-secondary);
+    --color-positive: var(--qds-color-positive);
+    --color-negative: var(--qds-color-negative);
+    --color-warning: var(--qds-color-warning);
+    --color-info: var(--qds-color-info);
+    --color-success: var(--qds-color-positive);
+    --color-error: var(--qds-color-negative);
+    --color-content: var(--qds-text);
+    --color-heading: var(--qds-text-strong);
+    --color-muted: var(--qds-text-muted);
+    --color-border: var(--qds-border);
+    --color-border-light: var(--qds-border-subtle);
+    --surface-0: var(--qds-surface-0);
+    --surface-1: var(--qds-surface-1);
+    --surface-2: var(--qds-surface-2);
+    --surface-3: var(--qds-surface-3);
+    --radius-xs: var(--qds-radius-xs);
+    --radius-sm: var(--qds-radius-sm);
+    --radius-md: var(--qds-radius-md);
+    --radius-lg: var(--qds-radius-lg);
+    --radius-xl: var(--qds-radius-xl);
+    --radius-full: var(--qds-radius-full);
+    --radius-control: var(--qds-radius-control);
+    --shadow-sm: var(--qds-shadow-sm);
+    --shadow-md: var(--qds-shadow-md);
+    --shadow-lg: var(--qds-shadow-lg);
+    --motion-fast: var(--qds-motion-fast);
+    --motion-base: var(--qds-motion-base);
+    --focus-ring: var(--qds-focus-ring);
+  }
+}

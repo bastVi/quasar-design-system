@@ -1,0 +1,7 @@
+@layer qds.quasar {
+  .qds-ui .q-toolbar.q-toolbar,
+  .qds-ui .q-layout__section--marginal {
+    background: var(--qds-toolbar-bg);
+    color: var(--qds-text);
+  }
+}

@@ -1,0 +1,38 @@
+// Quasar Sass variable integration for @bastvi/quasar-design-system.
+//
+// This is the first design-system layer and should be used from the consuming
+// app's quasar.variables.scss. Prefer overriding Quasar here before adding
+// direct component selectors.
+
+@use 'sass:map';
+@use 'tokens/default' as tokens;
+
+$primary: map.get(tokens.$palette, primary) !default;
+$secondary: map.get(tokens.$palette, secondary) !default;
+$accent: map.get(tokens.$palette, accent) !default;
+$positive: map.get(tokens.$palette, positive) !default;
+$negative: map.get(tokens.$palette, negative) !default;
+$info: map.get(tokens.$palette, info) !default;
+$warning: map.get(tokens.$palette, warning) !default;
+
+$dark: map.get(tokens.$dark-surfaces, 0) !default;
+$dark-page: map.get(tokens.$dark-surfaces, 1) !default;
+$separator-color: map.get(tokens.$borders, light) !default;
+$separator-dark-color: map.get(tokens.$borders, dark) !default;
+
+$generic-border-radius: map.get(tokens.$radius, control) !default;
+$button-border-radius: map.get(tokens.$radius, control) !default;
+$button-padding: 8px 16px !default;
+$button-font-weight: map.get(map.get(tokens.$font, weight), medium) !default;
+$button-text-transform: none !default;
+
+$input-border-radius: map.get(tokens.$radius, control) !default;
+$field-border-radius: map.get(tokens.$radius, control) !default;
+
+$tooltip-color: map.get(tokens.$light-text, default) !default;
+$tooltip-background: map.get(tokens.$light-surfaces, 2) !default;
+$tooltip-border-radius: map.get(tokens.$radius, sm) !default;
+
+$body-font-size: 16px !default;
+$body-line-height: 1.5 !default;
+$typography-font-family: map.get(tokens.$font, body) !default;

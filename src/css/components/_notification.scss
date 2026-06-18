@@ -1,0 +1,12 @@
+@layer qds.quasar {
+  .qds-ui .q-notification {
+    --qds-notify-bg: var(--qds-surface-0);
+    --qds-notify-text: var(--qds-text);
+
+    background: var(--qds-notify-bg) !important;
+    color: var(--qds-notify-text) !important;
+    border: var(--qds-border-width-control) solid var(--qds-border-subtle);
+    border-radius: var(--qds-notification-radius) !important;
+    box-shadow: var(--qds-notification-shadow) !important;
+  }
+}
