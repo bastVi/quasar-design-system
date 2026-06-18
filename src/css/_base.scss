@@ -1,4 +1,4 @@
-@layer qds.base {
+@mixin styles {
   body.qds-ui {
     background: var(--qds-surface-1);
     color: var(--qds-text);

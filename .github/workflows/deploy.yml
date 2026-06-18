@@ -1,0 +1,44 @@
+name: Build & Deploy
+
+# Builds the example gallery (examples/gallery) and publishes its static dist via FTP.
+# Runs only on the `production` branch. Server dir is `quasar-design-system`.
+# FTP host/user/password come from repo secrets (never in this file). Plain FTP.
+
+on:
+  push:
+    branches: [production]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/production'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm gallery:build
+
+      - name: Deploy gallery via FTP
+        env:
+          FTP_HOST: ${{ secrets.DEPLOY_FTP_HOST }}
+          FTP_USER: ${{ secrets.DEPLOY_FTP_USER }}
+          FTP_PASS: ${{ secrets.DEPLOY_FTP_PASSWORD }}
+        run: |
+          sudo apt-get update && sudo apt-get install -y lftp
+          lftp -c "set ssl:verify-certificate no; \
+            open -u \"$FTP_USER\",\"$FTP_PASS\" \"$FTP_HOST\"; \
+            mirror -R --delete --verbose examples/gallery/dist/ quasar-design-system"

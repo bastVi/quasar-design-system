@@ -36,7 +36,6 @@ import {
   ppStar,
   ppCaretUp,
   ppCloudArrowUp,
-  ppUploadSimple,
   ppTrash,
   ppListBullets,
   ppListNumbers,

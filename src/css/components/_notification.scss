@@ -1,4 +1,4 @@
-@layer qds.quasar {
+@mixin styles {
   .qds-ui .q-notification {
     --qds-notify-bg: var(--qds-surface-0);
     --qds-notify-text: var(--qds-text);

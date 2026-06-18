@@ -1,4 +1,4 @@
-@layer qds.quasar {
+@mixin styles {
   .qds-ui .q-card.q-card {
     background: var(--qds-card-bg);
     border: var(--qds-border-width-control) solid var(--qds-card-border);

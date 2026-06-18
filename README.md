@@ -2,7 +2,7 @@
 
 Opinionated Quasar 2 design system inspired by Fluent 2, Apple, and One UI.
 
-This package is published under the personal scope `@bastvi/quasar-design-system` while the visual language is still designer-led and exploratory. It intentionally contains no application business logic, no models, no entity workflows, and no private project assumptions.
+Published under the personal scope `@bastvi/quasar-design-system` while the visual language is still evolving. It contains only generic visual language — no business logic, models, or app-specific assumptions.
 
 ## Goals
 
@@ -72,28 +72,9 @@ The package is structured around `src/themes/`. For now there is one real theme,
 - `glass`: softer Apple-inspired surfaces and translucent cards.
 - `mobile`: rounder, warmer, One UI-inspired spacing and touch feel.
 
-They are not separate brands. They are small mood shifts over the same token system.
-
-Future themes should start as flat files containing variables only:
-
-- `src/themes/{theme-name}.scss` for CSS variables and theme classes
-- `src/themes/index.ts` for runtime metadata and theme registration
-
-The design-system implementation itself stays outside `src/themes/`. It reads variables from the active theme through `var(--qds-*)`.
+They are not separate brands — small mood shifts over the same token system.
 
 ## Component Gallery
 
 > **Work in progress.** A visual gallery (tokens, variants, light/dark, component showcase) is planned
-> for an upcoming release. A Histoire scaffold exists in the repo, but its static build is not yet
-> stable on this Vite/Quasar stack — the gallery tooling is still being finalized.
-
-## UnoCSS
-
-UnoCSS is allowed, but should stay optional until the SCSS baseline is stable. Good future uses:
-
-- shortcuts for design-system token utilities
-- safelisted color/state classes
-- a preset for app teams that already use UnoCSS
-- generated docs pages or playground helpers
-
-The package must keep a plain SCSS/CSS path so every Quasar 2 app can adopt it without changing its build pipeline.
+> for an upcoming release (a bespoke Quasar SPA gallery). The tooling is still being finalized.

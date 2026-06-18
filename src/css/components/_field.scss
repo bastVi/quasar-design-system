@@ -1,4 +1,4 @@
-@layer qds.quasar {
+@mixin styles {
   .qds-ui .q-field--outlined .q-field__control::before {
     border-color: var(--qds-border);
   }

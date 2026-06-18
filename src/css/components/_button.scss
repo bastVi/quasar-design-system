@@ -1,4 +1,23 @@
-@layer qds.quasar {
+@mixin qds-tonal-button($name, $token) {
+  // !important defeats Quasar's `.bg-*`/`.text-*` color utilities, which are
+  // themselves !important; without it the tonal treatment loses to the solid fill.
+  .qds-ui .q-btn.q-btn.bg-#{$name}:not(.q-btn--flat):not(.q-btn--outline):not(.qds-solid) {
+    color: var(--qds-color-#{$token}) !important;
+    background-color: rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-bg-opacity)) !important;
+    border: var(--qds-border-width-control) solid rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-border-opacity));
+  }
+
+  .qds-ui .q-btn.q-btn.bg-#{$name}:not(.q-btn--flat):not(.q-btn--outline):not(.qds-solid):hover {
+    background-color: rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-hover-opacity)) !important;
+  }
+
+  .qds-ui .q-btn.q-btn.q-btn--flat.text-#{$name},
+  .qds-ui .q-btn.q-btn.q-btn--outline.text-#{$name} {
+    color: var(--qds-color-#{$token}) !important;
+  }
+}
+
+@mixin styles {
   .qds-ui .q-btn.q-btn {
     border-radius: var(--qds-button-radius);
     font-weight: var(--qds-font-weight-medium);
@@ -63,23 +82,6 @@
   .qds-ui .q-btn.q-btn.q-btn--round:hover {
     background-color: rgba(var(--qds-color-primary-rgb), var(--qds-state-hover-opacity));
     border-color: var(--qds-interactive-border);
-  }
-
-  @mixin qds-tonal-button($name, $token) {
-    .qds-ui .q-btn.q-btn.bg-#{$name}:not(.q-btn--flat):not(.q-btn--outline):not(.qds-solid) {
-      color: var(--qds-color-#{$token});
-      background-color: rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-bg-opacity));
-      border: var(--qds-border-width-control) solid rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-border-opacity));
-    }
-
-    .qds-ui .q-btn.q-btn.bg-#{$name}:not(.q-btn--flat):not(.q-btn--outline):not(.qds-solid):hover {
-      background-color: rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-hover-opacity));
-    }
-
-    .qds-ui .q-btn.q-btn.q-btn--flat.text-#{$name},
-    .qds-ui .q-btn.q-btn.q-btn--outline.text-#{$name} {
-      color: var(--qds-color-#{$token}) !important;
-    }
   }
 
   @include qds-tonal-button('primary', 'primary');

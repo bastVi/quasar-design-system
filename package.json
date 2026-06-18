@@ -12,6 +12,7 @@
   "exports": {
     ".": "./src/index.ts",
     "./css": "./src/css/index.scss",
+    "./css/layered": "./src/css/index.layered.scss",
     "./quasar-variables": "./src/quasar.variables.scss",
     "./runtime": "./src/runtime/theme.ts",
     "./tokens": "./src/tokens/index.ts",
@@ -28,7 +29,10 @@
   "scripts": {
     "typecheck": "vue-tsc --noEmit -p tsconfig.json",
     "stories": "histoire dev",
-    "stories:build": "histoire build"
+    "stories:build": "histoire build",
+    "gallery:dev": "pnpm -C examples/gallery dev",
+    "gallery:build": "pnpm -C examples/gallery build",
+    "gallery:test": "pnpm -C examples/gallery test:visual"
   },
   "repository": {
     "type": "git",

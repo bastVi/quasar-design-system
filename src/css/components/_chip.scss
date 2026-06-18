@@ -1,4 +1,12 @@
-@layer qds.quasar {
+@mixin qds-tonal-chip($name, $token) {
+  .qds-ui .q-chip.q-chip.bg-#{$name}:not(.qds-solid) {
+    color: var(--qds-color-#{$token});
+    background-color: rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-bg-opacity));
+    border: var(--qds-border-width-control) solid rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-border-opacity));
+  }
+}
+
+@mixin styles {
   .qds-ui .q-chip.q-chip {
     border-radius: var(--qds-chip-radius);
     font-weight: var(--qds-font-weight-medium);
@@ -19,14 +27,6 @@
     align-items: center;
     gap: var(--qds-space-xs);
     line-height: var(--qds-control-content-line-height);
-  }
-
-  @mixin qds-tonal-chip($name, $token) {
-    .qds-ui .q-chip.q-chip.bg-#{$name}:not(.qds-solid) {
-      color: var(--qds-color-#{$token});
-      background-color: rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-bg-opacity));
-      border: var(--qds-border-width-control) solid rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-border-opacity));
-    }
   }
 
   @include qds-tonal-chip('primary', 'primary');

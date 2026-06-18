@@ -1,6 +1,10 @@
+// Default bundle: tokens stay in @layer qds.tokens (they never compete with
+// Quasar's rules), but the component/base/utility overrides emit UNLAYERED so
+// they beat Quasar's own unlayered CSS. Import this AFTER Quasar's CSS.
 @use 'layers';
 @use '../themes/fallbacks';
 @use '../themes/default';
+
 @use 'base';
 @use 'utilities';
 @use 'components/button';
@@ -11,3 +15,14 @@
 @use 'components/menu';
 @use 'components/toolbar';
 @use 'components/notification';
+
+@include base.styles;
+@include utilities.styles;
+@include button.styles;
+@include badge.styles;
+@include chip.styles;
+@include card.styles;
+@include field.styles;
+@include menu.styles;
+@include toolbar.styles;
+@include notification.styles;

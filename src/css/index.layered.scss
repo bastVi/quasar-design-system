@@ -1,0 +1,36 @@
+// Layered bundle: emits the SAME overrides as ./css but wrapped in @layer for
+// apps that deliberately layer Quasar's own CSS (so the cascade order is
+// controlled by layer order rather than import order + specificity).
+@use 'layers';
+@use '../themes/fallbacks';
+@use '../themes/default';
+
+@use 'base';
+@use 'utilities';
+@use 'components/button';
+@use 'components/badge';
+@use 'components/chip';
+@use 'components/card';
+@use 'components/field';
+@use 'components/menu';
+@use 'components/toolbar';
+@use 'components/notification';
+
+@layer qds.base {
+  @include base.styles;
+}
+
+@layer qds.utilities {
+  @include utilities.styles;
+}
+
+@layer qds.quasar {
+  @include button.styles;
+  @include badge.styles;
+  @include chip.styles;
+  @include card.styles;
+  @include field.styles;
+  @include menu.styles;
+  @include toolbar.styles;
+  @include notification.styles;
+}
