@@ -1,7 +1,7 @@
 name: Build & Deploy
 
 # Builds the example gallery (examples/gallery) and publishes its static dist via FTP.
-# Runs only on the `production` branch. Server dir is `quasar-design-system`.
+# Runs only on the `production` branch. Server dir comes from the DEPLOY_PATH repo variable.
 # FTP host/user/password come from repo secrets (never in this file). Plain FTP.
 
 on:
@@ -41,4 +41,4 @@ jobs:
           sudo apt-get update && sudo apt-get install -y lftp
           lftp -c "set ssl:verify-certificate no; \
             open -u \"$FTP_USER\",\"$FTP_PASS\" \"$FTP_HOST\"; \
-            mirror -R --delete --verbose examples/gallery/dist/ quasar-design-system"
+            mirror -R --delete --verbose examples/gallery/dist/ ${{ vars.DEPLOY_PATH }}"
