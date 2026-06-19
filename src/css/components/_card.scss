@@ -5,5 +5,13 @@
     border-radius: var(--qds-card-radius);
     box-shadow: var(--qds-card-shadow);
     color: var(--qds-text);
+    backdrop-filter: blur(var(--qds-card-backdrop-blur)) saturate(var(--qds-card-backdrop-saturate));
+    -webkit-backdrop-filter: blur(var(--qds-card-backdrop-blur)) saturate(var(--qds-card-backdrop-saturate));
+  }
+
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .qds-ui .q-card.q-card {
+      background: var(--qds-card-bg-fallback);
+    }
   }
 }

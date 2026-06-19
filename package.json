@@ -68,7 +68,6 @@
     "@fontsource-variable/open-sans": "^5.2.7",
     "@histoire/plugin-vue": "^1.0.0-alpha.2",
     "@phosphor-icons/vue": "^2.2.1",
-    "@quasar/extras": "^1.16.0",
     "@types/node": "^24.0.0",
     "@vitejs/plugin-vue": "^6.0.0",
     "histoire": "^1.0.0-alpha.2",

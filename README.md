@@ -13,10 +13,10 @@ Published under the personal scope `@bastvi/quasar-design-system` while the visu
 
 ## Design Direction
 
-The default language is Microsoft Fluent 2: Communication Blue `#0078d4`, Fluent status hues, calm surfaces, crisp radii, and compact enterprise controls.
+The default language is Microsoft Fluent 2: Communication Blue `#0078d4`, Fluent status hues, calm tonal surfaces, restrained acrylic cards, and compact enterprise controls.
 
-- clean, calm, stroke-based surfaces (flat, not elevated)
-- explicit solid, outlined, tonal, and neutral control states
+- clean, calm, tonal surfaces with restrained acrylic depth
+- tonal-first semantic controls with explicit solid, outlined, and neutral states
 - crisp radii and hairline borders; subtle state layers
 - a clear 2px outline focus ring
 - adaptive light/dark/system mode
@@ -69,13 +69,13 @@ Add `qds-ui` to the body automatically through `configureDesignSystem()`. The cl
 Four usage states over Quasar's native `QBtn`:
 
 ```vue
-<q-btn unelevated color="primary" label="Save" />            <!-- solid: primary action -->
+<q-btn unelevated color="primary" label="Preview" />         <!-- tonal: semantic default -->
+<q-btn class="qds-solid" unelevated color="primary" label="Save" />  <!-- solid: primary CTA -->
 <q-btn outline color="primary" label="Edit" />               <!-- outlined: secondary action -->
-<q-btn class="qds-tonal" color="primary" label="Preview" />  <!-- tonal: low-emphasis tint -->
 <q-btn label="Cancel" />                                     <!-- neutral: uncolored default -->
 ```
 
-Solid and outlined ride Quasar's own `unelevated`/`outline` props; only the tonal variant adds a class (`qds-tonal`).
+Colored non-solid buttons are tonal by default. Add `qds-solid` only for the strongest filled CTA.
 
 ## Icons
 

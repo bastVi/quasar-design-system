@@ -1,9 +1,66 @@
-import { Quasar } from 'quasar'
+import {
+  ClosePopup,
+  Notify,
+  QBadge,
+  QBanner,
+  QBtn,
+  QCard,
+  QChip,
+  QInput,
+  QItem,
+  QItemSection,
+  QList,
+  QMenu,
+  QSelect,
+  QSeparator,
+  QToggle,
+  QToolbar,
+  QToolbarTitle,
+  Quasar,
+} from 'quasar'
 import type { App } from 'vue'
-import '@quasar/extras/material-icons/material-icons.css'
+import { configureDesignSystem, qdsIconSet } from './src'
 import 'quasar/src/css/index.sass'
+import './src/fonts/inter.css'
+import './src/fonts/selawik.css'
 import './src/css/index.scss'
 
+type QuasarInstall = (app: App, options: object, ssrContext?: unknown) => void
+
 export function setupVue3({ app }: { app: App }) {
-  app.use(Quasar, {})
+  const isSsr = Boolean((import.meta as unknown as { env?: { SSR?: boolean } }).env?.SSR)
+  const quasarOptions = {
+    components: {
+      QBadge,
+      QBanner,
+      QBtn,
+      QCard,
+      QChip,
+      QInput,
+      QItem,
+      QItemSection,
+      QList,
+      QMenu,
+      QSelect,
+      QSeparator,
+      QToggle,
+      QToolbar,
+      QToolbarTitle,
+    },
+    directives: {
+      ClosePopup,
+    },
+    iconSet: qdsIconSet,
+    plugins: {
+      Notify,
+    },
+  }
+
+  if (isSsr) {
+    ;(Quasar.install as QuasarInstall)(app, quasarOptions, { req: { headers: {} } })
+  } else {
+    app.use(Quasar, quasarOptions)
+  }
+
+  configureDesignSystem(app, { persist: false })
 }

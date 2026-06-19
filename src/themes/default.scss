@@ -1,8 +1,7 @@
 @use 'sass:map';
 @use '../tokens/default' as tokens;
 
-// Re-include in every block overriding a base input; var() chains resolve at
-// computed-value time and otherwise stay stranded at their prior value.
+// Re-include after base overrides so var() chains do not strand.
 @mixin qds-derived-tokens {
   --qds-elevation-1: var(--qds-shadow-sm);
   --qds-elevation-2: var(--qds-shadow-md);
@@ -15,22 +14,20 @@
   --qds-interactive-text: var(--qds-text);
   --qds-interactive-text-muted: var(--qds-text-muted);
 
-  // Per-component alias tokens; var() chains, so they live in the mixin too.
   --qds-button-radius: var(--qds-radius-control);
   --qds-chip-radius: var(--qds-radius-control);
   --qds-badge-radius: var(--qds-radius-control);
-  --qds-card-bg: var(--qds-surface-0);
-  --qds-card-border: var(--qds-border-subtle);
+  --qds-card-bg: linear-gradient(135deg, rgba(var(--qds-color-primary-rgb), var(--qds-card-tonal-opacity)), transparent 72%), var(--qds-surface-glass);
+  --qds-card-bg-fallback: linear-gradient(135deg, rgba(var(--qds-color-primary-rgb), var(--qds-card-fallback-tonal-opacity)), transparent 72%), var(--qds-surface-0);
+  --qds-card-border: color-mix(in srgb, var(--qds-border) var(--qds-card-border-mix), transparent);
   --qds-card-radius: var(--qds-radius-lg);
-  // Fluent cards are stroke-based, not elevated.
-  --qds-card-shadow: none;
+  --qds-card-shadow: var(--qds-shadow-sm);
   --qds-menu-bg: var(--qds-surface-0);
   --qds-menu-border: var(--qds-border-subtle);
   --qds-menu-radius: var(--qds-radius-lg);
   --qds-menu-shadow: var(--qds-shadow-md);
   --qds-notification-radius: var(--qds-radius-md);
   --qds-notification-shadow: var(--qds-shadow-md);
-  // Toolbar sits one step under cards/menus, anchored by a bottom hairline.
   --qds-toolbar-bg: var(--qds-surface-1);
 }
 
@@ -114,6 +111,7 @@
     --qds-tonal-bg-opacity: #{map.get(tokens.$state-opacity, tonal-bg)};
     --qds-tonal-hover-opacity: #{map.get(tokens.$state-opacity, tonal-hover)};
     --qds-tonal-border-opacity: #{map.get(tokens.$state-opacity, tonal-border)};
+    --qds-tonal-text-mix: #{map.get(tokens.$state-opacity, tonal-text-mix)};
 
     --qds-border-width-control: #{map.get(tokens.$border-width, control)};
 
@@ -128,6 +126,12 @@
     --qds-button-dense-radius: #{map.get(map.get(tokens.$components, button), dense-radius)};
     --qds-button-dense-font-size: #{map.get(map.get(tokens.$components, button), dense-font-size)};
     --qds-button-round-size: #{map.get(map.get(tokens.$components, button), round-size)};
+
+    --qds-card-tonal-opacity: #{map.get(map.get(tokens.$components, card), tonal-opacity)};
+    --qds-card-fallback-tonal-opacity: #{map.get(map.get(tokens.$components, card), fallback-tonal-opacity)};
+    --qds-card-border-mix: #{map.get(map.get(tokens.$components, card), border-mix)};
+    --qds-card-backdrop-blur: #{map.get(map.get(tokens.$components, card), backdrop-blur)};
+    --qds-card-backdrop-saturate: #{map.get(map.get(tokens.$components, card), backdrop-saturate)};
 
     --qds-badge-min-height: #{map.get(map.get(tokens.$components, badge), min-height)};
     --qds-badge-padding: #{map.get(map.get(tokens.$components, badge), padding)};
@@ -158,6 +162,8 @@
     --qds-shadow-sm: #{map.get(tokens.$shadow, dark-sm)};
     --qds-shadow-md: #{map.get(tokens.$shadow, dark-md)};
     --qds-shadow-lg: #{map.get(tokens.$shadow, dark-lg)};
+    --qds-card-tonal-opacity: #{map.get(map.get(tokens.$components, card), dark-tonal-opacity)};
+    --qds-card-fallback-tonal-opacity: #{map.get(map.get(tokens.$components, card), dark-fallback-tonal-opacity)};
 
     @include qds-derived-tokens;
   }
@@ -167,6 +173,11 @@
     --qds-radius-lg: #{map.get(map.get(tokens.$variants, glass), radius-lg)};
     --qds-surface-glass: #{map.get(map.get(tokens.$variants, glass), surface-glass)};
     --qds-shadow-md: #{map.get(map.get(tokens.$variants, glass), shadow-md)};
+    --qds-card-tonal-opacity: #{map.get(map.get(tokens.$variants, glass), card-tonal-opacity)};
+    --qds-card-fallback-tonal-opacity: #{map.get(map.get(tokens.$variants, glass), card-fallback-tonal-opacity)};
+    --qds-card-border-mix: #{map.get(map.get(tokens.$variants, glass), card-border-mix)};
+    --qds-card-backdrop-blur: #{map.get(map.get(tokens.$variants, glass), card-backdrop-blur)};
+    --qds-card-backdrop-saturate: #{map.get(map.get(tokens.$variants, glass), card-backdrop-saturate)};
 
     @include qds-derived-tokens;
   }
@@ -184,7 +195,8 @@
     --qds-space-md: #{map.get(map.get(tokens.$variants, mobile), space-md)};
     --qds-motion-fast: #{map.get(map.get(tokens.$variants, mobile), motion-fast)};
     --qds-tonal-bg-opacity: #{map.get(map.get(tokens.$variants, mobile), tonal-bg-opacity)};
-    // One UI owns bigger touch targets; base theme stays Fluent-compact.
+    --qds-card-tonal-opacity: #{map.get(map.get(tokens.$variants, mobile), card-tonal-opacity)};
+    --qds-card-fallback-tonal-opacity: #{map.get(map.get(tokens.$variants, mobile), card-fallback-tonal-opacity)};
     --qds-button-min-height: #{map.get(map.get(tokens.$variants, mobile), button-min-height)};
 
     @include qds-derived-tokens;

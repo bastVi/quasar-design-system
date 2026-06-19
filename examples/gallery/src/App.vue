@@ -71,8 +71,8 @@ function onVariant(variant: DesignSystemVariantName) {
     </q-header>
 
     <q-page-container>
-      <q-page class="q-pa-lg qds-surface-muted">
-        <q-tab-panels v-model="tab" animated class="bg-transparent">
+      <q-page class="gallery-page qds-surface-muted">
+        <q-tab-panels v-model="tab" animated class="gallery-panels bg-transparent">
           <q-tab-panel name="tokens"><TokensSection /></q-tab-panel>
           <q-tab-panel name="typography"><TypographySection /></q-tab-panel>
           <q-tab-panel name="components"><ComponentsSection /></q-tab-panel>
@@ -83,3 +83,14 @@ function onVariant(variant: DesignSystemVariantName) {
     </q-page-container>
   </q-layout>
 </template>
+
+<style scoped>
+.gallery-page {
+  min-height: 0;
+  padding: var(--qds-space-md);
+}
+
+.gallery-panels :deep(.q-tab-panel) {
+  padding: 0;
+}
+</style>

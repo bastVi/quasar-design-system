@@ -2,7 +2,6 @@ import { createApp } from 'vue'
 import { Quasar, Notify } from 'quasar'
 
 // 1. Quasar's own CSS FIRST.
-import '@quasar/extras/material-icons/material-icons.css'
 import 'quasar/src/css/index.sass'
 
 // 2. Design-system CSS AFTER Quasar (import-after-Quasar — overrides are unlayered).

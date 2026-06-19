@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useQuasar } from 'quasar'
+import { PhCheck, PhDotsThreeVertical, PhList, PhPlus } from '@phosphor-icons/vue'
 
 const $q = useQuasar()
 
@@ -24,11 +25,16 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
     <q-card class="q-pa-lg">
       <div class="text-h6 qds-display q-mb-md">QBtn</div>
 
-      <div class="text-subtitle2 qds-text-muted q-mb-xs">Unelevated (semantic)</div>
+      <div class="text-subtitle2 qds-text-muted q-mb-xs">Unelevated (semantic tonal default)</div>
       <div class="row q-col-gutter-sm q-mb-md">
         <div v-for="c in colors" :key="`u-${c}`" class="col-auto">
           <q-btn unelevated :color="c" :label="c" no-caps />
         </div>
+      </div>
+
+      <div class="text-subtitle2 qds-text-muted q-mb-xs">Explicit solid CTA</div>
+      <div class="row q-col-gutter-sm q-mb-md">
+        <div class="col-auto"><q-btn class="qds-solid" unelevated color="primary" label="Save" no-caps /></div>
       </div>
 
       <div class="text-subtitle2 qds-text-muted q-mb-xs">Outline</div>
@@ -42,14 +48,14 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
       <div class="row q-col-gutter-sm q-mb-md items-center">
         <div class="col-auto"><q-btn flat color="primary" label="Flat" no-caps /></div>
         <div class="col-auto"><q-btn flat color="negative" label="Flat" no-caps /></div>
-        <div class="col-auto"><q-btn class="qds-tonal" color="primary" label="Tonal" text-color="primary" no-caps /></div>
-        <div class="col-auto"><q-btn class="qds-tonal" color="accent" label="Tonal" text-color="accent" no-caps /></div>
+        <div class="col-auto"><q-btn color="primary" label="Tonal" text-color="primary" no-caps /></div>
+        <div class="col-auto"><q-btn color="accent" label="Tonal" text-color="accent" no-caps /></div>
       </div>
 
       <div class="text-subtitle2 qds-text-muted q-mb-xs">Round, Dense &amp; Disabled</div>
       <div class="row q-col-gutter-sm items-center">
-        <div class="col-auto"><q-btn round color="primary" icon="add" /></div>
-        <div class="col-auto"><q-btn round outline color="accent" icon="check" /></div>
+        <div class="col-auto"><q-btn round color="primary" aria-label="Add"><PhPlus :size="18" weight="regular" /></q-btn></div>
+        <div class="col-auto"><q-btn round outline color="accent" aria-label="Confirm"><PhCheck :size="18" weight="regular" /></q-btn></div>
         <div class="col-auto"><q-btn dense unelevated color="primary" label="Dense" no-caps /></div>
         <div class="col-auto"><q-btn unelevated color="primary" label="Disabled" disable no-caps /></div>
       </div>
@@ -65,7 +71,7 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
       </div>
       <div class="row q-col-gutter-sm items-center">
         <div class="col-auto"><q-chip color="primary" text-color="white" label="Primary" /></div>
-        <div class="col-auto"><q-chip color="positive" text-color="white" icon="check" label="Done" /></div>
+        <div class="col-auto"><q-chip color="positive" text-color="white"><PhCheck :size="16" weight="regular" /> Done</q-chip></div>
         <div class="col-auto"><q-chip color="warning" text-color="white" label="Removable" removable /></div>
         <div class="col-auto"><q-chip outline color="accent" label="Outline" /></div>
         <div class="col-auto"><q-chip clickable color="info" text-color="white" label="Clickable" /></div>
@@ -116,9 +122,10 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
     <q-card class="q-pa-lg">
       <div class="text-h6 qds-display q-mb-md">QMenu &amp; QToolbar</div>
       <q-toolbar class="qds-card q-mb-md" style="border-radius: var(--qds-radius-md)">
-        <q-btn flat round icon="menu" />
+        <q-btn flat round aria-label="Menu"><PhList :size="20" weight="regular" /></q-btn>
         <q-toolbar-title>Toolbar surface</q-toolbar-title>
-        <q-btn flat round icon="more_vert">
+        <q-btn flat round aria-label="More actions">
+          <PhDotsThreeVertical :size="20" weight="regular" />
           <q-menu>
             <q-list style="min-width: 180px">
               <q-item v-close-popup clickable>

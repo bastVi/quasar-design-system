@@ -2,6 +2,7 @@
 // Content icons: @phosphor-icons/vue, duotone weight (the documented app-level path).
 import {
   PhBell,
+  PhCaretDown,
   PhHeart,
   PhGear,
   PhRocketLaunch,
@@ -27,7 +28,7 @@ const duotone = [
         These glyphs come from the Quasar icon-set wired via <code>app.use(Quasar, { iconSet: qdsIconSet })</code>.
       </p>
       <div class="row q-col-gutter-md items-center">
-        <div class="col-auto"><q-btn round flat icon="arrow.dropdown" /></div>
+        <div class="col-auto"><q-btn round flat aria-label="Dropdown"><PhCaretDown :size="20" weight="regular" /></q-btn></div>
         <div class="col-auto"><q-chip removable color="primary" text-color="white" label="chip.remove" /></div>
         <div class="col-auto" style="min-width: 220px">
           <q-select model-value="" :options="['One', 'Two']" outlined dense label="Select arrow" />

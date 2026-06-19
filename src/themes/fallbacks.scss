@@ -1,9 +1,35 @@
 @use 'sass:map';
 @use '../tokens/default' as tokens;
 
-// Guaranteed base-token layer: defines every public --qds-* once so a swapped or
-// missing theme, or a Quasar version delta, never leaves a token unresolved.
-// Imported before themes/default; default overrides these in the same layer.
+@mixin qds-derived-tokens {
+  --qds-elevation-1: var(--qds-shadow-sm);
+  --qds-elevation-2: var(--qds-shadow-md);
+  --qds-elevation-3: var(--qds-shadow-lg);
+  --qds-interactive-bg: var(--qds-surface-0);
+  --qds-interactive-bg-hover: var(--qds-surface-1);
+  --qds-interactive-bg-active: var(--qds-surface-2);
+  --qds-interactive-border: var(--qds-border-subtle);
+  --qds-interactive-border-strong: var(--qds-border);
+  --qds-interactive-text: var(--qds-text);
+  --qds-interactive-text-muted: var(--qds-text-muted);
+  --qds-button-radius: var(--qds-radius-control);
+  --qds-chip-radius: var(--qds-radius-control);
+  --qds-badge-radius: var(--qds-radius-control);
+  --qds-card-bg: linear-gradient(135deg, rgba(var(--qds-color-primary-rgb), var(--qds-card-tonal-opacity)), transparent 72%), var(--qds-surface-glass);
+  --qds-card-bg-fallback: linear-gradient(135deg, rgba(var(--qds-color-primary-rgb), var(--qds-card-fallback-tonal-opacity)), transparent 72%), var(--qds-surface-0);
+  --qds-card-border: color-mix(in srgb, var(--qds-border) var(--qds-card-border-mix), transparent);
+  --qds-card-radius: var(--qds-radius-lg);
+  --qds-card-shadow: var(--qds-shadow-sm);
+  --qds-menu-bg: var(--qds-surface-0);
+  --qds-menu-border: var(--qds-border-subtle);
+  --qds-menu-radius: var(--qds-radius-lg);
+  --qds-menu-shadow: var(--qds-shadow-md);
+  --qds-notification-radius: var(--qds-radius-md);
+  --qds-notification-shadow: var(--qds-shadow-md);
+  --qds-toolbar-bg: var(--qds-surface-1);
+}
+
+// Guaranteed base-token layer for swapped/missing themes and Quasar deltas.
 @layer qds.tokens {
   :root {
     --qds-color-primary: #{map.get(tokens.$palette, primary)};
@@ -56,18 +82,6 @@
     --qds-shadow-md: #{map.get(tokens.$shadow, md)};
     --qds-shadow-lg: #{map.get(tokens.$shadow, lg)};
 
-    --qds-elevation-1: var(--qds-shadow-sm);
-    --qds-elevation-2: var(--qds-shadow-md);
-    --qds-elevation-3: var(--qds-shadow-lg);
-
-    --qds-interactive-bg: var(--qds-surface-0);
-    --qds-interactive-bg-hover: var(--qds-surface-1);
-    --qds-interactive-bg-active: var(--qds-surface-2);
-    --qds-interactive-border: var(--qds-border-subtle);
-    --qds-interactive-border-strong: var(--qds-border);
-    --qds-interactive-text: var(--qds-text);
-    --qds-interactive-text-muted: var(--qds-text-muted);
-
     --qds-font-family: #{map.get(tokens.$font, body)};
     --qds-font-family-display: #{map.get(tokens.$font, display)};
     --qds-font-weight-regular: #{map.get(map.get(tokens.$font, weight), regular)};
@@ -92,6 +106,7 @@
     --qds-tonal-bg-opacity: #{map.get(tokens.$state-opacity, tonal-bg)};
     --qds-tonal-hover-opacity: #{map.get(tokens.$state-opacity, tonal-hover)};
     --qds-tonal-border-opacity: #{map.get(tokens.$state-opacity, tonal-border)};
+    --qds-tonal-text-mix: #{map.get(tokens.$state-opacity, tonal-text-mix)};
 
     --qds-border-width-control: #{map.get(tokens.$border-width, control)};
 
@@ -107,6 +122,12 @@
     --qds-button-dense-font-size: #{map.get(map.get(tokens.$components, button), dense-font-size)};
     --qds-button-round-size: #{map.get(map.get(tokens.$components, button), round-size)};
 
+    --qds-card-tonal-opacity: #{map.get(map.get(tokens.$components, card), tonal-opacity)};
+    --qds-card-fallback-tonal-opacity: #{map.get(map.get(tokens.$components, card), fallback-tonal-opacity)};
+    --qds-card-border-mix: #{map.get(map.get(tokens.$components, card), border-mix)};
+    --qds-card-backdrop-blur: #{map.get(map.get(tokens.$components, card), backdrop-blur)};
+    --qds-card-backdrop-saturate: #{map.get(map.get(tokens.$components, card), backdrop-saturate)};
+
     --qds-badge-min-height: #{map.get(map.get(tokens.$components, badge), min-height)};
     --qds-badge-padding: #{map.get(map.get(tokens.$components, badge), padding)};
 
@@ -116,19 +137,6 @@
     --qds-glass-saturate: #{map.get(map.get(tokens.$effects, glass), saturate)};
     --qds-glass-border-mix: #{map.get(map.get(tokens.$effects, glass), border-mix)};
 
-    --qds-button-radius: var(--qds-radius-control);
-    --qds-chip-radius: var(--qds-radius-control);
-    --qds-badge-radius: var(--qds-radius-control);
-    --qds-card-bg: var(--qds-surface-0);
-    --qds-card-border: var(--qds-border-subtle);
-    --qds-card-radius: var(--qds-radius-lg);
-    --qds-card-shadow: none;
-    --qds-menu-bg: var(--qds-surface-0);
-    --qds-menu-border: var(--qds-border-subtle);
-    --qds-menu-radius: var(--qds-radius-lg);
-    --qds-menu-shadow: var(--qds-shadow-md);
-    --qds-notification-radius: var(--qds-radius-md);
-    --qds-notification-shadow: var(--qds-shadow-md);
-    --qds-toolbar-bg: var(--qds-surface-1);
+    @include qds-derived-tokens;
   }
 }

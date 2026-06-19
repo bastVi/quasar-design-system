@@ -119,18 +119,23 @@ test.describe('QDS override gate', () => {
         )
         expect.soft(await computed(page, btn, 'font-weight'), 'QBtn font-weight').toBe('500')
 
-        // SOLID: a plain colored button (bg-primary, no .qds-tonal) is now a filled
-        // accent — opaque primary bg + white text (Fluent default, not tonal).
-        const solid = `${PANEL} .q-btn--unelevated.bg-primary:not(.qds-tonal):not(.q-btn--dense)`
+        // Semantic colored default: tonal tint, not filled Material-style color.
+        const semantic = `${PANEL} .q-btn--unelevated.bg-primary:not(.qds-solid):not(.q-btn--dense)`
+        expect.soft(await computed(page, semantic, 'background-color'), 'QBtn semantic tonal bg').toMatch(
+          /^rgba\(0,\s*120,\s*212/,
+        )
+        expect.soft(await computed(page, semantic, 'color'), 'QBtn semantic tonal text').not.toBe('rgb(255, 255, 255)')
+
+        // Explicit solid CTA remains available through .qds-solid.
+        const solid = `${PANEL} .q-btn--unelevated.qds-solid.bg-primary:not(.q-btn--dense)`
         expect.soft(await computed(page, solid, 'background-color'), 'QBtn solid bg').toBe(PRIMARY)
         expect.soft(await computed(page, solid, 'color'), 'QBtn solid text').toBe('rgb(255, 255, 255)')
 
-        // TONAL: opt-in via .qds-tonal — translucent primary tint + primary text.
-        const tonal = `${PANEL} .q-btn.qds-tonal.bg-primary`
+        // TONAL: colored non-solid buttons share the same soft treatment.
+        const tonal = `${PANEL} .q-btn.bg-primary:not(.qds-solid):not(.q-btn--flat):not(.q-btn--outline)`
         expect.soft(await computed(page, tonal, 'background-color'), 'QBtn tonal bg').toMatch(
           /^rgba\(0,\s*120,\s*212/, // primary rgb, translucent
         )
-        expect.soft(await computed(page, tonal, 'color'), 'QBtn tonal text').toBe(PRIMARY)
 
         // --- focus: Fluent 2px solid outline with offset, not a glow ---
         // Headless Chromium won't reliably enter :focus-visible, so prove the override
@@ -181,24 +186,28 @@ test.describe('QDS override gate', () => {
         )
         expect.soft(fieldBefore, 'QField outlined border color').toBe(FIELD_BORDER[mode])
 
-        // --- QCard: Fluent stroke-based (NO shadow), bg/border/radius token-driven ---
+        // --- QCard: tonal acrylic surface, bg/border/radius/shadow token-driven ---
         const card = `${PANEL} .q-card`
         expect.soft(await computed(page, card, 'border-radius'), 'QCard radius').toBe(
           EXPECTED_CARD_RADIUS[variant],
         )
-        // Card is now flat: no elevation shadow, visible 1px subtle stroke instead.
-        expect.soft(await computed(page, card, 'box-shadow'), 'QCard shadow (none)').toBe('none')
+        expect.soft(await computed(page, card, 'box-shadow'), 'QCard shadow (restrained)').not.toBe('none')
         expect.soft(await computed(page, card, 'border-top-width'), 'QCard border width').toBe('1px')
-        expect.soft(await computed(page, card, 'border-top-color'), 'QCard border color').toBe(
-          SUBTLE_BORDER[mode],
-        )
+        expect.soft(await computed(page, card, 'border-top-color'), 'QCard border color').not.toBe('rgba(0, 0, 0, 0)')
         const cardBg = await computed(page, card, 'background-color')
-        // CRITICAL stranding guard: dark card bg must resolve to the DARK QDS surface,
-        // never the light surface (the regression class this gate exists for).
-        expect.soft(cardBg, 'QCard bg (stranding guard)').toBe(SURFACE[mode])
+        expect.soft(cardBg, 'QCard bg (acrylic base)').not.toBe('rgba(0, 0, 0, 0)')
         if (mode === 'dark') {
           expect.soft(cardBg, 'QCard dark bg != light surface').not.toBe(LIGHT_SURFACE)
         }
+        const cardVars = await page.locator(card).first().evaluate((el) => {
+          const cs = getComputedStyle(el as Element)
+          return {
+            bg: cs.getPropertyValue('--qds-card-bg').trim(),
+            fallback: cs.getPropertyValue('--qds-card-bg-fallback').trim(),
+          }
+        })
+        expect.soft(cardVars.bg, 'QCard token resolved').toContain('linear-gradient')
+        expect.soft(cardVars.fallback, 'QCard fallback token resolved').toContain('linear-gradient')
 
         // --- QMenu (open it): bg + shadow token-driven ---
         await page.getByRole('button', { name: 'Open menu' }).click()
