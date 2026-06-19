@@ -188,6 +188,22 @@ test.describe('QDS override gate', () => {
         expect.soft(fieldBefore, 'QField outlined border color').toBe(FIELD_BORDER[mode])
         expect.soft(await fieldControl.evaluate((el) => getComputedStyle(el as Element).minHeight), 'QField thin height').toBe('36px')
 
+        // --- QBadge/QChip: Quasar bg-* utilities must not leak Material solid fills ---
+        const badge = `${PANEL} .q-badge.bg-primary`
+        expect.soft(await computed(page, badge, 'background-color'), 'QBadge tonal bg').toMatch(
+          PRIMARY_RGB_PATTERN,
+        )
+        expect.soft(await computed(page, badge, 'background-color'), 'QBadge not Quasar Material primary').not.toBe(
+          'rgb(25, 118, 210)',
+        )
+        const chip = `${PANEL} .q-chip.bg-primary`
+        expect.soft(await computed(page, chip, 'background-color'), 'QChip tonal bg').toMatch(
+          PRIMARY_RGB_PATTERN,
+        )
+        expect.soft(await computed(page, chip, 'background-color'), 'QChip not Quasar Material primary').not.toBe(
+          'rgb(25, 118, 210)',
+        )
+
         // --- QCard: tonal acrylic surface, bg/border/radius/shadow token-driven ---
         const card = `${PANEL} .q-card`
         expect.soft(await computed(page, card, 'border-radius'), 'QCard radius').toBe(
