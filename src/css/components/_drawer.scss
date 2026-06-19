@@ -1,0 +1,29 @@
+@mixin styles {
+  .qds-ui .q-layout.q-layout,
+  .qds-ui .q-page-container.q-page-container {
+    background: transparent;
+    color: var(--qds-text);
+  }
+
+  .qds-ui .q-drawer.q-drawer {
+    color: var(--qds-text);
+    background: color-mix(in srgb, var(--qds-surface-1) 92%, transparent);
+    border-color: var(--qds-border-subtle);
+    box-shadow: var(--qds-shadow-sm);
+    backdrop-filter: blur(var(--qds-glass-blur)) saturate(var(--qds-glass-saturate));
+    -webkit-backdrop-filter: blur(var(--qds-glass-blur)) saturate(var(--qds-glass-saturate));
+  }
+
+  .qds-ui .q-drawer.q-drawer .q-drawer__content {
+    padding: var(--qds-space-sm);
+  }
+
+  .qds-ui .q-drawer.q-drawer .q-item.q-item {
+    min-height: 2.75rem;
+    margin-block: 2px;
+  }
+
+  .qds-ui .q-layout__shadow::after {
+    box-shadow: none;
+  }
+}

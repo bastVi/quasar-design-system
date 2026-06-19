@@ -256,6 +256,56 @@ test.describe('QDS override gate', () => {
         // --- QTabs: remove Quasar's Material underline indicator ---
         expect.soft(await computed(page, '.q-tab__indicator', 'display'), 'QTab Material indicator suppressed').toBe('none')
 
+        // --- QTable: shell, rows, and header consume QDS surface tokens ---
+        const table = `${PANEL} .q-table__container`
+        expect.soft(await computed(page, table, 'border-radius'), 'QTable container radius').toBe(
+          EXPECTED_CARD_RADIUS[variant],
+        )
+        expect.soft(await computed(page, table, 'box-shadow'), 'QTable container shadow').not.toBe('none')
+        expect.soft(await computed(page, `${PANEL} .q-table th`, 'text-transform'), 'QTable header casing').toBe('uppercase')
+
+        // --- QPagination: current page is tonal, not Material solid primary ---
+        const currentPage = `${PANEL} .q-pagination .q-btn.bg-primary`
+        expect.soft(await computed(page, currentPage, 'background-color'), 'QPagination active tonal bg').toMatch(
+          PRIMARY_RGB_PATTERN,
+        )
+        expect.soft(await computed(page, currentPage, 'background-color'), 'QPagination not Material primary').not.toBe(
+          'rgb(25, 118, 210)',
+        )
+
+        // --- QDrawer: layout shell uses tokenized acrylic side surface ---
+        const drawer = `${PANEL} .q-drawer`
+        expect.soft(await computed(page, drawer, 'color'), 'QDrawer text color').not.toBe('rgba(0, 0, 0, 0)')
+        expect.soft(await computed(page, drawer, 'border-right-color'), 'QDrawer border').not.toBe('rgba(0, 0, 0, 0)')
+
+        // --- selection controls: selected states are primary tonal, not default Material blue ---
+        const checkboxBg = `${PANEL} .q-checkbox .q-checkbox__bg`
+        expect.soft(await computed(page, checkboxBg, 'background-color'), 'QCheckbox selected tonal bg').toMatch(
+          PRIMARY_RGB_PATTERN,
+        )
+        const toggleTrack = `${PANEL} .q-toggle .q-toggle__track`
+        expect.soft(await computed(page, toggleTrack, 'background-color'), 'QToggle selected track').toMatch(
+          PRIMARY_RGB_PATTERN,
+        )
+
+        // --- QTooltip: teleported overlay still inherits body .qds-ui styling ---
+        await page.getByRole('button', { name: /Tooltip target/ }).click()
+        const tooltip = '.q-tooltip'
+        await expect(page.locator(tooltip).first()).toBeVisible()
+        expect.soft(await computed(page, tooltip, 'box-shadow'), 'QTooltip shadow').not.toBe('none')
+        expect.soft(await computed(page, tooltip, 'border-top-width'), 'QTooltip border').toBe('1px')
+        await page.getByRole('button', { name: /Tooltip target/ }).click()
+        await expect(page.locator(tooltip)).toHaveCount(0)
+
+        // --- QDialog: scrim + dialog card depth are token-driven ---
+        await page.getByRole('button', { name: 'Open dialog' }).click()
+        await expect(page.locator('.q-dialog').first()).toBeVisible()
+        expect.soft(await computed(page, '.q-dialog__backdrop', 'background-color'), 'QDialog scrim').not.toBe(
+          'rgba(0, 0, 0, 0)',
+        )
+        expect.soft(await computed(page, '.q-dialog .q-card', 'border-radius'), 'QDialog card radius').toBe('16px')
+        await page.getByRole('button', { name: 'Cancel' }).click()
+
         // --- artifact: one screenshot per matrix cell ---
         await page.screenshot({
           path: testInfo.outputPath(`${mode}-${variant}.png`),

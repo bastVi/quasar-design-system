@@ -1,14 +1,45 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useQuasar } from 'quasar'
-import { PhCheck, PhDotsThreeVertical, PhList, PhPlus } from '@phosphor-icons/vue'
+import {
+  PhCalendarBlank,
+  PhCheck,
+  PhDotsThreeVertical,
+  PhInfo,
+  PhList,
+  PhMagnifyingGlass,
+  PhPlus,
+  PhSidebar,
+  PhSparkle,
+} from '@phosphor-icons/vue'
 
 const $q = useQuasar()
 
 const colors = ['primary', 'secondary', 'accent', 'positive', 'negative', 'warning', 'info'] as const
 const text = ref('')
-const select = ref(null)
+const select = ref<string | null>(null)
+const selectMultiple = ref(['Fluent', 'Glass'])
 const selectOptions = ['Fluent', 'Glass', 'Mobile']
+const dialogOpen = ref(false)
+const tooltipOpen = ref(false)
+const drawerOpen = ref(true)
+const page = ref(3)
+const checkbox = ref(true)
+const radio = ref('comfortable')
+const toggle = ref(true)
+const slider = ref(42)
+
+const tableColumns = [
+  { name: 'surface', label: 'Surface', field: 'surface', align: 'left' as const, sortable: true },
+  { name: 'density', label: 'Density', field: 'density', align: 'left' as const },
+  { name: 'state', label: 'State', field: 'state', align: 'left' as const },
+]
+
+const tableRows = [
+  { surface: 'Command card', density: 'Comfortable', state: 'Ready' },
+  { surface: 'Data table', density: 'Dense', state: 'Audited' },
+  { surface: 'Overlay menu', density: 'Compact', state: 'Tokenized' },
+]
 
 function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
   $q.notify({
@@ -99,16 +130,134 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
 
     <!-- QInput / field -->
     <q-card class="q-pa-lg">
-      <div class="text-h6 qds-display q-mb-md">QInput / QSelect (field)</div>
+      <div class="text-h6 qds-display q-mb-md">QInput / QSelect</div>
       <div class="row q-col-gutter-md">
         <div class="col-12 col-sm-6">
           <q-input v-model="text" label="Outlined" outlined clearable class="q-mb-md" />
+          <q-input model-value="Search" label="With icon" outlined class="q-mb-md">
+            <template #prepend><PhMagnifyingGlass :size="18" weight="regular" /></template>
+          </q-input>
           <q-input model-value="" label="Filled" filled class="q-mb-md" />
           <q-input model-value="" label="With error" outlined error error-message="Required field" />
         </div>
         <div class="col-12 col-sm-6">
           <q-select v-model="select" :options="selectOptions" label="Outlined select" outlined class="q-mb-md" />
+          <q-select
+            v-model="selectMultiple"
+            :options="selectOptions"
+            label="Multiple select"
+            filled
+            multiple
+            use-chips
+            class="q-mb-md"
+          />
+          <q-select v-model="select" :options="selectOptions" label="Dense select" outlined dense class="q-mb-md" />
           <q-input model-value="" label="Disabled" outlined disable />
+        </div>
+      </div>
+    </q-card>
+
+    <!-- QDialog / overlays -->
+    <q-card class="q-pa-lg">
+      <div class="text-h6 qds-display q-mb-md">Dialogs, tooltips &amp; popups</div>
+      <div class="qds-button-row">
+        <q-btn unelevated color="primary" label="Open dialog" no-caps @click="dialogOpen = true" />
+        <q-btn outline color="info" no-caps @click="tooltipOpen = !tooltipOpen">
+          Tooltip target
+          <PhInfo :size="18" weight="regular" />
+          <q-tooltip v-model="tooltipOpen" anchor="top middle" self="bottom middle" no-parent-event>
+            Tokenized tooltip surface with QDS depth.
+          </q-tooltip>
+        </q-btn>
+        <q-btn outline color="accent" no-caps>
+          Popup proxy
+          <PhCalendarBlank :size="18" weight="regular" />
+          <q-popup-proxy>
+            <div class="q-pa-md" style="min-width: 220px">
+              <div class="text-subtitle2 qds-text-strong q-mb-xs">Popup surface</div>
+              <div class="qds-text-muted">Uses menu tokens for radius, border, and depth.</div>
+            </div>
+          </q-popup-proxy>
+        </q-btn>
+      </div>
+
+      <q-dialog v-model="dialogOpen">
+        <q-card>
+          <q-card-section>
+            <div class="text-h6 qds-display">Delete draft?</div>
+            <div class="qds-text-muted q-mt-sm">
+              Dialogs use an acrylic scrim, large-radius card surface, and tokenized action rail.
+            </div>
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn flat color="primary" label="Cancel" no-caps v-close-popup />
+            <q-btn class="qds-solid" unelevated color="negative" label="Delete" no-caps v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+    </q-card>
+
+    <!-- QTable / pagination -->
+    <q-card class="q-pa-lg">
+      <div class="text-h6 qds-display q-mb-md">QTable &amp; QPagination</div>
+      <q-table
+        title="Surface audit"
+        :rows="tableRows"
+        :columns="tableColumns"
+        row-key="surface"
+        dense
+        flat
+        class="q-mb-md"
+      />
+      <q-pagination v-model="page" :max="7" direction-links boundary-links color="primary" />
+    </q-card>
+
+    <!-- QDrawer / layout shell -->
+    <q-card class="q-pa-lg">
+      <div class="row items-center justify-between q-mb-md">
+        <div class="text-h6 qds-display">QDrawer / layout shell</div>
+        <q-btn dense outline color="primary" no-caps @click="drawerOpen = !drawerOpen">
+          <PhSidebar :size="18" weight="regular" /> Toggle drawer
+        </q-btn>
+      </div>
+      <q-layout view="hHh lpR fFf" container style="height: 260px; border-radius: var(--qds-card-radius); overflow: hidden">
+        <q-drawer v-model="drawerOpen" show-if-above bordered :width="220">
+          <q-list>
+            <q-item clickable active>
+              <q-item-section avatar><PhSparkle :size="18" weight="duotone" /></q-item-section>
+              <q-item-section>Overview</q-item-section>
+            </q-item>
+            <q-item clickable>
+              <q-item-section avatar><PhList :size="18" weight="regular" /></q-item-section>
+              <q-item-section>Components</q-item-section>
+            </q-item>
+          </q-list>
+        </q-drawer>
+        <q-page-container>
+          <q-page class="q-pa-md">
+            <div class="qds-card q-pa-md" style="border-radius: var(--qds-radius-md)">
+              <div class="text-subtitle1 qds-text-strong">Content shell</div>
+              <div class="qds-text-muted">Drawer surfaces share the same acrylic, border, and active-list language.</div>
+            </div>
+          </q-page>
+        </q-page-container>
+      </q-layout>
+    </q-card>
+
+    <!-- Form controls -->
+    <q-card class="q-pa-lg">
+      <div class="text-h6 qds-display q-mb-md">Selection controls</div>
+      <div class="row q-col-gutter-lg">
+        <div class="col-12 col-md-5 column" style="gap: .75rem">
+          <q-checkbox v-model="checkbox" label="Checkbox selected" />
+          <q-radio v-model="radio" val="comfortable" label="Comfortable density" />
+          <q-radio v-model="radio" val="compact" label="Compact density" />
+          <q-toggle v-model="toggle" label="Enable tonal surfaces" />
+        </div>
+        <div class="col-12 col-md-7">
+          <div class="text-subtitle2 qds-text-muted q-mb-sm">Slider</div>
+          <q-slider v-model="slider" :min="0" :max="100" label color="primary" />
+          <div class="qds-text-muted">Current value: {{ slider }}</div>
         </div>
       </div>
     </q-card>

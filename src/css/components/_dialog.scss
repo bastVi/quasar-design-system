@@ -1,0 +1,27 @@
+@mixin styles {
+  .qds-ui .q-dialog__backdrop {
+    background: color-mix(in srgb, var(--qds-text-strong) 34%, transparent);
+    backdrop-filter: blur(10px) saturate(1.1);
+    -webkit-backdrop-filter: blur(10px) saturate(1.1);
+  }
+
+  .qds-ui .q-dialog__inner > .q-card.q-card {
+    width: min(32rem, calc(100vw - 2rem));
+    border-radius: var(--qds-radius-xl);
+    box-shadow: var(--qds-shadow-lg);
+  }
+
+  .qds-ui .q-dialog__inner > .q-card.q-card .q-card__section {
+    padding: var(--qds-space-lg);
+  }
+
+  .qds-ui .q-dialog__inner > .q-card.q-card .q-card__actions {
+    gap: var(--qds-space-sm);
+    padding: var(--qds-space-md) var(--qds-space-lg) var(--qds-space-lg);
+    border-top: var(--qds-border-width-control) solid var(--qds-border-subtle);
+  }
+
+  .qds-ui .q-dialog__inner--minimized {
+    padding: var(--qds-space-md);
+  }
+}

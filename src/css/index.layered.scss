@@ -18,6 +18,12 @@
 @use 'components/notification';
 @use 'components/tabs';
 @use 'components/rating';
+@use 'components/dialog';
+@use 'components/table';
+@use 'components/popup';
+@use 'components/pagination';
+@use 'components/drawer';
+@use 'components/selection';
 
 @layer qds.base {
   @include base.styles;
@@ -39,4 +45,10 @@
   @include notification.styles;
   @include tabs.styles;
   @include rating.styles;
+  @include dialog.styles;
+  @include table.styles;
+  @include popup.styles;
+  @include pagination.styles;
+  @include drawer.styles;
+  @include selection.styles;
 }

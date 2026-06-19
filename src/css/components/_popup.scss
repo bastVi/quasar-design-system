@@ -1,0 +1,30 @@
+@mixin styles {
+  .qds-ui .q-tooltip.q-tooltip {
+    max-width: min(20rem, calc(100vw - 2rem));
+    padding: var(--qds-space-xs) var(--qds-space-sm);
+    color: var(--qds-text);
+    font-size: 0.8125rem;
+    line-height: 1.35;
+    background: color-mix(in srgb, var(--qds-surface-0) 92%, var(--qds-color-primary) 8%);
+    border: var(--qds-border-width-control) solid var(--qds-border-subtle);
+    border-radius: var(--qds-radius-sm);
+    box-shadow: var(--qds-shadow-md);
+  }
+
+  .qds-ui .q-popup-proxy.q-popup-proxy {
+    background: var(--qds-menu-bg);
+    border: var(--qds-border-width-control) solid var(--qds-menu-border);
+    border-radius: var(--qds-menu-radius);
+    box-shadow: var(--qds-menu-shadow);
+    color: var(--qds-text);
+    overflow: hidden;
+  }
+
+  .qds-ui .q-date.q-date,
+  .qds-ui .q-time.q-time {
+    color: var(--qds-text);
+    background: var(--qds-menu-bg);
+    border-radius: var(--qds-menu-radius);
+    box-shadow: none;
+  }
+}
