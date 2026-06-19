@@ -27,6 +27,12 @@
   --qds-notification-radius: var(--qds-radius-md);
   --qds-notification-shadow: var(--qds-shadow-md);
   --qds-toolbar-bg: var(--qds-surface-1);
+  --qds-field-label-bg: var(--qds-surface-0);
+  --qds-tab-radius: var(--qds-radius-control);
+  --qds-tab-hover-bg: color-mix(in srgb, var(--qds-surface-2) 88%, var(--qds-color-primary) 12%);
+  --qds-tab-active-bg: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-bg-opacity));
+  --qds-tab-active-text: color-mix(in srgb, var(--qds-color-primary) var(--qds-tonal-text-mix), var(--qds-text-strong));
+  --qds-tab-active-rail: var(--qds-color-primary);
 }
 
 // Guaranteed base-token layer for swapped/missing themes and Quasar deltas.
@@ -121,6 +127,8 @@
     --qds-button-dense-radius: #{map.get(map.get(tokens.$components, button), dense-radius)};
     --qds-button-dense-font-size: #{map.get(map.get(tokens.$components, button), dense-font-size)};
     --qds-button-round-size: #{map.get(map.get(tokens.$components, button), round-size)};
+    --qds-button-elevated-shadow: #{map.get(map.get(tokens.$components, button), elevated-shadow)};
+    --qds-button-elevated-shadow-hover: #{map.get(map.get(tokens.$components, button), elevated-shadow-hover)};
 
     --qds-card-tonal-opacity: #{map.get(map.get(tokens.$components, card), tonal-opacity)};
     --qds-card-fallback-tonal-opacity: #{map.get(map.get(tokens.$components, card), fallback-tonal-opacity)};

@@ -78,7 +78,7 @@ const motionTokens = QDS_TOKENS.filter((t) => t.startsWith('--qds-motion-'))
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 0.75rem;
 }
 .caption {

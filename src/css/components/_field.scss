@@ -55,6 +55,25 @@
     transform: translateY(-1.25rem) scale(0.78);
   }
 
+  .qds-ui .q-field--outlined.q-field--float .q-field__label,
+  .qds-ui .q-field--outlined.q-field--focused .q-field__label {
+    z-index: 1;
+    width: auto;
+    max-width: calc(100% - 1.5rem);
+    padding: 0 var(--qds-space-xs);
+    margin-left: calc(-1 * var(--qds-space-xs));
+    background: var(--qds-field-label-bg);
+    border-radius: var(--qds-radius-xs);
+    line-height: 1.2;
+  }
+
+  .qds-ui .q-card .q-field--outlined.q-field--float .q-field__label,
+  .qds-ui .q-card .q-field--outlined.q-field--focused .q-field__label,
+  .qds-ui .q-menu .q-field--outlined.q-field--float .q-field__label,
+  .qds-ui .q-menu .q-field--outlined.q-field--focused .q-field__label {
+    background: var(--qds-field-label-bg);
+  }
+
   .qds-ui .q-field--outlined .q-field__control,
   .qds-ui .q-field--filled .q-field__control {
     border-radius: var(--qds-radius-control);
@@ -72,6 +91,12 @@
 
   .qds-ui .q-field--outlined .q-field__control::after {
     border-radius: var(--qds-radius-control);
+  }
+
+  .qds-ui .q-field--outlined .q-field__control .q-field__notch::before,
+  .qds-ui .q-field--outlined .q-field__control .q-field__notch::after,
+  .qds-ui .q-field--outlined .q-field__control .q-field__notch .q-field__notch-label {
+    border-color: transparent;
   }
 
   .qds-ui .q-field--outlined.q-field--focused .q-field__control::after {

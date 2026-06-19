@@ -5,8 +5,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## What this is
 
 `@bastvi/quasar-design-system` — an opinionated **visual layer** for Quasar 2. Microsoft Fluent 2 is the
-primary direction, now with tonal/acrylic defaults; the `glass` variant references Apple's Human Interface
-Guidelines (translucency/depth) and the `mobile` variant references Samsung One UI (rounding/spacing). It provides design tokens,
+primary direction, now with tonal/acrylic defaults; the `glass` variant is the current stronger-translucency
+variant and the `mobile` variant references Samsung One UI (rounding/spacing). It provides design tokens,
 surfaces, shape, motion, typography, Quasar component overrides, and a runtime light/dark/system +
 variant controller.
 

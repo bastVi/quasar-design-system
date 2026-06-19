@@ -93,6 +93,8 @@ export const QDS_TOKENS = [
   '--qds-button-dense-radius',
   '--qds-button-dense-font-size',
   '--qds-button-round-size',
+  '--qds-button-elevated-shadow',
+  '--qds-button-elevated-shadow-hover',
   '--qds-chip-radius',
   '--qds-badge-radius',
   '--qds-badge-min-height',
@@ -122,6 +124,12 @@ export const QDS_TOKENS = [
   '--qds-notification-radius',
   '--qds-notification-shadow',
   '--qds-toolbar-bg',
+  '--qds-field-label-bg',
+  '--qds-tab-radius',
+  '--qds-tab-hover-bg',
+  '--qds-tab-active-bg',
+  '--qds-tab-active-text',
+  '--qds-tab-active-rail',
 ] as const
 
 /** A public CSS custom-property name in the `--qds-*` contract. */

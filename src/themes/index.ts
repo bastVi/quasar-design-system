@@ -26,7 +26,7 @@ export const DESIGN_SYSTEM_VARIANTS: Record<BuiltInDesignSystemVariantName, Desi
   fluent: {
     name: 'fluent',
     label: 'Fluent',
-    description: 'Default Fluent 2-inspired baseline with restrained acrylic and Windows-like tonal color.',
+    description: 'Default Fluent 2-inspired baseline with restrained acrylic and tonal color.',
     cssClass: 'qds-variant-fluent',
   },
   glass: {
@@ -46,7 +46,7 @@ export const DESIGN_SYSTEM_VARIANTS: Record<BuiltInDesignSystemVariantName, Desi
 export const DEFAULT_THEME: QuasarDesignTheme = {
   name: DEFAULT_THEME_NAME,
   label: 'Default',
-  description: 'Fluent 2 focused Quasar 2 design language with Apple and One UI influence.',
+  description: 'Fluent 2 focused Quasar 2 design language with close tonal/acrylic variants.',
   variants: DESIGN_SYSTEM_VARIANTS,
 }
 

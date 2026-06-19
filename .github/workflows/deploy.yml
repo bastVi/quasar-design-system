@@ -1,6 +1,6 @@
 name: Build & Deploy
 
-# Builds the example gallery (examples/gallery) and publishes its static dist via FTP.
+# Builds the example gallery and Histoire, then publishes the SPA root plus `/histoire/` via FTP.
 # Runs only on the `production` branch. Server dir comes from the DEPLOY_PATH repo variable.
 # FTP host/user/password come from repo secrets (never in this file). Plain FTP.
 
@@ -31,14 +31,17 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm gallery:build
+      - run: pnpm stories:build
 
-      - name: Deploy gallery via FTP
+      - name: Deploy gallery and Histoire via FTP
         env:
           FTP_HOST: ${{ secrets.DEPLOY_FTP_HOST }}
           FTP_USER: ${{ secrets.DEPLOY_FTP_USER }}
           FTP_PASS: ${{ secrets.DEPLOY_FTP_PASSWORD }}
+          DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
         run: |
           sudo apt-get update && sudo apt-get install -y lftp
           lftp -c "set ssl:verify-certificate no; \
             open -u \"$FTP_USER\",\"$FTP_PASS\" \"$FTP_HOST\"; \
-            mirror -R --delete --verbose examples/gallery/dist/ ${{ vars.DEPLOY_PATH }}"
+            mirror -R --delete --verbose --exclude-glob histoire/** --exclude-glob histoire/ examples/gallery/dist/ \"$DEPLOY_PATH\"; \
+            mirror -R --delete --verbose .histoire/dist/ \"$DEPLOY_PATH/histoire\""

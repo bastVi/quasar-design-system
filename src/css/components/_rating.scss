@@ -1,0 +1,23 @@
+@mixin styles {
+  .qds-ui .q-rating.q-rating {
+    color: color-mix(in srgb, var(--qds-color-accent) 82%, var(--qds-text-muted));
+  }
+
+  .qds-ui .q-rating.q-rating .q-rating__icon {
+    opacity: 0.34;
+    transition:
+      color var(--qds-motion-fast),
+      opacity var(--qds-motion-fast),
+      transform var(--qds-motion-fast);
+  }
+
+  .qds-ui .q-rating.q-rating .q-rating__icon--active,
+  .qds-ui .q-rating.q-rating .q-rating__icon--selected {
+    color: var(--qds-color-accent);
+    opacity: 1;
+  }
+
+  .qds-ui .q-rating.q-rating .q-rating__icon:hover {
+    transform: translateY(-1px);
+  }
+}

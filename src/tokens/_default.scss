@@ -1,14 +1,14 @@
-// Fluent 2 / Windows 11 palette
+// Fluent 2-inspired palette
 $palette: (
   primary: #005a9e,
   primary-light: #60cdff,
   primary-dark: #003e73,
   secondary: #0f6c6c,
   accent: #f2c94c,
-  positive: #13a10e,
+  positive: #6a8f66,
   negative: #c42b1c,
   warning: #f7630c,
-  info: #0099bc,
+  info: #557c99,
 ) !default;
 
 $palette-rgb: (
@@ -17,10 +17,10 @@ $palette-rgb: (
   primary-dark: '0, 62, 115',
   secondary: '15, 108, 108',
   accent: '242, 201, 76',
-  positive: '19, 161, 14',
+  positive: '106, 143, 102',
   negative: '196, 43, 28',
   warning: '247, 99, 12',
-  info: '0, 153, 188',
+  info: '85, 124, 153',
 ) !default;
 
 $light-surfaces: (
@@ -143,6 +143,10 @@ $components: (
     dense-radius: 0.75rem,
     dense-font-size: 0.78rem,
     round-size: 2rem,
+    elevated-shadow: (0 1px 1px rgba(0, 0, 0, 0.08), 0 3px 8px rgba(0, 0, 0, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.42)),
+    elevated-shadow-hover: (0 1px 2px rgba(0, 0, 0, 0.1), 0 5px 14px rgba(0, 0, 0, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.5)),
+    dark-elevated-shadow: (0 1px 0 rgba(255, 255, 255, 0.04), 0 10px 24px rgba(0, 0, 0, 0.28)),
+    dark-elevated-shadow-hover: (0 1px 0 rgba(255, 255, 255, 0.05), 0 14px 34px rgba(0, 0, 0, 0.34)),
   ),
   card: (
     tonal-opacity: 0.045,

@@ -1,4 +1,20 @@
 @mixin styles {
+  .qds-ui .text-primary { color: var(--qds-color-primary) !important; }
+  .qds-ui .text-secondary { color: var(--qds-color-secondary) !important; }
+  .qds-ui .text-accent { color: var(--qds-color-accent) !important; }
+  .qds-ui .text-positive { color: var(--qds-color-positive) !important; }
+  .qds-ui .text-negative { color: var(--qds-color-negative) !important; }
+  .qds-ui .text-warning { color: var(--qds-color-warning) !important; }
+  .qds-ui .text-info { color: var(--qds-color-info) !important; }
+
+  .qds-ui .bg-primary { background: var(--qds-color-primary) !important; }
+  .qds-ui .bg-secondary { background: var(--qds-color-secondary) !important; }
+  .qds-ui .bg-accent { background: var(--qds-color-accent) !important; }
+  .qds-ui .bg-positive { background: var(--qds-color-positive) !important; }
+  .qds-ui .bg-negative { background: var(--qds-color-negative) !important; }
+  .qds-ui .bg-warning { background: var(--qds-color-warning) !important; }
+  .qds-ui .bg-info { background: var(--qds-color-info) !important; }
+
   .qds-surface {
     background: var(--qds-surface-0);
     color: var(--qds-text);
@@ -48,5 +64,17 @@
     outline: var(--qds-focus-ring-width) solid var(--qds-color-primary);
     outline-offset: var(--qds-focus-ring-offset);
     box-shadow: none;
+  }
+
+  .qds-button-row,
+  .qds-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--qds-space-sm);
+  }
+
+  .qds-button-row--tight {
+    gap: var(--qds-space-xs);
   }
 }

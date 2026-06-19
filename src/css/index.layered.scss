@@ -13,8 +13,11 @@
 @use 'components/card';
 @use 'components/field';
 @use 'components/menu';
+@use 'components/list';
 @use 'components/toolbar';
 @use 'components/notification';
+@use 'components/tabs';
+@use 'components/rating';
 
 @layer qds.base {
   @include base.styles;
@@ -31,6 +34,9 @@
   @include card.styles;
   @include field.styles;
   @include menu.styles;
+  @include list.styles;
   @include toolbar.styles;
   @include notification.styles;
+  @include tabs.styles;
+  @include rating.styles;
 }

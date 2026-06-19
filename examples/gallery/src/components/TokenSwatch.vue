@@ -10,6 +10,23 @@ const props = defineProps<{
 
 const cssVar = computed(() => `var(${props.token})`)
 const kind = computed(() => props.kind ?? 'color')
+const boxStyle = computed(() => {
+  if (props.token.includes('radius')) {
+    return {
+      borderRadius: cssVar.value,
+      background: 'linear-gradient(135deg, rgba(var(--qds-color-primary-rgb), 0.16), rgba(var(--qds-color-accent-rgb), 0.14)), var(--qds-surface-0)',
+    }
+  }
+
+  if (props.token.includes('shadow') || props.token.includes('elevation')) {
+    return {
+      boxShadow: cssVar.value,
+      background: 'linear-gradient(135deg, rgba(var(--qds-color-info-rgb), 0.16), rgba(var(--qds-color-primary-rgb), 0.08)), var(--qds-surface-0)',
+    }
+  }
+
+  return {}
+})
 </script>
 
 <template>
@@ -22,10 +39,7 @@ const kind = computed(() => props.kind ?? 'color')
     <div
       v-else-if="kind === 'box'"
       class="swatch swatch--box"
-      :style="{
-        borderRadius: token.includes('radius') ? cssVar : undefined,
-        boxShadow: token.includes('shadow') || token.includes('elevation') ? cssVar : undefined,
-      }"
+      :style="boxStyle"
     />
     <code class="token-name">{{ token }}</code>
   </div>
@@ -44,8 +58,9 @@ const kind = computed(() => props.kind ?? 'color')
   background: var(--qds-surface-0);
 }
 .token-name {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   color: var(--qds-text-muted);
-  word-break: break-all;
+  overflow-wrap: anywhere;
+  line-height: 1.25;
 }
 </style>

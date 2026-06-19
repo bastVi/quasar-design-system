@@ -138,6 +138,10 @@ test.describe('QDS override gate', () => {
           PRIMARY_RGB_PATTERN, // primary rgb, translucent
         )
 
+        // Standard/elevated buttons get a subtle QDS depth effect, not Quasar's Material shadow.
+        const elevated = `${PANEL} .q-btn--standard.bg-primary:not(.q-btn--flat):not(.q-btn--outline)`
+        expect.soft(await computed(page, elevated, 'box-shadow'), 'QBtn elevated QDS shadow').not.toBe('none')
+
         // --- focus: Fluent 2px solid outline with offset, not a glow ---
         // Headless Chromium won't reliably enter :focus-visible, so prove the override
         // from the rendered cascade: the QDS :focus-visible rule sets the outline
@@ -248,6 +252,9 @@ test.describe('QDS override gate', () => {
 
         // --- ripple suppressed (Material tell removed) ---
         expect.soft(await computed(page, `${PANEL} .q-ripple`, 'display'), 'QRipple suppressed').toBe('none')
+
+        // --- QTabs: remove Quasar's Material underline indicator ---
+        expect.soft(await computed(page, '.q-tab__indicator', 'display'), 'QTab Material indicator suppressed').toBe('none')
 
         // --- artifact: one screenshot per matrix cell ---
         await page.screenshot({

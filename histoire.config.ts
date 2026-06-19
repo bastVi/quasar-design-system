@@ -4,8 +4,11 @@ import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
   setupFile: '/histoire.setup.ts',
+  outDir: '.histoire/dist',
+  routerMode: 'hash',
   plugins: [HstVue()],
   vite: {
+    base: './',
     plugins: [vue()],
   },
 })
