@@ -1,6 +1,6 @@
 # Quasar Design System
 
-Opinionated Quasar 2 design system inspired by Fluent 2, Apple, and One UI.
+Opinionated Quasar 2 design system inspired by Microsoft Fluent 2, Apple's Human Interface Guidelines, and Samsung One UI.
 
 Published under the personal scope `@bastvi/quasar-design-system` while the visual language is still evolving. It contains only generic visual language — no business logic, models, or app-specific assumptions.
 
@@ -13,14 +13,14 @@ Published under the personal scope `@bastvi/quasar-design-system` while the visu
 
 ## Design Direction
 
-The default language is Fluent 2 focused, with selective inspiration from Apple interface polish and Samsung One UI softness:
+The default language is Microsoft Fluent 2: Communication Blue `#0078d4`, Fluent status hues, calm surfaces, crisp radii, and compact enterprise controls.
 
-- clean and calm enterprise surfaces
-- tonal semantic controls instead of heavy filled defaults
-- large, readable radii without cartoonish shapes
-- subtle depth and state layers
+- clean, calm, stroke-based surfaces (flat, not elevated)
+- explicit solid, outlined, tonal, and neutral control states
+- crisp radii and hairline borders; subtle state layers
+- a clear 2px outline focus ring
 - adaptive light/dark/system mode
-- optional variant presets for slightly different product moods
+- deliberate variant overlays (see Variants), not separate brands
 
 ## Install
 
@@ -64,17 +64,53 @@ configureDesignSystem(app, {
 
 Add `qds-ui` to the body automatically through `configureDesignSystem()`. The class scopes the stronger Quasar overrides.
 
+## Buttons
+
+Four usage states over Quasar's native `QBtn`:
+
+```vue
+<q-btn unelevated color="primary" label="Save" />            <!-- solid: primary action -->
+<q-btn outline color="primary" label="Edit" />               <!-- outlined: secondary action -->
+<q-btn class="qds-tonal" color="primary" label="Preview" />  <!-- tonal: low-emphasis tint -->
+<q-btn label="Cancel" />                                     <!-- neutral: uncolored default -->
+```
+
+Solid and outlined ride Quasar's own `unelevated`/`outline` props; only the tonal variant adds a class (`qds-tonal`).
+
+## Icons
+
+Icons use Phosphor through a Quasar icon-set (no Material Icons):
+
+```ts
+import { Quasar } from 'quasar'
+import { qdsIconSet } from '@bastvi/quasar-design-system'
+
+app.use(Quasar, { iconSet: qdsIconSet })
+```
+
+For content icons, use `@phosphor-icons/vue` (duotone for feature icons, line weight for controls).
+
+## Fonts
+
+Inter (body) and Selawik (optional display) ship as optional CSS — import what you need:
+
+```ts
+import '@bastvi/quasar-design-system/fonts/inter.css'
+import '@bastvi/quasar-design-system/fonts/selawik.css'
+```
+
+The core CSS only declares the font stack, so skipping these still yields a sane system fallback. An accent font token is reserved for future use.
+
 ## Variants
 
 The package is structured around `src/themes/`. For now there is one real theme, `default`, plus small runtime variants layered over it:
 
-- `studio`: default, Fluent 2 focused, balanced desktop/admin feel.
-- `glass`: softer Apple-inspired surfaces and translucent cards.
-- `mobile`: rounder, warmer, One UI-inspired spacing and touch feel.
+- `studio`: default Microsoft Fluent 2 direction, balanced desktop/admin density.
+- `glass`: Apple Human Interface Guidelines-inspired translucency, softer surfaces, relaxed depth.
+- `mobile`: Samsung One UI-inspired rounding, spacing, and touch-friendly controls.
 
-They are not separate brands — small mood shifts over the same token system.
+They are not separate brands — deliberate overlays over the same token system.
 
-## Component Gallery
+## Gallery
 
-> **Work in progress.** A visual gallery (tokens, variants, light/dark, component showcase) is planned
-> for an upcoming release (a bespoke Quasar SPA gallery). The tooling is still being finalized.
+Live: **https://qds.bastienviglianti.fr** · run locally with `pnpm gallery:dev` (build with `pnpm gallery:build`).

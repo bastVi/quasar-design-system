@@ -4,9 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-`@bastvi/quasar-design-system` — an opinionated **visual layer** for Quasar 2 (Fluent 2 focused, with
-Apple and One UI influence). It provides design tokens, surfaces, shape, motion, typography, Quasar
-component overrides, and a runtime light/dark/system + variant controller.
+`@bastvi/quasar-design-system` — an opinionated **visual layer** for Quasar 2. Microsoft Fluent 2 is the
+primary direction; the `glass` variant references Apple's Human Interface Guidelines (translucency/depth)
+and the `mobile` variant references Samsung One UI (rounding/spacing). It provides design tokens,
+surfaces, shape, motion, typography, Quasar component overrides, and a runtime light/dark/system +
+variant controller.
 
 It is a pure visual product: **no business logic, no entity/model layer, no API/transport code, no
 permissions, no app routes, no private endpoints.** Prefer semantic token names over app-specific
@@ -16,8 +18,9 @@ selectors. Anything that is not generic, reusable visual language does not belon
 
 - `pnpm typecheck` — `vue-tsc --noEmit` against `tsconfig.json`. The only correctness gate; run it
   after changing any `.ts`/`.vue`.
-- `pnpm stories` — Histoire dev server (component gallery / visual playground).
-- `pnpm stories:build` — build the static gallery.
+- `pnpm gallery:dev` — run the example gallery (`examples/gallery`, a Quasar SPA that consumes the package).
+- `pnpm gallery:build` — build the static gallery.
+- `pnpm gallery:test` — Playwright visual gate (the release gate; keep it green).
 
 There is **no build/compile/test/lint step**: the package publishes raw `src/` (`main` and `types` in
 `package.json` both point at `src/index.ts`; `exports` expose the `.scss` paths directly). Consumers'
@@ -37,19 +40,22 @@ build pipelines compile the TS and SCSS. Validate work via `typecheck` + visual 
 3. **Direct component selectors** — `src/css/components/_*.scss`, only for behavior/polish Quasar
    variables can't express. These must be scoped under `.qds-ui` and consume `var(--qds-*)` tokens.
 
-### CSS cascade layers
+### CSS cascade (the important gotcha)
 
-`src/css/_layers.scss` declares the global order:
-`qds.reset, qds.tokens, qds.base, qds.utilities, qds.quasar, qds.overrides`.
-Tokens live in `@layer qds.tokens`; Quasar component overrides live in `@layer qds.quasar` (see
-`src/css/components/_button.scss`).
+Design **tokens** are emitted in `@layer qds.tokens`, but the Quasar **component overrides are emitted
+UNLAYERED** in the default `./css` bundle. Quasar ships unlayered CSS, and unlayered always beats any
+`@layer` regardless of specificity — so layering the overrides would lose. They instead win via
+`.qds-ui` scoping + specificity (e.g. `.qds-ui .q-btn.q-btn`), which **requires consumers to import the
+QDS CSS *after* Quasar's own CSS**. An optional `./css/layered` export wraps everything in layers for
+apps that deliberately layer Quasar.
 
 ### CSS entry point
 
-`src/css/index.scss` is the `./css` export. It `@use`s, in order: `layers`, the active theme
-(`themes/default`, `themes/compat`), `base`, `utilities`, then each `components/*`. Adding a new
-component override = create `src/css/components/_name.scss` (wrapped in `@layer qds.quasar`, scoped to
-`.qds-ui`) and add it to `index.scss`.
+`src/css/index.scss` (the `./css` export) `@use`s `themes/fallbacks` (a guaranteed base layer defining
+every public `--qds-*` once) then `themes/default`, then `@include`s each override partial's
+top-level (unlayered) `@mixin styles`. Adding a component override = create
+`src/css/components/_name.scss` exposing `@mixin styles` (scoped to `.qds-ui`, consuming `var(--qds-*)`)
+and `@include` it in `index.scss` (and the layered entry).
 
 ### Runtime theme controller — `src/runtime/theme.ts`
 
@@ -74,9 +80,10 @@ selectors — themes define values, the implementation reads them through `var(-
 
 ### Public API surface
 
-`src/index.ts` re-exports the runtime controller and theme metadata/types. `package.json#exports`
-defines the subpath entry points: `.` (runtime + themes), `./css`, `./quasar-variables`, `./runtime`,
-`./themes`, `./themes/default`. Update both when changing the public surface.
+`src/index.ts` re-exports the runtime controller, theme metadata/types, `QDS_TOKENS` (+ token types),
+and `qdsIconSet`. `package.json#exports` exposes `.`, `./css`, `./css/layered`, `./quasar-variables`,
+`./runtime`, `./tokens`, `./tokens/default`, `./themes`, `./themes/default`, `./themes/fallbacks`,
+`./fonts/*`, and `./icons/quasar-icon-set`. Update both when changing the public surface.
 
 ## Conventions
 
