@@ -1,6 +1,6 @@
 @mixin qds-tonal-badge($name, $token) {
   .qds-ui .q-badge.q-badge.bg-#{$name}:not(.qds-solid) {
-    color: var(--qds-color-#{$token});
+    color: color-mix(in srgb, var(--qds-color-#{$token}) var(--qds-tonal-text-mix), var(--qds-text-strong)) !important;
     background-color: rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-bg-opacity));
     border: var(--qds-border-width-control) solid rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-border-opacity));
   }
@@ -15,6 +15,7 @@
     border-radius: var(--qds-badge-radius);
     font-weight: var(--qds-font-weight-medium);
     letter-spacing: var(--qds-control-letter-spacing);
+    box-shadow: none;
     vertical-align: middle;
   }
 
@@ -24,4 +25,5 @@
   @include qds-tonal-badge('negative', 'negative');
   @include qds-tonal-badge('warning', 'warning');
   @include qds-tonal-badge('info', 'info');
+  @include qds-tonal-badge('accent', 'accent');
 }

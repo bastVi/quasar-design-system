@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import {
   useDesignSystem,
   DESIGN_SYSTEM_VARIANTS,
@@ -19,6 +19,7 @@ const tab = ref<'tokens' | 'typography' | 'components' | 'icons' | 'fonts'>('tok
 
 const modes: DesignSystemMode[] = ['light', 'dark', 'system']
 const variants = Object.values(DESIGN_SYSTEM_VARIANTS)
+const currentVariant = computed(() => DESIGN_SYSTEM_VARIANTS[ds.variant.value])
 
 function onMode(mode: DesignSystemMode) {
   ds.setMode(mode)
@@ -31,7 +32,7 @@ function onVariant(variant: DesignSystemVariantName) {
 
 <template>
   <q-layout view="hHh lpR fFf">
-    <q-header elevated>
+    <q-header class="gallery-header">
       <q-toolbar>
         <q-toolbar-title class="qds-display">Quasar Design System</q-toolbar-title>
 
@@ -42,7 +43,7 @@ function onVariant(variant: DesignSystemVariantName) {
           dense
           no-caps
           toggle-color="primary"
-          color="white"
+          color="primary"
           text-color="primary"
           class="q-mr-md"
           @update:model-value="onMode"
@@ -55,13 +56,13 @@ function onVariant(variant: DesignSystemVariantName) {
           dense
           no-caps
           toggle-color="accent"
-          color="white"
+          color="accent"
           text-color="accent"
           @update:model-value="onVariant"
         />
       </q-toolbar>
 
-      <q-tabs v-model="tab" align="left" no-caps inline-label class="bg-primary text-white">
+      <q-tabs v-model="tab" align="left" no-caps inline-label class="gallery-tabs">
         <q-tab name="tokens" label="Tokens" />
         <q-tab name="typography" label="Typography" />
         <q-tab name="components" label="Components" />
@@ -72,6 +73,9 @@ function onVariant(variant: DesignSystemVariantName) {
 
     <q-page-container>
       <q-page class="gallery-page qds-surface-muted">
+        <q-banner class="variant-note q-mb-md rounded-borders">
+          <strong>{{ currentVariant.label }}</strong> — {{ currentVariant.description }}
+        </q-banner>
         <q-tab-panels v-model="tab" animated class="gallery-panels bg-transparent">
           <q-tab-panel name="tokens"><TokensSection /></q-tab-panel>
           <q-tab-panel name="typography"><TypographySection /></q-tab-panel>
@@ -88,6 +92,21 @@ function onVariant(variant: DesignSystemVariantName) {
 .gallery-page {
   min-height: 0;
   padding: var(--qds-space-md);
+}
+
+.gallery-header {
+  box-shadow: none;
+}
+
+.gallery-tabs {
+  background: color-mix(in srgb, var(--qds-toolbar-bg) 88%, var(--qds-color-primary) 12%);
+  color: var(--qds-text);
+}
+
+.variant-note {
+  background: color-mix(in srgb, var(--qds-surface-glass) 82%, var(--qds-color-primary) 8%);
+  border: 1px solid var(--qds-border-subtle);
+  color: var(--qds-text);
 }
 
 .gallery-panels :deep(.q-tab-panel) {

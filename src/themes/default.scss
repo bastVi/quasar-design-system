@@ -136,6 +136,10 @@
     --qds-badge-min-height: #{map.get(map.get(tokens.$components, badge), min-height)};
     --qds-badge-padding: #{map.get(map.get(tokens.$components, badge), padding)};
 
+    --qds-field-min-height: #{map.get(map.get(tokens.$components, field), min-height)};
+    --qds-field-dense-min-height: #{map.get(map.get(tokens.$components, field), dense-min-height)};
+    --qds-field-padding-inline: #{map.get(map.get(tokens.$components, field), padding-inline)};
+    --qds-field-label-size: #{map.get(map.get(tokens.$components, field), label-size)};
     --qds-field-focus-border-width: #{map.get(map.get(tokens.$components, field), focus-border-width)};
 
     --qds-glass-blur: #{map.get(map.get(tokens.$effects, glass), blur)};

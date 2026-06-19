@@ -3,7 +3,7 @@
   .qds-ui .q-layout__section--marginal {
     background: var(--qds-toolbar-bg);
     color: var(--qds-text);
-    // Anchored by a bottom hairline instead of elevation.
     border-bottom: var(--qds-border-width-control) solid var(--qds-border-subtle);
+    box-shadow: none !important;
   }
 }

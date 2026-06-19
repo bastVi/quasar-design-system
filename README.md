@@ -13,7 +13,7 @@ Published under the personal scope `@bastvi/quasar-design-system` while the visu
 
 ## Design Direction
 
-The default language is Microsoft Fluent 2: Communication Blue `#0078d4`, Fluent status hues, calm tonal surfaces, restrained acrylic cards, and compact enterprise controls.
+The default language is Microsoft Fluent 2: a Windows-like navy primary, gold accent, orange warning, warm Windows neutral surfaces, restrained acrylic cards, and compact enterprise controls.
 
 - clean, calm, tonal surfaces with restrained acrylic depth
 - tonal-first semantic controls with explicit solid, outlined, and neutral states

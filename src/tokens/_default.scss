@@ -1,42 +1,42 @@
 // Fluent 2 / Windows 11 palette
 $palette: (
-  primary: #0078d4,
-  primary-light: #4cc2ff,
-  primary-dark: #005a9e,
-  secondary: #038387,
-  accent: #8764b8,
-  positive: #107c10,
-  negative: #d13438,
-  warning: #ffb900,
+  primary: #005a9e,
+  primary-light: #60cdff,
+  primary-dark: #003e73,
+  secondary: #0f6c6c,
+  accent: #f2c94c,
+  positive: #13a10e,
+  negative: #c42b1c,
+  warning: #f7630c,
   info: #0099bc,
 ) !default;
 
 $palette-rgb: (
-  primary: '0, 120, 212',
-  primary-light: '76, 194, 255',
-  primary-dark: '0, 90, 158',
-  secondary: '3, 131, 135',
-  accent: '135, 100, 184',
-  positive: '16, 124, 16',
-  negative: '209, 52, 56',
-  warning: '255, 185, 0',
+  primary: '0, 90, 158',
+  primary-light: '96, 205, 255',
+  primary-dark: '0, 62, 115',
+  secondary: '15, 108, 108',
+  accent: '242, 201, 76',
+  positive: '19, 161, 14',
+  negative: '196, 43, 28',
+  warning: '247, 99, 12',
   info: '0, 153, 188',
 ) !default;
 
 $light-surfaces: (
-  0: #ffffff,
-  1: #faf9f8,
-  2: #f3f2f1,
-  3: #edebe9,
-  glass: rgba(255, 255, 255, 0.78),
+  0: #fffdf8,
+  1: #faf7f2,
+  2: #f3eee7,
+  3: #e9e2d8,
+  glass: rgba(255, 253, 248, 0.8),
 ) !default;
 
 $dark-surfaces: (
-  0: #1f1f1f,
-  1: #171717,
-  2: #292929,
-  3: #3a3a3a,
-  glass: rgba(0, 0, 0, 0.6),
+  0: #202225,
+  1: #111318,
+  2: #2b2e34,
+  3: #383c44,
+  glass: rgba(32, 34, 37, 0.78),
 ) !default;
 
 $light-text: (
@@ -48,14 +48,14 @@ $light-text: (
 $dark-text: (
   default: #f4f4f5,
   strong: #ffffff,
-  muted: #a1a1aa,
+  muted: #c4c7cf,
 ) !default;
 
 $borders: (
   light: #d1d1d1,
   subtle: #e0e0e0,
-  dark: #424242,
-  dark-subtle: #333333,
+  dark: #4c5666,
+  dark-subtle: #323844,
 ) !default;
 
 $space: (
@@ -73,7 +73,7 @@ $radius: (
   lg: 12px,
   xl: 16px,
   full: 9999px,
-  control: 6px,
+  control: 8px,
 ) !default;
 
 // Flat Fluent elevation
@@ -81,9 +81,9 @@ $shadow: (
   sm: 0 1px 2px rgba(0, 0, 0, 0.06),
   md: 0 4px 12px rgba(0, 0, 0, 0.08),
   lg: 0 8px 24px rgba(0, 0, 0, 0.1),
-  dark-sm: 0 1px 2px rgba(0, 0, 0, 0.24),
-  dark-md: 0 4px 12px rgba(0, 0, 0, 0.32),
-  dark-lg: 0 8px 24px rgba(0, 0, 0, 0.4),
+  dark-sm: (0 1px 0 rgba(255, 255, 255, 0.03), 0 12px 30px rgba(0, 0, 0, 0.24)),
+  dark-md: (0 1px 0 rgba(255, 255, 255, 0.04), 0 18px 42px rgba(0, 0, 0, 0.32)),
+  dark-lg: (0 1px 0 rgba(255, 255, 255, 0.05), 0 24px 60px rgba(0, 0, 0, 0.42)),
 ) !default;
 
 $font: (
@@ -115,7 +115,7 @@ $state-opacity: (
   tonal-bg: 0.12,
   tonal-hover: 0.18,
   tonal-border: 0.2,
-  tonal-text-mix: 58%,
+  tonal-text-mix: 72%,
 ) !default;
 
 $border-width: (
@@ -154,10 +154,14 @@ $components: (
     backdrop-saturate: 1.08,
   ),
   badge: (
-    min-height: 1.5rem,
-    padding: 0.375rem 0.5rem,
+    min-height: 1.625rem,
+    padding: 0.25rem 0.625rem,
   ),
   field: (
+    min-height: 2.25rem,
+    dense-min-height: 2rem,
+    padding-inline: 0.75rem,
+    label-size: 0.875rem,
     focus-border-width: 1px,
   ),
 ) !default;
@@ -181,7 +185,7 @@ $variants: (
     card-border-mix: 68%,
     card-backdrop-blur: 1rem,
     card-backdrop-saturate: 1.18,
-    dark-surface-glass: rgba(31, 31, 31, 0.72),
+    dark-surface-glass: rgba(38, 42, 49, 0.78),
   ),
   mobile: (
     radius-control: 14px,

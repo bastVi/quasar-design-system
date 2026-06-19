@@ -7,13 +7,13 @@
 
   .qds-ui .q-btn.q-btn.q-btn--outline.text-#{$name} {
     color: color-mix(in srgb, var(--qds-color-#{$token}) var(--qds-tonal-text-mix), var(--qds-text-strong)) !important;
-    border: var(--qds-border-width-control) solid var(--qds-color-#{$token});
+    border: var(--qds-border-width-control) solid rgba(var(--qds-color-#{$token}-rgb), 0.72);
   }
 
   .qds-ui .q-btn.q-btn.q-btn--outline.bg-#{$name} {
     color: color-mix(in srgb, var(--qds-color-#{$token}) var(--qds-tonal-text-mix), var(--qds-text-strong)) !important;
     background-color: transparent !important;
-    border: var(--qds-border-width-control) solid var(--qds-color-#{$token});
+    border: var(--qds-border-width-control) solid rgba(var(--qds-color-#{$token}-rgb), 0.72);
   }
 
   .qds-ui .q-btn.q-btn.q-btn--flat.text-#{$name} {
@@ -44,6 +44,7 @@
       box-shadow var(--qds-motion-fast),
       transform var(--qds-motion-fast);
     box-shadow: none !important;
+    overflow: hidden;
   }
 
   .qds-ui .q-btn.q-btn::before {
@@ -89,6 +90,10 @@
   .qds-ui .q-btn.q-btn.q-btn--outline:not(.text-primary):not(.text-secondary):not(.text-positive):not(.text-negative):not(.text-warning):not(.text-info):not(.text-accent):not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent) {
     background-color: var(--qds-interactive-bg);
     border: var(--qds-border-width-control) solid var(--qds-interactive-border-strong);
+  }
+
+  .qds-ui .q-btn.q-btn.q-btn--outline::before {
+    border: 0;
   }
 
   .qds-ui .q-btn.q-btn.q-btn--unelevated:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent):not(.qds-solid),

@@ -14,9 +14,9 @@ type Mode = 'light' | 'dark'
 type Variant = 'studio' | 'glass' | 'mobile'
 
 // Expected resolved values, derived from src/tokens/_default.scss (Fluent refinement).
-// --qds-radius-control: studio 6 / glass 10 / mobile 14.
+// --qds-radius-control: studio 8 / glass 10 / mobile 14.
 const EXPECTED_CONTROL_RADIUS: Record<Variant, string> = {
-  studio: '6px',
+  studio: '8px',
   glass: '10px',
   mobile: '14px',
 }
@@ -28,21 +28,22 @@ const EXPECTED_CARD_RADIUS: Record<Variant, string> = {
 }
 
 // --qds-surface-0 per mode (drives --qds-card-bg / --qds-menu-bg / notify bg).
-const LIGHT_SURFACE = 'rgb(255, 255, 255)' // #ffffff
-const DARK_SURFACE = 'rgb(31, 31, 31)' //   #1f1f1f
+const LIGHT_SURFACE = 'rgb(255, 253, 248)' // #fffdf8
+const DARK_SURFACE = 'rgb(32, 34, 37)' //   #202225
 const SURFACE: Record<Mode, string> = { light: LIGHT_SURFACE, dark: DARK_SURFACE }
 
-// Primary accent #0078d4 (solid fill + focus outline).
-const PRIMARY = 'rgb(0, 120, 212)'
-// QField outlined border = --qds-border (strong): light #d1d1d1 / dark #424242.
+// Primary #005a9e (solid fill + focus outline).
+const PRIMARY = 'rgb(0, 90, 158)'
+const PRIMARY_RGB_PATTERN = /^rgba\(0,\s*90,\s*158/
+// QField outlined border = --qds-border (strong): light #d1d1d1 / dark #4c5666.
 const FIELD_BORDER: Record<Mode, string> = {
   light: 'rgb(209, 209, 209)',
-  dark: 'rgb(66, 66, 66)',
+  dark: 'rgb(76, 86, 102)',
 }
-// QCard/QNotification border = --qds-border-subtle: light #e0e0e0 / dark #333333.
+// QCard/QNotification border = --qds-border-subtle: light #e0e0e0 / dark #323844.
 const SUBTLE_BORDER: Record<Mode, string> = {
   light: 'rgb(224, 224, 224)',
-  dark: 'rgb(51, 51, 51)',
+  dark: 'rgb(50, 56, 68)',
 }
 
 const MODES: Mode[] = ['light', 'dark']
@@ -122,7 +123,7 @@ test.describe('QDS override gate', () => {
         // Semantic colored default: tonal tint, not filled Material-style color.
         const semantic = `${PANEL} .q-btn--unelevated.bg-primary:not(.qds-solid):not(.q-btn--dense)`
         expect.soft(await computed(page, semantic, 'background-color'), 'QBtn semantic tonal bg').toMatch(
-          /^rgba\(0,\s*120,\s*212/,
+          PRIMARY_RGB_PATTERN,
         )
         expect.soft(await computed(page, semantic, 'color'), 'QBtn semantic tonal text').not.toBe('rgb(255, 255, 255)')
 
@@ -134,7 +135,7 @@ test.describe('QDS override gate', () => {
         // TONAL: colored non-solid buttons share the same soft treatment.
         const tonal = `${PANEL} .q-btn.bg-primary:not(.qds-solid):not(.q-btn--flat):not(.q-btn--outline)`
         expect.soft(await computed(page, tonal, 'background-color'), 'QBtn tonal bg').toMatch(
-          /^rgba\(0,\s*120,\s*212/, // primary rgb, translucent
+          PRIMARY_RGB_PATTERN, // primary rgb, translucent
         )
 
         // --- focus: Fluent 2px solid outline with offset, not a glow ---
@@ -175,7 +176,7 @@ test.describe('QDS override gate', () => {
         expect.soft(focusRule?.boxShadow, 'QBtn focus box-shadow cleared').toBe('none')
         expect.soft(focusResolved.width, 'QBtn focus outline-width').toBe('2px')
         expect.soft(focusResolved.offset, 'QBtn focus outline-offset').toBe('2px')
-        expect.soft(focusResolved.primary, 'QBtn focus outline-color (primary)').toBe('#0078d4')
+        expect.soft(focusResolved.primary, 'QBtn focus outline-color (primary)').toBe('#005a9e')
 
         // --- QInput (outlined): border token-driven (= --qds-border, strong) ---
         // Border lives on .q-field__control::before; Quasar animates border-color
@@ -185,6 +186,7 @@ test.describe('QDS override gate', () => {
           fieldControl.evaluate((el) => getComputedStyle(el as Element, '::before').borderTopColor),
         )
         expect.soft(fieldBefore, 'QField outlined border color').toBe(FIELD_BORDER[mode])
+        expect.soft(await fieldControl.evaluate((el) => getComputedStyle(el as Element).minHeight), 'QField thin height').toBe('36px')
 
         // --- QCard: tonal acrylic surface, bg/border/radius/shadow token-driven ---
         const card = `${PANEL} .q-card`
