@@ -19,8 +19,9 @@
   }
 
   .qds-ui .q-chip.q-chip:focus-visible {
-    outline: none;
-    box-shadow: var(--qds-focus-ring);
+    outline: var(--qds-focus-ring-width) solid var(--qds-color-primary);
+    outline-offset: var(--qds-focus-ring-offset);
+    box-shadow: none;
   }
 
   .qds-ui .q-chip.q-chip .q-chip__content {

@@ -10,4 +10,9 @@
   .qds-display {
     font-family: var(--qds-font-family-display);
   }
+
+  // Ripple is a Material 2 tell; CSS states replace it.
+  .qds-ui .q-ripple {
+    display: none;
+  }
 }

@@ -1,19 +1,38 @@
-@mixin qds-tonal-button($name, $token) {
-  // !important defeats Quasar's `.bg-*`/`.text-*` color utilities, which are
-  // themselves !important; without it the tonal treatment loses to the solid fill.
-  .qds-ui .q-btn.q-btn.bg-#{$name}:not(.q-btn--flat):not(.q-btn--outline):not(.qds-solid) {
+// 3 variants on Quasar's native props: SOLID (bg), OUTLINED (outline prop),
+// TONAL (.qds-tonal). Uncolored falls through to neutral below.
+@mixin qds-button-color($name, $token) {
+  // SOLID: filled accent (!important beats Quasar's .bg-* utility).
+  .qds-ui .q-btn.q-btn.bg-#{$name}:not(.q-btn--flat):not(.q-btn--outline):not(.qds-tonal):not(.qds-solid) {
+    background-color: var(--qds-color-#{$token}) !important;
+    color: #fff !important;
+    border-color: transparent;
+  }
+
+  // OUTLINED: transparent + colored hairline + colored text.
+  .qds-ui .q-btn.q-btn.q-btn--outline.text-#{$name} {
+    color: var(--qds-color-#{$token}) !important;
+    border: var(--qds-border-width-control) solid var(--qds-color-#{$token});
+  }
+
+  .qds-ui .q-btn.q-btn.q-btn--outline.bg-#{$name} {
+    color: var(--qds-color-#{$token}) !important;
+    background-color: transparent !important;
+    border: var(--qds-border-width-control) solid var(--qds-color-#{$token});
+  }
+
+  .qds-ui .q-btn.q-btn.q-btn--flat.text-#{$name} {
+    color: var(--qds-color-#{$token}) !important;
+  }
+
+  // TONAL: opt-in translucent tint.
+  .qds-ui .q-btn.q-btn.qds-tonal.bg-#{$name}:not(.q-btn--flat):not(.q-btn--outline):not(.qds-solid) {
     color: var(--qds-color-#{$token}) !important;
     background-color: rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-bg-opacity)) !important;
     border: var(--qds-border-width-control) solid rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-border-opacity));
   }
 
-  .qds-ui .q-btn.q-btn.bg-#{$name}:not(.q-btn--flat):not(.q-btn--outline):not(.qds-solid):hover {
+  .qds-ui .q-btn.q-btn.qds-tonal.bg-#{$name}:not(.q-btn--flat):not(.q-btn--outline):not(.qds-solid):hover {
     background-color: rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-hover-opacity)) !important;
-  }
-
-  .qds-ui .q-btn.q-btn.q-btn--flat.text-#{$name},
-  .qds-ui .q-btn.q-btn.q-btn--outline.text-#{$name} {
-    color: var(--qds-color-#{$token}) !important;
   }
 }
 
@@ -31,9 +50,11 @@
       transform var(--qds-motion-fast);
   }
 
+  // Fluent focus: 2px stroke with offset, not a glow.
   .qds-ui .q-btn.q-btn:focus-visible {
-    outline: none;
-    box-shadow: var(--qds-focus-ring);
+    outline: var(--qds-focus-ring-width) solid var(--qds-color-primary);
+    outline-offset: var(--qds-focus-ring-offset);
+    box-shadow: none;
   }
 
   .qds-ui .q-btn.q-btn .q-btn__content {
@@ -66,28 +87,33 @@
     color: var(--qds-interactive-text);
   }
 
-  .qds-ui .q-btn.q-btn.q-btn--outline {
+  // NEUTRAL outline (no semantic color) = neutral surface + neutral hairline stroke.
+  .qds-ui .q-btn.q-btn.q-btn--outline:not(.text-primary):not(.text-secondary):not(.text-positive):not(.text-negative):not(.text-warning):not(.text-info):not(.text-accent):not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent) {
     background-color: var(--qds-interactive-bg);
     border: var(--qds-border-width-control) solid var(--qds-interactive-border-strong);
   }
 
-  .qds-ui .q-btn.q-btn.q-btn--unelevated:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.qds-solid) {
+  // NEUTRAL DEFAULT: uncolored unelevated button = Fluent secondary, surface + hairline.
+  .qds-ui .q-btn.q-btn.q-btn--unelevated:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent):not(.qds-solid) {
     background-color: var(--qds-interactive-bg);
     color: var(--qds-interactive-text);
     border: var(--qds-border-width-control) solid var(--qds-interactive-border);
   }
 
+  // Neutral hover/press use a neutral surface step, not a blue tint.
   .qds-ui .q-btn.q-btn.q-btn--flat:hover,
   .qds-ui .q-btn.q-btn.q-btn--outline:hover,
-  .qds-ui .q-btn.q-btn.q-btn--round:hover {
-    background-color: rgba(var(--qds-color-primary-rgb), var(--qds-state-hover-opacity));
+  .qds-ui .q-btn.q-btn.q-btn--round:hover,
+  .qds-ui .q-btn.q-btn.q-btn--unelevated:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent):not(.qds-solid):hover {
+    background-color: var(--qds-interactive-bg-active);
     border-color: var(--qds-interactive-border);
   }
 
-  @include qds-tonal-button('primary', 'primary');
-  @include qds-tonal-button('secondary', 'secondary');
-  @include qds-tonal-button('positive', 'positive');
-  @include qds-tonal-button('negative', 'negative');
-  @include qds-tonal-button('warning', 'warning');
-  @include qds-tonal-button('info', 'info');
+  @include qds-button-color('primary', 'primary');
+  @include qds-button-color('secondary', 'secondary');
+  @include qds-button-color('positive', 'positive');
+  @include qds-button-color('negative', 'negative');
+  @include qds-button-color('warning', 'warning');
+  @include qds-button-color('info', 'info');
+  @include qds-button-color('accent', 'accent');
 }

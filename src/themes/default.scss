@@ -1,9 +1,8 @@
 @use 'sass:map';
 @use '../tokens/default' as tokens;
 
-// Derived tokens reference base tokens via var(). Custom properties resolve var()
-// at computed-value time, so re-include this in every selector that overrides a
-// base input (dark, variants) or the derived value stays stranded at its prior value.
+// Re-include in every block overriding a base input; var() chains resolve at
+// computed-value time and otherwise stay stranded at their prior value.
 @mixin qds-derived-tokens {
   --qds-elevation-1: var(--qds-shadow-sm);
   --qds-elevation-2: var(--qds-shadow-md);
@@ -16,23 +15,23 @@
   --qds-interactive-text: var(--qds-text);
   --qds-interactive-text-muted: var(--qds-text-muted);
 
-  // Per-component alias tokens enable customization without touching base scales.
-  // These are var() chains, so they must re-resolve in every block that overrides
-  // a base input they depend on (dark, variants); hence they live in the mixin.
+  // Per-component alias tokens; var() chains, so they live in the mixin too.
   --qds-button-radius: var(--qds-radius-control);
   --qds-chip-radius: var(--qds-radius-control);
   --qds-badge-radius: var(--qds-radius-control);
   --qds-card-bg: var(--qds-surface-0);
   --qds-card-border: var(--qds-border-subtle);
   --qds-card-radius: var(--qds-radius-lg);
-  --qds-card-shadow: var(--qds-shadow-sm);
+  // Fluent cards are stroke-based, not elevated.
+  --qds-card-shadow: none;
   --qds-menu-bg: var(--qds-surface-0);
   --qds-menu-border: var(--qds-border-subtle);
   --qds-menu-radius: var(--qds-radius-lg);
   --qds-menu-shadow: var(--qds-shadow-md);
   --qds-notification-radius: var(--qds-radius-md);
   --qds-notification-shadow: var(--qds-shadow-md);
-  --qds-toolbar-bg: var(--qds-surface-0);
+  // Toolbar sits one step under cards/menus, anchored by a bottom hairline.
+  --qds-toolbar-bg: var(--qds-surface-1);
 }
 
 @layer qds.tokens {
@@ -101,9 +100,13 @@
 
     --qds-motion-fast: #{map.get(tokens.$motion, fast)};
     --qds-motion-base: #{map.get(tokens.$motion, base)};
+    --qds-motion-duration-fast: #{map.get(tokens.$motion, duration-fast)};
+    --qds-motion-duration-base: #{map.get(tokens.$motion, duration-base)};
+    --qds-motion-ease-out: #{map.get(tokens.$motion, ease-out)};
+    --qds-motion-ease-in-out: #{map.get(tokens.$motion, ease-in-out)};
     --qds-focus-ring-width: #{map.get(tokens.$focus-ring, width)};
+    --qds-focus-ring-offset: #{map.get(tokens.$focus-ring, offset)};
     --qds-focus-ring-opacity: #{map.get(tokens.$focus-ring, opacity)};
-    --qds-focus-ring: 0 0 0 var(--qds-focus-ring-width) rgba(var(--qds-color-primary-rgb), var(--qds-focus-ring-opacity));
 
     --qds-state-hover-opacity: #{map.get(tokens.$state-opacity, hover)};
     --qds-state-focus-opacity: #{map.get(tokens.$state-opacity, focus)};
@@ -181,6 +184,8 @@
     --qds-space-md: #{map.get(map.get(tokens.$variants, mobile), space-md)};
     --qds-motion-fast: #{map.get(map.get(tokens.$variants, mobile), motion-fast)};
     --qds-tonal-bg-opacity: #{map.get(map.get(tokens.$variants, mobile), tonal-bg-opacity)};
+    // One UI owns bigger touch targets; base theme stays Fluent-compact.
+    --qds-button-min-height: #{map.get(map.get(tokens.$variants, mobile), button-min-height)};
 
     @include qds-derived-tokens;
   }

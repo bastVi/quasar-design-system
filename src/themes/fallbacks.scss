@@ -77,10 +77,14 @@
 
     --qds-motion-fast: #{map.get(tokens.$motion, fast)};
     --qds-motion-base: #{map.get(tokens.$motion, base)};
+    --qds-motion-duration-fast: #{map.get(tokens.$motion, duration-fast)};
+    --qds-motion-duration-base: #{map.get(tokens.$motion, duration-base)};
+    --qds-motion-ease-out: #{map.get(tokens.$motion, ease-out)};
+    --qds-motion-ease-in-out: #{map.get(tokens.$motion, ease-in-out)};
 
     --qds-focus-ring-width: #{map.get(tokens.$focus-ring, width)};
+    --qds-focus-ring-offset: #{map.get(tokens.$focus-ring, offset)};
     --qds-focus-ring-opacity: #{map.get(tokens.$focus-ring, opacity)};
-    --qds-focus-ring: 0 0 0 var(--qds-focus-ring-width) rgba(var(--qds-color-primary-rgb), var(--qds-focus-ring-opacity));
 
     --qds-state-hover-opacity: #{map.get(tokens.$state-opacity, hover)};
     --qds-state-focus-opacity: #{map.get(tokens.$state-opacity, focus)};
@@ -118,13 +122,13 @@
     --qds-card-bg: var(--qds-surface-0);
     --qds-card-border: var(--qds-border-subtle);
     --qds-card-radius: var(--qds-radius-lg);
-    --qds-card-shadow: var(--qds-shadow-sm);
+    --qds-card-shadow: none;
     --qds-menu-bg: var(--qds-surface-0);
     --qds-menu-border: var(--qds-border-subtle);
     --qds-menu-radius: var(--qds-radius-lg);
     --qds-menu-shadow: var(--qds-shadow-md);
     --qds-notification-radius: var(--qds-radius-md);
     --qds-notification-shadow: var(--qds-shadow-md);
-    --qds-toolbar-bg: var(--qds-surface-0);
+    --qds-toolbar-bg: var(--qds-surface-1);
   }
 }

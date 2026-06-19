@@ -13,18 +13,37 @@ import { test, expect, type Page } from '@playwright/test'
 type Mode = 'light' | 'dark'
 type Variant = 'studio' | 'glass' | 'mobile'
 
-// Expected resolved values, derived from src/tokens/_default.scss.
-// --qds-radius-control: studio 10 / glass 14 / mobile 16.
+// Expected resolved values, derived from src/tokens/_default.scss (Fluent refinement).
+// --qds-radius-control: studio 6 / glass 10 / mobile 14.
 const EXPECTED_CONTROL_RADIUS: Record<Variant, string> = {
-  studio: '10px',
-  glass: '14px',
-  mobile: '16px',
+  studio: '6px',
+  glass: '10px',
+  mobile: '14px',
+}
+// --qds-card-radius = --qds-radius-lg: studio 12 / glass 16 / mobile 20.
+const EXPECTED_CARD_RADIUS: Record<Variant, string> = {
+  studio: '12px',
+  glass: '16px',
+  mobile: '20px',
 }
 
-// --qds-surface-0 resolved per mode (drives --qds-card-bg / --qds-menu-bg / notify).
+// --qds-surface-0 per mode (drives --qds-card-bg / --qds-menu-bg / notify bg).
 const LIGHT_SURFACE = 'rgb(255, 255, 255)' // #ffffff
 const DARK_SURFACE = 'rgb(31, 31, 31)' //   #1f1f1f
 const SURFACE: Record<Mode, string> = { light: LIGHT_SURFACE, dark: DARK_SURFACE }
+
+// Primary accent #0078d4 (solid fill + focus outline).
+const PRIMARY = 'rgb(0, 120, 212)'
+// QField outlined border = --qds-border (strong): light #d1d1d1 / dark #424242.
+const FIELD_BORDER: Record<Mode, string> = {
+  light: 'rgb(209, 209, 209)',
+  dark: 'rgb(66, 66, 66)',
+}
+// QCard/QNotification border = --qds-border-subtle: light #e0e0e0 / dark #333333.
+const SUBTLE_BORDER: Record<Mode, string> = {
+  light: 'rgb(224, 224, 224)',
+  dark: 'rgb(51, 51, 51)',
+}
 
 const MODES: Mode[] = ['light', 'dark']
 const VARIANTS: Variant[] = ['studio', 'glass', 'mobile']
@@ -93,35 +112,31 @@ test.describe('QDS override gate', () => {
         // the first failure — a soft failure still fails the gate.
 
         // --- QBtn: radius + weight are token-driven (override applied) ---
-        // Non-dense unelevated button inside the panel (avoids the dense toolbar toggles).
+        // Non-dense unelevated button in the panel (avoids the dense toolbar toggles).
         const btn = `${PANEL} .q-btn--unelevated:not(.q-btn--dense)`
         expect.soft(await computed(page, btn, 'border-radius'), 'QBtn radius').toBe(
           EXPECTED_CONTROL_RADIUS[variant],
         )
         expect.soft(await computed(page, btn, 'font-weight'), 'QBtn font-weight').toBe('500')
 
-        // Tonal semantic button (the gallery's `color=primary text-color=primary`
-        // example → `.bg-primary.text-primary`): bg is the token-driven translucent
-        // primary, NOT Quasar's solid opaque default. rgba(...) => has alpha.
-        const tonal = `${PANEL} .q-btn.bg-primary.text-primary`
-        expect.soft(await computed(page, tonal, 'background-color'), 'QBtn tonal bg').toMatch(
-          /^rgba\(32,\s*125,\s*211/, // primary rgb, translucent
-        )
-        // Tonal text = solid primary (token), not white-on-primary.
-        expect.soft(await computed(page, tonal, 'color'), 'QBtn tonal text').toBe('rgb(32, 125, 211)')
+        // SOLID: a plain colored button (bg-primary, no .qds-tonal) is now a filled
+        // accent — opaque primary bg + white text (Fluent default, not tonal).
+        const solid = `${PANEL} .q-btn--unelevated.bg-primary:not(.qds-tonal):not(.q-btn--dense)`
+        expect.soft(await computed(page, solid, 'background-color'), 'QBtn solid bg').toBe(PRIMARY)
+        expect.soft(await computed(page, solid, 'color'), 'QBtn solid text').toBe('rgb(255, 255, 255)')
 
-        // --- focus ring: var(--qds-focus-ring) applies on :focus-visible ---
-        // Headless Chromium will not reliably enter :focus-visible (keyboard
-        // modality is flaky), so prove the override deterministically in two halves:
-        //   (a) the --qds-focus-ring token resolves to the 2px primary @ .18 ring, and
-        //   (b) the rendered cascade contains the QDS :focus-visible rule wiring
-        //       box-shadow to that token.
-        const ringTarget = page.locator(btn).first()
-        const ringToken = await ringTarget.evaluate((el) =>
-          getComputedStyle(el as Element).getPropertyValue('--qds-focus-ring').trim(),
+        // TONAL: opt-in via .qds-tonal — translucent primary tint + primary text.
+        const tonal = `${PANEL} .q-btn.qds-tonal.bg-primary`
+        expect.soft(await computed(page, tonal, 'background-color'), 'QBtn tonal bg').toMatch(
+          /^rgba\(0,\s*120,\s*212/, // primary rgb, translucent
         )
-        expect.soft(ringToken, 'QBtn focus-ring token').toContain('rgba(32, 125, 211, .18)')
-        const focusRuleBoxShadow = await page.evaluate(() => {
+        expect.soft(await computed(page, tonal, 'color'), 'QBtn tonal text').toBe(PRIMARY)
+
+        // --- focus: Fluent 2px solid outline with offset, not a glow ---
+        // Headless Chromium won't reliably enter :focus-visible, so prove the override
+        // from the rendered cascade: the QDS :focus-visible rule sets the outline
+        // (width/style/primary color/offset) and clears box-shadow.
+        const focusRule = await page.evaluate(() => {
           for (const sheet of Array.from(document.styleSheets)) {
             let rules: CSSRuleList
             try {
@@ -132,35 +147,51 @@ test.describe('QDS override gate', () => {
             for (const r of Array.from(rules)) {
               const sel = (r as CSSStyleRule).selectorText
               if (sel && sel.includes('.q-btn') && sel.includes(':focus-visible')) {
-                return (r as CSSStyleRule).style.boxShadow
+                const s = (r as CSSStyleRule).style
+                // outline is set as a shorthand, so read .outline (not .outlineStyle).
+                return { outline: s.outline, offset: s.outlineOffset, boxShadow: s.boxShadow }
               }
             }
           }
           return null
         })
-        expect.soft(focusRuleBoxShadow, 'QBtn :focus-visible rule wires the ring').toBe(
-          'var(--qds-focus-ring)',
-        )
+        // Outline props resolve via tokens; assert the resolved computed values too.
+        const ringTarget = page.locator(btn).first()
+        const focusResolved = await ringTarget.evaluate((el) => {
+          const cs = getComputedStyle(el as Element)
+          return {
+            width: cs.getPropertyValue('--qds-focus-ring-width').trim(),
+            offset: cs.getPropertyValue('--qds-focus-ring-offset').trim(),
+            primary: cs.getPropertyValue('--qds-color-primary').trim(),
+          }
+        })
+        expect.soft(focusRule?.outline, 'QBtn focus outline (solid stroke)').toContain('solid')
+        expect.soft(focusRule?.outline, 'QBtn focus outline width').toContain('var(--qds-focus-ring-width)')
+        expect.soft(focusRule?.boxShadow, 'QBtn focus box-shadow cleared').toBe('none')
+        expect.soft(focusResolved.width, 'QBtn focus outline-width').toBe('2px')
+        expect.soft(focusResolved.offset, 'QBtn focus outline-offset').toBe('2px')
+        expect.soft(focusResolved.primary, 'QBtn focus outline-color (primary)').toBe('#0078d4')
 
-        // --- QInput (outlined): border token-driven ---
-        // The outlined border lives on .q-field__control::before, which Quasar
-        // animates with `transition: border-color .36s` — read after it settles,
-        // not mid-animation.
+        // --- QInput (outlined): border token-driven (= --qds-border, strong) ---
+        // Border lives on .q-field__control::before; Quasar animates border-color
+        // (.36s) so read after it settles, not mid-animation.
         const fieldControl = page.locator(`${PANEL} .q-field--outlined .q-field__control`).first()
         const fieldBefore = await settledComputed(page, () =>
           fieldControl.evaluate((el) => getComputedStyle(el as Element, '::before').borderTopColor),
         )
-        // light border #d9dee7 / dark border #3f3f46
-        expect.soft(fieldBefore, 'QField outlined border color').toBe(
-          mode === 'dark' ? 'rgb(63, 63, 70)' : 'rgb(217, 222, 231)',
-        )
+        expect.soft(fieldBefore, 'QField outlined border color').toBe(FIELD_BORDER[mode])
 
-        // --- QCard: bg/border/radius/shadow token-driven ---
+        // --- QCard: Fluent stroke-based (NO shadow), bg/border/radius token-driven ---
         const card = `${PANEL} .q-card`
         expect.soft(await computed(page, card, 'border-radius'), 'QCard radius').toBe(
-          variant === 'glass' ? '20px' : variant === 'mobile' ? '22px' : '16px',
+          EXPECTED_CARD_RADIUS[variant],
         )
-        expect.soft(await computed(page, card, 'box-shadow'), 'QCard shadow').not.toBe('none')
+        // Card is now flat: no elevation shadow, visible 1px subtle stroke instead.
+        expect.soft(await computed(page, card, 'box-shadow'), 'QCard shadow (none)').toBe('none')
+        expect.soft(await computed(page, card, 'border-top-width'), 'QCard border width').toBe('1px')
+        expect.soft(await computed(page, card, 'border-top-color'), 'QCard border color').toBe(
+          SUBTLE_BORDER[mode],
+        )
         const cardBg = await computed(page, card, 'background-color')
         // CRITICAL stranding guard: dark card bg must resolve to the DARK QDS surface,
         // never the light surface (the regression class this gate exists for).
@@ -183,10 +214,13 @@ test.describe('QDS override gate', () => {
         await page.getByRole('button', { name: 'Info', exact: true }).click()
         const notify = '.q-notification'
         await expect(page.locator(notify).first()).toBeVisible()
-        // notification-radius = --qds-radius-md (11px), constant across variants.
-        expect.soft(await computed(page, notify, 'border-radius'), 'QNotification radius').toBe('11px')
+        // notification-radius = --qds-radius-md (8px), constant across variants.
+        expect.soft(await computed(page, notify, 'border-radius'), 'QNotification radius').toBe('8px')
         expect.soft(await computed(page, notify, 'box-shadow'), 'QNotification shadow').not.toBe('none')
         expect.soft(await computed(page, notify, 'background-color'), 'QNotification bg').toBe(SURFACE[mode])
+
+        // --- ripple suppressed (Material tell removed) ---
+        expect.soft(await computed(page, `${PANEL} .q-ripple`, 'display'), 'QRipple suppressed').toBe('none')
 
         // --- artifact: one screenshot per matrix cell ---
         await page.screenshot({

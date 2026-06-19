@@ -42,8 +42,8 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
       <div class="row q-col-gutter-sm q-mb-md items-center">
         <div class="col-auto"><q-btn flat color="primary" label="Flat" no-caps /></div>
         <div class="col-auto"><q-btn flat color="negative" label="Flat" no-caps /></div>
-        <div class="col-auto"><q-btn color="primary" label="Tonal" text-color="primary" no-caps /></div>
-        <div class="col-auto"><q-btn color="accent" label="Tonal" text-color="accent" no-caps /></div>
+        <div class="col-auto"><q-btn class="qds-tonal" color="primary" label="Tonal" text-color="primary" no-caps /></div>
+        <div class="col-auto"><q-btn class="qds-tonal" color="accent" label="Tonal" text-color="accent" no-caps /></div>
       </div>
 
       <div class="text-subtitle2 qds-text-muted q-mb-xs">Round, Dense &amp; Disabled</div>
