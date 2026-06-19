@@ -102,7 +102,7 @@ export const DEFAULT_DESIGN_SYSTEM_OPTIONS: Required<
 > = {
   enabled: true,
   mode: 'system',
-  variant: 'studio',
+  variant: 'fluent',
   syncWithSystem: true,
   persist: true,
   storageKey: 'bastvi.quasar-design-system.theme',
@@ -322,6 +322,10 @@ function normalizeMode(value: unknown): DesignSystemMode {
 }
 
 function normalizeVariant(value: unknown): DesignSystemVariantName {
+  if (value === 'studio') {
+    return 'fluent'
+  }
+
   return isDesignSystemVariantName(value) ? value : DEFAULT_DESIGN_SYSTEM_OPTIONS.variant
 }
 

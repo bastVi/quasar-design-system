@@ -19,6 +19,7 @@ import {
 
 const $q = useQuasar()
 const designSystem = useDesignSystem()
+const variantRegistry = DESIGN_SYSTEM_VARIANTS as Record<string, (typeof DESIGN_SYSTEM_VARIANTS)[keyof typeof DESIGN_SYSTEM_VARIANTS]>
 
 const modeOptions: DesignSystemMode[] = ['light', 'dark', 'system']
 const variantOptions = Object.keys(DESIGN_SYSTEM_VARIANTS) as DesignSystemVariantName[]
@@ -39,7 +40,7 @@ const rootState = computed(() => {
   return [
     'qds-ui',
     state.isDark ? 'qds-theme-dark' : 'qds-theme-light',
-    DESIGN_SYSTEM_VARIANTS[state.variant]?.cssClass,
+    variantRegistry[state.variant]?.cssClass ?? DESIGN_SYSTEM_VARIANTS.fluent.cssClass,
   ].filter(Boolean).join(' · ')
 })
 

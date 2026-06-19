@@ -31,7 +31,7 @@ app.use(Quasar, {
 // of mode/variant between matrix cells).
 const ds = configureDesignSystem(app, {
   mode: 'light',
-  variant: 'studio',
+  variant: 'fluent',
   persist: false,
 })
 

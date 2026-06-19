@@ -19,7 +19,8 @@ const tab = ref<'tokens' | 'typography' | 'components' | 'icons' | 'fonts'>('tok
 
 const modes: DesignSystemMode[] = ['light', 'dark', 'system']
 const variants = Object.values(DESIGN_SYSTEM_VARIANTS)
-const currentVariant = computed(() => DESIGN_SYSTEM_VARIANTS[ds.variant.value])
+const variantRegistry = DESIGN_SYSTEM_VARIANTS as Record<string, (typeof DESIGN_SYSTEM_VARIANTS)[keyof typeof DESIGN_SYSTEM_VARIANTS]>
+const currentVariant = computed(() => variantRegistry[ds.variant.value] ?? DESIGN_SYSTEM_VARIANTS.fluent)
 
 function onMode(mode: DesignSystemMode) {
   ds.setMode(mode)

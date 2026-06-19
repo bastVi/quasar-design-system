@@ -57,7 +57,7 @@ import { configureDesignSystem } from '@bastvi/quasar-design-system'
 
 configureDesignSystem(app, {
   mode: 'system',
-  variant: 'studio',
+  variant: 'fluent',
   persist: true,
 })
 ```
@@ -105,7 +105,7 @@ The core CSS only declares the font stack, so skipping these still yields a sane
 
 The package is structured around `src/themes/`. For now there is one real theme, `default`, plus small runtime variants layered over it:
 
-- `studio`: default Microsoft Fluent 2 direction, balanced desktop/admin density.
+- `fluent`: default Fluent 2-inspired direction, balanced desktop/admin density.
 - `glass`: Apple Human Interface Guidelines-inspired translucency, softer surfaces, relaxed depth.
 - `mobile`: Samsung One UI-inspired rounding, spacing, and touch-friendly controls.
 

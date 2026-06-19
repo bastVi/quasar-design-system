@@ -1,8 +1,9 @@
-export type BuiltInDesignSystemVariantName = 'studio' | 'glass' | 'mobile'
+export type BuiltInDesignSystemVariantName = 'fluent' | 'glass' | 'mobile'
+export type LegacyDesignSystemVariantName = 'studio'
 
 // Built-ins are typed narrowly while still accepting variants registered by
 // external projects. `(string & {})` keeps literal autocompletion.
-export type DesignSystemVariantName = BuiltInDesignSystemVariantName | (string & {})
+export type DesignSystemVariantName = BuiltInDesignSystemVariantName | LegacyDesignSystemVariantName | (string & {})
 
 export interface DesignSystemVariant {
   name: DesignSystemVariantName
@@ -21,12 +22,12 @@ export interface QuasarDesignTheme {
 
 export const DEFAULT_THEME_NAME = 'default'
 
-export const DESIGN_SYSTEM_VARIANTS: Record<DesignSystemVariantName, DesignSystemVariant> = {
-  studio: {
-    name: 'studio',
-    label: 'Studio',
-    description: 'Default Fluent 2 focused visual language with balanced desktop/admin density.',
-    cssClass: 'qds-variant-studio',
+export const DESIGN_SYSTEM_VARIANTS: Record<BuiltInDesignSystemVariantName, DesignSystemVariant> = {
+  fluent: {
+    name: 'fluent',
+    label: 'Fluent',
+    description: 'Default Fluent 2-inspired baseline with restrained acrylic and Windows-like tonal color.',
+    cssClass: 'qds-variant-fluent',
   },
   glass: {
     name: 'glass',
@@ -54,7 +55,7 @@ export const DESIGN_SYSTEM_THEMES = {
 } as const
 
 export function isBuiltInDesignSystemVariantName(value: unknown): value is BuiltInDesignSystemVariantName {
-  return value === 'studio' || value === 'glass' || value === 'mobile'
+  return value === 'fluent' || value === 'glass' || value === 'mobile'
 }
 
 // Accepts any non-empty string so external projects can register variants;
