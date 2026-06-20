@@ -326,6 +326,10 @@ function normalizeVariant(value: unknown): DesignSystemVariantName {
     return 'fluent'
   }
 
+  if (value === 'glass') {
+    return 'air'
+  }
+
   return isDesignSystemVariantName(value) ? value : DEFAULT_DESIGN_SYSTEM_OPTIONS.variant
 }
 

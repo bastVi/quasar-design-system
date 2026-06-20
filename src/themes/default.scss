@@ -182,6 +182,7 @@
     @include qds-derived-tokens;
   }
 
+  .qds-variant-air,
   .qds-variant-glass {
     --qds-radius-control: #{map.get(map.get(tokens.$variants, glass), radius-control)};
     --qds-radius-lg: #{map.get(map.get(tokens.$variants, glass), radius-lg)};
@@ -196,7 +197,9 @@
     @include qds-derived-tokens;
   }
 
+  .qds-theme-dark.qds-variant-air,
   .qds-theme-dark.qds-variant-glass,
+  body.qds-ui.body--dark.qds-variant-air,
   body.qds-ui.body--dark.qds-variant-glass {
     --qds-surface-glass: #{map.get(map.get(tokens.$variants, glass), dark-surface-glass)};
 

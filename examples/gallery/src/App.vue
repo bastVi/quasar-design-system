@@ -37,7 +37,7 @@ const modeIcons = {
 } as const
 const variantIcons: Record<string, Component> = {
   fluent: PhPalette,
-  glass: PhSparkle,
+  air: PhSparkle,
   mobile: PhDeviceMobile,
 }
 
@@ -215,7 +215,7 @@ watch(tab, (value) => {
 }
 
 .gallery-tabs {
-  background: color-mix(in srgb, var(--qds-toolbar-bg) 88%, var(--qds-color-primary) 12%);
+  background: color-mix(in srgb, var(--qds-toolbar-bg) 88%, transparent);
   color: var(--qds-text);
 }
 

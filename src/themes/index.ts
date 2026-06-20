@@ -1,5 +1,6 @@
-export type BuiltInDesignSystemVariantName = 'fluent' | 'glass' | 'mobile'
-export type LegacyDesignSystemVariantName = 'studio'
+export type CanonicalDesignSystemVariantName = 'fluent' | 'air' | 'mobile'
+export type BuiltInDesignSystemVariantName = CanonicalDesignSystemVariantName | 'glass'
+export type LegacyDesignSystemVariantName = 'studio' | 'glass'
 
 // Built-ins are typed narrowly while still accepting variants registered by
 // external projects. `(string & {})` keeps literal autocompletion.
@@ -22,18 +23,18 @@ export interface QuasarDesignTheme {
 
 export const DEFAULT_THEME_NAME = 'default'
 
-export const DESIGN_SYSTEM_VARIANTS: Record<BuiltInDesignSystemVariantName, DesignSystemVariant> = {
+export const DESIGN_SYSTEM_VARIANTS = {
   fluent: {
     name: 'fluent',
     label: 'Fluent',
     description: 'Default Fluent 2-inspired baseline with restrained acrylic and tonal color.',
     cssClass: 'qds-variant-fluent',
   },
-  glass: {
-    name: 'glass',
-    label: 'Glass',
-    description: 'Softer Apple-inspired surfaces with more translucency and relaxed depth.',
-    cssClass: 'qds-variant-glass',
+  air: {
+    name: 'air',
+    label: 'Air',
+    description: 'Airier acrylic surfaces for image-rich, colorful, transparency-forward apps.',
+    cssClass: 'qds-variant-air',
   },
   mobile: {
     name: 'mobile',
@@ -41,7 +42,18 @@ export const DESIGN_SYSTEM_VARIANTS: Record<BuiltInDesignSystemVariantName, Desi
     description: 'Rounder One UI-inspired spacing and touch-friendly controls.',
     cssClass: 'qds-variant-mobile',
   },
-}
+} as Record<CanonicalDesignSystemVariantName, DesignSystemVariant> & { glass: DesignSystemVariant }
+
+Object.defineProperty(DESIGN_SYSTEM_VARIANTS, 'glass', {
+  enumerable: false,
+  configurable: false,
+  value: {
+    name: 'glass',
+    label: 'Air',
+    description: 'Legacy alias for the air variant. Prefer variant="air".',
+    cssClass: 'qds-variant-air',
+  } satisfies DesignSystemVariant,
+})
 
 export const DEFAULT_THEME: QuasarDesignTheme = {
   name: DEFAULT_THEME_NAME,
@@ -55,7 +67,7 @@ export const DESIGN_SYSTEM_THEMES = {
 } as const
 
 export function isBuiltInDesignSystemVariantName(value: unknown): value is BuiltInDesignSystemVariantName {
-  return value === 'fluent' || value === 'glass' || value === 'mobile'
+  return value === 'fluent' || value === 'air' || value === 'mobile' || value === 'glass'
 }
 
 // Accepts any non-empty string so external projects can register variants;

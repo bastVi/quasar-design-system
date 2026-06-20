@@ -11,19 +11,19 @@ import { test, expect, type Page } from '@playwright/test'
  */
 
 type Mode = 'light' | 'dark'
-type Variant = 'fluent' | 'glass' | 'mobile'
+type Variant = 'fluent' | 'air' | 'mobile'
 
 // Expected resolved values, derived from src/tokens/_default.scss (Fluent refinement).
-// --qds-radius-control: fluent 8 / glass 10 / mobile 14.
+// --qds-radius-control: fluent 8 / air 10 / mobile 14.
 const EXPECTED_CONTROL_RADIUS: Record<Variant, string> = {
   fluent: '8px',
-  glass: '10px',
+  air: '10px',
   mobile: '14px',
 }
-// --qds-card-radius = --qds-radius-lg: fluent 12 / glass 16 / mobile 20.
+// --qds-card-radius = --qds-radius-lg: fluent 12 / air 16 / mobile 20.
 const EXPECTED_CARD_RADIUS: Record<Variant, string> = {
   fluent: '12px',
-  glass: '16px',
+  air: '16px',
   mobile: '20px',
 }
 
@@ -47,7 +47,7 @@ const SUBTLE_BORDER: Record<Mode, string> = {
 }
 
 const MODES: Mode[] = ['light', 'dark']
-const VARIANTS: Variant[] = ['fluent', 'glass', 'mobile']
+const VARIANTS: Variant[] = ['fluent', 'air', 'mobile']
 
 /** Drive the runtime controller exactly as an external app would. */
 async function applyTheme(page: Page, mode: Mode, variant: Variant) {
@@ -253,8 +253,66 @@ test.describe('QDS override gate', () => {
         // --- ripple suppressed (Material tell removed) ---
         expect.soft(await computed(page, `${PANEL} .q-ripple`, 'display'), 'QRipple suppressed').toBe('none')
 
-        // --- QTabs: remove Quasar's Material underline indicator ---
+        // --- QTabs: remove Quasar's Material underline and use a short Fluent indicator ---
         expect.soft(await computed(page, '.q-tab__indicator', 'display'), 'QTab Material indicator suppressed').toBe('none')
+        const activeTab = page.locator('.gallery-tabs .q-tab--active').first()
+        const tabAfter = await activeTab.evaluate((el) => {
+          const cs = getComputedStyle(el as Element, '::after')
+          return {
+            height: cs.height,
+            insetInlineStart: cs.insetInlineStart,
+            insetInlineEnd: cs.insetInlineEnd,
+            borderRadius: cs.borderRadius,
+            opacity: cs.opacity,
+          }
+        })
+        expect.soft(await computed(page, '.gallery-tabs .q-tab--active', 'box-shadow'), 'QTab active no outline box').toBe('none')
+        expect.soft(await computed(page, '.gallery-tabs .q-tab--active', 'background-color'), 'QTab active no filled pill').toBe(
+          'rgba(0, 0, 0, 0)',
+        )
+        expect.soft(tabAfter.height, 'QTab active indicator height').toBe('3px')
+        expect.soft(tabAfter.insetInlineStart, 'QTab active indicator respects start padding').not.toBe('0px')
+        expect.soft(tabAfter.insetInlineEnd, 'QTab active indicator respects end padding').not.toBe('0px')
+        expect.soft(tabAfter.borderRadius, 'QTab active indicator rounded').not.toBe('0px')
+        expect.soft(tabAfter.opacity, 'QTab active indicator visible').toBe('1')
+        const verticalTab = page.locator(`${PANEL} .q-tabs--vertical .q-tab--active`).first()
+        const verticalAfter = await verticalTab.evaluate((el) => {
+          const cs = getComputedStyle(el as Element, '::after')
+          return { width: cs.width, height: cs.height, opacity: cs.opacity, insetInlineStart: cs.insetInlineStart }
+        })
+        expect.soft(verticalAfter.width, 'QTab vertical indicator width').toBe('3px')
+        expect.soft(verticalAfter.height, 'QTab vertical indicator is short').not.toBe('auto')
+        expect.soft(verticalAfter.insetInlineStart, 'QTab vertical indicator inset').not.toBe('0px')
+        expect.soft(verticalAfter.opacity, 'QTab vertical indicator visible').toBe('1')
+
+        // --- QField/QSelect: floated labels must not collide with icons or multiple-select chips ---
+        const iconField = page.locator(`${PANEL} .q-field:has-text("With icon")`).first()
+        const iconLabelBottomOffset = await iconField.evaluate((field) => {
+          const label = field.querySelector('.q-field__label')?.getBoundingClientRect()
+          const native = field.querySelector('.q-field__native')?.getBoundingClientRect()
+          return label && native ? Math.round(label.bottom - native.top) : null
+        })
+        expect.soft(iconLabelBottomOffset, 'QField icon label measured against value row').not.toBeNull()
+        expect.soft(iconLabelBottomOffset ?? 0, 'QField icon label stays above value row midpoint').toBeLessThan(12)
+        const multiSelect = page.locator(`${PANEL} .q-select--multiple`).first()
+        const multiLabelGap = await multiSelect.evaluate((field) => {
+          const label = field.querySelector('.q-field__label')?.getBoundingClientRect()
+          const chip = field.querySelector('.q-chip')?.getBoundingClientRect()
+          return label && chip ? Math.round(chip.top - label.bottom) : null
+        })
+        expect.soft(multiLabelGap, 'QSelect multiple label clears chips').not.toBeNull()
+        expect.soft(multiLabelGap ?? 0, 'QSelect multiple label clears chips').toBeGreaterThanOrEqual(4)
+
+        // --- legacy variant alias: caller/storage glass migrates to canonical air ---
+        const legacyVariant = await page.evaluate(() => {
+          const ds = (window as unknown as { __qdsGallery: any }).__qdsGallery
+          const returned = ds.setVariant('glass')
+          return { returned, variant: ds.variant.value, hasAir: document.body.classList.contains('qds-variant-air') }
+        })
+        expect.soft(legacyVariant.returned, 'legacy glass setVariant return').toBe('air')
+        expect.soft(legacyVariant.variant, 'legacy glass canonical state').toBe('air')
+        expect.soft(legacyVariant.hasAir, 'legacy glass applies air class').toBe(true)
+        await applyTheme(page, mode, variant)
 
         // --- QTable: shell, rows, and header consume QDS surface tokens ---
         const table = `${PANEL} .q-table__container`
@@ -318,4 +376,28 @@ test.describe('QDS override gate', () => {
       })
     }
   }
+
+  test('legacy glass variant input migrates to canonical air', async ({ page }) => {
+    await page.goto('/')
+    const state = await page.evaluate(() => {
+      const ds = (window as unknown as { __qdsGallery: any }).__qdsGallery
+      const returned = ds.setVariant('glass')
+      return {
+        returned,
+        variant: ds.variant.value,
+        hasAir: document.body.classList.contains('qds-variant-air'),
+        hasGlass: document.body.classList.contains('qds-variant-glass'),
+        labels: Array.from(document.querySelectorAll('.gallery-switcher__button span')).map((el) => el.textContent?.trim()),
+      }
+    })
+
+    await expect(page.locator('body')).toHaveClass(/qds-variant-air/)
+    await expect(page.locator('body')).not.toHaveClass(/qds-variant-glass/)
+    expect(state.returned).toBe('air')
+    expect(state.variant).toBe('air')
+    expect(state.hasAir).toBe(true)
+    expect(state.hasGlass).toBe(false)
+    expect(state.labels).toContain('Air')
+    expect(state.labels).not.toContain('Glass')
+  })
 })

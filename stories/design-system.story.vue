@@ -154,7 +154,7 @@ function notify() {
                   <div class="qds-story-surface q-pa-md rounded-borders q-mb-md">
                     Muted surface utility with body text and soft boundary.
                   </div>
-                  <div class="qds-glass q-pa-md rounded-borders">Glass utility for translucent emphasis.</div>
+                  <div class="qds-glass q-pa-md rounded-borders">Acrylic utility for translucent emphasis.</div>
                 </q-card>
               </div>
 

@@ -18,8 +18,8 @@ const $q = useQuasar()
 const colors = ['primary', 'secondary', 'accent', 'positive', 'negative', 'warning', 'info'] as const
 const text = ref('')
 const select = ref<string | null>(null)
-const selectMultiple = ref(['Fluent', 'Glass'])
-const selectOptions = ['Fluent', 'Glass', 'Mobile']
+const selectMultiple = ref(['Fluent', 'Air'])
+const selectOptions = ['Fluent', 'Air', 'Mobile']
 const dialogOpen = ref(false)
 const tooltipOpen = ref(false)
 const drawerOpen = ref(true)
@@ -28,6 +28,7 @@ const checkbox = ref(true)
 const radio = ref('comfortable')
 const toggle = ref(true)
 const slider = ref(42)
+const verticalTab = ref('network')
 
 const tableColumns = [
   { name: 'surface', label: 'Surface', field: 'surface', align: 'left' as const, sortable: true },
@@ -121,8 +122,8 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
         </div>
         <div class="col-12 col-sm-6 col-md-4">
           <div class="qds-glass q-pa-md" style="border-radius: var(--qds-card-radius)">
-            <div class="text-subtitle1 qds-text-strong">Glass surface</div>
-            <div class="qds-text-muted">.qds-glass utility (blur + saturate + border-mix).</div>
+            <div class="text-subtitle1 qds-text-strong">Acrylic surface</div>
+            <div class="qds-text-muted">.qds-glass utility for shared blur + saturate + border-mix treatment.</div>
           </div>
         </div>
       </div>
@@ -212,6 +213,28 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
       <q-pagination v-model="page" :max="7" direction-links boundary-links color="primary" />
     </q-card>
 
+    <!-- QTabs -->
+    <q-card class="q-pa-lg">
+      <div class="text-h6 qds-display q-mb-md">QTabs</div>
+      <div class="row q-col-gutter-md">
+        <div class="col-12 col-md-5">
+          <q-tabs v-model="verticalTab" vertical align="left" no-caps class="qds-card q-pa-xs">
+            <q-tab name="home" label="Home" />
+            <q-tab name="network" label="Network & internet" />
+            <q-tab name="personalization" label="Personalization" />
+          </q-tabs>
+        </div>
+        <div class="col-12 col-md-7">
+          <div class="qds-card q-pa-md" style="border-radius: var(--qds-radius-md)">
+            <div class="text-subtitle1 qds-text-strong">Short rounded rail</div>
+            <div class="qds-text-muted">
+              Active tabs use a 3px accent rail that respects padding instead of a boxed Material-style outline.
+            </div>
+          </div>
+        </div>
+      </div>
+    </q-card>
+
     <!-- QDrawer / layout shell -->
     <q-card class="q-pa-lg">
       <div class="row items-center justify-between q-mb-md">
@@ -290,7 +313,7 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
         <q-menu>
           <q-list style="min-width: 160px">
             <q-item v-close-popup clickable><q-item-section>Fluent</q-item-section></q-item>
-            <q-item v-close-popup clickable><q-item-section>Glass</q-item-section></q-item>
+            <q-item v-close-popup clickable><q-item-section>Air</q-item-section></q-item>
             <q-item v-close-popup clickable><q-item-section>Mobile</q-item-section></q-item>
           </q-list>
         </q-menu>

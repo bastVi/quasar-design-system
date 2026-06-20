@@ -5,8 +5,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## What this is
 
 `@bastvi/quasar-design-system` — an opinionated **visual layer** for Quasar 2. Microsoft Fluent 2 is the
-primary direction, now with tonal/acrylic defaults; the `glass` variant is the current stronger-translucency
-variant and the `mobile` variant references Samsung One UI (rounding/spacing). It provides design tokens,
+primary direction, now with tonal/acrylic defaults; the `air` variant is the stronger-translucency
+variant (legacy `glass` input normalizes to it) and the `mobile` variant references Samsung One UI (rounding/spacing). It provides design tokens,
 surfaces, shape, motion, typography, Quasar component overrides, and a runtime light/dark/system +
 variant controller.
 
@@ -66,13 +66,13 @@ and `@include` it in `index.scss` (and the layered entry).
   `$q.dark`, and writes `data-qds-mode` / `data-qds-resolved` / `data-qds-variant` plus the
   `qds-theme-light|dark` and `.qds-ui` classes onto the target (default `document.body`).
 - `.qds-ui` is the scoping class the stronger overrides depend on — it is added here, not by hand.
-- Applies the `variant` as a body class (`qds-variant-fluent|glass|mobile`).
+- Applies the `variant` as a body class (`qds-variant-fluent|air|mobile`; legacy `glass` normalizes to `air`).
 - Persists `{ mode, variant }` to `localStorage` and listens to system theme changes. Defaults live
   in `DEFAULT_DESIGN_SYSTEM_OPTIONS`.
 
 ### Themes vs variants — `src/themes/index.ts`
 
-There is **one theme** (`default`). "Variants" (`fluent`, `glass`, `mobile`) are small mood shifts
+There is **one theme** (`default`). "Variants" (`fluent`, `air`, `mobile`) are small mood shifts
 expressed purely as CSS classes (`DESIGN_SYSTEM_VARIANTS[*].cssClass`) over the same token system —
 not separate brands. New themes start as variables-only files: `src/themes/{name}.scss` for CSS
 vars/classes + registration metadata in `src/themes/index.ts`. Keep `src/themes/` free of component

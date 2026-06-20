@@ -106,7 +106,7 @@ The core CSS only declares the font stack, so skipping these still yields a sane
 The package is structured around `src/themes/`. For now there is one real theme, `default`, plus small runtime variants layered over it:
 
 - `fluent`: default Fluent 2-inspired direction, balanced desktop/admin density.
-- `glass`: Apple Human Interface Guidelines-inspired translucency, softer surfaces, relaxed depth.
+- `air`: airier acrylic surfaces for colorful, image-rich, transparency-forward apps. Legacy `glass` input is normalized for compatibility.
 - `mobile`: Samsung One UI-inspired rounding, spacing, and touch-friendly controls.
 
 They are not separate brands — deliberate overlays over the same token system.

@@ -52,7 +52,7 @@
 
   .qds-ui .q-field.q-field--float .q-field__label,
   .qds-ui .q-field.q-field--focused .q-field__label {
-    transform: translateY(-1.25rem) scale(0.78);
+    transform: translateY(-1.625rem) scale(0.78);
   }
 
   .qds-ui .q-field--outlined.q-field--float .q-field__label,
@@ -105,7 +105,11 @@
   }
 
   .qds-ui .q-field--filled .q-field__control {
-    background: var(--qds-surface-2);
+    background: color-mix(in srgb, var(--qds-surface-2) 68%, transparent);
+  }
+
+  .qds-ui .q-field--filled .q-field__control:hover {
+    background: color-mix(in srgb, var(--qds-surface-2) 78%, var(--qds-color-primary) 4%);
   }
 
   .qds-ui .q-field--filled .q-field__control::before {
@@ -130,5 +134,34 @@
   .qds-ui .q-field--error .q-field__control::before,
   .qds-ui .q-field--error .q-field__control::after {
     border-width: var(--qds-field-focus-border-width);
+  }
+
+  .qds-ui .q-field.q-field--auto-height.q-field--labeled.q-field--float:not(.q-textarea) .q-field__control,
+  .qds-ui .q-field.q-field--auto-height.q-field--labeled.q-field--focused:not(.q-textarea) .q-field__control {
+    min-height: 3rem;
+    height: auto;
+    align-items: flex-start;
+  }
+
+  .qds-ui .q-field.q-field--auto-height.q-field--labeled.q-field--float:not(.q-textarea) .q-field__marginal,
+  .qds-ui .q-field.q-field--auto-height.q-field--labeled.q-field--focused:not(.q-textarea) .q-field__marginal {
+    min-height: 3rem;
+    height: 3rem;
+  }
+
+  .qds-ui .q-field.q-field--auto-height.q-field--labeled.q-field--float:not(.q-textarea) .q-field__control-container,
+  .qds-ui .q-field.q-field--auto-height.q-field--labeled.q-field--focused:not(.q-textarea) .q-field__control-container {
+    min-height: calc(3rem - 2px);
+    padding-top: 0.875rem;
+  }
+
+  .qds-ui .q-select.q-field--auto-height.q-field--labeled.q-field--float .q-field__native,
+  .qds-ui .q-select.q-field--auto-height.q-field--labeled.q-field--focused .q-field__native {
+    min-height: 1.75rem;
+    line-height: 1.4;
+  }
+
+  .qds-ui .q-select.q-select--multiple .q-chip.q-chip {
+    margin-block: 0.125rem;
   }
 }
