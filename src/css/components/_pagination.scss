@@ -1,5 +1,9 @@
 @mixin styles {
   .qds-ui .q-pagination.q-pagination {
+    --qds-pagination-active-bg: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-bg-opacity));
+    --qds-pagination-active-text: color-mix(in srgb, var(--qds-color-primary) var(--qds-tonal-text-mix), var(--qds-text-strong));
+    --qds-pagination-active-border: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-border-opacity));
+
     gap: var(--qds-space-xs);
     color: var(--qds-text);
   }
@@ -21,9 +25,9 @@
 
   .qds-ui .q-pagination.q-pagination .q-btn.q-btn[aria-current='true'],
   .qds-ui .q-pagination.q-pagination .q-btn.q-btn.q-btn--standard.bg-primary {
-    color: var(--qds-tab-active-text) !important;
-    background: var(--qds-tab-active-bg) !important;
-    border-color: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-border-opacity));
+    color: var(--qds-pagination-active-text) !important;
+    background: var(--qds-pagination-active-bg) !important;
+    border-color: var(--qds-pagination-active-border);
     box-shadow: inset 0 0 0 var(--qds-border-width-control) rgba(var(--qds-color-primary-rgb), 0.18) !important;
   }
 

@@ -8,7 +8,7 @@
   .qds-ui .q-drawer.q-drawer {
     color: var(--qds-text);
     background: color-mix(in srgb, var(--qds-surface-1) 92%, transparent);
-    border-color: var(--qds-border-subtle);
+    border-inline-end: var(--qds-border-width-control) solid var(--qds-border-subtle);
     box-shadow: var(--qds-shadow-sm);
     backdrop-filter: blur(var(--qds-glass-blur)) saturate(var(--qds-glass-saturate));
     -webkit-backdrop-filter: blur(var(--qds-glass-blur)) saturate(var(--qds-glass-saturate));

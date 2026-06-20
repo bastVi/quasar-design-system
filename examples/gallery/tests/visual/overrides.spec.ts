@@ -320,7 +320,7 @@ test.describe('QDS override gate', () => {
           EXPECTED_CARD_RADIUS[variant],
         )
         expect.soft(await computed(page, table, 'box-shadow'), 'QTable container shadow').not.toBe('none')
-        expect.soft(await computed(page, `${PANEL} .q-table th`, 'text-transform'), 'QTable header casing').toBe('uppercase')
+        expect.soft(await computed(page, `${PANEL} .q-table th`, 'text-transform'), 'QTable header casing').toBe('none')
 
         // --- QPagination: current page is tonal, not Material solid primary ---
         const currentPage = `${PANEL} .q-pagination .q-btn.bg-primary`
@@ -335,16 +335,48 @@ test.describe('QDS override gate', () => {
         const drawer = `${PANEL} .q-drawer`
         expect.soft(await computed(page, drawer, 'color'), 'QDrawer text color').not.toBe('rgba(0, 0, 0, 0)')
         expect.soft(await computed(page, drawer, 'border-right-color'), 'QDrawer border').not.toBe('rgba(0, 0, 0, 0)')
+        expect.soft(await computed(page, drawer, 'border-right-style'), 'QDrawer explicit border style').toBe('solid')
 
         // --- selection controls: selected states are primary tonal, not default Material blue ---
         const checkboxBg = `${PANEL} .q-checkbox .q-checkbox__bg`
         expect.soft(await computed(page, checkboxBg, 'background-color'), 'QCheckbox selected tonal bg').toMatch(
           PRIMARY_RGB_PATTERN,
         )
+        expect.soft(await computed(page, `${PANEL} .q-checkbox .q-checkbox__inner`, 'font-size'), 'QCheckbox compact inner').toBe('32px')
+        expect.soft(await computed(page, `${PANEL} .q-radio .q-radio__bg`, 'background-color'), 'QRadio selected tonal bg').toMatch(
+          PRIMARY_RGB_PATTERN,
+        )
+        const unselectedRadio = page.locator(`${PANEL} .q-radio:has-text("Compact density")`).first()
+        const unselectedRadioState = await unselectedRadio.evaluate((el) => {
+          const bg = el.querySelector('.q-radio__bg') as Element
+          const check = el.querySelector('.q-radio__check') as Element
+          return {
+            bg: getComputedStyle(bg).backgroundColor,
+            dotTransform: getComputedStyle(check).transform,
+          }
+        })
+        expect.soft(unselectedRadioState.bg, 'QRadio unselected not primary-filled').not.toMatch(PRIMARY_RGB_PATTERN)
+        expect.soft(unselectedRadioState.dotTransform, 'QRadio unselected dot hidden').not.toBe('matrix(1, 0, 0, 1, 0, 0)')
         const toggleTrack = `${PANEL} .q-toggle .q-toggle__track`
         expect.soft(await computed(page, toggleTrack, 'background-color'), 'QToggle selected track').toMatch(
           PRIMARY_RGB_PATTERN,
         )
+        expect.soft(await computed(page, `${PANEL} .q-toggle .q-toggle__inner`, 'height'), 'QToggle compact shell').toBe('32px')
+        const denseControls = await page.locator(`${PANEL} .q-checkbox--dense`).first().evaluate((el) => {
+          const radio = document.querySelector('.q-tab-panel .q-radio--dense') as Element
+          const toggle = document.querySelector('.q-tab-panel .q-toggle--dense') as Element
+          return {
+            checkboxWidth: getComputedStyle(el.querySelector('.q-checkbox__inner') as Element).width,
+            radioWidth: getComputedStyle(radio.querySelector('.q-radio__inner') as Element).width,
+            toggleHeight: getComputedStyle(toggle.querySelector('.q-toggle__inner') as Element).height,
+          }
+        })
+        expect.soft(denseControls.checkboxWidth, 'QCheckbox dense branch preserved').toBe('20px')
+        expect.soft(denseControls.radioWidth, 'QRadio dense branch preserved').toBe('20px')
+        expect.soft(denseControls.toggleHeight, 'QToggle dense branch preserved').toBe('20px')
+        expect.soft(await computed(page, `${PANEL} .q-slider .q-slider__track`, 'height'), 'QSlider compact track').toBe('6px')
+        expect.soft(await computed(page, `${PANEL} .q-slider .q-slider__thumb`, 'box-shadow'), 'QSlider thumb shadow').not.toBe('none')
+        expect.soft(await computed(page, `${PANEL} .q-range .q-slider__track`, 'height'), 'QRange compact track').toBe('6px')
 
         // --- QTooltip: teleported overlay still inherits body .qds-ui styling ---
         await page.getByRole('button', { name: /Tooltip target/ }).click()

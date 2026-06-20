@@ -1,5 +1,9 @@
 @mixin styles {
   .qds-ui .q-table__container.q-table__container {
+    --qds-table-header-bg: color-mix(in srgb, var(--qds-surface-2) 64%, transparent);
+    --qds-table-header-text: var(--qds-text-muted);
+    --qds-table-row-hover-bg: color-mix(in srgb, var(--qds-surface-2) 76%, var(--qds-color-primary) 6%);
+
     overflow: hidden;
     background: var(--qds-card-bg);
     border: var(--qds-border-width-control) solid var(--qds-card-border);
@@ -31,16 +35,16 @@
   }
 
   .qds-ui .q-table.q-table thead tr {
-    background: color-mix(in srgb, var(--qds-surface-2) 78%, transparent);
+    background: var(--qds-table-header-bg);
   }
 
   .qds-ui .q-table.q-table th {
     height: 2.75rem;
-    color: var(--qds-text-muted);
-    font-size: 0.75rem;
+    color: var(--qds-table-header-text);
+    font-size: 0.8125rem;
     font-weight: var(--qds-font-weight-semibold);
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    text-transform: none;
     border-color: var(--qds-border-subtle);
   }
 
@@ -55,7 +59,7 @@
   }
 
   .qds-ui .q-table.q-table tbody tr:hover {
-    background: var(--qds-tab-hover-bg);
+    background: var(--qds-table-row-hover-bg);
   }
 
   .qds-ui .q-table--dense.q-table th,

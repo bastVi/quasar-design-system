@@ -27,7 +27,11 @@ const page = ref(3)
 const checkbox = ref(true)
 const radio = ref('comfortable')
 const toggle = ref(true)
+const denseCheckbox = ref(true)
+const denseRadio = ref('dense-comfortable')
+const denseToggle = ref(true)
 const slider = ref(42)
+const range = ref({ min: 24, max: 76 })
 const verticalTab = ref('network')
 
 const tableColumns = [
@@ -218,7 +222,7 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
       <div class="text-h6 qds-display q-mb-md">QTabs</div>
       <div class="row q-col-gutter-md">
         <div class="col-12 col-md-5">
-          <q-tabs v-model="verticalTab" vertical align="left" no-caps class="qds-card q-pa-xs">
+          <q-tabs v-model="verticalTab" vertical align="left" no-caps class="qds-card qds-vertical-tabs-demo q-pa-xs">
             <q-tab name="home" label="Home" />
             <q-tab name="network" label="Network & internet" />
             <q-tab name="personalization" label="Personalization" />
@@ -228,7 +232,7 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
           <div class="qds-card q-pa-md" style="border-radius: var(--qds-radius-md)">
             <div class="text-subtitle1 qds-text-strong">Short rounded rail</div>
             <div class="qds-text-muted">
-              Active tabs use a 3px accent rail that respects padding instead of a boxed Material-style outline.
+              Active tabs use a tokenized 3px accent rail that respects padding and avoids boxed fills.
             </div>
           </div>
         </div>
@@ -276,11 +280,18 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
           <q-radio v-model="radio" val="comfortable" label="Comfortable density" />
           <q-radio v-model="radio" val="compact" label="Compact density" />
           <q-toggle v-model="toggle" label="Enable tonal surfaces" />
+          <div class="qds-text-muted q-mt-sm">Dense controls keep Quasar's compact branch.</div>
+          <q-checkbox v-model="denseCheckbox" dense label="Dense checkbox" />
+          <q-radio v-model="denseRadio" dense val="dense-comfortable" label="Dense radio selected" />
+          <q-radio v-model="denseRadio" dense val="dense-compact" label="Dense radio unselected" />
+          <q-toggle v-model="denseToggle" dense label="Dense toggle" />
         </div>
         <div class="col-12 col-md-7">
           <div class="text-subtitle2 qds-text-muted q-mb-sm">Slider</div>
           <q-slider v-model="slider" :min="0" :max="100" label color="primary" />
           <div class="qds-text-muted">Current value: {{ slider }}</div>
+          <div class="text-subtitle2 qds-text-muted q-mt-md q-mb-sm">Range</div>
+          <q-range v-model="range" :min="0" :max="100" label color="primary" />
         </div>
       </div>
     </q-card>
