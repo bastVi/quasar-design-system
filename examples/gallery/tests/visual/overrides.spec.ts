@@ -35,6 +35,12 @@ const SURFACE: Record<Mode, string> = { light: LIGHT_SURFACE, dark: DARK_SURFACE
 // Primary #005a9e (solid fill + focus outline).
 const PRIMARY = 'rgb(0, 90, 158)'
 const PRIMARY_RGB_PATTERN = /^rgba\(0,\s*90,\s*158/
+const SEMANTIC_RGB: Record<'positive' | 'negative' | 'warning' | 'info', string> = {
+  positive: 'rgb(106, 143, 102)',
+  negative: 'rgb(196, 43, 28)',
+  warning: 'rgb(247, 99, 12)',
+  info: 'rgb(85, 124, 153)',
+}
 // QField outlined border = --qds-border (strong): light #d1d1d1 / dark #4c5666.
 const FIELD_BORDER: Record<Mode, string> = {
   light: 'rgb(209, 209, 209)',
@@ -249,6 +255,33 @@ test.describe('QDS override gate', () => {
         expect.soft(await computed(page, notify, 'border-radius'), 'QNotification radius').toBe('8px')
         expect.soft(await computed(page, notify, 'box-shadow'), 'QNotification shadow').not.toBe('none')
         expect.soft(await computed(page, notify, 'background-color'), 'QNotification bg').toBe(SURFACE[mode])
+        const assertNotifyState = async (type: keyof typeof SEMANTIC_RGB) => {
+          const item = page.locator('.q-notification', { hasText: `This is a ${type} notification` }).first()
+          await expect(item, `QNotification ${type} visible`).toBeVisible()
+          const state = await item.evaluate((el) => {
+            const cs = getComputedStyle(el as Element)
+            const rail = getComputedStyle(el as Element, '::before')
+            const icon = (el as Element).querySelector('.q-notification__icon')
+            return {
+              bg: cs.backgroundColor,
+              border: cs.borderTopColor,
+              rail: rail.backgroundColor,
+              icon: icon ? getComputedStyle(icon).color : '',
+            }
+          })
+          expect.soft(state.bg, `QNotification ${type} keeps QDS surface`).toBe(SURFACE[mode])
+          expect.soft(state.rail, `QNotification ${type} semantic rail`).toBe(SEMANTIC_RGB[type])
+          expect.soft(state.border, `QNotification ${type} semantic border`).toMatch(/^rgba?\(/)
+          if (state.icon) {
+            expect.soft(state.icon, `QNotification ${type} semantic icon`).toBe(SEMANTIC_RGB[type])
+          }
+        }
+        await assertNotifyState('info')
+        const notifyLabels = { positive: 'Positive', negative: 'Negative', warning: 'Warning' } as const
+        for (const type of ['positive', 'negative', 'warning'] as const) {
+          await page.getByRole('button', { name: notifyLabels[type], exact: true }).click()
+          await assertNotifyState(type)
+        }
 
         // --- ripple suppressed (Material tell removed) ---
         expect.soft(await computed(page, `${PANEL} .q-ripple`, 'display'), 'QRipple suppressed').toBe('none')
@@ -343,9 +376,24 @@ test.describe('QDS override gate', () => {
           PRIMARY_RGB_PATTERN,
         )
         expect.soft(await computed(page, `${PANEL} .q-checkbox .q-checkbox__inner`, 'font-size'), 'QCheckbox compact inner').toBe('32px')
+        const checkboxGeometry = await page.locator(`${PANEL} .q-checkbox:has-text("Checkbox selected")`).first().evaluate((el) => {
+          const bg = (el as Element).querySelector('.q-checkbox__bg')!.getBoundingClientRect()
+          const svg = (el as Element).querySelector('.q-checkbox__svg')!.getBoundingClientRect()
+          return {
+            bg: { left: bg.left, top: bg.top, right: bg.right, bottom: bg.bottom },
+            svg: { left: svg.left, top: svg.top, right: svg.right, bottom: svg.bottom },
+          }
+        })
+        expect.soft(checkboxGeometry.svg.left, 'QCheckbox svg stays inside bg left').toBeGreaterThanOrEqual(checkboxGeometry.bg.left - 0.5)
+        expect.soft(checkboxGeometry.svg.top, 'QCheckbox svg stays inside bg top').toBeGreaterThanOrEqual(checkboxGeometry.bg.top - 0.5)
+        expect.soft(checkboxGeometry.svg.right, 'QCheckbox svg stays inside bg right').toBeLessThanOrEqual(checkboxGeometry.bg.right + 0.5)
+        expect.soft(checkboxGeometry.svg.bottom, 'QCheckbox svg stays inside bg bottom').toBeLessThanOrEqual(checkboxGeometry.bg.bottom + 0.5)
         expect.soft(await computed(page, `${PANEL} .q-radio .q-radio__bg`, 'background-color'), 'QRadio selected tonal bg').toMatch(
           PRIMARY_RGB_PATTERN,
         )
+        expect.soft(await computed(page, `${PANEL} .q-radio:has-text("Comfortable density") .q-radio__bg`, 'border-top-width'), 'QRadio selected ring width').toBe('1px')
+        expect.soft(await computed(page, `${PANEL} .q-radio:has-text("Comfortable density") .q-radio__bg`, 'border-top-color'), 'QRadio selected ring color').toBe(PRIMARY)
+        expect.soft(await computed(page, `${PANEL} .q-radio:has-text("Comfortable density") .q-radio__check`, 'fill'), 'QRadio selected dot color').toBe(PRIMARY)
         const unselectedRadio = page.locator(`${PANEL} .q-radio:has-text("Compact density")`).first()
         const unselectedRadioState = await unselectedRadio.evaluate((el) => {
           const bg = el.querySelector('.q-radio__bg') as Element
@@ -362,18 +410,42 @@ test.describe('QDS override gate', () => {
           PRIMARY_RGB_PATTERN,
         )
         expect.soft(await computed(page, `${PANEL} .q-toggle .q-toggle__inner`, 'height'), 'QToggle compact shell').toBe('32px')
+        const toggleGeometry = await page.locator(`${PANEL} .q-toggle:has-text("Enable tonal surfaces")`).first().evaluate((el) => {
+          const track = (el as Element).querySelector('.q-toggle__track')!.getBoundingClientRect()
+          const thumb = (el as Element).querySelector('.q-toggle__thumb')!.getBoundingClientRect()
+          return {
+            verticalDelta: Math.abs((track.top + track.height / 2) - (thumb.top + thumb.height / 2)),
+            thumbInsideTrack: thumb.left >= track.left && thumb.right <= track.right,
+          }
+        })
+        expect.soft(toggleGeometry.verticalDelta, 'QToggle thumb centered vertically').toBeLessThanOrEqual(1)
+        expect.soft(toggleGeometry.thumbInsideTrack, 'QToggle thumb stays inside track').toBe(true)
         const denseControls = await page.locator(`${PANEL} .q-checkbox--dense`).first().evaluate((el) => {
           const radio = document.querySelector('.q-tab-panel .q-radio--dense') as Element
           const toggle = document.querySelector('.q-tab-panel .q-toggle--dense') as Element
+          const denseCheckboxBg = (el.querySelector('.q-checkbox__bg') as Element).getBoundingClientRect()
+          const denseCheckboxSvg = (el.querySelector('.q-checkbox__svg') as Element).getBoundingClientRect()
+          const denseToggleTrack = (toggle.querySelector('.q-toggle__track') as Element).getBoundingClientRect()
+          const denseToggleThumb = (toggle.querySelector('.q-toggle__thumb') as Element).getBoundingClientRect()
           return {
             checkboxWidth: getComputedStyle(el.querySelector('.q-checkbox__inner') as Element).width,
             radioWidth: getComputedStyle(radio.querySelector('.q-radio__inner') as Element).width,
             toggleHeight: getComputedStyle(toggle.querySelector('.q-toggle__inner') as Element).height,
+            checkboxSvgInside:
+              denseCheckboxSvg.left >= denseCheckboxBg.left - 0.5 &&
+              denseCheckboxSvg.top >= denseCheckboxBg.top - 0.5 &&
+              denseCheckboxSvg.right <= denseCheckboxBg.right + 0.5 &&
+              denseCheckboxSvg.bottom <= denseCheckboxBg.bottom + 0.5,
+            toggleVerticalDelta: Math.abs(
+              (denseToggleTrack.top + denseToggleTrack.height / 2) - (denseToggleThumb.top + denseToggleThumb.height / 2),
+            ),
           }
         })
         expect.soft(denseControls.checkboxWidth, 'QCheckbox dense branch preserved').toBe('20px')
         expect.soft(denseControls.radioWidth, 'QRadio dense branch preserved').toBe('20px')
         expect.soft(denseControls.toggleHeight, 'QToggle dense branch preserved').toBe('20px')
+        expect.soft(denseControls.checkboxSvgInside, 'QCheckbox dense svg stays clipped inside bg').toBe(true)
+        expect.soft(denseControls.toggleVerticalDelta, 'QToggle dense thumb centered vertically').toBeLessThanOrEqual(1)
         expect.soft(await computed(page, `${PANEL} .q-slider .q-slider__track`, 'height'), 'QSlider compact track').toBe('6px')
         expect.soft(await computed(page, `${PANEL} .q-slider .q-slider__thumb`, 'box-shadow'), 'QSlider thumb shadow').not.toBe('none')
         expect.soft(await computed(page, `${PANEL} .q-range .q-slider__track`, 'height'), 'QRange compact track').toBe('6px')
@@ -408,6 +480,24 @@ test.describe('QDS override gate', () => {
       })
     }
   }
+
+  test('dense outlined QSelect keeps control height when opened', async ({ page }) => {
+    await page.goto('/')
+    await page.getByRole('tab', { name: 'Icons' }).click()
+    await applyTheme(page, 'light', 'fluent')
+
+    const denseSelect = page.locator('.icons-dense-select').first()
+    const control = denseSelect.locator('.q-field__control')
+    await expect(denseSelect).toBeVisible()
+
+    const heightBeforeOpen = await control.evaluate((el) => el.getBoundingClientRect().height)
+    await control.click()
+    await expect(page.getByRole('listbox').first()).toBeVisible()
+    const heightAfterOpen = await control.evaluate((el) => el.getBoundingClientRect().height)
+
+    expect(heightBeforeOpen, 'dense select has measurable control height').toBeGreaterThan(0)
+    expect(heightAfterOpen - heightBeforeOpen, 'dense select control height must not increase on focus/open').toBeLessThanOrEqual(1)
+  })
 
   test('legacy glass variant input migrates to canonical air', async ({ page }) => {
     await page.goto('/')

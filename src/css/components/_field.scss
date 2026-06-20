@@ -136,27 +136,27 @@
     border-width: var(--qds-field-focus-border-width);
   }
 
-  .qds-ui .q-field.q-field--auto-height.q-field--labeled.q-field--float:not(.q-textarea) .q-field__control,
-  .qds-ui .q-field.q-field--auto-height.q-field--labeled.q-field--focused:not(.q-textarea) .q-field__control {
+  .qds-ui .q-select.q-select--multiple.q-field--auto-height.q-field--labeled.q-field--float .q-field__control,
+  .qds-ui .q-select.q-select--multiple.q-field--auto-height.q-field--labeled.q-field--focused .q-field__control {
     min-height: 3rem;
     height: auto;
     align-items: flex-start;
   }
 
-  .qds-ui .q-field.q-field--auto-height.q-field--labeled.q-field--float:not(.q-textarea) .q-field__marginal,
-  .qds-ui .q-field.q-field--auto-height.q-field--labeled.q-field--focused:not(.q-textarea) .q-field__marginal {
+  .qds-ui .q-select.q-select--multiple.q-field--auto-height.q-field--labeled.q-field--float .q-field__marginal,
+  .qds-ui .q-select.q-select--multiple.q-field--auto-height.q-field--labeled.q-field--focused .q-field__marginal {
     min-height: 3rem;
     height: 3rem;
   }
 
-  .qds-ui .q-field.q-field--auto-height.q-field--labeled.q-field--float:not(.q-textarea) .q-field__control-container,
-  .qds-ui .q-field.q-field--auto-height.q-field--labeled.q-field--focused:not(.q-textarea) .q-field__control-container {
+  .qds-ui .q-select.q-select--multiple.q-field--auto-height.q-field--labeled.q-field--float .q-field__control-container,
+  .qds-ui .q-select.q-select--multiple.q-field--auto-height.q-field--labeled.q-field--focused .q-field__control-container {
     min-height: calc(3rem - 2px);
     padding-top: 0.875rem;
   }
 
-  .qds-ui .q-select.q-field--auto-height.q-field--labeled.q-field--float .q-field__native,
-  .qds-ui .q-select.q-field--auto-height.q-field--labeled.q-field--focused .q-field__native {
+  .qds-ui .q-select.q-select--multiple.q-field--auto-height.q-field--labeled.q-field--float .q-field__native,
+  .qds-ui .q-select.q-select--multiple.q-field--auto-height.q-field--labeled.q-field--focused .q-field__native {
     min-height: 1.75rem;
     line-height: 1.4;
   }
