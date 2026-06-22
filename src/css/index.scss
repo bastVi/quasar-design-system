@@ -24,6 +24,10 @@
 @use 'components/pagination';
 @use 'components/drawer';
 @use 'components/selection';
+@use 'components/catalog-actions';
+@use 'components/catalog-forms';
+@use 'components/catalog-loading-data';
+@use 'components/catalog-complex-media';
 
 @include base.styles;
 @include utilities.styles;
@@ -44,3 +48,7 @@
 @include pagination.styles;
 @include drawer.styles;
 @include selection.styles;
+@include catalog-actions.styles;
+@include catalog-forms.styles;
+@include catalog-loading-data.styles;
+@include catalog-complex-media.styles;
