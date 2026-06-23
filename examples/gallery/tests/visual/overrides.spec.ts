@@ -41,15 +41,15 @@ const SEMANTIC_RGB: Record<'positive' | 'negative' | 'warning' | 'info', string>
   warning: 'rgb(247, 99, 12)',
   info: 'rgb(85, 124, 153)',
 }
-// QField outlined border = --qds-border (strong): light #d1d1d1 / dark #4c5666.
+// QField outlined border = --qds-border (strong): light #8f8f8f / dark #6a7a8e.
 const FIELD_BORDER: Record<Mode, string> = {
-  light: 'rgb(209, 209, 209)',
-  dark: 'rgb(76, 86, 102)',
+  light: 'rgb(143, 143, 143)',
+  dark: 'rgb(106, 122, 142)',
 }
-// QCard/QNotification border = --qds-border-subtle: light #e0e0e0 / dark #323844.
+// QCard/QNotification border = --qds-border-subtle: light #b5b5b5 / dark #576173.
 const SUBTLE_BORDER: Record<Mode, string> = {
-  light: 'rgb(224, 224, 224)',
-  dark: 'rgb(50, 56, 68)',
+  light: 'rgb(181, 181, 181)',
+  dark: 'rgb(87, 97, 115)',
 }
 
 const MODES: Mode[] = ['light', 'dark']

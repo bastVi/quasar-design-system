@@ -61,7 +61,7 @@
     width: auto;
     max-width: calc(100% - 1.5rem);
     padding: 0 var(--qds-space-xs);
-    margin-left: calc(-1 * var(--qds-space-xs));
+    margin-inline-start: calc(-1 * var(--qds-space-xs));
     background: var(--qds-field-label-bg);
     border-radius: var(--qds-radius-xs);
     line-height: 1.2;

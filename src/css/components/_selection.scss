@@ -155,7 +155,7 @@
 
   .qds-ui .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__track {
     top: 0.25rem;
-    left: 0.25rem;
+    inset-inline-start: 0.25rem;
     width: 2.75rem;
     height: 1.5rem;
     color: var(--qds-border);
@@ -167,7 +167,7 @@
 
   .qds-ui .q-toggle.q-toggle--dense .q-toggle__track {
     top: 0.125rem;
-    left: 0.125rem;
+    inset-inline-start: 0.125rem;
     width: 2rem;
     height: 1rem;
     color: var(--qds-border);
@@ -179,24 +179,24 @@
 
   .qds-ui .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__thumb {
     top: 0.25rem;
-    left: 0.5rem;
+    inset-inline-start: 0.5rem;
     width: 1rem;
     height: 1rem;
     color: var(--qds-surface-0);
     border-radius: var(--qds-radius-full);
     transform: none;
-    transition: left var(--qds-motion-duration-fast) cubic-bezier(0, 0, 0, 1);
+    transition: inset-inline-start var(--qds-motion-duration-fast) cubic-bezier(0, 0, 0, 1);
   }
 
   .qds-ui .q-toggle.q-toggle--dense .q-toggle__thumb {
     top: 0.125rem;
-    left: 0.25rem;
+    inset-inline-start: 0.25rem;
     width: 0.75rem;
     height: 0.75rem;
     color: var(--qds-surface-0);
     border-radius: var(--qds-radius-full);
     transform: none;
-    transition: left var(--qds-motion-duration-fast) cubic-bezier(0, 0, 0, 1);
+    transition: inset-inline-start var(--qds-motion-duration-fast) cubic-bezier(0, 0, 0, 1);
   }
 
   .qds-ui .q-toggle.q-toggle .q-toggle__thumb::after {
@@ -212,12 +212,12 @@
   }
 
   .qds-ui .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__inner--truthy .q-toggle__thumb {
-    left: 1.75rem;
+    inset-inline-start: 1.75rem;
     color: var(--qds-color-primary);
   }
 
   .qds-ui .q-toggle.q-toggle--dense .q-toggle__inner--truthy .q-toggle__thumb {
-    left: 1.25rem;
+    inset-inline-start: 1.25rem;
     color: var(--qds-color-primary);
   }
 

@@ -288,6 +288,7 @@
   }
 
   .qds-ui .q-tree.q-tree .q-tree__node-header {
+    position: relative;
     min-height: 2.25rem;
     border-radius: calc(var(--qds-radius-control) - 2px);
     color: var(--qds-text);
@@ -314,7 +315,18 @@
   .qds-ui .q-tree.q-tree .q-tree__node-header[aria-selected='true'] {
     color: var(--qds-tab-active-text);
     background-color: var(--qds-tab-active-bg);
-    box-shadow: inset 3px 0 0 var(--qds-tab-active-rail);
+  }
+
+  .qds-ui .q-tree.q-tree .q-tree__node--selected > .q-tree__node-header::before,
+  .qds-ui .q-tree.q-tree .q-tree__node-header[aria-selected='true']::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block: 0;
+    width: 3px;
+    background: var(--qds-tab-active-rail);
+    border-start-end-radius: 2px;
+    border-end-end-radius: 2px;
   }
 
   .qds-ui .q-tree.q-tree .q-tree__node--selected > .q-tree__node-header .q-tree__node-header-content,

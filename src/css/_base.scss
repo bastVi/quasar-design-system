@@ -15,4 +15,20 @@
   .qds-ui .q-ripple {
     display: none;
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .qds-ui *,
+    .qds-ui *::before,
+    .qds-ui *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .qds-ui [class*="q-"]:focus-visible {
+      outline-color: Highlight;
+    }
+  }
 }
