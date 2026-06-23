@@ -247,7 +247,7 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
           <PhSidebar :size="18" weight="regular" /> Toggle drawer
         </q-btn>
       </div>
-      <q-layout view="hHh lpR fFf" container style="height: 260px; border-radius: var(--qds-card-radius); overflow: hidden">
+      <q-layout view="hHh lpR fFf" container style="height: 320px; border-radius: var(--qds-card-radius); overflow: hidden">
         <q-drawer v-model="drawerOpen" show-if-above bordered :width="220">
           <q-list>
             <q-item clickable active>
@@ -266,8 +266,23 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
               <div class="text-subtitle1 qds-text-strong">Content shell</div>
               <div class="qds-text-muted">Drawer surfaces share the same acrylic, border, and active-list language.</div>
             </div>
+            <!-- QPageSticky: generic layout helper — transparent surface, anchored to page edge -->
+            <q-page-sticky position="bottom-right" :offset="[12, 12]">
+              <q-btn round color="primary" size="sm" aria-label="Sticky action">
+                <PhPlus :size="16" weight="regular" />
+              </q-btn>
+            </q-page-sticky>
+            <!-- QPageScroller: deterministic scroll-to-top in a tall page.
+                 Docs-only in the gallery because the demo container is too short
+                 to trigger the scroll threshold reliably. The override in
+                 _footer.scss resets its background to transparent. -->
           </q-page>
         </q-page-container>
+        <q-footer bordered class="qds-layout-footer-demo">
+          <q-toolbar class="q-px-md" style="min-height: 2.25rem">
+            <div class="qds-text-muted" style="font-size: 0.8125rem">Footer surface — tokenized border-top, shared marginal background.</div>
+          </q-toolbar>
+        </q-footer>
       </q-layout>
     </q-card>
 

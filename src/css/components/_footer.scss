@@ -1,0 +1,27 @@
+// QFooter: tokenized surface + border-top (reverses the inherited border-bottom
+// that .q-layout__section--marginal gets from _toolbar). Positioning helpers stay
+// visually neutral; their child controls provide the actual chrome.
+
+@mixin styles {
+  // Base footer surface — mirrors the shared marginal background/text tokens.
+  .qds-ui .q-footer.q-footer {
+    background: var(--qds-toolbar-bg);
+    color: var(--qds-text);
+    box-shadow: none !important;
+  }
+
+  // Marginal-specific: flip the border direction from bottom to top.
+  // Uses the same specificity-doubling pattern as _toolbar so the rule wins
+  // over the toolbar's blanket border-bottom on .q-layout__section--marginal.
+  .qds-ui .q-layout__section--marginal.q-footer {
+    border-bottom: 0;
+    border-top: var(--qds-border-width-control) solid var(--qds-border-subtle);
+  }
+
+  // QPageSticky / QPageScroller: keep wrappers transparent so they don't occlude
+  // the page surface beneath. Positioning and child controls are app-owned.
+  .qds-ui .q-page-sticky.q-page-sticky,
+  .qds-ui .q-page-scroller.q-page-scroller {
+    background: transparent;
+  }
+}

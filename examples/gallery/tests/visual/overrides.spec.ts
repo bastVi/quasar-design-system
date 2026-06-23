@@ -386,6 +386,29 @@ test.describe('QDS override gate', () => {
         expect.soft(await computed(page, drawer, 'border-right-color'), 'QDrawer border').not.toBe('rgba(0, 0, 0, 0)')
         expect.soft(await computed(page, drawer, 'border-right-style'), 'QDrawer explicit border style').toBe('solid')
 
+        // --- QFooter: tokenized surface + border-top (not border-bottom) ---
+        const footer = `${PANEL} .q-footer`
+        await expect(page.locator(footer).first(), 'QFooter rendered').toBeVisible()
+        expect.soft(await computed(page, footer, 'background-color'), 'QFooter bg matches toolbar').toBe(
+          await computed(page, `${PANEL} .q-toolbar`, 'background-color'),
+        )
+        expect.soft(await computed(page, footer, 'color'), 'QFooter text color').not.toBe('rgba(0, 0, 0, 0)')
+        expect.soft(await computed(page, footer, 'border-top-width'), 'QFooter border-top width').toBe('1px')
+        expect.soft(await computed(page, footer, 'border-top-style'), 'QFooter border-top style').toBe('solid')
+        expect.soft(await computed(page, footer, 'border-top-color'), 'QFooter border-top color').not.toBe('rgba(0, 0, 0, 0)')
+        // Border-bottom must be cleared by the footer override.
+        expect.soft(await computed(page, footer, 'border-bottom-width'), 'QFooter border-bottom cleared').toBe('0px')
+        expect.soft(await computed(page, footer, 'box-shadow'), 'QFooter no box-shadow').toBe('none')
+
+        // --- QPageSticky: layout helper present, transparent background ---
+        const stickyBtn = `${PANEL} .q-page-sticky .q-btn`
+        await expect(page.locator(stickyBtn).first(), 'QPageSticky button rendered').toBeVisible()
+        const stickyParent = page.locator(`${PANEL} .q-page-sticky`).first()
+        expect.soft(
+          await stickyParent.evaluate((el) => getComputedStyle(el as Element).backgroundColor),
+          'QPageSticky transparent bg',
+        ).toBe('rgba(0, 0, 0, 0)')
+
         // --- selection controls: selected states are primary tonal, not default Material blue ---
         const checkboxBg = `${PANEL} .q-checkbox .q-checkbox__bg`
         expect.soft(await computed(page, checkboxBg, 'background-color'), 'QCheckbox selected tonal bg').toMatch(

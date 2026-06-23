@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import { Quasar, Notify } from 'quasar'
+import { BottomSheet, Dialog, Loading, LoadingBar, Notify, Quasar } from 'quasar'
 
 // 1. Quasar's own CSS FIRST.
 import 'quasar/src/css/index.sass'
@@ -22,7 +22,14 @@ import App from './App.vue'
 const app = createApp(App)
 
 app.use(Quasar, {
-  plugins: { Notify },
+  plugins: { BottomSheet, Dialog, Loading, LoadingBar, Notify },
+  config: {
+    loadingBar: {
+      color: 'primary',
+      size: '4px',
+      skipHijack: true,
+    },
+  },
   iconSet: qdsIconSet,
 })
 

@@ -111,6 +111,21 @@ The package is structured around `src/themes/`. For now there is one real theme,
 
 They are not separate brands — deliberate overlays over the same token system.
 
+## Component Coverage
+
+QDS skins visible Quasar chrome — buttons, cards, inputs, toolbars, drawers, lists, expansion items, and similar surfaces that carry tokenized visual treatment.
+
+It intentionally does **not** add CSS for behavior-only, SSR, observer, or composable surfaces. These inherit Quasar's own defaults or have no visual representation at all:
+
+- **SSR/layout helpers:** `QNoSSR`, `QResponsive`, `QSpace`, `QSlideTransition`
+- **Observer helpers:** `QIntersection`, `QResizeObserver`, `QScrollObserver`
+- **Icon component:** `QIcon` itself is not separately skinned — QDS provides the Phosphor `qdsIconSet` and font guidance instead
+- **Nonvisual plugins:** AddressbarColor, AppFullscreen, AppVisibility, Cookies, Dark, Meta, Local/Session Storage
+- **Behavior directives:** `v-close-popup`, `v-intersection`, `v-mutation`, `v-morph`, `v-scroll`, `v-scroll-fire`, `v-touch-*`; Material Ripple is intentionally suppressed in QDS surfaces
+- **Composables and utilities:** no CSS added unless visual behavior is directly affected
+
+Layout helpers that carry visible chrome (header, footer, toolbar, sticky child controls) are covered through the gallery examples and visual tests; scroll/position observers remain behavior-only unless an app adds visible child controls.
+
 ## Gallery
 
 Live: **https://qds.bastienviglianti.fr** · run locally with `pnpm gallery:dev` (build with `pnpm gallery:build`).
