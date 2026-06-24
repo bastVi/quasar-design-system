@@ -201,4 +201,17 @@ $variants: (
     card-fallback-tonal-opacity: 0.045,
     button-min-height: 2.75rem,
   ),
+  feather: (
+    radius-control: 12px,
+    radius-lg: 22px,
+    surface-glass: rgba(252, 249, 243, 0.9),
+    shadow-md: 0 6px 20px rgba(31, 27, 20, 0.06),
+    tonal-bg-opacity: 0.1,
+    card-tonal-opacity: 0.04,
+    card-fallback-tonal-opacity: 0.03,
+    card-border-mix: 74%,
+    card-backdrop-blur: 0.45rem,
+    card-backdrop-saturate: 1.05,
+    dark-surface-glass: rgba(43, 48, 59, 0.9),
+  ),
 ) !default;

@@ -11,20 +11,22 @@ import { test, expect, type Page } from '@playwright/test'
  */
 
 type Mode = 'light' | 'dark'
-type Variant = 'fluent' | 'air' | 'mobile'
+type Variant = 'fluent' | 'air' | 'mobile' | 'feather'
 
 // Expected resolved values, derived from src/tokens/_default.scss (Fluent refinement).
-// --qds-radius-control: fluent 8 / air 10 / mobile 14.
+// --qds-radius-control: fluent 8 / air 10 / mobile 14 / feather 12.
 const EXPECTED_CONTROL_RADIUS: Record<Variant, string> = {
   fluent: '8px',
   air: '10px',
   mobile: '14px',
+  feather: '12px',
 }
-// --qds-card-radius = --qds-radius-lg: fluent 12 / air 16 / mobile 20.
+// --qds-card-radius = --qds-radius-lg: fluent 12 / air 16 / mobile 20 / feather 22.
 const EXPECTED_CARD_RADIUS: Record<Variant, string> = {
   fluent: '12px',
   air: '16px',
   mobile: '20px',
+  feather: '22px',
 }
 
 // --qds-surface-0 per mode (drives --qds-card-bg / --qds-menu-bg / notify bg).
@@ -53,7 +55,7 @@ const SUBTLE_BORDER: Record<Mode, string> = {
 }
 
 const MODES: Mode[] = ['light', 'dark']
-const VARIANTS: Variant[] = ['fluent', 'air', 'mobile']
+const VARIANTS: Variant[] = ['fluent', 'air', 'mobile', 'feather']
 
 /** Drive the runtime controller exactly as an external app would. */
 async function applyTheme(page: Page, mode: Mode, variant: Variant) {

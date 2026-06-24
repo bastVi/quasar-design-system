@@ -2,6 +2,7 @@
 import { onBeforeUnmount, onMounted, ref, watch, type Component } from 'vue'
 import {
   PhDeviceMobile,
+  PhFeather,
   PhMoonStars,
   PhMonitor,
   PhPalette,
@@ -41,6 +42,7 @@ const variantIcons: Record<string, Component> = {
   fluent: PhPalette,
   air: PhSparkle,
   mobile: PhDeviceMobile,
+  feather: PhFeather,
 }
 
 function onMode(mode: DesignSystemMode) {

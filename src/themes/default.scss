@@ -221,4 +221,26 @@
 
     @include qds-derived-tokens;
   }
+
+  .qds-variant-feather {
+    --qds-radius-control: #{map.get(map.get(tokens.$variants, feather), radius-control)};
+    --qds-radius-lg: #{map.get(map.get(tokens.$variants, feather), radius-lg)};
+    --qds-surface-glass: #{map.get(map.get(tokens.$variants, feather), surface-glass)};
+    --qds-shadow-md: #{map.get(map.get(tokens.$variants, feather), shadow-md)};
+    --qds-tonal-bg-opacity: #{map.get(map.get(tokens.$variants, feather), tonal-bg-opacity)};
+    --qds-card-tonal-opacity: #{map.get(map.get(tokens.$variants, feather), card-tonal-opacity)};
+    --qds-card-fallback-tonal-opacity: #{map.get(map.get(tokens.$variants, feather), card-fallback-tonal-opacity)};
+    --qds-card-border-mix: #{map.get(map.get(tokens.$variants, feather), card-border-mix)};
+    --qds-card-backdrop-blur: #{map.get(map.get(tokens.$variants, feather), card-backdrop-blur)};
+    --qds-card-backdrop-saturate: #{map.get(map.get(tokens.$variants, feather), card-backdrop-saturate)};
+
+    @include qds-derived-tokens;
+  }
+
+  .qds-theme-dark.qds-variant-feather,
+  body.qds-ui.body--dark.qds-variant-feather {
+    --qds-surface-glass: #{map.get(map.get(tokens.$variants, feather), dark-surface-glass)};
+
+    @include qds-derived-tokens;
+  }
 }
