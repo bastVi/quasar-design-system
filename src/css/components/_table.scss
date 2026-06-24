@@ -3,6 +3,8 @@
     --qds-table-header-bg: color-mix(in srgb, var(--qds-surface-2) 64%, transparent);
     --qds-table-header-text: var(--qds-text-muted);
     --qds-table-row-hover-bg: color-mix(in srgb, var(--qds-surface-2) 76%, var(--qds-color-primary) 6%);
+    --qds-table-selected-bg: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-bg-opacity));
+    --qds-table-sort-icon: var(--qds-color-primary);
 
     overflow: hidden;
     background: var(--qds-card-bg);
@@ -65,6 +67,27 @@
   .qds-ui .q-table--dense.q-table th,
   .qds-ui .q-table--dense.q-table td {
     height: 2.25rem;
+  }
+
+  .qds-ui .q-table.q-table th.sortable:hover {
+    color: var(--qds-text-strong);
+  }
+
+  .qds-ui .q-table.q-table th.sorted {
+    color: var(--qds-text-strong);
+    font-weight: var(--qds-font-weight-semibold);
+  }
+
+  .qds-ui .q-table.q-table th .q-table__sort-icon {
+    color: var(--qds-table-sort-icon);
+  }
+
+  .qds-ui .q-table.q-table tbody tr.selected {
+    background: var(--qds-table-selected-bg);
+  }
+
+  .qds-ui .q-table.q-table tbody tr.selected:hover {
+    background: color-mix(in srgb, var(--qds-table-selected-bg), var(--qds-color-primary) 8%);
   }
 
   .qds-ui .q-table__grid-content {
