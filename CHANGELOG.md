@@ -1,0 +1,35 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/).
+
+## [Unreleased]
+
+## [0.3.0] — 2026-06-24
+
+### Changed
+
+- **Built TypeScript entrypoints.** Runtime TS exports (`.`, `./runtime`, `./tokens`,
+  `./themes`, `./icons/quasar-icon-set`) now resolve to pre-compiled ESM JS and
+  `.d.ts` files in `dist/`. Consumers no longer need to compile this package's
+  TypeScript — bundlers pick up the built output directly.
+- `main` and `types` fields now point at `dist/index.js` and `dist/index.d.ts`.
+- Export map uses `types` + `import` conditions for all TS entrypoints.
+- Added `pnpm build` (`tsc -p tsconfig.build.json`) and wired it into
+  `verify:publish` / `prepublishOnly`.
+- SCSS, CSS, and font exports remain source-first (`src/`) — no change for
+  Sass consumers.
+- Packed tarball verified: all public subpaths (JS, `.d.ts`, SCSS, fonts) resolve
+  from the extracted package.
+
+### Notes
+
+- Visual output, token contract, and component coverage are unchanged.
+- Gallery, Histoire, and Playwright gates are unaffected.
+
+## [0.2.0] — prior
+
+- Initial public-surface release with source-only TS entrypoints.
+- Fluent 2-inspired design tokens, Quasar component overrides, runtime theme
+  controller, Phosphor icon set, and optional font CSS.

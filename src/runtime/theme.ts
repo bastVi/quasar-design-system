@@ -14,7 +14,7 @@ import {
   type DesignSystemVariant,
   type DesignSystemVariantName,
   type QuasarDesignTheme,
-} from '../themes'
+} from '../themes/index.js'
 
 export type DesignSystemMode = 'light' | 'dark' | 'system'
 export type DesignSystemResolvedMode = 'light' | 'dark'

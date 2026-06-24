@@ -1,10 +1,10 @@
 {
   "name": "@bastvi/quasar-design-system",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Opinionated Quasar 2 design system inspired by Fluent 2, Apple, and One UI.",
   "type": "module",
-  "main": "src/index.ts",
-  "types": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "sideEffects": [
     "*.css",
     "*.scss",
@@ -13,27 +13,45 @@
     "src/fonts/**/*"
   ],
   "files": [
+    "dist",
     "src",
+    "CHANGELOG.md",
     "README.md"
   ],
   "exports": {
-    ".": "./src/index.ts",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./runtime": {
+      "types": "./dist/runtime/theme.d.ts",
+      "import": "./dist/runtime/theme.js"
+    },
+    "./tokens": {
+      "types": "./dist/tokens/index.d.ts",
+      "import": "./dist/tokens/index.js"
+    },
+    "./themes": {
+      "types": "./dist/themes/index.d.ts",
+      "import": "./dist/themes/index.js"
+    },
+    "./icons/quasar-icon-set": {
+      "types": "./dist/icons/quasar-icon-set.d.ts",
+      "import": "./dist/icons/quasar-icon-set.js"
+    },
     "./css": "./src/css/index.scss",
     "./css/layered": "./src/css/index.layered.scss",
     "./quasar-variables": "./src/quasar.variables.scss",
-    "./runtime": "./src/runtime/theme.ts",
-    "./tokens": "./src/tokens/index.ts",
     "./tokens/default": "./src/tokens/_default.scss",
-    "./themes": "./src/themes/index.ts",
     "./themes/default": "./src/themes/default.scss",
     "./themes/fallbacks": "./src/themes/fallbacks.scss",
     "./fonts/inter.css": "./src/fonts/inter.css",
     "./fonts/open-sans.css": "./src/fonts/open-sans.css",
     "./fonts/selawik.css": "./src/fonts/selawik.css",
-    "./fonts/*": "./src/fonts/*",
-    "./icons/quasar-icon-set": "./src/icons/quasar-icon-set.ts"
+    "./fonts/*": "./src/fonts/*"
   },
   "scripts": {
+    "build": "tsc -p tsconfig.build.json",
     "typecheck": "vue-tsc --noEmit -p tsconfig.json",
     "stories": "histoire dev",
     "stories:build": "histoire build",
@@ -41,7 +59,7 @@
     "gallery:build": "pnpm -C examples/gallery build",
     "gallery:test": "pnpm -C examples/gallery test:visual",
     "pack:dry": "npm pack --dry-run --json",
-    "verify:publish": "pnpm typecheck && pnpm pack:dry",
+    "verify:publish": "pnpm build && pnpm typecheck && pnpm pack:dry",
     "prepublishOnly": "pnpm verify:publish"
   },
   "publishConfig": {

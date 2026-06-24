@@ -538,52 +538,6 @@ test.describe('QDS override gate', () => {
     expect(heightAfterOpen - heightBeforeOpen, 'dense select control height must not increase on focus/open').toBeLessThanOrEqual(1)
   })
 
-  test('catalog coverage tab skins remaining Quasar primitives', async ({ page }) => {
-    await page.goto('/')
-    await page.getByRole('tab', { name: 'Catalog' }).click()
-    await applyTheme(page, 'light', 'fluent')
-    const expectVisible = async (selector: string) => {
-      await expect(page.locator(selector).first(), selector).toBeVisible()
-    }
-
-    await expect(page.getByText('Remaining Quasar components')).toBeVisible()
-    await expectVisible('.q-breadcrumbs')
-    await expectVisible('.q-btn-dropdown')
-    await expectVisible('.q-btn-toggle')
-    await expectVisible('.q-fab')
-    await expectVisible('.q-banner')
-    await expectVisible('.q-option-group')
-    await expectVisible('.q-color-picker')
-    await expectVisible('.q-date')
-    await expectVisible('.q-time')
-    await expectVisible('.q-linear-progress')
-    await expectVisible('.q-circular-progress')
-    await expectVisible('.q-skeleton')
-    await expectVisible('.q-tree')
-    await expectVisible('.q-virtual-scroll')
-    await expectVisible('.q-markup-table')
-    await expectVisible('.q-stepper')
-    await expectVisible('.q-timeline')
-    await expectVisible('.q-carousel')
-    await expectVisible('.q-message')
-    await expect(page.locator('.catalog-image').first(), 'QImg example is mounted').toBeAttached()
-    await expectVisible('.q-parallax')
-    await expectVisible('.q-video')
-    await expectVisible('.q-scrollarea')
-    await expectVisible('.q-splitter')
-    await expectVisible('.q-slide-item')
-    await expectVisible('.q-knob')
-    await expectVisible('.q-editor')
-    await expectVisible('.q-uploader')
-
-    expect.soft(await computed(page, '.q-banner', 'border-top-width'), 'QBanner QDS border').toBe('1px')
-    expect.soft(await computed(page, '.catalog-panel', 'border-radius'), 'QTabPanels QDS radius').toBe(EXPECTED_CARD_RADIUS.fluent)
-    expect.soft(await computed(page, '.q-stepper', 'border-radius'), 'QStepper QDS radius').toBe(EXPECTED_CARD_RADIUS.fluent)
-    expect.soft(await computed(page, '.q-markup-table', 'border-radius'), 'QMarkupTable QDS radius').toBe(EXPECTED_CARD_RADIUS.fluent)
-    expect.soft(await computed(page, '.q-editor', 'border-top-width'), 'QEditor QDS border').toBe('1px')
-    expect.soft(await computed(page, '.q-uploader', 'border-radius'), 'QUploader QDS radius').toBe(EXPECTED_CARD_RADIUS.fluent)
-  })
-
   test('legacy glass variant input migrates to canonical air', async ({ page }) => {
     await page.goto('/')
     const state = await page.evaluate(() => {

@@ -269,6 +269,26 @@
     border: var(--qds-border-width-control) solid var(--qds-border-subtle);
   }
 
+  .qds-ui .catalog-expansion-list.catalog-expansion-list {
+    display: grid;
+    gap: var(--qds-space-sm);
+    color: var(--qds-text);
+    background: transparent;
+  }
+
+  .qds-ui .catalog-expansion-list.catalog-expansion-list .q-separator {
+    display: none;
+  }
+
+  .qds-ui .catalog-expansion-content {
+    padding: var(--qds-space-md);
+    color: var(--qds-text-muted);
+  }
+
+  .qds-ui .catalog-expansion-content--dense {
+    padding-block: var(--qds-space-sm);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .qds-ui .q-skeleton.q-skeleton::before,
     .qds-ui .q-linear-progress.q-linear-progress .q-linear-progress__model--indeterminate::before,
@@ -311,14 +331,14 @@
     outline-offset: -2px;
   }
 
-  .qds-ui .q-tree.q-tree .q-tree__node--selected > .q-tree__node-header,
+  .qds-ui .q-tree.q-tree .q-tree__node-header.q-tree__node--selected,
   .qds-ui .q-tree.q-tree .q-tree__node-header[aria-selected='true'] {
     color: var(--qds-tab-active-text);
     background-color: var(--qds-tab-active-bg);
   }
 
-  .qds-ui .q-tree.q-tree .q-tree__node--selected > .q-tree__node-header::before,
-  .qds-ui .q-tree.q-tree .q-tree__node-header[aria-selected='true']::before {
+  .qds-ui .q-tree.q-tree .q-tree__node-header.q-tree__node--selected::after,
+  .qds-ui .q-tree.q-tree .q-tree__node-header[aria-selected='true']::after {
     content: '';
     position: absolute;
     inset-inline-start: 0;
@@ -329,7 +349,7 @@
     border-end-end-radius: 2px;
   }
 
-  .qds-ui .q-tree.q-tree .q-tree__node--selected > .q-tree__node-header .q-tree__node-header-content,
+  .qds-ui .q-tree.q-tree .q-tree__node-header.q-tree__node--selected .q-tree__node-header-content,
   .qds-ui .q-tree.q-tree .q-tree__node-header[aria-selected='true'] .q-tree__node-header-content {
     color: var(--qds-tab-active-text);
   }
@@ -340,9 +360,55 @@
     color: var(--qds-text-muted);
   }
 
-  .qds-ui .q-tree.q-tree .q-tree__node--selected > .q-tree__node-header .q-tree__arrow,
-  .qds-ui .q-tree.q-tree .q-tree__node--selected > .q-tree__node-header .q-tree__icon {
+  .qds-ui .q-tree.q-tree .q-tree__arrow,
+  .qds-ui .q-tree.q-tree .q-tree__tickbox {
+    margin-inline-end: var(--qds-space-xs);
+    margin-right: 0;
+  }
+
+  .qds-ui .q-tree.q-tree .q-tree__node-header.q-tree__node--selected .q-tree__arrow,
+  .qds-ui .q-tree.q-tree .q-tree__node-header.q-tree__node--selected .q-tree__icon,
+  .qds-ui .q-tree.q-tree .q-tree__node-header.q-tree__node--selected .q-tree__tickbox {
     color: var(--qds-color-primary);
+  }
+
+  .qds-ui .q-tree.q-tree .q-tree__tickbox .q-checkbox__inner--truthy .q-checkbox__bg,
+  .qds-ui .q-tree.q-tree .q-tree__tickbox .q-checkbox__inner--indet .q-checkbox__bg {
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--qds-color-primary) 18%, transparent);
+  }
+
+  .qds-ui .q-tree.q-tree .q-tree__node-header.q-tree__node--disabled {
+    color: var(--qds-text-muted);
+    background: transparent;
+    cursor: not-allowed;
+    opacity: 0.62;
+  }
+
+  .qds-ui .q-tree.q-tree .q-tree__node-header.q-tree__node--disabled .q-tree__node-header-content,
+  .qds-ui .q-tree.q-tree .q-tree__node-header.q-tree__node--disabled .q-tree__arrow,
+  .qds-ui .q-tree.q-tree .q-tree__node-header.q-tree__node--disabled .q-tree__icon,
+  .qds-ui .q-tree.q-tree .q-tree__node-header.q-tree__node--disabled .q-tree__tickbox {
+    color: var(--qds-text-muted);
+  }
+
+  .qds-ui .q-tree.q-tree.q-tree--dense .q-tree__node-header {
+    min-height: 1.875rem;
+    border-radius: calc(var(--qds-radius-control) - 4px);
+  }
+
+  .qds-ui .q-tree.q-tree.q-tree--dense .q-tree__node-header-content {
+    font-size: 0.875rem;
+  }
+
+  .qds-ui .q-tree.q-tree.q-tree--no-connectors .q-tree__node:after,
+  .qds-ui .q-tree.q-tree.q-tree--no-connectors .q-tree__node-header:before,
+  .qds-ui .q-tree.q-tree.q-tree--no-connectors .q-tree__node-body:after {
+    display: none !important;
+  }
+
+  .qds-ui .q-tree.q-tree.q-tree--no-connectors .q-tree__children {
+    padding-inline-start: var(--qds-space-md);
+    padding-left: var(--qds-space-md);
   }
 
   .qds-ui .q-tree.q-tree .q-tree__node:after,

@@ -44,8 +44,78 @@
     border-end-end-radius: 2px;
   }
 
+  .qds-ui .q-expansion-item.q-expansion-item {
+    color: var(--qds-text);
+    border-radius: var(--qds-radius-control);
+  }
+
+  .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container {
+    overflow: hidden;
+    border-radius: inherit;
+  }
+
+  .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item {
+    min-height: 2.75rem;
+    color: var(--qds-text);
+    transition:
+      background-color var(--qds-motion-fast),
+      color var(--qds-motion-fast),
+      box-shadow var(--qds-motion-fast);
+  }
+
+  .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item.q-item--dense {
+    min-height: 2.25rem;
+  }
+
+  .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item:not(.disabled):hover {
+    background-color: var(--qds-tab-hover-bg);
+  }
+
+  .qds-ui .q-expansion-item.q-expansion-item--expanded > .q-expansion-item__container > .q-item {
+    color: var(--qds-tab-active-text);
+    background-color: var(--qds-tab-active-bg);
+  }
+
+  .qds-ui .q-expansion-item.q-expansion-item--expanded > .q-expansion-item__container > .q-item::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block: 0;
+    width: 3px;
+    background: var(--qds-tab-active-rail);
+    border-start-end-radius: 2px;
+    border-end-end-radius: 2px;
+  }
+
+  .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item.disabled {
+    color: var(--qds-text-muted);
+    background: transparent;
+    opacity: 0.62;
+  }
+
+  .qds-ui .q-expansion-item.q-expansion-item .q-expansion-item__toggle-icon {
+    color: var(--qds-text-muted);
+  }
+
+  .qds-ui .q-expansion-item.q-expansion-item--expanded .q-expansion-item__toggle-icon {
+    color: var(--qds-color-primary);
+  }
+
+  .qds-ui .q-expansion-item.q-expansion-item .q-expansion-item__content {
+    color: var(--qds-text);
+    background: color-mix(in srgb, var(--qds-surface-1) 78%, transparent);
+  }
+
+  .qds-ui .q-expansion-item.q-expansion-item .q-expansion-item__border {
+    background: var(--qds-border-subtle);
+  }
+
   .qds-ui .q-expansion-item.q-expansion-item.qds-card {
     overflow: hidden;
+    background: var(--qds-card-bg);
+    border: var(--qds-border-width-control) solid var(--qds-card-border);
+    border-radius: var(--qds-card-radius);
+    box-shadow: var(--qds-card-shadow);
   }
 
   .qds-ui .q-expansion-item.q-expansion-item.qds-card > .q-expansion-item__container > .q-item {

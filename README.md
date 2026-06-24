@@ -28,10 +28,10 @@ The default language is Microsoft Fluent 2-inspired: navy primary, gold accent, 
 pnpm add @bastvi/quasar-design-system
 ```
 
-> **Source-only package.** It ships raw `src/` (`.ts` + `.scss`); `main`/`types`/`exports` point at
-> sources. Intended for **Vite + Quasar 2** projects with Sass available — your build pipeline
-> compiles the TS and SCSS. There is no prebuilt `dist/` (yet), so it is not aimed at plain Node/CJS
-> consumers. Import the design-system CSS **after** Quasar's own CSS.
+> **Built TS + source SCSS.** TypeScript runtime entrypoints ship pre-compiled as ESM
+> JS with `.d.ts` declarations in `dist/`. SCSS and font exports remain in raw `src/`
+> so your build pipeline can consume and customize them. Import the design-system CSS
+> **after** Quasar's own CSS.
 
 ## Basic Usage
 

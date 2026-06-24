@@ -10,7 +10,7 @@ export {
   type DesignSystemOptions,
   type DesignSystemResolvedMode,
   type DesignSystemState,
-} from './runtime/theme'
+} from './runtime/theme.js'
 
 export {
   DEFAULT_THEME,
@@ -23,8 +23,8 @@ export {
   type DesignSystemVariant,
   type DesignSystemVariantName,
   type QuasarDesignTheme,
-} from './themes'
+} from './themes/index.js'
 
-export { QDS_TOKENS, type QdsToken, type QdsTokenMap } from './tokens'
+export { QDS_TOKENS, type QdsToken, type QdsTokenMap } from './tokens/index.js'
 
-export { default as qdsIconSet, type QdsIconSet } from './icons/quasar-icon-set'
+export { default as qdsIconSet, type QdsIconSet } from './icons/quasar-icon-set.js'
