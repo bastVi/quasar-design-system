@@ -139,7 +139,7 @@ export function useDesignSystem(): DesignSystemController {
   }
 
   const instance = getCurrentInstance()
-  const q = instance?.proxy?.$q as QuasarLike | undefined
+  const q = (instance?.proxy as unknown as { $q?: QuasarLike } | undefined)?.$q
   const controller = createDesignSystemController({ enabled: false }, q)
   controller.initialize()
   fallbackController = controller
