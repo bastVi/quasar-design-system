@@ -42,6 +42,8 @@ import 'quasar/src/css/index.sass'
 import '@bastvi/quasar-design-system/css'
 ```
 
+The default `./css` bundle is **unlayered** and must be imported **after** Quasar's CSS — Quasar ships unlayered CSS, so the overrides win on cascade order plus specificity, not on `@layer`. If your app deliberately places Quasar's CSS in a lower `@layer`, use the advanced `@bastvi/quasar-design-system/css/layered` bundle instead. Mixing the layered bundle with unlayered Quasar CSS is unsupported (a layer cannot beat unlayered rules).
+
 For a deeper Quasar integration, use the package Sass variable bridge from your app-level `quasar.variables.scss`:
 
 ```scss
