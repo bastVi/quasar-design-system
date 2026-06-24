@@ -5,6 +5,13 @@
   "type": "module",
   "main": "src/index.ts",
   "types": "src/index.ts",
+  "sideEffects": [
+    "*.css",
+    "*.scss",
+    "src/**/*.css",
+    "src/**/*.scss",
+    "src/fonts/**/*"
+  ],
   "files": [
     "src",
     "README.md"
@@ -32,7 +39,13 @@
     "stories:build": "histoire build",
     "gallery:dev": "pnpm -C examples/gallery dev",
     "gallery:build": "pnpm -C examples/gallery build",
-    "gallery:test": "pnpm -C examples/gallery test:visual"
+    "gallery:test": "pnpm -C examples/gallery test:visual",
+    "pack:dry": "npm pack --dry-run --json",
+    "verify:publish": "pnpm typecheck && pnpm pack:dry",
+    "prepublishOnly": "pnpm verify:publish"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "repository": {
     "type": "git",
