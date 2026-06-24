@@ -31,7 +31,7 @@ export default defineConfig({
   ],
   webServer: {
     // Build then preview the production bundle so the gate matches the release.
-    command: `pnpm build && pnpm preview --port ${PORT} --strictPort`,
+    command: `pnpm build && pnpm preview --host 127.0.0.1 --port ${PORT} --strictPort`,
     url: BASE_URL,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,
