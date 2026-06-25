@@ -99,6 +99,7 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
       <div class="text-h6 qds-display q-mb-md">QBadge &amp; QChip</div>
       <div class="qds-button-row q-mb-md">
         <q-badge v-for="c in colors" :key="`b-${c}`" :color="c" :label="c" />
+        <q-badge class="qds-demo-icon-badge" color="primary"><PhSparkle :size="14" weight="duotone" /> Status</q-badge>
       </div>
       <div class="qds-button-row">
         <q-chip color="primary" text-color="white" label="Primary" />
@@ -106,6 +107,7 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
         <q-chip color="warning" text-color="white" label="Removable" removable />
         <q-chip outline color="accent" label="Outline" />
         <q-chip clickable color="info" text-color="white" label="Clickable" />
+        <q-chip dense color="info" text-color="white"><PhInfo :size="14" weight="regular" /> Dense</q-chip>
       </div>
     </q-card>
 

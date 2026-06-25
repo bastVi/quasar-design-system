@@ -104,9 +104,4 @@
     color: var(--qds-text-muted);
     font-weight: var(--qds-font-weight-medium);
   }
-
-  .qds-ui .q-loading-bar.q-loading-bar {
-    background-color: var(--qds-color-primary) !important;
-    box-shadow: 0 0 var(--qds-space-sm) rgba(var(--qds-color-primary-rgb), 0.42);
-  }
 }

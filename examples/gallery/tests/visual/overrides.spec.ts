@@ -141,6 +141,20 @@ async function computed(page: Page, selector: string, prop: string): Promise<str
   )
 }
 
+async function resolvedCustomLength(page: Page, selector: string, customProperty: string): Promise<string> {
+  return page.locator(selector).first().evaluate((el, customProperty) => {
+    const probe = document.createElement('div')
+    probe.style.position = 'absolute'
+    probe.style.visibility = 'hidden'
+    probe.style.pointerEvents = 'none'
+    probe.style.width = `var(${customProperty})`
+    el.appendChild(probe)
+    const width = getComputedStyle(probe).width
+    probe.remove()
+    return width
+  }, customProperty)
+}
+
 async function waitForVariantTokens(page: Page, expected: VariantExpectations) {
   await expect
     .poll(
@@ -197,6 +211,18 @@ test.describe('QDS override gate', () => {
           EXPECTED_CONTROL_RADIUS[variant],
         )
         expect.soft(await computed(page, btn, 'font-weight'), 'QBtn font-weight').toBe('500')
+        const denseBtn = `${PANEL} .q-btn--dense:not(.q-btn--round):not(.q-btn--fab):not(.q-btn--fab-mini)`
+        const buttonGap = await computed(page, `${btn} .q-btn__content`, 'column-gap')
+        const denseButtonGap = await computed(page, `${denseBtn} .q-btn__content`, 'column-gap')
+        expect.soft(buttonGap, 'QBtn icon/text gap follows component token').toBe(
+          await resolvedCustomLength(page, btn, '--qds-button-icon-gap'),
+        )
+        expect.soft(denseButtonGap, 'QBtn dense icon/text gap follows dense token').toBe(
+          await resolvedCustomLength(page, denseBtn, '--qds-button-dense-icon-gap'),
+        )
+        expect.soft(parseFloat(buttonGap), 'QBtn default gap remains more comfortable than dense').toBeGreaterThan(
+          parseFloat(denseButtonGap),
+        )
 
         // Semantic colored default: tonal tint, not filled Material-style color.
         const semantic = `${PANEL} .q-btn--unelevated.bg-primary:not(.qds-solid):not(.q-btn--dense)`
@@ -290,6 +316,21 @@ test.describe('QDS override gate', () => {
         expect.soft(await computed(page, chip, 'background-color'), 'QChip not Quasar Material primary').not.toBe(
           'rgb(25, 118, 210)',
         )
+        const chipContent = `${PANEL} .q-chip.bg-positive .q-chip__content`
+        const denseChipContent = `${PANEL} .q-chip.q-chip--dense .q-chip__content`
+        const chipGap = await computed(page, chipContent, 'column-gap')
+        const denseChipGap = await computed(page, denseChipContent, 'column-gap')
+        expect.soft(chipGap, 'QChip icon/text gap follows component token').toBe(
+          await resolvedCustomLength(page, chipContent, '--qds-chip-icon-gap'),
+        )
+        expect.soft(denseChipGap, 'QChip dense icon/text gap follows dense token').toBe(
+          await resolvedCustomLength(page, denseChipContent, '--qds-chip-dense-icon-gap'),
+        )
+        expect.soft(parseFloat(chipGap), 'QChip dense gap stays compact').toBeGreaterThan(parseFloat(denseChipGap))
+        const badgeGap = await computed(page, `${PANEL} .qds-demo-icon-badge`, 'column-gap')
+        expect.soft(badgeGap, 'QBadge icon/text gap follows component token').toBe(
+          await resolvedCustomLength(page, `${PANEL} .qds-demo-icon-badge`, '--qds-badge-icon-gap'),
+        )
 
         // --- QCard: tonal acrylic surface, bg/border/radius/shadow token-driven ---
         const card = `${PANEL} .q-card`
@@ -309,10 +350,23 @@ test.describe('QDS override gate', () => {
           return {
             bg: cs.getPropertyValue('--qds-card-bg').trim(),
             fallback: cs.getPropertyValue('--qds-card-bg-fallback').trim(),
+            tintRgb: cs.getPropertyValue('--qds-card-acrylic-tint-rgb').trim(),
+            primaryRgb: cs.getPropertyValue('--qds-color-primary-rgb').trim(),
+            tonalOpacity: Number(cs.getPropertyValue('--qds-card-tonal-opacity').trim()),
           }
         })
         expect.soft(cardVars.bg, 'QCard token resolved').toContain('linear-gradient')
         expect.soft(cardVars.fallback, 'QCard fallback token resolved').toContain('linear-gradient')
+        expect.soft(cardVars.tintRgb, 'QCard explicit acrylic tint token resolves').toMatch(/^\d+/)
+        expect.soft(cardVars.bg, 'QCard bg uses resolved acrylic tint').toContain(`rgba(${cardVars.tintRgb}`)
+        expect.soft(cardVars.fallback, 'QCard fallback uses resolved acrylic tint').toContain(`rgba(${cardVars.tintRgb}`)
+        if (variant === 'fluent') {
+          expect.soft(cardVars.tintRgb, 'Fluent QCard resting tint is neutral, not primary').not.toBe(cardVars.primaryRgb)
+          expect.soft(cardVars.tonalOpacity, 'Fluent QCard resting tonal opacity is restrained').toBeLessThan(0.04)
+        }
+        if (variant === 'feather') {
+          expect.soft(cardVars.tintRgb, 'Feather QCard keeps variant tint behavior').toBe(cardVars.primaryRgb)
+        }
 
         // --- QMenu (open it): bg + shadow token-driven ---
         await page.getByRole('button', { name: 'Open menu' }).click()
@@ -429,6 +483,18 @@ test.describe('QDS override gate', () => {
         })
         expect.soft(multiLabelGap, 'QSelect multiple label clears chips').not.toBeNull()
         expect.soft(multiLabelGap ?? 0, 'QSelect multiple label clears chips').toBeGreaterThanOrEqual(4)
+        const multiChip = `${PANEL} .q-select--multiple .q-chip`
+        const multiChipGapToken = await page.locator(multiChip).first().evaluate((chip) =>
+          chip.classList.contains('q-chip--dense') || Boolean(chip.closest('.q-field--dense'))
+            ? '--qds-chip-dense-icon-gap'
+            : '--qds-chip-icon-gap',
+        )
+        expect
+          .soft(
+            await computed(page, `${multiChip} .q-chip__content`, 'column-gap'),
+            'QSelect multiple chips keep their density-aware chip gap',
+          )
+          .toBe(await resolvedCustomLength(page, multiChip, multiChipGapToken))
 
         // --- legacy variant alias: caller/storage glass migrates to canonical air ---
         const legacyVariant = await page.evaluate(() => {

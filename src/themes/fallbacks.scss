@@ -12,11 +12,17 @@
   --qds-interactive-border-strong: var(--qds-border);
   --qds-interactive-text: var(--qds-text);
   --qds-interactive-text-muted: var(--qds-text-muted);
+  --qds-button-icon-gap: var(--qds-inline-icon-gap);
+  --qds-button-dense-icon-gap: var(--qds-inline-icon-dense-gap);
   --qds-button-radius: var(--qds-radius-control);
+  --qds-chip-icon-gap: var(--qds-inline-icon-gap);
+  --qds-chip-dense-icon-gap: var(--qds-inline-icon-dense-gap);
   --qds-chip-radius: var(--qds-radius-control);
+  --qds-badge-icon-gap: var(--qds-inline-icon-gap);
+  --qds-badge-dense-icon-gap: var(--qds-inline-icon-dense-gap);
   --qds-badge-radius: var(--qds-radius-control);
-  --qds-card-bg: linear-gradient(135deg, rgba(var(--qds-color-primary-rgb), var(--qds-card-tonal-opacity)), transparent 72%), var(--qds-surface-glass);
-  --qds-card-bg-fallback: linear-gradient(135deg, rgba(var(--qds-color-primary-rgb), var(--qds-card-fallback-tonal-opacity)), transparent 72%), var(--qds-surface-0);
+  --qds-card-bg: linear-gradient(135deg, rgba(var(--qds-card-acrylic-tint-rgb), var(--qds-card-tonal-opacity)), transparent 72%), var(--qds-surface-glass);
+  --qds-card-bg-fallback: linear-gradient(135deg, rgba(var(--qds-card-acrylic-tint-rgb), var(--qds-card-fallback-tonal-opacity)), transparent 72%), var(--qds-surface-0);
   --qds-card-border: color-mix(in srgb, var(--qds-border) var(--qds-card-border-mix), transparent);
   --qds-card-radius: var(--qds-radius-lg);
   --qds-card-shadow: var(--qds-shadow-sm);
@@ -123,6 +129,9 @@
     --qds-control-text-transform: #{map.get(tokens.$control, text-transform)};
     --qds-control-content-line-height: #{map.get(tokens.$control, content-line-height)};
 
+    --qds-inline-icon-gap: #{map.get(tokens.$inline, icon-gap)};
+    --qds-inline-icon-dense-gap: #{map.get(tokens.$inline, dense-icon-gap)};
+
     --qds-button-min-height: #{map.get(map.get(tokens.$components, button), min-height)};
     --qds-button-padding-inline: #{map.get(map.get(tokens.$components, button), padding-inline)};
     --qds-button-dense-min-height: #{map.get(map.get(tokens.$components, button), dense-min-height)};
@@ -133,6 +142,7 @@
     --qds-button-elevated-shadow: #{map.get(map.get(tokens.$components, button), elevated-shadow)};
     --qds-button-elevated-shadow-hover: #{map.get(map.get(tokens.$components, button), elevated-shadow-hover)};
 
+    --qds-card-acrylic-tint-rgb: #{map.get(map.get(tokens.$components, card), acrylic-tint-rgb)};
     --qds-card-tonal-opacity: #{map.get(map.get(tokens.$components, card), tonal-opacity)};
     --qds-card-fallback-tonal-opacity: #{map.get(map.get(tokens.$components, card), fallback-tonal-opacity)};
     --qds-card-border-mix: #{map.get(map.get(tokens.$components, card), border-mix)};

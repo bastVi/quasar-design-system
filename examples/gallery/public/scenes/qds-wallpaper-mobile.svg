@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Mobile rounded color blocks wallpaper">
+  <defs>
+    <linearGradient id="wash" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff8ed"/>
+      <stop offset="0.55" stop-color="#e6f2fb"/>
+      <stop offset="1" stop-color="#dcebe8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#wash)"/>
+  <rect x="80" y="80" width="390" height="610" rx="96" fill="#ffffff" opacity="0.48"/>
+  <rect x="165" y="150" width="250" height="120" rx="60" fill="#005a9e" opacity="0.18"/>
+  <rect x="710" y="90" width="350" height="350" rx="120" fill="#f2c94c" opacity="0.3"/>
+  <rect x="650" y="480" width="430" height="190" rx="95" fill="#0f6c6c" opacity="0.2"/>
+  <circle cx="560" cy="390" r="130" fill="#60cdff" opacity="0.24"/>
+</svg>

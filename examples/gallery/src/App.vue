@@ -23,12 +23,13 @@ import CatalogSection from './sections/CatalogSection.vue'
 import IconsSection from './sections/IconsSection.vue'
 import FontsSection from './sections/FontsSection.vue'
 import PluginsSection from './sections/PluginsSection.vue'
+import ScenesSection from './sections/ScenesSection.vue'
 
 const ds = useDesignSystem()
 
-type GalleryTab = 'tokens' | 'typography' | 'components' | 'catalog' | 'plugins' | 'icons' | 'fonts'
+type GalleryTab = 'tokens' | 'typography' | 'components' | 'catalog' | 'scenes' | 'plugins' | 'icons' | 'fonts'
 
-const tabs: GalleryTab[] = ['tokens', 'typography', 'components', 'catalog', 'plugins', 'icons', 'fonts']
+const tabs: GalleryTab[] = ['tokens', 'typography', 'components', 'catalog', 'scenes', 'plugins', 'icons', 'fonts']
 const tab = ref<GalleryTab>(tabFromHash())
 
 const modes: DesignSystemMode[] = ['light', 'dark', 'system']
@@ -137,6 +138,7 @@ watch(tab, (value) => {
         <q-tab name="typography" label="Typography" />
         <q-tab name="components" label="Components" />
         <q-tab name="catalog" label="Catalog" />
+        <q-tab name="scenes" label="Scenes" />
         <q-tab name="plugins" label="Plugins" />
         <q-tab name="icons" label="Icons" />
         <q-tab name="fonts" label="Fonts" />
@@ -150,6 +152,7 @@ watch(tab, (value) => {
           <q-tab-panel name="typography"><TypographySection /></q-tab-panel>
           <q-tab-panel name="components"><ComponentsSection /></q-tab-panel>
           <q-tab-panel name="catalog"><CatalogSection /></q-tab-panel>
+          <q-tab-panel name="scenes"><ScenesSection /></q-tab-panel>
           <q-tab-panel name="plugins"><PluginsSection /></q-tab-panel>
           <q-tab-panel name="icons"><IconsSection /></q-tab-panel>
           <q-tab-panel name="fonts"><FontsSection /></q-tab-panel>

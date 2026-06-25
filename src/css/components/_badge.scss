@@ -9,14 +9,21 @@
 @mixin styles {
   .qds-ui .q-badge.q-badge {
     display: inline-flex;
+    align-items: center;
+    gap: var(--qds-badge-icon-gap);
     min-height: var(--qds-badge-min-height);
     justify-content: center;
     padding: var(--qds-badge-padding);
     border-radius: var(--qds-badge-radius);
     font-weight: var(--qds-font-weight-medium);
     letter-spacing: var(--qds-control-letter-spacing);
+    line-height: var(--qds-control-content-line-height);
     box-shadow: none;
     vertical-align: middle;
+  }
+
+  .qds-ui .q-badge.q-badge.q-badge--dense {
+    gap: var(--qds-badge-dense-icon-gap);
   }
 
   @include qds-tonal-badge('primary', 'primary');

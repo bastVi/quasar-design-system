@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Feather paper fiber wallpaper">
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff8ea"/>
+      <stop offset="0.58" stop-color="#f4ead8"/>
+      <stop offset="1" stop-color="#dfd2bd"/>
+    </linearGradient>
+    <pattern id="fiber" width="34" height="34" patternUnits="userSpaceOnUse">
+      <path d="M0 12 C9 8 18 17 34 10 M4 28 C13 22 23 32 34 24" fill="none" stroke="#5f6f52" stroke-opacity="0.08" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="800" fill="url(#paper)"/>
+  <rect width="1200" height="800" fill="url(#fiber)"/>
+  <path d="M130 625 C360 520 510 610 710 500 C890 400 1010 405 1170 315" fill="none" stroke="#5f6f52" stroke-opacity="0.14" stroke-width="42" stroke-linecap="round"/>
+  <path d="M155 615 C390 525 535 590 720 500 C895 415 1015 420 1150 330" fill="none" stroke="#fbf6ea" stroke-opacity="0.54" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="238" cy="174" r="118" fill="#a98255" opacity="0.12"/>
+</svg>

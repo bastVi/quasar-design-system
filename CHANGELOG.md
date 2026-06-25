@@ -6,6 +6,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [0.4.0] — 2026-06-25
+
+### Added
+
+- Added a gallery **Scenes** tab with deterministic owned SVG wallpapers for
+  comparing `fluent`, `air`, `mobile`, and `feather` materials in image-rich
+  contexts.
+- Added visual scene tests covering scene mount, Air material tokens, and
+  Feather paper/e-ink behavior.
+- Added public inline icon-gap tokens for comfortable default spacing and
+  compact dense spacing across buttons, chips, badges, and select chips.
+
+### Changed
+
+- Retuned default `fluent` card acrylic to use a neutral explicit tint token
+  instead of primary-blue resting glow.
+- Retuned `air` toward a modern matte-glass material with stronger blur,
+  image-friendly translucency, and tokenized acrylic tint/depth.
+- Refined `feather` as a warm paper/e-ink variant with minimal glass behavior,
+  muted sage/earth actions, paper borders, and low-fatigue dark mode.
+- Improved default Quasar coverage with explicit `QHeader` styling and focused
+  `QBtnDropdown` / `QBtnGroup` / `QBtnToggle` assertions.
+
+### Fixed
+
+- Consolidated duplicate LoadingBar styling so the catalog/loading-data rule is
+  the single source for the public QDS loading-bar treatment.
+
 ## [0.3.0] — 2026-06-24
 
 ### Changed

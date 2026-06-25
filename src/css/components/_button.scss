@@ -63,8 +63,12 @@
 
   .qds-ui .q-btn.q-btn .q-btn__content {
     align-items: center;
-    gap: var(--qds-space-xs);
+    gap: var(--qds-button-icon-gap);
     line-height: var(--qds-control-content-line-height);
+  }
+
+  .qds-ui .q-btn.q-btn.q-btn--dense .q-btn__content {
+    gap: var(--qds-button-dense-icon-gap);
   }
 
   .qds-ui .q-btn.q-btn:not(.q-btn--round):not(.q-btn--fab):not(.q-btn--fab-mini) {

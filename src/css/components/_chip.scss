@@ -29,8 +29,13 @@
   .qds-ui .q-chip.q-chip .q-chip__content {
     align-items: center;
     color: inherit;
-    gap: var(--qds-space-xs);
+    gap: var(--qds-chip-icon-gap);
     line-height: var(--qds-control-content-line-height);
+  }
+
+  .qds-ui .q-chip.q-chip.q-chip--dense .q-chip__content,
+  .qds-ui .q-field--dense .q-chip.q-chip .q-chip__content {
+    gap: var(--qds-chip-dense-icon-gap);
   }
 
   @include qds-tonal-chip('primary', 'primary');

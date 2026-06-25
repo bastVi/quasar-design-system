@@ -18,7 +18,7 @@ const toggleOptions = [
     <div class="catalog-grid catalog-grid--three">
       <div class="catalog-demo">
         <div class="catalog-label">QBtnDropdown</div>
-        <q-btn-dropdown unelevated color="primary" label="Actions" no-caps>
+        <q-btn-dropdown data-test="qds-btn-dropdown" unelevated color="primary" label="Actions" no-caps>
           <q-list dense style="min-width: 180px">
             <q-item v-for="item in dropdownItems" :key="item" v-close-popup clickable>
               <q-item-section>{{ item }}</q-item-section>
@@ -29,7 +29,7 @@ const toggleOptions = [
 
       <div class="catalog-demo">
         <div class="catalog-label">QBtnGroup</div>
-        <q-btn-group unelevated spread>
+        <q-btn-group data-test="qds-btn-group" unelevated spread>
           <q-btn color="primary" label="One" no-caps />
           <q-btn color="primary" label="Two" no-caps />
           <q-btn color="primary" label="Three" no-caps />
@@ -38,7 +38,14 @@ const toggleOptions = [
 
       <div class="catalog-demo">
         <div class="catalog-label">QBtnToggle</div>
-        <q-btn-toggle v-model="toggleChoice" unelevated no-caps toggle-color="primary" :options="toggleOptions" />
+        <q-btn-toggle
+          v-model="toggleChoice"
+          data-test="qds-btn-toggle"
+          unelevated
+          no-caps
+          toggle-color="primary"
+          :options="toggleOptions"
+        />
       </div>
 
       <div class="catalog-demo catalog-demo--wide">
