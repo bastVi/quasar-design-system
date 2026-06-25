@@ -29,29 +29,88 @@ const EXPECTED_CARD_RADIUS: Record<Variant, string> = {
   feather: '22px',
 }
 
-// --qds-surface-0 per mode (drives --qds-card-bg / --qds-menu-bg / notify bg).
-const LIGHT_SURFACE = 'rgb(255, 253, 248)' // #fffdf8
-const DARK_SURFACE = 'rgb(32, 34, 37)' //   #202225
-const SURFACE: Record<Mode, string> = { light: LIGHT_SURFACE, dark: DARK_SURFACE }
+type Semantic = 'positive' | 'negative' | 'warning' | 'info'
+type VariantExpectations = {
+  surface: string
+  lightSurface: string
+  primary: string
+  primaryHex: string
+  primaryRgbPattern: RegExp
+  fieldBorder: string
+  subtleBorder: string
+  semantic: Record<Semantic, string>
+}
 
-// Primary #005a9e (solid fill + focus outline).
-const PRIMARY = 'rgb(0, 90, 158)'
-const PRIMARY_RGB_PATTERN = /^rgba\(0,\s*90,\s*158/
-const SEMANTIC_RGB: Record<'positive' | 'negative' | 'warning' | 'info', string> = {
+const BASE_SEMANTIC: Record<Semantic, string> = {
   positive: 'rgb(106, 143, 102)',
   negative: 'rgb(196, 43, 28)',
   warning: 'rgb(247, 99, 12)',
   info: 'rgb(85, 124, 153)',
 }
-// QField outlined border = --qds-border (strong): light #8f8f8f / dark #6a7a8e.
-const FIELD_BORDER: Record<Mode, string> = {
-  light: 'rgb(143, 143, 143)',
-  dark: 'rgb(106, 122, 142)',
+
+const BASE_LIGHT: VariantExpectations = {
+  surface: 'rgb(255, 253, 248)', // #fffdf8
+  lightSurface: 'rgb(255, 253, 248)',
+  primary: 'rgb(0, 90, 158)',
+  primaryHex: '#005a9e',
+  primaryRgbPattern: /^rgba\(0,\s*90,\s*158/,
+  fieldBorder: 'rgb(143, 143, 143)', // #8f8f8f
+  subtleBorder: 'rgb(181, 181, 181)', // #b5b5b5
+  semantic: BASE_SEMANTIC,
 }
-// QCard/QNotification border = --qds-border-subtle: light #b5b5b5 / dark #576173.
-const SUBTLE_BORDER: Record<Mode, string> = {
-  light: 'rgb(181, 181, 181)',
-  dark: 'rgb(87, 97, 115)',
+
+const BASE_DARK: VariantExpectations = {
+  surface: 'rgb(32, 34, 37)', // #202225
+  lightSurface: BASE_LIGHT.lightSurface,
+  primary: BASE_LIGHT.primary,
+  primaryHex: BASE_LIGHT.primaryHex,
+  primaryRgbPattern: BASE_LIGHT.primaryRgbPattern,
+  fieldBorder: 'rgb(106, 122, 142)', // #6a7a8e
+  subtleBorder: 'rgb(87, 97, 115)', // #576173
+  semantic: BASE_SEMANTIC,
+}
+
+const EXPECTED_TOKENS: Record<Mode, Record<Variant, VariantExpectations>> = {
+  light: {
+    fluent: BASE_LIGHT,
+    air: BASE_LIGHT,
+    mobile: BASE_LIGHT,
+    feather: {
+      surface: 'rgb(251, 246, 234)', // #fbf6ea
+      lightSurface: 'rgb(251, 246, 234)',
+      primary: 'rgb(95, 111, 82)', // #5f6f52
+      primaryHex: '#5f6f52',
+      primaryRgbPattern: /^rgba\(95,\s*111,\s*82/,
+      fieldBorder: 'rgb(157, 146, 127)', // #9d927f
+      subtleBorder: 'rgb(210, 199, 180)', // #d2c7b4
+      semantic: {
+        positive: 'rgb(111, 132, 98)',
+        negative: 'rgb(155, 90, 80)',
+        warning: 'rgb(168, 111, 63)',
+        info: 'rgb(98, 122, 120)',
+      },
+    },
+  },
+  dark: {
+    fluent: BASE_DARK,
+    air: BASE_DARK,
+    mobile: BASE_DARK,
+    feather: {
+      surface: 'rgb(36, 42, 39)', // #242a27
+      lightSurface: BASE_LIGHT.lightSurface,
+      primary: 'rgb(101, 118, 87)', // #657657
+      primaryHex: '#657657',
+      primaryRgbPattern: /^rgba\(101,\s*118,\s*87/,
+      fieldBorder: 'rgb(124, 134, 120)', // #7c8678
+      subtleBorder: 'rgb(88, 98, 87)', // #586257
+      semantic: {
+        positive: 'rgb(120, 144, 106)',
+        negative: 'rgb(177, 107, 97)',
+        warning: 'rgb(189, 133, 81)',
+        info: 'rgb(113, 139, 137)',
+      },
+    },
+  },
 }
 
 const MODES: Mode[] = ['light', 'dark']
@@ -80,6 +139,15 @@ async function computed(page: Page, selector: string, prop: string): Promise<str
     (el, prop) => getComputedStyle(el as Element).getPropertyValue(prop as string),
     prop,
   )
+}
+
+async function waitForVariantTokens(page: Page, expected: VariantExpectations) {
+  await expect
+    .poll(
+      () => page.evaluate(() => getComputedStyle(document.body).getPropertyValue('--qds-color-primary').trim()),
+      { message: 'variant primary token settled' },
+    )
+    .toBe(expected.primaryHex)
 }
 
 // Scope component selectors to the open tab panel so the header's q-btn-toggle
@@ -113,6 +181,8 @@ test.describe('QDS override gate', () => {
         await page.goto('/')
         await page.getByRole('tab', { name: 'Components' }).click()
         await applyTheme(page, mode, variant)
+        const expected = EXPECTED_TOKENS[mode][variant]
+        await waitForVariantTokens(page, expected)
         // Quasar transitions + token re-resolution settle.
         await page.waitForTimeout(150)
 
@@ -130,20 +200,25 @@ test.describe('QDS override gate', () => {
 
         // Semantic colored default: tonal tint, not filled Material-style color.
         const semantic = `${PANEL} .q-btn--unelevated.bg-primary:not(.qds-solid):not(.q-btn--dense)`
-        expect.soft(await computed(page, semantic, 'background-color'), 'QBtn semantic tonal bg').toMatch(
-          PRIMARY_RGB_PATTERN,
-        )
+        const semanticBg = await computed(page, semantic, 'background-color')
+        expect.soft(semanticBg, 'QBtn semantic tonal bg').toMatch(/^rgba\(/)
+        expect.soft(semanticBg, 'QBtn semantic not Quasar Material primary').not.toBe('rgb(25, 118, 210)')
+        if (variant === 'feather') {
+          expect.soft(semanticBg, 'QBtn feather semantic not default Fluent primary').not.toMatch(/^rgba\(0,\s*90,\s*158/)
+        } else {
+          expect.soft(semanticBg, 'QBtn semantic tonal bg primary channel').toMatch(expected.primaryRgbPattern)
+        }
         expect.soft(await computed(page, semantic, 'color'), 'QBtn semantic tonal text').not.toBe('rgb(255, 255, 255)')
 
         // Explicit solid CTA remains available through .qds-solid.
         const solid = `${PANEL} .q-btn--unelevated.qds-solid.bg-primary:not(.q-btn--dense)`
-        expect.soft(await computed(page, solid, 'background-color'), 'QBtn solid bg').toBe(PRIMARY)
+        expect.soft(await computed(page, solid, 'background-color'), 'QBtn solid bg').toBe(expected.primary)
         expect.soft(await computed(page, solid, 'color'), 'QBtn solid text').toBe('rgb(255, 255, 255)')
 
         // TONAL: colored non-solid buttons share the same soft treatment.
         const tonal = `${PANEL} .q-btn.bg-primary:not(.qds-solid):not(.q-btn--flat):not(.q-btn--outline)`
         expect.soft(await computed(page, tonal, 'background-color'), 'QBtn tonal bg').toMatch(
-          PRIMARY_RGB_PATTERN, // primary rgb, translucent
+          expected.primaryRgbPattern, // primary rgb, translucent
         )
 
         // Standard/elevated buttons get a subtle QDS depth effect, not Quasar's Material shadow.
@@ -188,7 +263,7 @@ test.describe('QDS override gate', () => {
         expect.soft(focusRule?.boxShadow, 'QBtn focus box-shadow cleared').toBe('none')
         expect.soft(focusResolved.width, 'QBtn focus outline-width').toBe('2px')
         expect.soft(focusResolved.offset, 'QBtn focus outline-offset').toBe('2px')
-        expect.soft(focusResolved.primary, 'QBtn focus outline-color (primary)').toBe('#005a9e')
+        expect.soft(focusResolved.primary, 'QBtn focus outline-color (primary)').toBe(expected.primaryHex)
 
         // --- QInput (outlined): border token-driven (= --qds-border, strong) ---
         // Border lives on .q-field__control::before; Quasar animates border-color
@@ -197,20 +272,20 @@ test.describe('QDS override gate', () => {
         const fieldBefore = await settledComputed(page, () =>
           fieldControl.evaluate((el) => getComputedStyle(el as Element, '::before').borderTopColor),
         )
-        expect.soft(fieldBefore, 'QField outlined border color').toBe(FIELD_BORDER[mode])
+        expect.soft(fieldBefore, 'QField outlined border color').toBe(expected.fieldBorder)
         expect.soft(await fieldControl.evaluate((el) => getComputedStyle(el as Element).minHeight), 'QField thin height').toBe('36px')
 
         // --- QBadge/QChip: Quasar bg-* utilities must not leak Material solid fills ---
         const badge = `${PANEL} .q-badge.bg-primary`
         expect.soft(await computed(page, badge, 'background-color'), 'QBadge tonal bg').toMatch(
-          PRIMARY_RGB_PATTERN,
+          expected.primaryRgbPattern,
         )
         expect.soft(await computed(page, badge, 'background-color'), 'QBadge not Quasar Material primary').not.toBe(
           'rgb(25, 118, 210)',
         )
         const chip = `${PANEL} .q-chip.bg-primary`
         expect.soft(await computed(page, chip, 'background-color'), 'QChip tonal bg').toMatch(
-          PRIMARY_RGB_PATTERN,
+          expected.primaryRgbPattern,
         )
         expect.soft(await computed(page, chip, 'background-color'), 'QChip not Quasar Material primary').not.toBe(
           'rgb(25, 118, 210)',
@@ -227,7 +302,7 @@ test.describe('QDS override gate', () => {
         const cardBg = await computed(page, card, 'background-color')
         expect.soft(cardBg, 'QCard bg (acrylic base)').not.toBe('rgba(0, 0, 0, 0)')
         if (mode === 'dark') {
-          expect.soft(cardBg, 'QCard dark bg != light surface').not.toBe(LIGHT_SURFACE)
+          expect.soft(cardBg, 'QCard dark bg != light surface').not.toBe(expected.lightSurface)
         }
         const cardVars = await page.locator(card).first().evaluate((el) => {
           const cs = getComputedStyle(el as Element)
@@ -243,7 +318,8 @@ test.describe('QDS override gate', () => {
         await page.getByRole('button', { name: 'Open menu' }).click()
         const menu = '.q-menu'
         await expect(page.locator(menu).first()).toBeVisible()
-        expect.soft(await computed(page, menu, 'background-color'), 'QMenu bg').toBe(SURFACE[mode])
+        expect.soft(await computed(page, menu, 'background-color'), 'QMenu bg').toBe(expected.surface)
+        expect.soft(await computed(page, menu, 'border-top-color'), 'QMenu border').toBe(expected.subtleBorder)
         expect.soft(await computed(page, menu, 'box-shadow'), 'QMenu shadow').not.toBe('none')
         // Dismiss via a v-close-popup item (reliable on touch; Escape is flaky on mobile).
         await page.locator(`${menu} .q-item`).first().click()
@@ -256,8 +332,8 @@ test.describe('QDS override gate', () => {
         // notification-radius = --qds-radius-md (8px), constant across variants.
         expect.soft(await computed(page, notify, 'border-radius'), 'QNotification radius').toBe('8px')
         expect.soft(await computed(page, notify, 'box-shadow'), 'QNotification shadow').not.toBe('none')
-        expect.soft(await computed(page, notify, 'background-color'), 'QNotification bg').toBe(SURFACE[mode])
-        const assertNotifyState = async (type: keyof typeof SEMANTIC_RGB) => {
+        expect.soft(await computed(page, notify, 'background-color'), 'QNotification bg').toBe(expected.surface)
+        const assertNotifyState = async (type: Semantic) => {
           const item = page.locator('.q-notification', { hasText: `This is a ${type} notification` }).first()
           await expect(item, `QNotification ${type} visible`).toBeVisible()
           const state = await item.evaluate((el) => {
@@ -271,11 +347,11 @@ test.describe('QDS override gate', () => {
               icon: icon ? getComputedStyle(icon).color : '',
             }
           })
-          expect.soft(state.bg, `QNotification ${type} keeps QDS surface`).toBe(SURFACE[mode])
-          expect.soft(state.rail, `QNotification ${type} semantic rail`).toBe(SEMANTIC_RGB[type])
+          expect.soft(state.bg, `QNotification ${type} keeps QDS surface`).toBe(expected.surface)
+          expect.soft(state.rail, `QNotification ${type} semantic rail`).toBe(expected.semantic[type])
           expect.soft(state.border, `QNotification ${type} semantic border`).toMatch(/^rgba?\(/)
           if (state.icon) {
-            expect.soft(state.icon, `QNotification ${type} semantic icon`).toBe(SEMANTIC_RGB[type])
+            expect.soft(state.icon, `QNotification ${type} semantic icon`).toBe(expected.semantic[type])
           }
         }
         await assertNotifyState('info')
@@ -376,7 +452,7 @@ test.describe('QDS override gate', () => {
         // --- QPagination: current page is tonal, not Material solid primary ---
         const currentPage = `${PANEL} .q-pagination .q-btn.bg-primary`
         expect.soft(await computed(page, currentPage, 'background-color'), 'QPagination active tonal bg').toMatch(
-          PRIMARY_RGB_PATTERN,
+          expected.primaryRgbPattern,
         )
         expect.soft(await computed(page, currentPage, 'background-color'), 'QPagination not Material primary').not.toBe(
           'rgb(25, 118, 210)',
@@ -414,7 +490,7 @@ test.describe('QDS override gate', () => {
         // --- selection controls: selected states are primary tonal, not default Material blue ---
         const checkboxBg = `${PANEL} .q-checkbox .q-checkbox__bg`
         expect.soft(await computed(page, checkboxBg, 'background-color'), 'QCheckbox selected tonal bg').toMatch(
-          PRIMARY_RGB_PATTERN,
+          expected.primaryRgbPattern,
         )
         expect.soft(await computed(page, `${PANEL} .q-checkbox .q-checkbox__inner`, 'font-size'), 'QCheckbox compact inner').toBe('32px')
         const checkboxGeometry = await page.locator(`${PANEL} .q-checkbox:has-text("Checkbox selected")`).first().evaluate((el) => {
@@ -430,11 +506,11 @@ test.describe('QDS override gate', () => {
         expect.soft(checkboxGeometry.svg.right, 'QCheckbox svg stays inside bg right').toBeLessThanOrEqual(checkboxGeometry.bg.right + 0.5)
         expect.soft(checkboxGeometry.svg.bottom, 'QCheckbox svg stays inside bg bottom').toBeLessThanOrEqual(checkboxGeometry.bg.bottom + 0.5)
         expect.soft(await computed(page, `${PANEL} .q-radio .q-radio__bg`, 'background-color'), 'QRadio selected tonal bg').toMatch(
-          PRIMARY_RGB_PATTERN,
+          expected.primaryRgbPattern,
         )
         expect.soft(await computed(page, `${PANEL} .q-radio:has-text("Comfortable density") .q-radio__bg`, 'border-top-width'), 'QRadio selected ring width').toBe('1px')
-        expect.soft(await computed(page, `${PANEL} .q-radio:has-text("Comfortable density") .q-radio__bg`, 'border-top-color'), 'QRadio selected ring color').toBe(PRIMARY)
-        expect.soft(await computed(page, `${PANEL} .q-radio:has-text("Comfortable density") .q-radio__check`, 'fill'), 'QRadio selected dot color').toBe(PRIMARY)
+        expect.soft(await computed(page, `${PANEL} .q-radio:has-text("Comfortable density") .q-radio__bg`, 'border-top-color'), 'QRadio selected ring color').toBe(expected.primary)
+        expect.soft(await computed(page, `${PANEL} .q-radio:has-text("Comfortable density") .q-radio__check`, 'fill'), 'QRadio selected dot color').toBe(expected.primary)
         const unselectedRadio = page.locator(`${PANEL} .q-radio:has-text("Compact density")`).first()
         const unselectedRadioState = await unselectedRadio.evaluate((el) => {
           const bg = el.querySelector('.q-radio__bg') as Element
@@ -444,11 +520,11 @@ test.describe('QDS override gate', () => {
             dotTransform: getComputedStyle(check).transform,
           }
         })
-        expect.soft(unselectedRadioState.bg, 'QRadio unselected not primary-filled').not.toMatch(PRIMARY_RGB_PATTERN)
+        expect.soft(unselectedRadioState.bg, 'QRadio unselected not primary-filled').not.toMatch(expected.primaryRgbPattern)
         expect.soft(unselectedRadioState.dotTransform, 'QRadio unselected dot hidden').not.toBe('matrix(1, 0, 0, 1, 0, 0)')
         const toggleTrack = `${PANEL} .q-toggle .q-toggle__track`
         expect.soft(await computed(page, toggleTrack, 'background-color'), 'QToggle selected track').toMatch(
-          PRIMARY_RGB_PATTERN,
+          expected.primaryRgbPattern,
         )
         expect.soft(await computed(page, `${PANEL} .q-toggle .q-toggle__inner`, 'height'), 'QToggle compact shell').toBe('32px')
         const toggleGeometry = await page.locator(`${PANEL} .q-toggle:has-text("Enable tonal surfaces")`).first().evaluate((el) => {

@@ -1,6 +1,10 @@
 @use 'sass:map';
 @use '../tokens/default' as tokens;
 
+@function qds-variant-token($variant, $token) {
+  @return map.get(map.get(tokens.$variants, $variant), $token);
+}
+
 // Re-include after base overrides so var() chains do not strand.
 @mixin qds-derived-tokens {
   --qds-elevation-1: var(--qds-shadow-sm);
@@ -223,23 +227,84 @@
   }
 
   .qds-variant-feather {
-    --qds-radius-control: #{map.get(map.get(tokens.$variants, feather), radius-control)};
-    --qds-radius-lg: #{map.get(map.get(tokens.$variants, feather), radius-lg)};
-    --qds-surface-glass: #{map.get(map.get(tokens.$variants, feather), surface-glass)};
-    --qds-shadow-md: #{map.get(map.get(tokens.$variants, feather), shadow-md)};
-    --qds-tonal-bg-opacity: #{map.get(map.get(tokens.$variants, feather), tonal-bg-opacity)};
-    --qds-card-tonal-opacity: #{map.get(map.get(tokens.$variants, feather), card-tonal-opacity)};
-    --qds-card-fallback-tonal-opacity: #{map.get(map.get(tokens.$variants, feather), card-fallback-tonal-opacity)};
-    --qds-card-border-mix: #{map.get(map.get(tokens.$variants, feather), card-border-mix)};
-    --qds-card-backdrop-blur: #{map.get(map.get(tokens.$variants, feather), card-backdrop-blur)};
-    --qds-card-backdrop-saturate: #{map.get(map.get(tokens.$variants, feather), card-backdrop-saturate)};
+    --qds-color-primary: #{qds-variant-token(feather, primary)};
+    --qds-color-primary-light: #{qds-variant-token(feather, primary-light)};
+    --qds-color-primary-dark: #{qds-variant-token(feather, primary-dark)};
+    --qds-color-secondary: #{qds-variant-token(feather, secondary)};
+    --qds-color-accent: #{qds-variant-token(feather, accent)};
+    --qds-color-positive: #{qds-variant-token(feather, positive)};
+    --qds-color-negative: #{qds-variant-token(feather, negative)};
+    --qds-color-warning: #{qds-variant-token(feather, warning)};
+    --qds-color-info: #{qds-variant-token(feather, info)};
+    --qds-color-primary-rgb: #{qds-variant-token(feather, primary-rgb)};
+    --qds-color-primary-light-rgb: #{qds-variant-token(feather, primary-light-rgb)};
+    --qds-color-primary-dark-rgb: #{qds-variant-token(feather, primary-dark-rgb)};
+    --qds-color-secondary-rgb: #{qds-variant-token(feather, secondary-rgb)};
+    --qds-color-accent-rgb: #{qds-variant-token(feather, accent-rgb)};
+    --qds-color-positive-rgb: #{qds-variant-token(feather, positive-rgb)};
+    --qds-color-negative-rgb: #{qds-variant-token(feather, negative-rgb)};
+    --qds-color-warning-rgb: #{qds-variant-token(feather, warning-rgb)};
+    --qds-color-info-rgb: #{qds-variant-token(feather, info-rgb)};
+    --qds-surface-0: #{qds-variant-token(feather, light-surface-0)};
+    --qds-surface-1: #{qds-variant-token(feather, light-surface-1)};
+    --qds-surface-2: #{qds-variant-token(feather, light-surface-2)};
+    --qds-surface-3: #{qds-variant-token(feather, light-surface-3)};
+    --qds-surface-glass: #{qds-variant-token(feather, light-surface-glass)};
+    --qds-text: #{qds-variant-token(feather, light-text)};
+    --qds-text-strong: #{qds-variant-token(feather, light-text-strong)};
+    --qds-text-muted: #{qds-variant-token(feather, light-text-muted)};
+    --qds-border: #{qds-variant-token(feather, light-border)};
+    --qds-border-subtle: #{qds-variant-token(feather, light-border-subtle)};
+    --qds-shadow-sm: #{qds-variant-token(feather, shadow-sm)};
+    --qds-shadow-md: #{qds-variant-token(feather, shadow-md)};
+    --qds-shadow-lg: #{qds-variant-token(feather, shadow-lg)};
+    --qds-radius-control: #{qds-variant-token(feather, radius-control)};
+    --qds-radius-lg: #{qds-variant-token(feather, radius-lg)};
+    --qds-tonal-bg-opacity: #{qds-variant-token(feather, tonal-bg-opacity)};
+    --qds-card-tonal-opacity: #{qds-variant-token(feather, card-tonal-opacity)};
+    --qds-card-fallback-tonal-opacity: #{qds-variant-token(feather, card-fallback-tonal-opacity)};
+    --qds-card-border-mix: #{qds-variant-token(feather, card-border-mix)};
+    --qds-card-backdrop-blur: #{qds-variant-token(feather, card-backdrop-blur)};
+    --qds-card-backdrop-saturate: #{qds-variant-token(feather, card-backdrop-saturate)};
 
     @include qds-derived-tokens;
   }
 
   .qds-theme-dark.qds-variant-feather,
   body.qds-ui.body--dark.qds-variant-feather {
-    --qds-surface-glass: #{map.get(map.get(tokens.$variants, feather), dark-surface-glass)};
+    --qds-color-primary: #{qds-variant-token(feather, dark-primary)};
+    --qds-color-primary-light: #{qds-variant-token(feather, dark-primary-light)};
+    --qds-color-primary-dark: #{qds-variant-token(feather, dark-primary-dark)};
+    --qds-color-secondary: #{qds-variant-token(feather, dark-secondary)};
+    --qds-color-accent: #{qds-variant-token(feather, dark-accent)};
+    --qds-color-positive: #{qds-variant-token(feather, dark-positive)};
+    --qds-color-negative: #{qds-variant-token(feather, dark-negative)};
+    --qds-color-warning: #{qds-variant-token(feather, dark-warning)};
+    --qds-color-info: #{qds-variant-token(feather, dark-info)};
+    --qds-color-primary-rgb: #{qds-variant-token(feather, dark-primary-rgb)};
+    --qds-color-primary-light-rgb: #{qds-variant-token(feather, dark-primary-light-rgb)};
+    --qds-color-primary-dark-rgb: #{qds-variant-token(feather, dark-primary-dark-rgb)};
+    --qds-color-secondary-rgb: #{qds-variant-token(feather, dark-secondary-rgb)};
+    --qds-color-accent-rgb: #{qds-variant-token(feather, dark-accent-rgb)};
+    --qds-color-positive-rgb: #{qds-variant-token(feather, dark-positive-rgb)};
+    --qds-color-negative-rgb: #{qds-variant-token(feather, dark-negative-rgb)};
+    --qds-color-warning-rgb: #{qds-variant-token(feather, dark-warning-rgb)};
+    --qds-color-info-rgb: #{qds-variant-token(feather, dark-info-rgb)};
+    --qds-surface-0: #{qds-variant-token(feather, dark-surface-0)};
+    --qds-surface-1: #{qds-variant-token(feather, dark-surface-1)};
+    --qds-surface-2: #{qds-variant-token(feather, dark-surface-2)};
+    --qds-surface-3: #{qds-variant-token(feather, dark-surface-3)};
+    --qds-surface-glass: #{qds-variant-token(feather, dark-surface-glass)};
+    --qds-text: #{qds-variant-token(feather, dark-text)};
+    --qds-text-strong: #{qds-variant-token(feather, dark-text-strong)};
+    --qds-text-muted: #{qds-variant-token(feather, dark-text-muted)};
+    --qds-border: #{qds-variant-token(feather, dark-border)};
+    --qds-border-subtle: #{qds-variant-token(feather, dark-border-subtle)};
+    --qds-shadow-sm: #{qds-variant-token(feather, dark-shadow-sm)};
+    --qds-shadow-md: #{qds-variant-token(feather, dark-shadow-md)};
+    --qds-shadow-lg: #{qds-variant-token(feather, dark-shadow-lg)};
+    --qds-card-tonal-opacity: #{qds-variant-token(feather, dark-card-tonal-opacity)};
+    --qds-card-fallback-tonal-opacity: #{qds-variant-token(feather, dark-card-fallback-tonal-opacity)};
 
     @include qds-derived-tokens;
   }
