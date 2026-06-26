@@ -115,6 +115,17 @@ The package is structured around `src/themes/`. For now there is one real theme,
 
 They are not separate brands — deliberate overlays over the same token system.
 
+Choose the variant once at app startup and let the runtime keep the matching body class in sync:
+
+```ts
+configureDesignSystem(app, {
+  mode: 'system',
+  variant: 'feather', // fluent | air | mobile | feather | terminal
+})
+```
+
+The legacy `glass` value still resolves to `air` for existing consumers, but new apps should use the canonical names above.
+
 ## Component Coverage
 
 QDS skins visible Quasar chrome — buttons, cards, inputs, toolbars, drawers, lists, expansion items, and similar surfaces that carry tokenized visual treatment.
