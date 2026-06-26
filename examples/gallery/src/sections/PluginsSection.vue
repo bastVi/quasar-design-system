@@ -21,6 +21,7 @@ const gridActions = [
   { id: 'fluent', label: 'Fluent' },
   { id: 'air', label: 'Air' },
   { id: 'mobile', label: 'Mobile' },
+  { id: 'feather', label: 'Feather' },
   {},
   { id: 'tokens', label: 'Tokens' },
   { id: 'motion', label: 'Motion' },

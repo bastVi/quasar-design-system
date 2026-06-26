@@ -110,6 +110,7 @@ The package is structured around `src/themes/`. For now there is one real theme,
 - `fluent`: default Fluent 2-inspired direction, balanced desktop/admin density.
 - `air`: airier acrylic surfaces for colorful, image-rich, transparency-forward apps. Legacy `glass` input is normalized for compatibility.
 - `mobile`: Samsung One UI-inspired rounding, spacing, and touch-friendly controls.
+- `feather`: warm paper/e-ink mood with minimal glass behavior, muted sage/earth actions, and low-fatigue surfaces.
 
 They are not separate brands — deliberate overlays over the same token system.
 
