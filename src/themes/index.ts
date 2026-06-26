@@ -1,4 +1,4 @@
-export type CanonicalDesignSystemVariantName = 'fluent' | 'air' | 'mobile' | 'feather'
+export type CanonicalDesignSystemVariantName = 'fluent' | 'air' | 'mobile' | 'feather' | 'terminal'
 export type BuiltInDesignSystemVariantName = CanonicalDesignSystemVariantName | 'glass'
 export type LegacyDesignSystemVariantName = 'studio' | 'glass'
 
@@ -48,6 +48,12 @@ export const DESIGN_SYSTEM_VARIANTS = {
     description: 'Soft, low-acrylic paper mood with rounder shape and gentle tonal contrast.',
     cssClass: 'qds-variant-feather',
   },
+  terminal: {
+    name: 'terminal',
+    label: 'Terminal',
+    description: 'Dark amber developer UI with near-black surfaces, crisp hairline cards, and restrained glow.',
+    cssClass: 'qds-variant-terminal',
+  },
 } as Record<CanonicalDesignSystemVariantName, DesignSystemVariant> & { glass: DesignSystemVariant }
 
 Object.defineProperty(DESIGN_SYSTEM_VARIANTS, 'glass', {
@@ -73,7 +79,7 @@ export const DESIGN_SYSTEM_THEMES = {
 } as const
 
 export function isBuiltInDesignSystemVariantName(value: unknown): value is BuiltInDesignSystemVariantName {
-  return value === 'fluent' || value === 'air' || value === 'mobile' || value === 'feather' || value === 'glass'
+  return value === 'fluent' || value === 'air' || value === 'mobile' || value === 'feather' || value === 'terminal' || value === 'glass'
 }
 
 // Accepts any non-empty string so external projects can register variants;

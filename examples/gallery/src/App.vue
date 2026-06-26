@@ -8,6 +8,7 @@ import {
   PhPalette,
   PhSparkle,
   PhSun,
+  PhTerminal,
 } from '@phosphor-icons/vue'
 import {
   useDesignSystem,
@@ -44,6 +45,7 @@ const variantIcons: Record<string, Component> = {
   air: PhSparkle,
   mobile: PhDeviceMobile,
   feather: PhFeather,
+  terminal: PhTerminal,
 }
 
 function onMode(mode: DesignSystemMode) {

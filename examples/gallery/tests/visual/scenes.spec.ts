@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-const VARIANTS = ['fluent', 'air', 'mobile', 'feather'] as const
+const VARIANTS = ['fluent', 'air', 'mobile', 'feather', 'terminal'] as const
 
 test.describe('QDS scene gallery', () => {
   test('hash route mounts scenic variant matrix', async ({ page }) => {

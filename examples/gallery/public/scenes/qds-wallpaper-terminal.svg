@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Terminal dark amber wallpaper">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0" stop-color="#0d0f12"/>
+      <stop offset="0.5" stop-color="#10131a"/>
+      <stop offset="1" stop-color="#0d0f12"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.22" cy="0.18" r="0.45">
+      <stop offset="0" stop-color="#fcc40d" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#fcc40d" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0 L0 0 0 40" fill="none" stroke="#fcc40d" stroke-opacity="0.04" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect width="1200" height="800" fill="url(#grid)"/>
+  <rect width="1200" height="800" fill="url(#glow)"/>
+  <rect x="90" y="90" width="360" height="240" rx="8" fill="none" stroke="#fcc40d" stroke-opacity="0.1" stroke-width="1"/>
+  <rect x="90" y="90" width="360" height="28" rx="8" fill="#fcc40d" fill-opacity="0.06"/>
+  <circle cx="108" cy="104" r="4" fill="#e05555" opacity="0.5"/>
+  <circle cx="122" cy="104" r="4" fill="#f0a030" opacity="0.5"/>
+  <circle cx="136" cy="104" r="4" fill="#5cb85c" opacity="0.5"/>
+  <line x1="108" y1="138" x2="260" y2="138" stroke="#fcc40d" stroke-opacity="0.22" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="108" y1="158" x2="320" y2="158" stroke="#b3a992" stroke-opacity="0.12" stroke-width="1" stroke-linecap="round"/>
+  <line x1="108" y1="174" x2="200" y2="174" stroke="#b3a992" stroke-opacity="0.12" stroke-width="1" stroke-linecap="round"/>
+  <line x1="108" y1="194" x2="380" y2="194" stroke="#fcc40d" stroke-opacity="0.14" stroke-width="1" stroke-linecap="round"/>
+  <line x1="108" y1="214" x2="280" y2="214" stroke="#b3a992" stroke-opacity="0.1" stroke-width="1" stroke-linecap="round"/>
+  <rect x="700" y="200" width="420" height="300" rx="8" fill="none" stroke="#fcc40d" stroke-opacity="0.08" stroke-width="1"/>
+  <rect x="700" y="200" width="420" height="28" rx="8" fill="#fcc40d" fill-opacity="0.04"/>
+  <circle cx="718" cy="214" r="4" fill="#e05555" opacity="0.4"/>
+  <circle cx="732" cy="214" r="4" fill="#f0a030" opacity="0.4"/>
+  <circle cx="746" cy="214" r="4" fill="#5cb85c" opacity="0.4"/>
+  <line x1="718" y1="250" x2="900" y2="250" stroke="#fcc40d" stroke-opacity="0.18" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="718" y1="270" x2="1020" y2="270" stroke="#b3a992" stroke-opacity="0.1" stroke-width="1" stroke-linecap="round"/>
+  <line x1="718" y1="286" x2="860" y2="286" stroke="#b3a992" stroke-opacity="0.1" stroke-width="1" stroke-linecap="round"/>
+  <line x1="718" y1="310" x2="1060" y2="310" stroke="#fcc40d" stroke-opacity="0.12" stroke-width="1" stroke-linecap="round"/>
+  <line x1="718" y1="330" x2="940" y2="330" stroke="#b3a992" stroke-opacity="0.08" stroke-width="1" stroke-linecap="round"/>
+  <line x1="718" y1="350" x2="800" y2="350" stroke="#b3a992" stroke-opacity="0.08" stroke-width="1" stroke-linecap="round"/>
+  <line x1="718" y1="374" x2="980" y2="374" stroke="#fcc40d" stroke-opacity="0.1" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="718" y1="394" x2="850" y2="394" stroke="#b3a992" stroke-opacity="0.08" stroke-width="1" stroke-linecap="round"/>
+</svg>

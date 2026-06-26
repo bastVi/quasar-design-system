@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [0.5.0] — 2026-06-26
+
+### Added
+
+- Added `terminal` built-in variant (`qds-variant-terminal`): dark amber developer
+  UI with near-black surfaces, #fcc40d amber primary, crisp hairline cards,
+  restrained glow, and tight 6px control radius.
+- Added terminal scene wallpaper SVG and Playwright variant/scenes expectations.
+
 ## [0.4.0] — 2026-06-25
 
 ### Added

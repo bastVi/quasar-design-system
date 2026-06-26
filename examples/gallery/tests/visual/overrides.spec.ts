@@ -11,22 +11,24 @@ import { test, expect, type Page } from '@playwright/test'
  */
 
 type Mode = 'light' | 'dark'
-type Variant = 'fluent' | 'air' | 'mobile' | 'feather'
+type Variant = 'fluent' | 'air' | 'mobile' | 'feather' | 'terminal'
 
 // Expected resolved values, derived from src/tokens/_default.scss (Fluent refinement).
-// --qds-radius-control: fluent 8 / air 10 / mobile 14 / feather 12.
+// --qds-radius-control: fluent 8 / air 10 / mobile 14 / feather 12 / terminal 6.
 const EXPECTED_CONTROL_RADIUS: Record<Variant, string> = {
   fluent: '8px',
   air: '10px',
   mobile: '14px',
   feather: '12px',
+  terminal: '6px',
 }
-// --qds-card-radius = --qds-radius-lg: fluent 12 / air 16 / mobile 20 / feather 22.
+// --qds-card-radius = --qds-radius-lg: fluent 12 / air 16 / mobile 20 / feather 22 / terminal 10.
 const EXPECTED_CARD_RADIUS: Record<Variant, string> = {
   fluent: '12px',
   air: '16px',
   mobile: '20px',
   feather: '22px',
+  terminal: '10px',
 }
 
 type Semantic = 'positive' | 'negative' | 'warning' | 'info'
@@ -46,6 +48,13 @@ const BASE_SEMANTIC: Record<Semantic, string> = {
   negative: 'rgb(196, 43, 28)',
   warning: 'rgb(247, 99, 12)',
   info: 'rgb(85, 124, 153)',
+}
+
+const TERMINAL_SEMANTIC: Record<Semantic, string> = {
+  positive: 'rgb(92, 184, 92)',
+  negative: 'rgb(224, 85, 85)',
+  warning: 'rgb(240, 160, 48)',
+  info: 'rgb(108, 160, 220)',
 }
 
 const BASE_LIGHT: VariantExpectations = {
@@ -90,6 +99,16 @@ const EXPECTED_TOKENS: Record<Mode, Record<Variant, VariantExpectations>> = {
         info: 'rgb(98, 122, 120)',
       },
     },
+    terminal: {
+      surface: 'rgb(245, 243, 239)', // #f5f3ef
+      lightSurface: 'rgb(245, 243, 239)',
+      primary: 'rgb(252, 196, 13)', // #fcc40d
+      primaryHex: '#fcc40d',
+      primaryRgbPattern: /^rgba\(252,\s*196,\s*13/,
+      fieldBorder: 'rgb(168, 164, 152)', // #a8a498
+      subtleBorder: 'rgb(201, 197, 184)', // #c9c5b8
+      semantic: TERMINAL_SEMANTIC,
+    },
   },
   dark: {
     fluent: BASE_DARK,
@@ -110,11 +129,21 @@ const EXPECTED_TOKENS: Record<Mode, Record<Variant, VariantExpectations>> = {
         info: 'rgb(113, 139, 137)',
       },
     },
+    terminal: {
+      surface: 'rgb(13, 15, 18)', // #0d0f12
+      lightSurface: BASE_LIGHT.lightSurface,
+      primary: 'rgb(252, 196, 13)', // #fcc40d
+      primaryHex: '#fcc40d',
+      primaryRgbPattern: /^rgba\(252,\s*196,\s*13/,
+      fieldBorder: 'rgb(74, 72, 56)', // #4a4838
+      subtleBorder: 'rgb(52, 50, 40)', // #343228
+      semantic: TERMINAL_SEMANTIC,
+    },
   },
 }
 
 const MODES: Mode[] = ['light', 'dark']
-const VARIANTS: Variant[] = ['fluent', 'air', 'mobile', 'feather']
+const VARIANTS: Variant[] = ['fluent', 'air', 'mobile', 'feather', 'terminal']
 
 /** Drive the runtime controller exactly as an external app would. */
 async function applyTheme(page: Page, mode: Mode, variant: Variant) {
