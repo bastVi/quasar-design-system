@@ -24,7 +24,7 @@ import CatalogLoadingData from './catalog/CatalogLoadingData.vue'
 }
 
 .catalog-card {
-  border: 1px solid var(--qds-border-subtle);
+  border: 1px solid var(--qds-chrome-border);
 }
 
 .catalog-heading,
@@ -50,9 +50,10 @@ import CatalogLoadingData from './catalog/CatalogLoadingData.vue'
 .catalog-demo {
   min-width: 0;
   padding: var(--qds-space-md);
-  border: 1px solid var(--qds-border-subtle);
+  border: 1px solid var(--qds-chrome-border-soft);
   border-radius: var(--qds-radius-lg);
-  background: color-mix(in srgb, var(--qds-surface-1) 92%, transparent);
+  background: var(--qds-chrome-surface);
+  box-shadow: var(--qds-chrome-shadow);
 }
 
 .catalog-demo--wide {
@@ -74,9 +75,9 @@ import CatalogLoadingData from './catalog/CatalogLoadingData.vue'
 .catalog-pull-box,
 .catalog-edit-target,
 .catalog-loading-box {
-  border: 1px solid var(--qds-border-subtle);
+  border: 1px solid var(--qds-chrome-border-soft);
   border-radius: var(--qds-radius-md);
-  background: var(--qds-surface-1);
+  background: var(--qds-chrome-surface);
 }
 
 .catalog-bar {

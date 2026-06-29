@@ -21,7 +21,7 @@ test.describe('QDS scene gallery', () => {
     }
   })
 
-  test('Air scene exposes matte-glass material tokens', async ({ page }) => {
+  test('Air scene exposes pure SwiftUI-like material tokens', async ({ page }) => {
     await page.goto('/#scenes')
 
     const air = page.locator('[data-test="qds-scene-air"]')
@@ -36,15 +36,20 @@ test.describe('QDS scene gallery', () => {
         fallbackOpacity: Number(cs.getPropertyValue('--qds-card-fallback-tonal-opacity').trim()),
         blur: cs.getPropertyValue('--qds-card-backdrop-blur').trim(),
         saturate: Number(cs.getPropertyValue('--qds-card-backdrop-saturate').trim()),
+        cardBorder: cs.getPropertyValue('--qds-card-border').trim(),
+        chromeShadow: cs.getPropertyValue('--qds-chrome-shadow').trim(),
       }
     })
 
-    expect.soft(airTokens.surfaceGlass).toMatch(/^rgba\(249, 252, 255, 0?\.62\)$/)
+    expect.soft(airTokens.surfaceGlass).toMatch(/^rgba\(250, 252, 255, 0?\.78\)$/)
     expect.soft(airTokens.tintRgb).toBe('232, 242, 252')
-    expect.soft(airTokens.tonalOpacity).toBeGreaterThan(0.2)
-    expect.soft(airTokens.fallbackOpacity).toBeGreaterThan(0.1)
-    expect.soft(airTokens.blur).toBe('1.375rem')
-    expect.soft(airTokens.saturate).toBeGreaterThan(1.2)
+    expect.soft(airTokens.tonalOpacity).toBeGreaterThanOrEqual(0.07)
+    expect.soft(airTokens.tonalOpacity).toBeLessThan(0.1)
+    expect.soft(airTokens.fallbackOpacity).toBeGreaterThanOrEqual(0.05)
+    expect.soft(airTokens.blur).toBe('1.75rem')
+    expect.soft(airTokens.saturate).toBeGreaterThanOrEqual(1.12)
+    expect.soft(airTokens.cardBorder).toContain('16%')
+    expect.soft(airTokens.chromeShadow).toBe('none')
   })
 
   test('Feather scene remains paper-first, not glass-first', async ({ page }) => {

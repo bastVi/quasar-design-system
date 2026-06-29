@@ -46,7 +46,7 @@
   .qds-ui .q-option-group.q-option-group .q-checkbox:focus-within,
   .qds-ui .q-option-group.q-option-group .q-radio:focus-within,
   .qds-ui .q-option-group.q-option-group .q-toggle:focus-within {
-    background: color-mix(in srgb, var(--qds-surface-2) 86%, var(--qds-color-primary) 6%);
+    background: color-mix(in srgb, var(--qds-chrome-surface) 86%, var(--qds-color-primary) 6%);
   }
 
   .qds-ui .q-file.q-file .q-field__native {
@@ -101,10 +101,10 @@
   .qds-ui .q-date.q-date,
   .qds-ui .q-time.q-time {
     color: var(--qds-text);
-    background: var(--qds-menu-bg);
-    border: var(--qds-border-width-control) solid var(--qds-menu-border);
+    background: var(--qds-chrome-surface-strong);
+    border: var(--qds-border-width-control) solid var(--qds-chrome-border);
     border-radius: var(--qds-menu-radius);
-    box-shadow: var(--qds-menu-shadow);
+    box-shadow: var(--qds-media-frame-shadow);
     overflow: hidden;
   }
 
@@ -117,7 +117,7 @@
   .qds-ui .q-color-picker.q-color-picker .q-tab-panels,
   .qds-ui .q-date.q-date .q-date__content,
   .qds-ui .q-time.q-time .q-time__content {
-    background: var(--qds-menu-bg);
+    background: var(--qds-chrome-surface-strong);
     color: var(--qds-text);
   }
 
@@ -126,7 +126,7 @@
     color: var(--qds-text-strong);
     background:
       linear-gradient(135deg, rgba(var(--qds-color-primary-rgb), 0.2), transparent 72%),
-      color-mix(in srgb, var(--qds-surface-1) 88%, var(--qds-color-primary) 12%);
+      color-mix(in srgb, var(--qds-chrome-surface) 88%, var(--qds-color-primary) 12%);
     border-bottom: var(--qds-border-width-control) solid rgba(var(--qds-color-primary-rgb), var(--qds-tonal-border-opacity));
   }
 
@@ -166,7 +166,7 @@
   .qds-ui .q-date.q-date .q-date__view,
   .qds-ui .q-date.q-date .q-date__years-content,
   .qds-ui .q-time.q-time .q-time__container-parent {
-    background: var(--qds-menu-bg);
+    background: var(--qds-chrome-surface-strong);
   }
 
   .qds-ui .q-date.q-date .q-date__navigation .q-btn.q-btn,
@@ -182,7 +182,7 @@
   .qds-ui .q-date.q-date .q-date__months-item .q-btn.q-btn:hover,
   .qds-ui .q-date.q-date .q-date__calendar-item .q-btn.q-btn:hover {
     color: var(--qds-text-strong);
-    background: color-mix(in srgb, var(--qds-surface-2) 82%, var(--qds-color-primary) 10%);
+    background: color-mix(in srgb, var(--qds-chrome-surface) 82%, var(--qds-color-primary) 10%);
   }
 
   .qds-ui .q-date.q-date .q-date__calendar-weekdays > div {
@@ -225,21 +225,21 @@
 
   .qds-ui .q-date.q-date .q-date__event {
     background: var(--qds-color-secondary);
-    box-shadow: 0 0 0 2px var(--qds-menu-bg);
+    box-shadow: 0 0 0 2px var(--qds-chrome-surface-strong);
   }
 
   .qds-ui .q-date.q-date .q-date__actions,
   .qds-ui .q-time.q-time .q-time__actions {
     gap: var(--qds-space-sm);
     padding: var(--qds-space-md);
-    background: color-mix(in srgb, var(--qds-surface-1) 76%, transparent);
-    border-top: var(--qds-border-width-control) solid var(--qds-border-subtle);
+    background: var(--qds-chrome-surface);
+    border-top: var(--qds-border-width-control) solid var(--qds-separator-color);
   }
 
   .qds-ui .q-time.q-time .q-time__container-child {
     background:
-      radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--qds-surface-2) 76%, var(--qds-color-primary) 8%), var(--qds-surface-1));
-    box-shadow: inset 0 0 0 var(--qds-border-width-control) var(--qds-border-subtle);
+      radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--qds-chrome-surface) 76%, var(--qds-color-primary) 8%), var(--qds-chrome-surface-strong));
+    box-shadow: inset 0 0 0 var(--qds-border-width-control) var(--qds-separator-color);
   }
 
   .qds-ui .q-time.q-time .q-time__clock {
@@ -292,11 +292,11 @@
   .qds-ui .q-color-picker.q-color-picker .q-color-picker__header-tabs,
   .qds-ui .q-color-picker.q-color-picker .q-color-picker__footer {
     color: var(--qds-text);
-    background: color-mix(in srgb, var(--qds-surface-1) 84%, var(--qds-color-primary) 6%);
+    background: color-mix(in srgb, var(--qds-chrome-surface) 84%, var(--qds-color-primary) 6%);
   }
 
   .qds-ui .q-color-picker.q-color-picker .q-color-picker__header-banner {
-    border-bottom: var(--qds-border-width-control) solid var(--qds-border-subtle);
+    border-bottom: var(--qds-border-width-control) solid var(--qds-separator-color);
   }
 
   .qds-ui .q-color-picker.q-color-picker .q-tab.q-tab {
@@ -321,8 +321,8 @@
 
   .qds-ui .q-color-picker.q-color-picker input {
     color: var(--qds-text);
-    background: color-mix(in srgb, var(--qds-surface-2) 72%, transparent);
-    border: var(--qds-border-width-control) solid var(--qds-border-subtle);
+    background: var(--qds-chrome-surface);
+    border: var(--qds-border-width-control) solid var(--qds-chrome-border-soft);
     border-radius: var(--qds-radius-sm);
   }
 
@@ -334,7 +334,7 @@
 
   .qds-ui .q-color-picker.q-color-picker .q-color-picker__sliders {
     padding: var(--qds-space-md);
-    background: var(--qds-menu-bg);
+    background: var(--qds-chrome-surface-strong);
   }
 
   .qds-ui .q-color-picker.q-color-picker .q-color-picker__tune-tab {
@@ -351,7 +351,7 @@
     box-shadow:
       0 0 0 2px var(--qds-surface-0),
       0 0 0 4px color-mix(in srgb, var(--qds-text-strong) 36%, transparent),
-      var(--qds-shadow-sm);
+      var(--qds-chrome-shadow);
   }
 
   .qds-ui .q-color-picker.q-color-picker .q-color-picker__cube {
@@ -375,10 +375,10 @@
     min-width: min(22rem, calc(100vw - 2rem));
     padding: var(--qds-space-md);
     color: var(--qds-text);
-    background: var(--qds-menu-bg);
-    border: var(--qds-border-width-control) solid var(--qds-menu-border);
+    background: var(--qds-chrome-surface-strong);
+    border: var(--qds-border-width-control) solid var(--qds-chrome-border);
     border-radius: var(--qds-menu-radius);
-    box-shadow: var(--qds-menu-shadow);
+    box-shadow: var(--qds-media-frame-shadow);
   }
 
   .qds-ui .q-popup-edit.q-popup-edit .q-field.q-field {
@@ -391,7 +391,7 @@
     gap: var(--qds-space-sm);
     margin-top: var(--qds-space-md);
     padding-top: var(--qds-space-md);
-    border-top: var(--qds-border-width-control) solid var(--qds-border-subtle);
+    border-top: var(--qds-border-width-control) solid var(--qds-separator-color);
   }
 
   .qds-ui .q-popup-edit.q-popup-edit .q-popup-edit__buttons .q-btn + .q-btn {

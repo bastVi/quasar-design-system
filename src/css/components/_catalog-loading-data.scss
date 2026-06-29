@@ -39,7 +39,7 @@
     overflow: hidden;
     height: 0.5rem;
     color: var(--qds-color-primary);
-    background: color-mix(in srgb, var(--qds-surface-2) 82%, var(--qds-color-primary) 18%);
+    background: color-mix(in srgb, var(--qds-chrome-surface) 82%, var(--qds-color-primary) 18%);
     border-radius: var(--qds-radius-full);
   }
 
@@ -109,31 +109,31 @@
   }
 
   .qds-ui .q-linear-progress.q-linear-progress.bg-primary {
-    background: color-mix(in srgb, var(--qds-surface-2) 82%, var(--qds-color-primary) 18%) !important;
+    background: color-mix(in srgb, var(--qds-chrome-surface) 82%, var(--qds-color-primary) 18%) !important;
   }
 
   .qds-ui .q-linear-progress.q-linear-progress.bg-secondary {
-    background: color-mix(in srgb, var(--qds-surface-2) 82%, var(--qds-color-secondary) 18%) !important;
+    background: color-mix(in srgb, var(--qds-chrome-surface) 82%, var(--qds-color-secondary) 18%) !important;
   }
 
   .qds-ui .q-linear-progress.q-linear-progress.bg-accent {
-    background: color-mix(in srgb, var(--qds-surface-2) 82%, var(--qds-color-accent) 18%) !important;
+    background: color-mix(in srgb, var(--qds-chrome-surface) 82%, var(--qds-color-accent) 18%) !important;
   }
 
   .qds-ui .q-linear-progress.q-linear-progress.bg-positive {
-    background: color-mix(in srgb, var(--qds-surface-2) 82%, var(--qds-color-positive) 18%) !important;
+    background: color-mix(in srgb, var(--qds-chrome-surface) 82%, var(--qds-color-positive) 18%) !important;
   }
 
   .qds-ui .q-linear-progress.q-linear-progress.bg-negative {
-    background: color-mix(in srgb, var(--qds-surface-2) 82%, var(--qds-color-negative) 18%) !important;
+    background: color-mix(in srgb, var(--qds-chrome-surface) 82%, var(--qds-color-negative) 18%) !important;
   }
 
   .qds-ui .q-linear-progress.q-linear-progress.bg-warning {
-    background: color-mix(in srgb, var(--qds-surface-2) 82%, var(--qds-color-warning) 18%) !important;
+    background: color-mix(in srgb, var(--qds-chrome-surface) 82%, var(--qds-color-warning) 18%) !important;
   }
 
   .qds-ui .q-linear-progress.q-linear-progress.bg-info {
-    background: color-mix(in srgb, var(--qds-surface-2) 82%, var(--qds-color-info) 18%) !important;
+    background: color-mix(in srgb, var(--qds-chrome-surface) 82%, var(--qds-color-info) 18%) !important;
   }
 
   .qds-ui .q-circular-progress.q-circular-progress {
@@ -141,7 +141,7 @@
   }
 
   .qds-ui .q-circular-progress.q-circular-progress .q-circular-progress__track {
-    color: color-mix(in srgb, var(--qds-surface-2) 74%, var(--qds-color-primary) 26%);
+    color: color-mix(in srgb, var(--qds-chrome-surface) 74%, var(--qds-color-primary) 26%);
     stroke: currentColor;
   }
 
@@ -209,7 +209,7 @@
   }
 
   .qds-ui .q-inner-loading.q-inner-loading {
-    background: color-mix(in srgb, var(--qds-surface-0) 74%, transparent);
+    background: color-mix(in srgb, var(--qds-chrome-surface-strong) 74%, transparent);
     color: var(--qds-text);
     backdrop-filter: blur(8px) saturate(1.08);
     -webkit-backdrop-filter: blur(8px) saturate(1.08);
@@ -232,9 +232,9 @@
     padding: var(--qds-space-lg);
     color: var(--qds-text) !important;
     background: var(--qds-card-bg) !important;
-    border: var(--qds-border-width-control) solid var(--qds-card-border);
+    border: var(--qds-border-width-control) solid var(--qds-chrome-border);
     border-radius: var(--qds-radius-xl);
-    box-shadow: var(--qds-shadow-lg);
+    box-shadow: var(--qds-shadow-md);
     backdrop-filter: blur(var(--qds-card-backdrop-blur)) saturate(var(--qds-card-backdrop-saturate));
     -webkit-backdrop-filter: blur(var(--qds-card-backdrop-blur)) saturate(var(--qds-card-backdrop-saturate));
   }
@@ -246,7 +246,7 @@
 
   .qds-ui .q-skeleton.q-skeleton {
     overflow: hidden;
-    background: color-mix(in srgb, var(--qds-surface-2) 82%, var(--qds-color-primary) 8%);
+    background: color-mix(in srgb, var(--qds-chrome-surface) 82%, var(--qds-color-primary) 8%);
     border-radius: var(--qds-radius-control);
   }
 
@@ -266,7 +266,7 @@
   }
 
   .qds-ui .q-skeleton.q-skeleton--bordered {
-    border: var(--qds-border-width-control) solid var(--qds-border-subtle);
+    border: var(--qds-border-width-control) solid var(--qds-chrome-border-soft);
   }
 
   .qds-ui .catalog-expansion-list.catalog-expansion-list {
@@ -413,12 +413,12 @@
 
   .qds-ui .q-tree.q-tree .q-tree__node:after,
   .qds-ui .q-tree.q-tree .q-tree__node-header:before {
-    border-color: var(--qds-border-subtle);
+    border-color: var(--qds-separator-color);
   }
 
   .qds-ui .q-virtual-scroll.q-virtual-scroll {
     color: var(--qds-text);
-    scrollbar-color: color-mix(in srgb, var(--qds-border) 72%, var(--qds-color-primary) 28%) transparent;
+    scrollbar-color: var(--qds-handle-color) transparent;
   }
 
   .qds-ui .q-virtual-scroll.q-virtual-scroll .q-virtual-scroll__content {
@@ -427,16 +427,16 @@
 
   .qds-ui .q-virtual-scroll.q-virtual-scroll .q-virtual-scroll__padding,
   .qds-ui .q-virtual-scroll.q-virtual-scroll .q-virtual-scroll__slice {
-    border-color: var(--qds-border-subtle);
+    border-color: var(--qds-separator-color);
   }
 
   .qds-ui .q-markup-table.q-markup-table {
     overflow: hidden;
     color: var(--qds-text);
     background: var(--qds-card-bg);
-    border: var(--qds-border-width-control) solid var(--qds-card-border);
+    border: var(--qds-border-width-control) solid var(--qds-chrome-border);
     border-radius: var(--qds-card-radius);
-    box-shadow: var(--qds-card-shadow);
+    box-shadow: var(--qds-media-frame-shadow);
   }
 
   .qds-ui .q-markup-table.q-markup-table table {
@@ -445,7 +445,7 @@
   }
 
   .qds-ui .q-markup-table.q-markup-table thead tr {
-    background: color-mix(in srgb, var(--qds-surface-2) 64%, transparent);
+    background: var(--qds-chrome-surface);
   }
 
   .qds-ui .q-markup-table.q-markup-table th {
@@ -455,13 +455,13 @@
     font-weight: var(--qds-font-weight-semibold);
     letter-spacing: 0.005em;
     text-transform: none;
-    border-color: var(--qds-border-subtle);
+    border-color: var(--qds-separator-color);
   }
 
   .qds-ui .q-markup-table.q-markup-table td {
     height: 3rem;
     color: var(--qds-text);
-    border-color: var(--qds-border-subtle);
+    border-color: var(--qds-separator-color);
   }
 
   .qds-ui .q-markup-table.q-markup-table tbody tr {

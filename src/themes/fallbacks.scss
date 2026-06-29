@@ -25,7 +25,15 @@
   --qds-card-bg-fallback: linear-gradient(135deg, rgba(var(--qds-card-acrylic-tint-rgb), var(--qds-card-fallback-tonal-opacity)), transparent 72%), var(--qds-surface-0);
   --qds-card-border: color-mix(in srgb, var(--qds-border) var(--qds-card-border-mix), transparent);
   --qds-card-radius: var(--qds-radius-lg);
-  --qds-card-shadow: var(--qds-shadow-sm);
+  --qds-card-shadow: var(--qds-card-shadow-value, var(--qds-shadow-sm));
+  --qds-chrome-border: color-mix(in srgb, var(--qds-border-subtle) var(--qds-chrome-border-mix, 100%), transparent);
+  --qds-chrome-border-soft: color-mix(in srgb, var(--qds-border-subtle) var(--qds-chrome-border-soft-mix, 72%), transparent);
+  --qds-chrome-surface: color-mix(in srgb, var(--qds-surface-1) var(--qds-chrome-surface-mix, 92%), transparent);
+  --qds-chrome-surface-strong: color-mix(in srgb, var(--qds-surface-0) var(--qds-chrome-surface-strong-mix, 88%), transparent);
+  --qds-chrome-shadow: var(--qds-chrome-shadow-value, none);
+  --qds-media-frame-shadow: var(--qds-media-frame-shadow-value, var(--qds-card-shadow));
+  --qds-separator-color: color-mix(in srgb, var(--qds-border-subtle) var(--qds-separator-mix, 100%), transparent);
+  --qds-handle-color: color-mix(in srgb, var(--qds-border) var(--qds-handle-border-mix, 76%), var(--qds-color-primary) var(--qds-handle-primary-mix, 12%));
   --qds-menu-bg: var(--qds-surface-0);
   --qds-menu-border: var(--qds-border-subtle);
   --qds-menu-radius: var(--qds-radius-lg);

@@ -7,10 +7,10 @@
     overflow: hidden auto;
     color: var(--qds-text);
     background: var(--qds-card-bg);
-    border: var(--qds-border-width-control) solid var(--qds-card-border);
+    border: var(--qds-border-width-control) solid var(--qds-chrome-border);
     border-block-end: 0;
     border-radius: var(--qds-radius-xl) var(--qds-radius-xl) 0 0;
-    box-shadow: var(--qds-shadow-lg);
+    box-shadow: var(--qds-shadow-md);
     backdrop-filter: blur(var(--qds-card-backdrop-blur)) saturate(var(--qds-card-backdrop-saturate));
     -webkit-backdrop-filter: blur(var(--qds-card-backdrop-blur)) saturate(var(--qds-card-backdrop-saturate));
   }
@@ -68,7 +68,7 @@
   }
 
   .qds-ui .q-bottom-sheet .q-separator {
-    background: var(--qds-border-subtle);
+    background: var(--qds-separator-color);
   }
 
   .qds-ui .q-loading.qds-plugin-loading,
@@ -88,9 +88,9 @@
     padding: var(--qds-space-lg);
     color: var(--qds-text);
     background: var(--qds-card-bg);
-    border: var(--qds-border-width-control) solid var(--qds-card-border);
+    border: var(--qds-border-width-control) solid var(--qds-chrome-border);
     border-radius: var(--qds-card-radius);
-    box-shadow: var(--qds-shadow-lg);
+    box-shadow: var(--qds-shadow-md);
     backdrop-filter: blur(var(--qds-card-backdrop-blur)) saturate(var(--qds-card-backdrop-saturate));
     -webkit-backdrop-filter: blur(var(--qds-card-backdrop-blur)) saturate(var(--qds-card-backdrop-saturate));
   }

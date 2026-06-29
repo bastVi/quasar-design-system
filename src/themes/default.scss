@@ -31,21 +31,29 @@
   --qds-card-bg-fallback: linear-gradient(135deg, rgba(var(--qds-card-acrylic-tint-rgb), var(--qds-card-fallback-tonal-opacity)), transparent 72%), var(--qds-surface-0);
   --qds-card-border: color-mix(in srgb, var(--qds-border) var(--qds-card-border-mix), transparent);
   --qds-card-radius: var(--qds-radius-lg);
-  --qds-card-shadow: var(--qds-shadow-sm);
+  --qds-card-shadow: var(--qds-card-shadow-value, var(--qds-shadow-sm));
+  --qds-chrome-border: color-mix(in srgb, var(--qds-border-subtle) var(--qds-chrome-border-mix, 100%), transparent);
+  --qds-chrome-border-soft: color-mix(in srgb, var(--qds-border-subtle) var(--qds-chrome-border-soft-mix, 72%), transparent);
+  --qds-chrome-surface: color-mix(in srgb, var(--qds-surface-1) var(--qds-chrome-surface-mix, 92%), transparent);
+  --qds-chrome-surface-strong: color-mix(in srgb, var(--qds-surface-0) var(--qds-chrome-surface-strong-mix, 88%), transparent);
+  --qds-chrome-shadow: var(--qds-chrome-shadow-value, none);
+  --qds-media-frame-shadow: var(--qds-media-frame-shadow-value, var(--qds-card-shadow));
+  --qds-separator-color: color-mix(in srgb, var(--qds-border-subtle) var(--qds-separator-mix, 100%), transparent);
+  --qds-handle-color: color-mix(in srgb, var(--qds-border) var(--qds-handle-border-mix, 76%), var(--qds-color-primary) var(--qds-handle-primary-mix, 12%));
   --qds-menu-bg: var(--qds-surface-0);
   --qds-menu-border: var(--qds-border-subtle);
   --qds-menu-radius: var(--qds-radius-lg);
-    --qds-menu-shadow: var(--qds-shadow-md);
-    --qds-notification-radius: var(--qds-radius-md);
-    --qds-notification-shadow: var(--qds-shadow-md);
-    --qds-toolbar-bg: var(--qds-surface-1);
-    --qds-field-label-bg: var(--qds-surface-0);
-    --qds-tab-radius: var(--qds-radius-control);
-    --qds-tab-hover-bg: color-mix(in srgb, var(--qds-surface-2) 88%, var(--qds-color-primary) 12%);
-    --qds-tab-active-bg: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-bg-opacity));
-    --qds-tab-active-text: color-mix(in srgb, var(--qds-color-primary) var(--qds-tonal-text-mix), var(--qds-text-strong));
-    --qds-tab-active-rail: var(--qds-color-primary);
-  }
+  --qds-menu-shadow: var(--qds-shadow-md);
+  --qds-notification-radius: var(--qds-radius-md);
+  --qds-notification-shadow: var(--qds-shadow-md);
+  --qds-toolbar-bg: var(--qds-surface-1);
+  --qds-field-label-bg: var(--qds-surface-0);
+  --qds-tab-radius: var(--qds-radius-control);
+  --qds-tab-hover-bg: color-mix(in srgb, var(--qds-surface-2) 88%, var(--qds-color-primary) 12%);
+  --qds-tab-active-bg: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-bg-opacity));
+  --qds-tab-active-text: color-mix(in srgb, var(--qds-color-primary) var(--qds-tonal-text-mix), var(--qds-text-strong));
+  --qds-tab-active-rail: var(--qds-color-primary);
+}
 
 @layer qds.tokens {
   :root {
@@ -202,29 +210,104 @@
 
   .qds-variant-air,
   .qds-variant-glass {
-    --qds-radius-control: #{map.get(map.get(tokens.$variants, glass), radius-control)};
-    --qds-radius-lg: #{map.get(map.get(tokens.$variants, glass), radius-lg)};
-    --qds-surface-glass: #{map.get(map.get(tokens.$variants, glass), surface-glass)};
-    --qds-shadow-sm: #{map.get(map.get(tokens.$variants, glass), shadow-sm)};
-    --qds-shadow-md: #{map.get(map.get(tokens.$variants, glass), shadow-md)};
-    --qds-card-acrylic-tint-rgb: #{map.get(map.get(tokens.$variants, glass), card-acrylic-tint-rgb)};
-    --qds-card-tonal-opacity: #{map.get(map.get(tokens.$variants, glass), card-tonal-opacity)};
-    --qds-card-fallback-tonal-opacity: #{map.get(map.get(tokens.$variants, glass), card-fallback-tonal-opacity)};
-    --qds-card-border-mix: #{map.get(map.get(tokens.$variants, glass), card-border-mix)};
-    --qds-card-backdrop-blur: #{map.get(map.get(tokens.$variants, glass), card-backdrop-blur)};
-    --qds-card-backdrop-saturate: #{map.get(map.get(tokens.$variants, glass), card-backdrop-saturate)};
+    --qds-color-primary: #{qds-variant-token(glass, primary)};
+    --qds-color-primary-light: #{qds-variant-token(glass, primary-light)};
+    --qds-color-primary-dark: #{qds-variant-token(glass, primary-dark)};
+    --qds-color-secondary: #{qds-variant-token(glass, secondary)};
+    --qds-color-accent: #{qds-variant-token(glass, accent)};
+    --qds-color-positive: #{qds-variant-token(glass, positive)};
+    --qds-color-negative: #{qds-variant-token(glass, negative)};
+    --qds-color-warning: #{qds-variant-token(glass, warning)};
+    --qds-color-info: #{qds-variant-token(glass, info)};
+    --qds-color-primary-rgb: #{qds-variant-token(glass, primary-rgb)};
+    --qds-color-primary-light-rgb: #{qds-variant-token(glass, primary-light-rgb)};
+    --qds-color-primary-dark-rgb: #{qds-variant-token(glass, primary-dark-rgb)};
+    --qds-color-secondary-rgb: #{qds-variant-token(glass, secondary-rgb)};
+    --qds-color-accent-rgb: #{qds-variant-token(glass, accent-rgb)};
+    --qds-color-positive-rgb: #{qds-variant-token(glass, positive-rgb)};
+    --qds-color-negative-rgb: #{qds-variant-token(glass, negative-rgb)};
+    --qds-color-warning-rgb: #{qds-variant-token(glass, warning-rgb)};
+    --qds-color-info-rgb: #{qds-variant-token(glass, info-rgb)};
+    --qds-surface-0: #{qds-variant-token(glass, light-surface-0)};
+    --qds-surface-1: #{qds-variant-token(glass, light-surface-1)};
+    --qds-surface-2: #{qds-variant-token(glass, light-surface-2)};
+    --qds-surface-3: #{qds-variant-token(glass, light-surface-3)};
+    --qds-text: #{qds-variant-token(glass, light-text)};
+    --qds-text-strong: #{qds-variant-token(glass, light-text-strong)};
+    --qds-text-muted: #{qds-variant-token(glass, light-text-muted)};
+    --qds-border: #{qds-variant-token(glass, light-border)};
+    --qds-border-subtle: #{qds-variant-token(glass, light-border-subtle)};
+    --qds-radius-control: #{qds-variant-token(glass, radius-control)};
+    --qds-radius-lg: #{qds-variant-token(glass, radius-lg)};
+    --qds-surface-glass: #{qds-variant-token(glass, light-surface-glass)};
+    --qds-shadow-sm: #{qds-variant-token(glass, shadow-sm)};
+    --qds-shadow-md: #{qds-variant-token(glass, shadow-md)};
+    --qds-card-acrylic-tint-rgb: #{qds-variant-token(glass, card-acrylic-tint-rgb)};
+    --qds-card-tonal-opacity: #{qds-variant-token(glass, card-tonal-opacity)};
+    --qds-card-fallback-tonal-opacity: #{qds-variant-token(glass, card-fallback-tonal-opacity)};
+    --qds-card-border-mix: #{qds-variant-token(glass, card-border-mix)};
+    --qds-card-shadow-value: #{qds-variant-token(glass, card-shadow)};
+    --qds-card-backdrop-blur: #{qds-variant-token(glass, card-backdrop-blur)};
+    --qds-card-backdrop-saturate: #{qds-variant-token(glass, card-backdrop-saturate)};
+    --qds-chrome-border-mix: #{qds-variant-token(glass, chrome-border-mix)};
+    --qds-chrome-border-soft-mix: #{qds-variant-token(glass, chrome-border-soft-mix)};
+    --qds-chrome-surface-mix: #{qds-variant-token(glass, chrome-surface-mix)};
+    --qds-chrome-surface-strong-mix: #{qds-variant-token(glass, chrome-surface-strong-mix)};
+    --qds-chrome-shadow-value: #{qds-variant-token(glass, chrome-shadow)};
+    --qds-media-frame-shadow-value: #{qds-variant-token(glass, media-frame-shadow)};
+    --qds-separator-mix: #{qds-variant-token(glass, separator-mix)};
+    --qds-handle-border-mix: #{qds-variant-token(glass, handle-border-mix)};
+    --qds-handle-primary-mix: #{qds-variant-token(glass, handle-primary-mix)};
 
     @include qds-derived-tokens;
   }
 
   .qds-theme-dark.qds-variant-air,
   .qds-theme-dark.qds-variant-glass,
+  .qds-theme-dark .qds-variant-air,
+  .qds-theme-dark .qds-variant-glass,
   body.qds-ui.body--dark.qds-variant-air,
-  body.qds-ui.body--dark.qds-variant-glass {
-    --qds-surface-glass: #{map.get(map.get(tokens.$variants, glass), dark-surface-glass)};
-    --qds-card-acrylic-tint-rgb: #{map.get(map.get(tokens.$variants, glass), dark-card-acrylic-tint-rgb)};
-    --qds-card-tonal-opacity: #{map.get(map.get(tokens.$variants, glass), dark-card-tonal-opacity)};
-    --qds-card-fallback-tonal-opacity: #{map.get(map.get(tokens.$variants, glass), dark-card-fallback-tonal-opacity)};
+  body.qds-ui.body--dark.qds-variant-glass,
+  body.qds-ui.body--dark .qds-variant-air,
+  body.qds-ui.body--dark .qds-variant-glass {
+    --qds-color-primary: #{qds-variant-token(glass, dark-primary)};
+    --qds-color-primary-light: #{qds-variant-token(glass, dark-primary-light)};
+    --qds-color-primary-dark: #{qds-variant-token(glass, dark-primary-dark)};
+    --qds-color-secondary: #{qds-variant-token(glass, dark-secondary)};
+    --qds-color-accent: #{qds-variant-token(glass, dark-accent)};
+    --qds-color-positive: #{qds-variant-token(glass, dark-positive)};
+    --qds-color-negative: #{qds-variant-token(glass, dark-negative)};
+    --qds-color-warning: #{qds-variant-token(glass, dark-warning)};
+    --qds-color-info: #{qds-variant-token(glass, dark-info)};
+    --qds-color-primary-rgb: #{qds-variant-token(glass, dark-primary-rgb)};
+    --qds-color-primary-light-rgb: #{qds-variant-token(glass, dark-primary-light-rgb)};
+    --qds-color-primary-dark-rgb: #{qds-variant-token(glass, dark-primary-dark-rgb)};
+    --qds-color-secondary-rgb: #{qds-variant-token(glass, dark-secondary-rgb)};
+    --qds-color-accent-rgb: #{qds-variant-token(glass, dark-accent-rgb)};
+    --qds-color-positive-rgb: #{qds-variant-token(glass, dark-positive-rgb)};
+    --qds-color-negative-rgb: #{qds-variant-token(glass, dark-negative-rgb)};
+    --qds-color-warning-rgb: #{qds-variant-token(glass, dark-warning-rgb)};
+    --qds-color-info-rgb: #{qds-variant-token(glass, dark-info-rgb)};
+    --qds-surface-0: #{qds-variant-token(glass, dark-surface-0)};
+    --qds-surface-1: #{qds-variant-token(glass, dark-surface-1)};
+    --qds-surface-2: #{qds-variant-token(glass, dark-surface-2)};
+    --qds-surface-3: #{qds-variant-token(glass, dark-surface-3)};
+    --qds-surface-glass: #{qds-variant-token(glass, dark-surface-glass)};
+    --qds-text: #{qds-variant-token(glass, dark-text)};
+    --qds-text-strong: #{qds-variant-token(glass, dark-text-strong)};
+    --qds-text-muted: #{qds-variant-token(glass, dark-text-muted)};
+    --qds-border: #{qds-variant-token(glass, dark-border)};
+    --qds-border-subtle: #{qds-variant-token(glass, dark-border-subtle)};
+    --qds-shadow-sm: #{qds-variant-token(glass, dark-shadow-sm)};
+    --qds-shadow-md: #{qds-variant-token(glass, dark-shadow-md)};
+    --qds-card-acrylic-tint-rgb: #{qds-variant-token(glass, dark-card-acrylic-tint-rgb)};
+    --qds-card-tonal-opacity: #{qds-variant-token(glass, dark-card-tonal-opacity)};
+    --qds-card-fallback-tonal-opacity: #{qds-variant-token(glass, dark-card-fallback-tonal-opacity)};
+    --qds-card-shadow-value: #{qds-variant-token(glass, dark-card-shadow)};
+    --qds-chrome-border-mix: #{qds-variant-token(glass, dark-chrome-border-mix)};
+    --qds-chrome-border-soft-mix: #{qds-variant-token(glass, dark-chrome-border-soft-mix)};
+    --qds-chrome-surface-mix: #{qds-variant-token(glass, dark-chrome-surface-mix)};
+    --qds-chrome-surface-strong-mix: #{qds-variant-token(glass, dark-chrome-surface-strong-mix)};
 
     @include qds-derived-tokens;
   }
@@ -288,7 +371,9 @@
   }
 
   .qds-theme-dark.qds-variant-feather,
-  body.qds-ui.body--dark.qds-variant-feather {
+  .qds-theme-dark .qds-variant-feather,
+  body.qds-ui.body--dark.qds-variant-feather,
+  body.qds-ui.body--dark .qds-variant-feather {
     --qds-color-primary: #{qds-variant-token(feather, dark-primary)};
     --qds-color-primary-light: #{qds-variant-token(feather, dark-primary-light)};
     --qds-color-primary-dark: #{qds-variant-token(feather, dark-primary-dark)};
@@ -373,7 +458,9 @@
   }
 
   .qds-theme-dark.qds-variant-terminal,
-  body.qds-ui.body--dark.qds-variant-terminal {
+  .qds-theme-dark .qds-variant-terminal,
+  body.qds-ui.body--dark.qds-variant-terminal,
+  body.qds-ui.body--dark .qds-variant-terminal {
     --qds-color-primary: #{qds-variant-token(terminal, dark-primary)};
     --qds-color-primary-light: #{qds-variant-token(terminal, dark-primary-light)};
     --qds-color-primary-dark: #{qds-variant-token(terminal, dark-primary-dark)};

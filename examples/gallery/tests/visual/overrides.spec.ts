@@ -14,18 +14,18 @@ type Mode = 'light' | 'dark'
 type Variant = 'fluent' | 'air' | 'mobile' | 'feather' | 'terminal'
 
 // Expected resolved values, derived from src/tokens/_default.scss (Fluent refinement).
-// --qds-radius-control: fluent 8 / air 10 / mobile 14 / feather 12 / terminal 6.
+// --qds-radius-control: fluent 8 / air 14 / mobile 14 / feather 12 / terminal 6.
 const EXPECTED_CONTROL_RADIUS: Record<Variant, string> = {
   fluent: '8px',
-  air: '10px',
+  air: '14px',
   mobile: '14px',
   feather: '12px',
   terminal: '6px',
 }
-// --qds-card-radius = --qds-radius-lg: fluent 12 / air 16 / mobile 20 / feather 22 / terminal 10.
+// --qds-card-radius = --qds-radius-lg: fluent 12 / air 24 / mobile 20 / feather 22 / terminal 10.
 const EXPECTED_CARD_RADIUS: Record<Variant, string> = {
   fluent: '12px',
-  air: '16px',
+  air: '24px',
   mobile: '20px',
   feather: '22px',
   terminal: '10px',
@@ -79,10 +79,33 @@ const BASE_DARK: VariantExpectations = {
   semantic: BASE_SEMANTIC,
 }
 
+const AIR_SEMANTIC: Record<Semantic, string> = {
+  positive: 'rgb(52, 199, 89)',
+  negative: 'rgb(255, 59, 48)',
+  warning: 'rgb(255, 149, 0)',
+  info: 'rgb(90, 200, 250)',
+}
+
+const AIR_DARK_SEMANTIC: Record<Semantic, string> = {
+  positive: 'rgb(48, 209, 88)',
+  negative: 'rgb(255, 69, 58)',
+  warning: 'rgb(255, 159, 10)',
+  info: 'rgb(100, 210, 255)',
+}
+
 const EXPECTED_TOKENS: Record<Mode, Record<Variant, VariantExpectations>> = {
   light: {
     fluent: BASE_LIGHT,
-    air: BASE_LIGHT,
+    air: {
+      surface: 'rgb(251, 251, 253)', // #fbfbfd
+      lightSurface: 'rgb(251, 251, 253)',
+      primary: 'rgb(0, 122, 255)', // #007aff
+      primaryHex: '#007aff',
+      primaryRgbPattern: /^rgba\(0,\s*122,\s*255/,
+      fieldBorder: 'rgb(210, 210, 215)', // #d2d2d7
+      subtleBorder: 'rgb(229, 229, 234)', // #e5e5ea
+      semantic: AIR_SEMANTIC,
+    },
     mobile: BASE_LIGHT,
     feather: {
       surface: 'rgb(251, 246, 234)', // #fbf6ea
@@ -112,7 +135,16 @@ const EXPECTED_TOKENS: Record<Mode, Record<Variant, VariantExpectations>> = {
   },
   dark: {
     fluent: BASE_DARK,
-    air: BASE_DARK,
+    air: {
+      surface: 'rgb(28, 28, 30)', // #1c1c1e
+      lightSurface: 'rgb(251, 251, 253)',
+      primary: 'rgb(10, 132, 255)', // #0a84ff
+      primaryHex: '#0a84ff',
+      primaryRgbPattern: /^rgba\(10,\s*132,\s*255/,
+      fieldBorder: 'rgb(72, 72, 74)', // #48484a
+      subtleBorder: 'rgb(44, 44, 46)', // #2c2c2e
+      semantic: AIR_DARK_SEMANTIC,
+    },
     mobile: BASE_DARK,
     feather: {
       surface: 'rgb(36, 42, 39)', // #242a27
@@ -366,7 +398,12 @@ test.describe('QDS override gate', () => {
         expect.soft(await computed(page, card, 'border-radius'), 'QCard radius').toBe(
           EXPECTED_CARD_RADIUS[variant],
         )
-        expect.soft(await computed(page, card, 'box-shadow'), 'QCard shadow (restrained)').not.toBe('none')
+        const cardShadow = await computed(page, card, 'box-shadow')
+        if (variant === 'air') {
+          expect.soft(cardShadow, 'Air QCard removes resting card shadow').toBe('none')
+        } else {
+          expect.soft(cardShadow, 'QCard shadow (restrained)').not.toBe('none')
+        }
         expect.soft(await computed(page, card, 'border-top-width'), 'QCard border width').toBe('1px')
         expect.soft(await computed(page, card, 'border-top-color'), 'QCard border color').not.toBe('rgba(0, 0, 0, 0)')
         const cardBg = await computed(page, card, 'background-color')
@@ -541,7 +578,12 @@ test.describe('QDS override gate', () => {
         expect.soft(await computed(page, table, 'border-radius'), 'QTable container radius').toBe(
           EXPECTED_CARD_RADIUS[variant],
         )
-        expect.soft(await computed(page, table, 'box-shadow'), 'QTable container shadow').not.toBe('none')
+        const tableShadow = await computed(page, table, 'box-shadow')
+        if (variant === 'air') {
+          expect.soft(tableShadow, 'Air QTable container stays shadowless').toBe('none')
+        } else {
+          expect.soft(tableShadow, 'QTable container shadow').not.toBe('none')
+        }
         expect.soft(await computed(page, `${PANEL} .q-table th`, 'text-transform'), 'QTable header casing').toBe('none')
 
         // --- QPagination: current page is tonal, not Material solid primary ---
@@ -659,7 +701,12 @@ test.describe('QDS override gate', () => {
         expect.soft(denseControls.checkboxSvgInside, 'QCheckbox dense svg stays clipped inside bg').toBe(true)
         expect.soft(denseControls.toggleVerticalDelta, 'QToggle dense thumb centered vertically').toBeLessThanOrEqual(1)
         expect.soft(await computed(page, `${PANEL} .q-slider .q-slider__track`, 'height'), 'QSlider compact track').toBe('6px')
-        expect.soft(await computed(page, `${PANEL} .q-slider .q-slider__thumb`, 'box-shadow'), 'QSlider thumb shadow').not.toBe('none')
+        const sliderThumbShadow = await computed(page, `${PANEL} .q-slider .q-slider__thumb`, 'box-shadow')
+        if (variant === 'air') {
+          expect.soft(sliderThumbShadow, 'Air QSlider thumb stays shadowless').toBe('none')
+        } else {
+          expect.soft(sliderThumbShadow, 'QSlider thumb shadow').not.toBe('none')
+        }
         expect.soft(await computed(page, `${PANEL} .q-range .q-slider__track`, 'height'), 'QRange compact track').toBe('6px')
 
         // --- QTooltip: teleported overlay still inherits body .qds-ui styling ---

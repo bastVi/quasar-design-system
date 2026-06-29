@@ -52,8 +52,8 @@
   .qds-ui .q-btn-toggle.q-btn-toggle {
     gap: 0;
     padding: 0.125rem;
-    background: color-mix(in srgb, var(--qds-surface-2) 78%, transparent);
-    border: var(--qds-border-width-control) solid var(--qds-interactive-border);
+    background: var(--qds-chrome-surface);
+    border: var(--qds-border-width-control) solid var(--qds-chrome-border-soft);
     border-radius: calc(var(--qds-button-radius) + 0.125rem);
     box-shadow: none !important;
   }
@@ -89,15 +89,15 @@
 
   .qds-ui .q-fab.q-fab .q-btn.q-btn.q-btn--fab,
   .qds-ui .q-fab.q-fab .q-btn.q-btn.q-btn--fab-mini {
-    background-color: color-mix(in srgb, var(--qds-surface-0) 88%, var(--qds-color-primary) 12%);
-    border: var(--qds-border-width-control) solid var(--qds-interactive-border);
-    box-shadow: var(--qds-button-elevated-shadow) !important;
+    background-color: color-mix(in srgb, var(--qds-chrome-surface-strong) 88%, var(--qds-color-primary) 12%);
+    border: var(--qds-border-width-control) solid var(--qds-chrome-border-soft);
+    box-shadow: var(--qds-media-frame-shadow) !important;
   }
 
   .qds-ui .q-fab.q-fab .q-btn.q-btn.q-btn--fab:hover,
   .qds-ui .q-fab.q-fab .q-btn.q-btn.q-btn--fab-mini:hover {
     border-color: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-border-opacity));
-    box-shadow: var(--qds-button-elevated-shadow-hover) !important;
+    box-shadow: var(--qds-media-frame-shadow) !important;
     transform: translateY(-1px);
   }
 
@@ -108,7 +108,7 @@
   .qds-ui .q-avatar.q-avatar {
     color: var(--qds-text-strong);
     background: color-mix(in srgb, var(--qds-surface-2) 78%, var(--qds-color-primary) 22%);
-    border: var(--qds-border-width-control) solid color-mix(in srgb, var(--qds-border) 74%, transparent);
+    border: var(--qds-border-width-control) solid var(--qds-chrome-border-soft);
     border-radius: var(--qds-radius-full);
     font-weight: var(--qds-font-weight-semibold);
     box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--qds-surface-0) 70%, transparent);
@@ -139,7 +139,7 @@
       var(--qds-surface-0) !important;
     border: var(--qds-border-width-control) solid rgba(var(--qds-banner-accent-rgb), var(--qds-tonal-border-opacity));
     border-radius: var(--qds-radius-md);
-    box-shadow: var(--qds-shadow-sm);
+    box-shadow: var(--qds-chrome-shadow);
   }
 
   .qds-ui .q-banner.q-banner::before {
@@ -211,7 +211,7 @@
     padding-inline: var(--qds-space-sm);
     color: var(--qds-text);
     background: var(--qds-toolbar-bg);
-    border: var(--qds-border-width-control) solid var(--qds-border-subtle);
+    border: var(--qds-border-width-control) solid var(--qds-chrome-border-soft);
     border-radius: var(--qds-radius-md);
     box-shadow: none !important;
   }
@@ -222,7 +222,7 @@
   }
 
   .qds-ui .q-separator.q-separator {
-    background: color-mix(in srgb, var(--qds-border) 72%, transparent);
+    background: var(--qds-separator-color);
     opacity: 1;
   }
 
@@ -236,13 +236,13 @@
 
   .qds-ui .q-tab-panels.q-tab-panels {
     color: var(--qds-text);
-    background: var(--qds-surface-0);
+    background: var(--qds-chrome-surface-strong);
     border-radius: var(--qds-radius-lg);
   }
 
   .qds-ui .q-tab-panels.q-tab-panels.qds-card {
-    border: var(--qds-border-width-control) solid var(--qds-card-border);
-    box-shadow: var(--qds-card-shadow);
+    border: var(--qds-border-width-control) solid var(--qds-chrome-border);
+    box-shadow: var(--qds-media-frame-shadow);
   }
 
   .qds-ui .q-tab-panel.q-tab-panel {
