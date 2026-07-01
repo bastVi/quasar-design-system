@@ -187,6 +187,8 @@ $effects: (
 
 $variants: (
   glass: (
+    font-family: (-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Inter, sans-serif),
+    font-family-display: (-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Inter, sans-serif),
     primary: #007aff,
     primary-light: #5ac8fa,
     primary-dark: #0051d5,
@@ -276,6 +278,8 @@ $variants: (
     dark-chrome-surface-strong-mix: 62%,
   ),
   mobile: (
+    font-family: ('Inter Variable', Inter, 'Open Sans', 'SamsungOne', 'Segoe UI', sans-serif),
+    font-family-display: ('Inter Variable', Inter, 'Open Sans', 'Samsung Sharp Sans', 'Segoe UI', sans-serif),
     radius-control: 14px,
     radius-lg: 20px,
     space-md: 1.125rem,
@@ -284,8 +288,13 @@ $variants: (
     card-tonal-opacity: 0.06,
     card-fallback-tonal-opacity: 0.045,
     button-min-height: 2.75rem,
+    list-item-min-height: 3.5rem,
+    menu-item-min-height: 3rem,
+    expansion-item-min-height: 3.25rem,
   ),
   feather: (
+    font-family: ('Open Sans Variable', 'Open Sans', 'Inter Variable', Inter, 'Segoe UI', sans-serif),
+    font-family-display: ('Selawik', 'Open Sans', 'Inter Variable', Inter, 'Segoe UI', sans-serif),
     radius-control: 12px,
     radius-lg: 22px,
     primary: #5f6f52,
@@ -362,8 +371,18 @@ $variants: (
     dark-card-fallback-tonal-opacity: 0.012,
   ),
   terminal: (
+    font-family: (ui-monospace, 'SFMono-Regular', 'Cascadia Code', 'JetBrains Mono', 'Fira Code', Consolas, monospace),
+    font-family-display: (ui-monospace, 'SFMono-Regular', 'Cascadia Code', 'JetBrains Mono', 'Fira Code', Consolas, monospace),
     radius-control: 6px,
     radius-lg: 10px,
+    control-letter-spacing: 0.035em,
+    control-text-transform: uppercase,
+    field-label-size: 0.75rem,
+    menu-item-min-height: 2rem,
+    list-item-min-height: 2.375rem,
+    expansion-item-min-height: 2.375rem,
+    table-row-height: 2.25rem,
+    table-header-height: 2.25rem,
     primary: #fcc40d,
     primary-light: #ffe066,
     primary-dark: #c49a00,

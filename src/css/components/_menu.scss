@@ -13,7 +13,7 @@
   }
 
   .qds-ui .q-menu.q-menu .q-item.q-item {
-    min-height: 2.25rem;
+    min-height: var(--qds-menu-item-min-height);
     margin: 2px 0;
     border-radius: calc(var(--qds-radius-control) - 2px);
     color: var(--qds-text);
@@ -46,5 +46,17 @@
   .qds-ui .q-menu.q-menu .q-separator {
     margin: var(--qds-space-xs) calc(-1 * var(--qds-space-xs));
     background: var(--qds-border-subtle);
+  }
+
+  .qds-ui.qds-variant-terminal .q-menu.q-menu,
+  .qds-ui .qds-variant-terminal .q-menu.q-menu {
+    font-family: var(--qds-font-family);
+    border-color: color-mix(in srgb, var(--qds-color-primary) 28%, var(--qds-border) 72%);
+    border-radius: var(--qds-radius-sm);
+  }
+
+  .qds-ui.qds-variant-terminal .q-menu.q-menu .q-item.q-item,
+  .qds-ui .qds-variant-terminal .q-menu.q-menu .q-item.q-item {
+    border-radius: var(--qds-radius-xs);
   }
 }

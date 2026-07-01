@@ -109,7 +109,7 @@ The package is structured around `src/themes/`. For now there is one real theme,
 
 - `fluent`: default Fluent 2-inspired direction, balanced desktop/admin density.
 - `air`: airier acrylic surfaces for colorful, image-rich, transparency-forward apps. Legacy `glass` input is normalized for compatibility.
-- `mobile`: Samsung One UI-inspired rounding, spacing, and touch-friendly controls.
+- `mobile` (labelled **One**): Samsung One UI-inspired rounding, spacing, and touch-friendly controls.
 - `feather`: warm paper/e-ink mood with minimal glass behavior, muted sage/earth actions, and low-fatigue surfaces.
 - `terminal`: dark amber developer UI with near-black surfaces, crisp hairline cards, restrained glow, and a monospace-forward feel.
 
@@ -120,7 +120,7 @@ Choose the variant once at app startup and let the runtime keep the matching bod
 ```ts
 configureDesignSystem(app, {
   mode: 'system',
-  variant: 'feather', // fluent | air | mobile | feather | terminal
+  variant: 'feather', // fluent | air | mobile (One) | feather | terminal
 })
 ```
 

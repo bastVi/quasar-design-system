@@ -36,10 +36,15 @@
   --qds-handle-color: color-mix(in srgb, var(--qds-border) var(--qds-handle-border-mix, 76%), var(--qds-color-primary) var(--qds-handle-primary-mix, 12%));
   --qds-menu-bg: var(--qds-surface-0);
   --qds-menu-border: var(--qds-border-subtle);
+  --qds-menu-item-min-height: var(--qds-menu-item-min-height-value, 2.25rem);
   --qds-menu-radius: var(--qds-radius-lg);
   --qds-menu-shadow: var(--qds-shadow-md);
   --qds-notification-radius: var(--qds-radius-md);
   --qds-notification-shadow: var(--qds-shadow-md);
+  --qds-list-item-min-height: var(--qds-list-item-min-height-value, 2.5rem);
+  --qds-expansion-item-min-height: var(--qds-expansion-item-min-height-value, 2.75rem);
+  --qds-table-header-height: var(--qds-table-header-height-value, 2.75rem);
+  --qds-table-row-height: var(--qds-table-row-height-value, 3rem);
   --qds-toolbar-bg: var(--qds-surface-1);
   --qds-field-label-bg: var(--qds-surface-0);
   --qds-tab-radius: var(--qds-radius-control);

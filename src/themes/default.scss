@@ -42,10 +42,14 @@
   --qds-handle-color: color-mix(in srgb, var(--qds-border) var(--qds-handle-border-mix, 76%), var(--qds-color-primary) var(--qds-handle-primary-mix, 12%));
   --qds-menu-bg: var(--qds-surface-0);
   --qds-menu-border: var(--qds-border-subtle);
+  --qds-menu-item-min-height: var(--qds-menu-item-min-height-value, 2.25rem);
   --qds-menu-radius: var(--qds-radius-lg);
   --qds-menu-shadow: var(--qds-shadow-md);
   --qds-notification-radius: var(--qds-radius-md);
   --qds-notification-shadow: var(--qds-shadow-md);
+  --qds-list-item-min-height: var(--qds-list-item-min-height-value, 2.5rem);
+  --qds-table-header-height: var(--qds-table-header-height-value, 2.75rem);
+  --qds-table-row-height: var(--qds-table-row-height-value, 3rem);
   --qds-toolbar-bg: var(--qds-surface-1);
   --qds-field-label-bg: var(--qds-surface-0);
   --qds-tab-radius: var(--qds-radius-control);
@@ -210,6 +214,8 @@
 
   .qds-variant-air,
   .qds-variant-glass {
+    --qds-font-family: #{qds-variant-token(glass, font-family)};
+    --qds-font-family-display: #{qds-variant-token(glass, font-family-display)};
     --qds-color-primary: #{qds-variant-token(glass, primary)};
     --qds-color-primary-light: #{qds-variant-token(glass, primary-light)};
     --qds-color-primary-dark: #{qds-variant-token(glass, primary-dark)};
@@ -313,6 +319,8 @@
   }
 
   .qds-variant-mobile {
+    --qds-font-family: #{map.get(map.get(tokens.$variants, mobile), font-family)};
+    --qds-font-family-display: #{map.get(map.get(tokens.$variants, mobile), font-family-display)};
     --qds-radius-control: #{map.get(map.get(tokens.$variants, mobile), radius-control)};
     --qds-radius-lg: #{map.get(map.get(tokens.$variants, mobile), radius-lg)};
     --qds-space-md: #{map.get(map.get(tokens.$variants, mobile), space-md)};
@@ -321,11 +329,16 @@
     --qds-card-tonal-opacity: #{map.get(map.get(tokens.$variants, mobile), card-tonal-opacity)};
     --qds-card-fallback-tonal-opacity: #{map.get(map.get(tokens.$variants, mobile), card-fallback-tonal-opacity)};
     --qds-button-min-height: #{map.get(map.get(tokens.$variants, mobile), button-min-height)};
+    --qds-list-item-min-height-value: #{map.get(map.get(tokens.$variants, mobile), list-item-min-height)};
+    --qds-menu-item-min-height-value: #{map.get(map.get(tokens.$variants, mobile), menu-item-min-height)};
+    --qds-expansion-item-min-height-value: #{map.get(map.get(tokens.$variants, mobile), expansion-item-min-height)};
 
     @include qds-derived-tokens;
   }
 
   .qds-variant-feather {
+    --qds-font-family: #{qds-variant-token(feather, font-family)};
+    --qds-font-family-display: #{qds-variant-token(feather, font-family-display)};
     --qds-color-primary: #{qds-variant-token(feather, primary)};
     --qds-color-primary-light: #{qds-variant-token(feather, primary-light)};
     --qds-color-primary-dark: #{qds-variant-token(feather, primary-dark)};
@@ -413,6 +426,16 @@
   }
 
   .qds-variant-terminal {
+    --qds-font-family: #{qds-variant-token(terminal, font-family)};
+    --qds-font-family-display: #{qds-variant-token(terminal, font-family-display)};
+    --qds-control-letter-spacing: #{qds-variant-token(terminal, control-letter-spacing)};
+    --qds-control-text-transform: #{qds-variant-token(terminal, control-text-transform)};
+    --qds-field-label-size: #{qds-variant-token(terminal, field-label-size)};
+    --qds-menu-item-min-height-value: #{qds-variant-token(terminal, menu-item-min-height)};
+    --qds-list-item-min-height-value: #{qds-variant-token(terminal, list-item-min-height)};
+    --qds-expansion-item-min-height-value: #{qds-variant-token(terminal, expansion-item-min-height)};
+    --qds-table-row-height-value: #{qds-variant-token(terminal, table-row-height)};
+    --qds-table-header-height-value: #{qds-variant-token(terminal, table-header-height)};
     --qds-color-primary: #{qds-variant-token(terminal, primary)};
     --qds-color-primary-light: #{qds-variant-token(terminal, primary-light)};
     --qds-color-primary-dark: #{qds-variant-token(terminal, primary-dark)};

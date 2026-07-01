@@ -42,6 +42,7 @@ const AXE_EXCLUSIONS: Record<GalleryTab, string[]> = {
 }
 
 async function applyLightFluent(page: Page) {
+  await page.waitForFunction(() => Boolean((window as unknown as { __qdsGallery?: unknown }).__qdsGallery))
   await page.evaluate(() => {
     const ds = (window as unknown as { __qdsGallery: any }).__qdsGallery
     ds.setMode('light')

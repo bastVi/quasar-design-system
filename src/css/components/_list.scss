@@ -5,6 +5,7 @@
 
   .qds-ui .q-item.q-item {
     position: relative;
+    min-height: var(--qds-list-item-min-height);
     border-radius: calc(var(--qds-radius-control) - 2px);
     color: var(--qds-text);
     transition:
@@ -55,7 +56,7 @@
   }
 
   .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item {
-    min-height: 2.75rem;
+    min-height: var(--qds-expansion-item-min-height);
     color: var(--qds-text);
     transition:
       background-color var(--qds-motion-fast),

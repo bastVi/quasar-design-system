@@ -26,10 +26,10 @@ const scenes: Scene[] = [
   },
   {
     variant: 'mobile',
-    label: 'Mobile',
-    tagline: 'Rounded touch surface',
+    label: 'One',
+    tagline: 'One UI rhythm',
     wallpaper: '/scenes/qds-wallpaper-mobile.svg',
-    detail: 'Larger curves and friendly spacing for stacked phone-sized panels.',
+    detail: 'Rounder controls, roomier rows, and calmer touch-first panels without being a mobile-only mode.',
   },
   {
     variant: 'feather',

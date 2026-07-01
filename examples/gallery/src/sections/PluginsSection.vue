@@ -20,7 +20,7 @@ const listActions = [
 const gridActions = [
   { id: 'fluent', label: 'Fluent' },
   { id: 'air', label: 'Air' },
-  { id: 'mobile', label: 'Mobile' },
+  { id: 'mobile', label: 'One' },
   { id: 'feather', label: 'Feather' },
   {},
   { id: 'tokens', label: 'Tokens' },

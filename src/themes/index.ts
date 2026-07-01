@@ -38,8 +38,8 @@ export const DESIGN_SYSTEM_VARIANTS = {
   },
   mobile: {
     name: 'mobile',
-    label: 'Mobile',
-    description: 'Rounder One UI-inspired spacing and touch-friendly controls.',
+    label: 'One',
+    description: 'One UI-inspired shape, spacing, and touch-friendly control rhythm.',
     cssClass: 'qds-variant-mobile',
   },
   feather: {

@@ -164,4 +164,14 @@
   .qds-ui .q-select.q-select--multiple .q-chip.q-chip {
     margin-block: 0.125rem;
   }
+
+  .qds-ui.qds-variant-terminal .q-field.q-field,
+  .qds-ui .qds-variant-terminal .q-field.q-field {
+    font-family: var(--qds-font-family);
+  }
+
+  .qds-ui.qds-variant-terminal .q-field--outlined .q-field__control::before,
+  .qds-ui .qds-variant-terminal .q-field--outlined .q-field__control::before {
+    border-color: color-mix(in srgb, var(--qds-color-primary) 24%, var(--qds-border) 76%);
+  }
 }

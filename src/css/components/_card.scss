@@ -14,4 +14,14 @@
       background: var(--qds-card-bg-fallback);
     }
   }
+
+  .qds-ui.qds-variant-terminal .q-card.q-card,
+  .qds-ui .qds-variant-terminal .q-card.q-card,
+  .qds-ui.qds-variant-terminal .qds-card,
+  .qds-ui .qds-variant-terminal .qds-card {
+    border-color: color-mix(in srgb, var(--qds-color-primary) 24%, var(--qds-border) 76%);
+    background:
+      linear-gradient(180deg, rgba(var(--qds-color-primary-rgb), 0.035), transparent 42%),
+      var(--qds-card-bg);
+  }
 }

@@ -144,4 +144,22 @@
   @include qds-button-color('warning', 'warning');
   @include qds-button-color('info', 'info');
   @include qds-button-color('accent', 'accent');
+
+  .qds-ui.qds-variant-terminal .q-btn.q-btn,
+  .qds-ui .qds-variant-terminal .q-btn.q-btn {
+    font-family: var(--qds-font-family);
+    border-radius: var(--qds-radius-control);
+  }
+
+  .qds-ui.qds-variant-terminal .q-btn.q-btn:not(.qds-solid):not(.q-btn--flat):not(.q-btn--outline),
+  .qds-ui .qds-variant-terminal .q-btn.q-btn:not(.qds-solid):not(.q-btn--flat):not(.q-btn--outline) {
+    background-color: color-mix(in srgb, var(--qds-surface-1) 84%, var(--qds-color-primary) 10%) !important;
+    border-color: color-mix(in srgb, var(--qds-color-primary) 42%, var(--qds-border) 58%);
+    box-shadow: inset 0 0 0 1px rgba(var(--qds-color-primary-rgb), 0.08) !important;
+  }
+
+  .qds-ui.qds-variant-terminal .q-btn.q-btn.q-btn--flat,
+  .qds-ui .qds-variant-terminal .q-btn.q-btn.q-btn--flat {
+    color: var(--qds-color-primary) !important;
+  }
 }

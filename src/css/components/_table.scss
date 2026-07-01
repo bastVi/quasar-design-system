@@ -41,7 +41,7 @@
   }
 
   .qds-ui .q-table.q-table th {
-    height: 2.75rem;
+    height: var(--qds-table-header-height);
     color: var(--qds-table-header-text);
     font-size: 0.8125rem;
     font-weight: var(--qds-font-weight-semibold);
@@ -51,7 +51,7 @@
   }
 
   .qds-ui .q-table.q-table td {
-    height: 3rem;
+    height: var(--qds-table-row-height);
     color: var(--qds-text);
     border-color: var(--qds-border-subtle);
   }
@@ -66,7 +66,7 @@
 
   .qds-ui .q-table--dense.q-table th,
   .qds-ui .q-table--dense.q-table td {
-    height: 2.25rem;
+    height: max(2rem, calc(var(--qds-table-row-height) - 0.75rem));
   }
 
   .qds-ui .q-table.q-table th.sortable:hover {
@@ -93,5 +93,17 @@
   .qds-ui .q-table__grid-content {
     gap: var(--qds-space-md);
     padding: var(--qds-space-md);
+  }
+
+  .qds-ui.qds-variant-terminal .q-table__container.q-table__container,
+  .qds-ui .qds-variant-terminal .q-table__container.q-table__container {
+    font-family: var(--qds-font-family);
+    border-color: color-mix(in srgb, var(--qds-color-primary) 22%, var(--qds-border) 78%);
+  }
+
+  .qds-ui.qds-variant-terminal .q-table.q-table th,
+  .qds-ui .qds-variant-terminal .q-table.q-table th {
+    letter-spacing: 0.045em;
+    text-transform: uppercase;
   }
 }

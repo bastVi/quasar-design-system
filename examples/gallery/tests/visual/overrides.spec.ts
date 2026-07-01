@@ -179,6 +179,7 @@ const VARIANTS: Variant[] = ['fluent', 'air', 'mobile', 'feather', 'terminal']
 
 /** Drive the runtime controller exactly as an external app would. */
 async function applyTheme(page: Page, mode: Mode, variant: Variant) {
+  await page.waitForFunction(() => Boolean((window as unknown as { __qdsGallery?: unknown }).__qdsGallery))
   await page.evaluate(
     ({ mode, variant }) => {
       const ds = (window as unknown as { __qdsGallery: any }).__qdsGallery
@@ -288,11 +289,15 @@ test.describe('QDS override gate', () => {
         // Semantic colored default: tonal tint, not filled Material-style color.
         const semantic = `${PANEL} .q-btn--unelevated.bg-primary:not(.qds-solid):not(.q-btn--dense)`
         const semanticBg = await computed(page, semantic, 'background-color')
-        expect.soft(semanticBg, 'QBtn semantic tonal bg').toMatch(/^rgba\(/)
         expect.soft(semanticBg, 'QBtn semantic not Quasar Material primary').not.toBe('rgb(25, 118, 210)')
-        if (variant === 'feather') {
+        if (variant === 'terminal') {
+          expect.soft(semanticBg, 'Terminal QBtn semantic shell tint').toMatch(/^(rgba|color)\(/)
+          expect.soft(semanticBg, 'Terminal QBtn semantic not solid primary').not.toBe(expected.primary)
+        } else if (variant === 'feather') {
+          expect.soft(semanticBg, 'QBtn semantic tonal bg').toMatch(/^rgba\(/)
           expect.soft(semanticBg, 'QBtn feather semantic not default Fluent primary').not.toMatch(/^rgba\(0,\s*90,\s*158/)
         } else {
+          expect.soft(semanticBg, 'QBtn semantic tonal bg').toMatch(/^rgba\(/)
           expect.soft(semanticBg, 'QBtn semantic tonal bg primary channel').toMatch(expected.primaryRgbPattern)
         }
         expect.soft(await computed(page, semantic, 'color'), 'QBtn semantic tonal text').not.toBe('rgb(255, 255, 255)')
@@ -304,9 +309,15 @@ test.describe('QDS override gate', () => {
 
         // TONAL: colored non-solid buttons share the same soft treatment.
         const tonal = `${PANEL} .q-btn.bg-primary:not(.qds-solid):not(.q-btn--flat):not(.q-btn--outline)`
-        expect.soft(await computed(page, tonal, 'background-color'), 'QBtn tonal bg').toMatch(
-          expected.primaryRgbPattern, // primary rgb, translucent
-        )
+        const tonalBg = await computed(page, tonal, 'background-color')
+        if (variant === 'terminal') {
+          expect.soft(tonalBg, 'Terminal QBtn tonal shell tint').toMatch(/^(rgba|color)\(/)
+          expect.soft(tonalBg, 'Terminal QBtn tonal not solid primary').not.toBe(expected.primary)
+        } else {
+          expect.soft(tonalBg, 'QBtn tonal bg').toMatch(
+            expected.primaryRgbPattern, // primary rgb, translucent
+          )
+        }
 
         // Standard/elevated buttons get a subtle QDS depth effect, not Quasar's Material shadow.
         const elevated = `${PANEL} .q-btn--standard.bg-primary:not(.q-btn--flat):not(.q-btn--outline)`
@@ -359,7 +370,12 @@ test.describe('QDS override gate', () => {
         const fieldBefore = await settledComputed(page, () =>
           fieldControl.evaluate((el) => getComputedStyle(el as Element, '::before').borderTopColor),
         )
-        expect.soft(fieldBefore, 'QField outlined border color').toBe(expected.fieldBorder)
+        if (variant === 'terminal') {
+          expect.soft(fieldBefore, 'Terminal QField amber-mixed border').toMatch(/^(rgb|color)\(/)
+          expect.soft(fieldBefore, 'Terminal QField border remains visible').not.toBe('rgba(0, 0, 0, 0)')
+        } else {
+          expect.soft(fieldBefore, 'QField outlined border color').toBe(expected.fieldBorder)
+        }
         expect.soft(await fieldControl.evaluate((el) => getComputedStyle(el as Element).minHeight), 'QField thin height').toBe('36px')
 
         // --- QBadge/QChip: Quasar bg-* utilities must not leak Material solid fills ---
@@ -439,7 +455,13 @@ test.describe('QDS override gate', () => {
         const menu = '.q-menu'
         await expect(page.locator(menu).first()).toBeVisible()
         expect.soft(await computed(page, menu, 'background-color'), 'QMenu bg').toBe(expected.surface)
-        expect.soft(await computed(page, menu, 'border-top-color'), 'QMenu border').toBe(expected.subtleBorder)
+        const menuBorder = await computed(page, menu, 'border-top-color')
+        if (variant === 'terminal') {
+          expect.soft(menuBorder, 'Terminal QMenu amber-mixed border').toMatch(/^(rgb|color)\(/)
+          expect.soft(menuBorder, 'Terminal QMenu border remains visible').not.toBe('rgba(0, 0, 0, 0)')
+        } else {
+          expect.soft(menuBorder, 'QMenu border').toBe(expected.subtleBorder)
+        }
         expect.soft(await computed(page, menu, 'box-shadow'), 'QMenu shadow').not.toBe('none')
         // Dismiss via a v-close-popup item (reliable on touch; Escape is flaky on mobile).
         await page.locator(`${menu} .q-item`).first().click()
@@ -584,7 +606,9 @@ test.describe('QDS override gate', () => {
         } else {
           expect.soft(tableShadow, 'QTable container shadow').not.toBe('none')
         }
-        expect.soft(await computed(page, `${PANEL} .q-table th`, 'text-transform'), 'QTable header casing').toBe('none')
+        expect.soft(await computed(page, `${PANEL} .q-table th`, 'text-transform'), 'QTable header casing').toBe(
+          variant === 'terminal' ? 'uppercase' : 'none',
+        )
 
         // --- QPagination: current page is tonal, not Material solid primary ---
         const currentPage = `${PANEL} .q-pagination .q-btn.bg-primary`
