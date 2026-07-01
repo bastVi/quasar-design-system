@@ -28,7 +28,7 @@ $light-surfaces: (
   1: #faf7f2,
   2: #f3eee7,
   3: #e9e2d8,
-  glass: rgba(255, 253, 248, 0.8),
+  glass: rgba(255, 253, 248, 0.52),
 ) !default;
 
 $dark-surfaces: (
@@ -36,7 +36,7 @@ $dark-surfaces: (
   1: #111318,
   2: #2b2e34,
   3: #383c44,
-  glass: rgba(32, 34, 37, 0.78),
+  glass: rgba(32, 34, 37, 0.56),
 ) !default;
 
 $light-text: (
@@ -52,10 +52,10 @@ $dark-text: (
 ) !default;
 
 $borders: (
-  light: #8f8f8f,
-  subtle: #b5b5b5,
-  dark: #6a7a8e,
-  dark-subtle: #576173,
+  light: #c8c8c8,
+  subtle: #e0e0e0,
+  dark: #444444,
+  dark-subtle: #333333,
 ) !default;
 
 $space: (
@@ -160,7 +160,7 @@ $components: (
     fallback-tonal-opacity: 0.018,
     dark-tonal-opacity: 0.032,
     dark-fallback-tonal-opacity: 0.024,
-    border-mix: 78%,
+    border-mix: 28%,
     backdrop-blur: 0.625rem,
     backdrop-saturate: 1.08,
   ),

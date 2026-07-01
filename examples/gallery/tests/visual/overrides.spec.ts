@@ -63,8 +63,8 @@ const BASE_LIGHT: VariantExpectations = {
   primary: 'rgb(0, 90, 158)',
   primaryHex: '#005a9e',
   primaryRgbPattern: /^rgba\(0,\s*90,\s*158/,
-  fieldBorder: 'rgb(143, 143, 143)', // #8f8f8f
-  subtleBorder: 'rgb(181, 181, 181)', // #b5b5b5
+  fieldBorder: 'rgb(200, 200, 200)', // #c8c8c8
+  subtleBorder: 'rgb(224, 224, 224)', // #e0e0e0
   semantic: BASE_SEMANTIC,
 }
 
@@ -74,8 +74,8 @@ const BASE_DARK: VariantExpectations = {
   primary: BASE_LIGHT.primary,
   primaryHex: BASE_LIGHT.primaryHex,
   primaryRgbPattern: BASE_LIGHT.primaryRgbPattern,
-  fieldBorder: 'rgb(106, 122, 142)', // #6a7a8e
-  subtleBorder: 'rgb(87, 97, 115)', // #576173
+  fieldBorder: 'rgb(68, 68, 68)', // #444444
+  subtleBorder: 'rgb(51, 51, 51)', // #333333
   semantic: BASE_SEMANTIC,
 }
 
