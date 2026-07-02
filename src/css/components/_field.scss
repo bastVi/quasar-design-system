@@ -174,4 +174,50 @@
   .qds-ui .qds-variant-terminal .q-field--outlined .q-field__control::before {
     border-color: color-mix(in srgb, var(--qds-color-primary) 24%, var(--qds-border) 76%);
   }
+
+  .qds-ui.qds-variant-mobile .q-field--outlined .q-field__control,
+  .qds-ui.qds-variant-mobile .q-field--filled .q-field__control,
+  .qds-ui .qds-variant-mobile .q-field--outlined .q-field__control,
+  .qds-ui .qds-variant-mobile .q-field--filled .q-field__control {
+    border-radius: calc(var(--qds-radius-control) + 4px);
+    padding-inline: max(var(--qds-field-padding-inline), var(--qds-space-md));
+  }
+
+  .qds-ui.qds-variant-mobile .q-field--outlined .q-field__control::before,
+  .qds-ui.qds-variant-mobile .q-field--outlined .q-field__control::after,
+  .qds-ui .qds-variant-mobile .q-field--outlined .q-field__control::before,
+  .qds-ui .qds-variant-mobile .q-field--outlined .q-field__control::after {
+    border-radius: calc(var(--qds-radius-control) + 4px);
+  }
+
+  .qds-ui.qds-variant-mobile .q-field--filled .q-field__control,
+  .qds-ui .qds-variant-mobile .q-field--filled .q-field__control {
+    background: color-mix(in srgb, var(--qds-surface-2) 78%, transparent);
+  }
+
+  .qds-ui.qds-variant-mobile .q-field--filled .q-field__control::before,
+  .qds-ui .qds-variant-mobile .q-field--filled .q-field__control::before {
+    border-bottom: 0;
+  }
+
+  .qds-ui.qds-variant-mobile .q-field--filled .q-field__control::after,
+  .qds-ui .qds-variant-mobile .q-field--filled .q-field__control::after {
+    border-radius: calc(var(--qds-radius-control) + 4px);
+    border: var(--qds-field-focus-border-width) solid var(--qds-color-primary);
+    transform: scale3d(0.98, 0.9, 1);
+    opacity: 0;
+  }
+
+  .qds-ui.qds-variant-mobile .q-field--filled.q-field--focused .q-field__control::after,
+  .qds-ui.qds-variant-mobile .q-field--filled.q-field--error .q-field__control::after,
+  .qds-ui .qds-variant-mobile .q-field--filled.q-field--focused .q-field__control::after,
+  .qds-ui .qds-variant-mobile .q-field--filled.q-field--error .q-field__control::after {
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+
+  .qds-ui.qds-variant-mobile .q-field--filled.q-field--error .q-field__control::after,
+  .qds-ui .qds-variant-mobile .q-field--filled.q-field--error .q-field__control::after {
+    border-color: var(--qds-color-negative);
+  }
 }

@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [0.5.1] — 2026-07-02
+
+### Changed
+
+- Deepened built-in variant structure beyond token swaps:
+  - **One** (`mobile` key) now has stronger touch-first row/menu/control rhythm, grouped tabs, and bottom-nav depth.
+  - **Air** now has cleaner sheet/media/nested chrome treatment with low resting noise and contextual overlay depth.
+  - **Feather** now has more matte paper/document styling for cards, tables, forms, popups, loading surfaces, and media.
+- Expanded the gallery Variant lab with nested chrome and table examples.
+
+### Fixed
+
+- Added regression coverage for One rhythm, Air nested-chrome shadowlessness, Feather matte/table behavior, and existing Terminal typography/pagination behavior.
+
 ## [0.5.0] — 2026-06-26
 
 ### Added

@@ -99,6 +99,26 @@ const pages = reactive<Record<VariantName, number>>({
               </q-item-section>
             </q-item>
           </q-list>
+          <q-card flat bordered class="variant-card__nested" :data-test="`qds-variant-nested-${variant.name}`">
+            <q-card-section>
+              <div class="variant-card__eyebrow">Nested chrome</div>
+              <p class="variant-card__copy">Secondary card material, separators, and variant-specific shadow rules.</p>
+            </q-card-section>
+          </q-card>
+          <q-markup-table dense flat bordered :data-test="`qds-variant-table-${variant.name}`">
+            <thead>
+              <tr>
+                <th class="text-left">Token</th>
+                <th class="text-right">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>radius</td>
+                <td class="text-right">{{ variant.label }}</td>
+              </tr>
+            </tbody>
+          </q-markup-table>
           <q-pagination
             v-model="pages[variant.name]"
             :max="128"
@@ -175,6 +195,10 @@ const pages = reactive<Record<VariantName, number>>({
 .variant-card__copy {
   margin: var(--qds-space-sm) 0 0;
   color: var(--qds-text-muted);
+}
+
+.variant-card__nested {
+  padding: var(--qds-space-xs);
 }
 
 .variant-card__controls {

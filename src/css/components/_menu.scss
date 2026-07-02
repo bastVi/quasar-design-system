@@ -59,4 +59,55 @@
   .qds-ui .qds-variant-terminal .q-menu.q-menu .q-item.q-item {
     border-radius: var(--qds-radius-xs);
   }
+
+  .qds-ui.qds-variant-mobile .q-menu.q-menu,
+  .qds-ui .qds-variant-mobile .q-menu.q-menu {
+    background: var(--qds-card-bg);
+    border-color: color-mix(in srgb, var(--qds-menu-border) 72%, transparent);
+    border-radius: var(--qds-card-radius);
+    box-shadow: var(--qds-menu-shadow);
+  }
+
+  .qds-ui.qds-variant-mobile .q-menu.q-menu .q-list,
+  .qds-ui .qds-variant-mobile .q-menu.q-menu .q-list {
+    padding: var(--qds-space-sm);
+  }
+
+  .qds-ui.qds-variant-mobile .q-menu.q-menu .q-item.q-item,
+  .qds-ui .qds-variant-mobile .q-menu.q-menu .q-item.q-item {
+    min-height: var(--qds-menu-item-min-height);
+    margin-block: 0.1875rem;
+    padding-inline: var(--qds-space-md);
+    border-radius: var(--qds-radius-control);
+  }
+
+  .qds-ui.qds-variant-mobile .q-menu.q-menu .q-item.q-item.q-item--dense,
+  .qds-ui .qds-variant-mobile .q-menu.q-menu .q-item.q-item.q-item--dense {
+    min-height: 2.5rem;
+    padding-inline: var(--qds-space-sm);
+    border-radius: calc(var(--qds-radius-control) - 4px);
+  }
+
+  .qds-ui.qds-variant-mobile .q-menu.q-menu .q-item.q-item:hover,
+  .qds-ui.qds-variant-mobile .q-menu.q-menu .q-item.q-item.q-hoverable:hover,
+  .qds-ui.qds-variant-mobile .q-menu.q-menu .q-item.q-item:focus-visible,
+  .qds-ui .qds-variant-mobile .q-menu.q-menu .q-item.q-item:hover,
+  .qds-ui .qds-variant-mobile .q-menu.q-menu .q-item.q-item.q-hoverable:hover,
+  .qds-ui .qds-variant-mobile .q-menu.q-menu .q-item.q-item:focus-visible {
+    background-color: color-mix(in srgb, var(--qds-tab-hover-bg) 80%, var(--qds-surface-2) 20%);
+  }
+
+  .qds-ui.qds-variant-mobile .q-menu.q-menu .q-item.q-item.q-item--active,
+  .qds-ui.qds-variant-mobile .q-menu.q-menu .q-item.q-item[aria-selected='true'],
+  .qds-ui .qds-variant-mobile .q-menu.q-menu .q-item.q-item.q-item--active,
+  .qds-ui .qds-variant-mobile .q-menu.q-menu .q-item.q-item[aria-selected='true'] {
+    background-color: color-mix(in srgb, var(--qds-tab-active-bg) 82%, var(--qds-surface-2) 18%);
+    box-shadow: inset 0 0 0 1px rgba(var(--qds-color-primary-rgb), 0.08);
+  }
+
+  .qds-ui.qds-variant-mobile .q-menu.q-menu .q-separator,
+  .qds-ui .qds-variant-mobile .q-menu.q-menu .q-separator {
+    margin: var(--qds-space-xs) calc(-1 * var(--qds-space-sm));
+    background: color-mix(in srgb, var(--qds-border-subtle) 72%, transparent);
+  }
 }

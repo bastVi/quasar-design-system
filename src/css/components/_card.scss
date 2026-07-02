@@ -15,8 +15,52 @@
     }
   }
 
+  .qds-ui.qds-variant-air .q-card.q-card,
+  .qds-ui .qds-variant-air .q-card.q-card,
+  .qds-ui .q-card.q-card.qds-variant-air,
+  .qds-ui.qds-variant-air .qds-card,
+  .qds-ui .qds-variant-air .qds-card {
+    border-color: color-mix(in srgb, var(--qds-chrome-border-soft) 54%, transparent);
+  }
+
+  .qds-ui.qds-variant-air .q-card.q-card .q-card.q-card,
+  .qds-ui .qds-variant-air .q-card.q-card .q-card.q-card,
+  .qds-ui .q-card.q-card.qds-variant-air .q-card.q-card,
+  .qds-ui.qds-variant-air .q-card.q-card .qds-card,
+  .qds-ui .qds-variant-air .q-card.q-card .qds-card {
+    background: var(--qds-chrome-surface-strong);
+    border-color: color-mix(in srgb, var(--qds-chrome-border-soft) 34%, transparent);
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .qds-ui.qds-variant-feather .q-card.q-card,
+  .qds-ui .qds-variant-feather .q-card.q-card,
+  .qds-ui .q-card.q-card.qds-variant-feather,
+  .qds-ui.qds-variant-feather .qds-card,
+  .qds-ui .qds-variant-feather .qds-card {
+    background: var(--qds-surface-0);
+    border-color: var(--qds-separator-color);
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .qds-ui.qds-variant-feather .q-card.q-card .q-card__section + .q-card__section,
+  .qds-ui .qds-variant-feather .q-card.q-card .q-card__section + .q-card__section {
+    border-top: var(--qds-border-width-control) solid var(--qds-separator-color);
+  }
+
+  .qds-ui.qds-variant-feather .q-card.q-card .q-card__actions,
+  .qds-ui .qds-variant-feather .q-card.q-card .q-card__actions {
+    background: color-mix(in srgb, var(--qds-surface-1) 72%, transparent);
+    border-top: var(--qds-border-width-control) solid var(--qds-separator-color);
+  }
+
   .qds-ui.qds-variant-terminal .q-card.q-card,
   .qds-ui .qds-variant-terminal .q-card.q-card,
+  .qds-ui .q-card.q-card.qds-variant-terminal,
   .qds-ui.qds-variant-terminal .qds-card,
   .qds-ui .qds-variant-terminal .qds-card {
     border-color: color-mix(in srgb, var(--qds-color-primary) 24%, var(--qds-border) 76%);

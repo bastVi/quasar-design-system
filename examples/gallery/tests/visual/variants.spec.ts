@@ -8,7 +8,40 @@ test.describe('QDS variant distinctiveness lab', () => {
     await expect(page.locator('[data-test="qds-variant-card-fluent"]')).toBeVisible()
     await expect(page.locator('[data-test="qds-variant-card-air"]')).toBeVisible()
     await expect(page.locator('[data-test="qds-variant-card-mobile"]')).toContainText('One')
+    await expect(page.locator('[data-test="qds-variant-card-feather"]')).toBeVisible()
     await expect(page.locator('[data-test="qds-variant-card-terminal"]')).toBeVisible()
+
+    const readVariant = (selector: string) => page.locator(selector).evaluate((el) => {
+      const card = el as Element
+      const firstRow = card.querySelector('.q-list .q-item')
+      const nestedCard = card.querySelector('.variant-card__nested')
+      const table = card.querySelector('.q-markup-table')
+      const tableCell = table?.querySelector('td')
+
+      return {
+        itemMinHeight: firstRow ? getComputedStyle(firstRow as Element).minHeight : '',
+        itemRadius: firstRow ? getComputedStyle(firstRow as Element).borderRadius : '',
+        nestedShadow: nestedCard ? getComputedStyle(nestedCard as Element).boxShadow : '',
+        nestedBackdrop: nestedCard ? getComputedStyle(nestedCard as Element).backdropFilter : '',
+        tableShadow: table ? getComputedStyle(table as Element).boxShadow : '',
+        tableBorder: table ? getComputedStyle(table as Element).borderTopColor : '',
+        tableCellBorder: tableCell ? getComputedStyle(tableCell as Element).borderTopColor : '',
+      }
+    })
+
+    const fluentVars = await readVariant('[data-test="qds-variant-card-fluent"]')
+    const airVars = await readVariant('[data-test="qds-variant-card-air"]')
+    const oneVars = await readVariant('[data-test="qds-variant-card-mobile"]')
+    const featherVars = await readVariant('[data-test="qds-variant-card-feather"]')
+
+    expect.soft(parseFloat(oneVars.itemMinHeight), 'One list rows are touch-forward').toBeGreaterThan(parseFloat(fluentVars.itemMinHeight))
+    expect.soft(parseFloat(oneVars.itemRadius), 'One list rows are rounder').toBeGreaterThanOrEqual(14)
+    expect.soft(airVars.nestedShadow, 'Air nested chrome is shadowless').toBe('none')
+    expect.soft(airVars.nestedBackdrop, 'Air nested chrome disables nested blur').toBe('none')
+    expect.soft(featherVars.nestedShadow, 'Feather nested card is matte').toBe('none')
+    expect.soft(featherVars.tableShadow, 'Feather table is document-flat').toBe('none')
+    expect.soft(featherVars.tableBorder, 'Feather table keeps a paper-rule border').not.toBe('rgba(0, 0, 0, 0)')
+    expect.soft(featherVars.tableCellBorder, 'Feather table cells keep paper-rule separators').not.toBe('rgba(0, 0, 0, 0)')
 
     const terminal = page.locator('[data-test="qds-variant-card-terminal"]')
     const terminalVars = await terminal.evaluate((el) => {

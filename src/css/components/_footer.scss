@@ -24,4 +24,25 @@
   .qds-ui .q-page-scroller.q-page-scroller {
     background: transparent;
   }
+
+  .qds-ui.qds-variant-mobile .q-footer.q-footer,
+  .qds-ui .qds-variant-mobile .q-footer.q-footer {
+    background: var(--qds-toolbar-bg);
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .qds-ui.qds-variant-mobile .q-layout__section--marginal.q-footer,
+  .qds-ui .qds-variant-mobile .q-layout__section--marginal.q-footer {
+    border-top-color: color-mix(in srgb, var(--qds-border-subtle) 70%, transparent);
+    border-start-start-radius: var(--qds-card-radius);
+    border-start-end-radius: var(--qds-card-radius);
+    overflow: hidden;
+  }
+
+  .qds-ui.qds-variant-mobile .q-footer.q-footer .q-tabs__content,
+  .qds-ui .qds-variant-mobile .q-footer.q-footer .q-tabs__content,
+  .qds-ui.qds-variant-mobile .q-footer.q-footer .q-toolbar,
+  .qds-ui .qds-variant-mobile .q-footer.q-footer .q-toolbar {
+    min-height: var(--qds-list-item-min-height);
+  }
 }

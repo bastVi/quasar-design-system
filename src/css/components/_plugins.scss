@@ -104,4 +104,68 @@
     color: var(--qds-text-muted);
     font-weight: var(--qds-font-weight-medium);
   }
+
+  .qds-ui.qds-variant-air .q-bottom-sheet.q-card.q-card,
+  .qds-ui .qds-variant-air .q-bottom-sheet.q-card.q-card {
+    width: min(34rem, calc(100vw - var(--qds-space-md) - var(--qds-space-md)));
+    background: var(--qds-chrome-surface-strong);
+    border-color: color-mix(in srgb, var(--qds-chrome-border-soft) 42%, transparent);
+    border-block-end: 0;
+    box-shadow: var(--qds-shadow-md);
+  }
+
+  .qds-ui.qds-variant-air .q-bottom-sheet.q-bottom-sheet--grid,
+  .qds-ui .qds-variant-air .q-bottom-sheet.q-bottom-sheet--grid {
+    width: min(46rem, calc(100vw - var(--qds-space-md) - var(--qds-space-md)));
+  }
+
+  .qds-ui.qds-variant-air .q-bottom-sheet.q-bottom-sheet--grid .q-bottom-sheet__item,
+  .qds-ui .qds-variant-air .q-bottom-sheet.q-bottom-sheet--grid .q-bottom-sheet__item {
+    box-shadow: none;
+  }
+
+  .qds-ui.qds-variant-air .q-loading .q-loading__box,
+  .qds-ui .qds-variant-air .q-loading .q-loading__box {
+    background: var(--qds-chrome-surface-strong);
+    border-color: color-mix(in srgb, var(--qds-chrome-border-soft) 44%, transparent);
+    box-shadow: var(--qds-shadow-md);
+  }
+
+  .qds-ui.qds-variant-feather .q-bottom-sheet.q-card.q-card,
+  .qds-ui .qds-variant-feather .q-bottom-sheet.q-card.q-card {
+    background: var(--qds-surface-0);
+    border-color: var(--qds-separator-color);
+    border-block-end: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .qds-ui.qds-variant-feather .q-bottom-sheet.q-bottom-sheet--list .q-bottom-sheet__item.q-item,
+  .qds-ui .qds-variant-feather .q-bottom-sheet.q-bottom-sheet--list .q-bottom-sheet__item.q-item {
+    margin-inline: 0;
+    padding-inline: var(--qds-space-lg);
+    border-radius: 0;
+  }
+
+  .qds-ui.qds-variant-feather .q-bottom-sheet.q-bottom-sheet--list .q-bottom-sheet__item.q-item + .q-bottom-sheet__item.q-item,
+  .qds-ui .qds-variant-feather .q-bottom-sheet.q-bottom-sheet--list .q-bottom-sheet__item.q-item + .q-bottom-sheet__item.q-item {
+    border-top: var(--qds-border-width-control) solid var(--qds-separator-color);
+  }
+
+  .qds-ui.qds-variant-feather .q-loading .q-loading__backdrop,
+  .qds-ui .qds-variant-feather .q-loading .q-loading__backdrop {
+    background: color-mix(in srgb, var(--qds-text-strong) 24%, transparent);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .qds-ui.qds-variant-feather .q-loading .q-loading__box,
+  .qds-ui .qds-variant-feather .q-loading .q-loading__box {
+    background: var(--qds-surface-0);
+    border-color: var(--qds-separator-color);
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 }

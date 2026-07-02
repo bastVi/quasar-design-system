@@ -31,6 +31,11 @@ const EXPECTED_CARD_RADIUS: Record<Variant, string> = {
   terminal: '10px',
 }
 
+const EXPECTED_BUTTON_RADIUS: Record<Variant, string> = {
+  ...EXPECTED_CONTROL_RADIUS,
+  mobile: '18px',
+}
+
 type Semantic = 'positive' | 'negative' | 'warning' | 'info'
 type VariantExpectations = {
   surface: string
@@ -269,9 +274,7 @@ test.describe('QDS override gate', () => {
         // --- QBtn: radius + weight are token-driven (override applied) ---
         // Non-dense unelevated button in the panel (avoids the dense toolbar toggles).
         const btn = `${PANEL} .q-btn--unelevated:not(.q-btn--dense)`
-        expect.soft(await computed(page, btn, 'border-radius'), 'QBtn radius').toBe(
-          EXPECTED_CONTROL_RADIUS[variant],
-        )
+        expect.soft(await computed(page, btn, 'border-radius'), 'QBtn radius').toBe(EXPECTED_BUTTON_RADIUS[variant])
         expect.soft(await computed(page, btn, 'font-weight'), 'QBtn font-weight').toBe('500')
         const denseBtn = `${PANEL} .q-btn--dense:not(.q-btn--round):not(.q-btn--fab):not(.q-btn--fab-mini)`
         const buttonGap = await computed(page, `${btn} .q-btn__content`, 'column-gap')
@@ -415,8 +418,8 @@ test.describe('QDS override gate', () => {
           EXPECTED_CARD_RADIUS[variant],
         )
         const cardShadow = await computed(page, card, 'box-shadow')
-        if (variant === 'air') {
-          expect.soft(cardShadow, 'Air QCard removes resting card shadow').toBe('none')
+        if (variant === 'air' || variant === 'feather') {
+          expect.soft(cardShadow, `${variant} QCard removes resting card shadow`).toBe('none')
         } else {
           expect.soft(cardShadow, 'QCard shadow (restrained)').not.toBe('none')
         }
@@ -454,11 +457,19 @@ test.describe('QDS override gate', () => {
         await page.getByRole('button', { name: 'Open menu' }).click()
         const menu = '.q-menu'
         await expect(page.locator(menu).first()).toBeVisible()
-        expect.soft(await computed(page, menu, 'background-color'), 'QMenu bg').toBe(expected.surface)
+        const menuBg = await computed(page, menu, 'background-color')
+        if (variant === 'mobile') {
+          expect.soft(menuBg, 'One QMenu uses elevated card material').not.toBe('rgba(0, 0, 0, 0)')
+        } else {
+          expect.soft(menuBg, 'QMenu bg').toBe(expected.surface)
+        }
         const menuBorder = await computed(page, menu, 'border-top-color')
         if (variant === 'terminal') {
           expect.soft(menuBorder, 'Terminal QMenu amber-mixed border').toMatch(/^(rgb|color)\(/)
           expect.soft(menuBorder, 'Terminal QMenu border remains visible').not.toBe('rgba(0, 0, 0, 0)')
+        } else if (variant === 'mobile') {
+          expect.soft(menuBorder, 'One QMenu soft grouped border').toMatch(/^(rgb|rgba|color)\(/)
+          expect.soft(menuBorder, 'One QMenu border remains visible').not.toBe('rgba(0, 0, 0, 0)')
         } else {
           expect.soft(menuBorder, 'QMenu border').toBe(expected.subtleBorder)
         }
@@ -528,6 +539,7 @@ test.describe('QDS override gate', () => {
         const tabAfter = await activeTab.evaluate((el) => {
           const cs = getComputedStyle(el as Element, '::after')
           return {
+            display: cs.display,
             height: cs.height,
             insetInlineStart: cs.insetInlineStart,
             insetInlineEnd: cs.insetInlineEnd,
@@ -535,24 +547,34 @@ test.describe('QDS override gate', () => {
             opacity: cs.opacity,
           }
         })
-        expect.soft(await computed(page, '.gallery-tabs .q-tab--active', 'box-shadow'), 'QTab active no outline box').toBe('none')
-        expect.soft(await computed(page, '.gallery-tabs .q-tab--active', 'background-color'), 'QTab active no filled pill').toBe(
-          'rgba(0, 0, 0, 0)',
-        )
-        expect.soft(tabAfter.height, 'QTab active indicator height').toBe('3px')
-        expect.soft(tabAfter.insetInlineStart, 'QTab active indicator respects start padding').not.toBe('0px')
-        expect.soft(tabAfter.insetInlineEnd, 'QTab active indicator respects end padding').not.toBe('0px')
-        expect.soft(tabAfter.borderRadius, 'QTab active indicator rounded').not.toBe('0px')
-        expect.soft(tabAfter.opacity, 'QTab active indicator visible').toBe('1')
+        if (variant === 'mobile') {
+          expect.soft(await computed(page, '.gallery-tabs .q-tab--active', 'box-shadow'), 'One QTab active pill outline').not.toBe('none')
+          expect.soft(await computed(page, '.gallery-tabs .q-tab--active', 'background-color'), 'One QTab active pill').not.toBe('rgba(0, 0, 0, 0)')
+          expect.soft(tabAfter.display, 'One QTab hides Fluent rail').toBe('none')
+        } else {
+          expect.soft(await computed(page, '.gallery-tabs .q-tab--active', 'box-shadow'), 'QTab active no outline box').toBe('none')
+          expect.soft(await computed(page, '.gallery-tabs .q-tab--active', 'background-color'), 'QTab active no filled pill').toBe(
+            'rgba(0, 0, 0, 0)',
+          )
+          expect.soft(tabAfter.height, 'QTab active indicator height').toBe('3px')
+          expect.soft(tabAfter.insetInlineStart, 'QTab active indicator respects start padding').not.toBe('0px')
+          expect.soft(tabAfter.insetInlineEnd, 'QTab active indicator respects end padding').not.toBe('0px')
+          expect.soft(tabAfter.borderRadius, 'QTab active indicator rounded').not.toBe('0px')
+          expect.soft(tabAfter.opacity, 'QTab active indicator visible').toBe('1')
+        }
         const verticalTab = page.locator(`${PANEL} .q-tabs--vertical .q-tab--active`).first()
         const verticalAfter = await verticalTab.evaluate((el) => {
           const cs = getComputedStyle(el as Element, '::after')
-          return { width: cs.width, height: cs.height, opacity: cs.opacity, insetInlineStart: cs.insetInlineStart }
+          return { display: cs.display, width: cs.width, height: cs.height, opacity: cs.opacity, insetInlineStart: cs.insetInlineStart }
         })
-        expect.soft(verticalAfter.width, 'QTab vertical indicator width').toBe('3px')
-        expect.soft(verticalAfter.height, 'QTab vertical indicator is short').not.toBe('auto')
-        expect.soft(verticalAfter.insetInlineStart, 'QTab vertical indicator inset').not.toBe('0px')
-        expect.soft(verticalAfter.opacity, 'QTab vertical indicator visible').toBe('1')
+        if (variant === 'mobile') {
+          expect.soft(verticalAfter.display, 'One vertical tabs hide Fluent rail').toBe('none')
+        } else {
+          expect.soft(verticalAfter.width, 'QTab vertical indicator width').toBe('3px')
+          expect.soft(verticalAfter.height, 'QTab vertical indicator is short').not.toBe('auto')
+          expect.soft(verticalAfter.insetInlineStart, 'QTab vertical indicator inset').not.toBe('0px')
+          expect.soft(verticalAfter.opacity, 'QTab vertical indicator visible').toBe('1')
+        }
 
         // --- QField/QSelect: floated labels must not collide with icons or multiple-select chips ---
         const iconField = page.locator(`${PANEL} .q-field:has-text("With icon")`).first()
@@ -601,8 +623,8 @@ test.describe('QDS override gate', () => {
           EXPECTED_CARD_RADIUS[variant],
         )
         const tableShadow = await computed(page, table, 'box-shadow')
-        if (variant === 'air') {
-          expect.soft(tableShadow, 'Air QTable container stays shadowless').toBe('none')
+        if (variant === 'air' || variant === 'feather') {
+          expect.soft(tableShadow, `${variant} QTable container stays shadowless`).toBe('none')
         } else {
           expect.soft(tableShadow, 'QTable container shadow').not.toBe('none')
         }
@@ -637,7 +659,12 @@ test.describe('QDS override gate', () => {
         expect.soft(await computed(page, footer, 'border-top-color'), 'QFooter border-top color').not.toBe('rgba(0, 0, 0, 0)')
         // Border-bottom must be cleared by the footer override.
         expect.soft(await computed(page, footer, 'border-bottom-width'), 'QFooter border-bottom cleared').toBe('0px')
-        expect.soft(await computed(page, footer, 'box-shadow'), 'QFooter no box-shadow').toBe('none')
+        const footerShadow = await computed(page, footer, 'box-shadow')
+        if (variant === 'mobile') {
+          expect.soft(footerShadow, 'One QFooter has bottom-nav depth').not.toBe('none')
+        } else {
+          expect.soft(footerShadow, 'QFooter no box-shadow').toBe('none')
+        }
 
         // --- QPageSticky: layout helper present, transparent background ---
         const stickyBtn = `${PANEL} .q-page-sticky .q-btn`
@@ -737,7 +764,12 @@ test.describe('QDS override gate', () => {
         await page.getByRole('button', { name: /Tooltip target/ }).click()
         const tooltip = '.q-tooltip'
         await expect(page.locator(tooltip).first()).toBeVisible()
-        expect.soft(await computed(page, tooltip, 'box-shadow'), 'QTooltip shadow').not.toBe('none')
+        const tooltipShadow = await computed(page, tooltip, 'box-shadow')
+        if (variant === 'feather') {
+          expect.soft(tooltipShadow, 'Feather QTooltip stays matte').toBe('none')
+        } else {
+          expect.soft(tooltipShadow, 'QTooltip shadow').not.toBe('none')
+        }
         expect.soft(await computed(page, tooltip, 'border-top-width'), 'QTooltip border').toBe('1px')
         await page.getByRole('button', { name: /Tooltip target/ }).click()
         await expect(page.locator(tooltip)).toHaveCount(0)

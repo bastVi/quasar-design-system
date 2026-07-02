@@ -27,4 +27,39 @@
     border-radius: var(--qds-menu-radius);
     box-shadow: none;
   }
+
+  .qds-ui.qds-variant-air .q-tooltip.q-tooltip,
+  .qds-ui .qds-variant-air .q-tooltip.q-tooltip {
+    background: color-mix(in srgb, var(--qds-chrome-surface-strong) 88%, transparent);
+    border-color: color-mix(in srgb, var(--qds-chrome-border-soft) 42%, transparent);
+    box-shadow: var(--qds-menu-shadow);
+    backdrop-filter: blur(var(--qds-card-backdrop-blur)) saturate(var(--qds-card-backdrop-saturate));
+    -webkit-backdrop-filter: blur(var(--qds-card-backdrop-blur)) saturate(var(--qds-card-backdrop-saturate));
+  }
+
+  .qds-ui.qds-variant-air .q-popup-proxy.q-popup-proxy,
+  .qds-ui .qds-variant-air .q-popup-proxy.q-popup-proxy {
+    background: var(--qds-menu-bg);
+    border-color: color-mix(in srgb, var(--qds-menu-border) 58%, transparent);
+    box-shadow: var(--qds-menu-shadow);
+  }
+
+  .qds-ui.qds-variant-feather .q-tooltip.q-tooltip,
+  .qds-ui .qds-variant-feather .q-tooltip.q-tooltip,
+  .qds-ui.qds-variant-feather .q-popup-proxy.q-popup-proxy,
+  .qds-ui .qds-variant-feather .q-popup-proxy.q-popup-proxy {
+    background: var(--qds-surface-0);
+    border-color: var(--qds-separator-color);
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .qds-ui.qds-variant-feather .q-date.q-date,
+  .qds-ui.qds-variant-feather .q-time.q-time,
+  .qds-ui .qds-variant-feather .q-date.q-date,
+  .qds-ui .qds-variant-feather .q-time.q-time {
+    background: var(--qds-surface-0);
+    box-shadow: none;
+  }
 }
