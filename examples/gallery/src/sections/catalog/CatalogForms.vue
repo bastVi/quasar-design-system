@@ -44,13 +44,13 @@ const checkboxChoices = [
           <div class="catalog-label">QInput states</div>
           <div class="catalog-stack">
             <div data-test="qds-catalog-input-readonly">
-              <q-input v-model="inputReadonly" label="Readonly" outlined readonly />
+              <q-input v-model="inputReadonly" name="catalog-input-readonly" label="Readonly" outlined readonly />
             </div>
             <div data-test="qds-catalog-input-error">
-              <q-input v-model="inputError" label="Error" outlined error error-message="Visible validation message" />
+              <q-input v-model="inputError" name="catalog-input-error" label="Error" outlined error error-message="Visible validation message" />
             </div>
             <div data-test="qds-catalog-input-disabled">
-              <q-input v-model="inputDisabled" label="Disabled" outlined disable />
+              <q-input v-model="inputDisabled" name="catalog-input-disabled" label="Disabled" outlined disable />
             </div>
           </div>
         </div>
@@ -59,23 +59,24 @@ const checkboxChoices = [
           <div class="catalog-label">QSelect states</div>
           <div class="catalog-stack">
             <div data-test="qds-catalog-select-readonly">
-              <q-select v-model="selectReadonly" :options="selectOptions" label="Readonly" outlined readonly />
+              <q-select v-model="selectReadonly" name="catalog-select-readonly" :options="selectOptions" label="Readonly" outlined readonly />
             </div>
             <div data-test="qds-catalog-select-error">
-              <q-select v-model="selectError" :options="selectOptions" label="Error" outlined error error-message="Visible selection message" />
+              <q-select v-model="selectError" name="catalog-select-error" :options="selectOptions" label="Error" outlined error error-message="Visible selection message" />
             </div>
             <div data-test="qds-catalog-select-disabled">
-              <q-select v-model="selectDisabled" :options="selectOptions" label="Disabled" outlined disable />
+              <q-select v-model="selectDisabled" name="catalog-select-disabled" :options="selectOptions" label="Disabled" outlined disable />
             </div>
           </div>
         </div>
 
         <div class="catalog-demo" data-test="qds-catalog-option-group">
           <div class="catalog-label">QOptionGroup</div>
-          <q-option-group v-model="optionSingle" data-test="qds-catalog-option-radio" :options="optionChoices" color="primary" />
+          <q-option-group v-model="optionSingle" name="catalog-option-radio" data-test="qds-catalog-option-radio" :options="optionChoices" color="primary" />
           <q-separator spaced />
           <q-option-group
             v-model="optionMultiple"
+            name="catalog-option-checkbox"
             data-test="qds-catalog-option-checkbox"
             :options="checkboxChoices"
             color="accent"
@@ -83,40 +84,40 @@ const checkboxChoices = [
           />
           <q-separator spaced />
           <div class="catalog-stack">
-            <q-checkbox v-model="checkbox" data-test="qds-catalog-checkbox" color="primary" label="Checkbox proof" />
-            <q-radio v-model="radio" data-test="qds-catalog-radio" val="air" color="primary" label="Radio proof" />
-            <q-toggle v-model="toggle" data-test="qds-catalog-toggle" color="primary" label="Toggle proof" />
+            <q-checkbox v-model="checkbox" name="catalog-checkbox" data-test="qds-catalog-checkbox" color="primary" label="Checkbox proof" />
+            <q-radio v-model="radio" name="catalog-radio" data-test="qds-catalog-radio" val="air" color="primary" label="Radio proof" />
+            <q-toggle v-model="toggle" name="catalog-toggle" data-test="qds-catalog-toggle" color="primary" label="Toggle proof" />
           </div>
         </div>
 
         <div class="catalog-demo">
           <div class="catalog-label">QFile</div>
           <div data-test="qds-catalog-file">
-            <q-file v-model="file" label="Choose local file" outlined clearable counter display-value="token-proof.pdf" />
+            <q-file v-model="file" name="catalog-file" label="Choose local file" outlined clearable counter display-value="token-proof.pdf" />
           </div>
         </div>
 
         <div class="catalog-demo">
           <div class="catalog-label">QSlider &amp; QRange</div>
           <div class="catalog-stack catalog-stack--relaxed">
-            <q-slider v-model="slider" data-test="qds-catalog-slider" :min="0" :max="100" label label-always markers />
-            <q-range v-model="range" data-test="qds-catalog-range" :min="0" :max="100" label label-always markers />
+            <q-slider v-model="slider" name="catalog-slider" data-test="qds-catalog-slider" :min="0" :max="100" label label-always markers />
+            <q-range v-model="range" name="catalog-range" data-test="qds-catalog-range" :min="0" :max="100" label label-always markers />
           </div>
         </div>
 
         <div class="catalog-demo">
           <div class="catalog-label">QColor</div>
-          <q-color v-model="color" default-view="palette" class="catalog-picker" data-test="qds-catalog-color" />
+          <q-color v-model="color" name="catalog-color" default-view="palette" class="catalog-picker" data-test="qds-catalog-color" />
         </div>
 
         <div class="catalog-demo">
           <div class="catalog-label">QDate</div>
-          <q-date v-model="date" flat bordered class="catalog-picker" data-test="qds-catalog-date" />
+          <q-date v-model="date" name="catalog-date" flat bordered class="catalog-picker" data-test="qds-catalog-date" />
         </div>
 
         <div class="catalog-demo">
           <div class="catalog-label">QTime</div>
-          <q-time v-model="time" flat bordered format24h class="catalog-picker" data-test="qds-catalog-time" />
+          <q-time v-model="time" name="catalog-time" flat bordered format24h class="catalog-picker" data-test="qds-catalog-time" />
         </div>
 
         <div class="catalog-demo">
@@ -124,7 +125,7 @@ const checkboxChoices = [
           <div class="catalog-edit-target">
             {{ popupLabel }}
             <q-popup-edit v-model="popupLabel" buttons v-slot="scope">
-              <q-input v-model="scope.value" dense autofocus @keyup.enter="scope.set" />
+              <q-input v-model="scope.value" name="catalog-popup-edit" dense autofocus @keyup.enter="scope.set" />
             </q-popup-edit>
           </div>
         </div>

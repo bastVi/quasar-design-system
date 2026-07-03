@@ -110,6 +110,7 @@ export const DEFAULT_DESIGN_SYSTEM_OPTIONS: Required<
 }
 
 const THEME_MODES: DesignSystemMode[] = ['light', 'dark', 'system']
+const DESIGN_SYSTEM_SCOPE_CLASS = 'qds-ui'
 let fallbackController: DesignSystemController | null = null
 
 export function configureDesignSystem(app: App, options: DesignSystemOptions = {}): DesignSystemController {
@@ -199,7 +200,10 @@ export function createDesignSystemController(
     target.dataset.qdsVariant = state.variant
     target.classList.toggle('qds-theme-light', !state.isDark)
     target.classList.toggle('qds-theme-dark', state.isDark)
-    target.classList.toggle(state.rootClass, state.enabled)
+    target.classList.toggle(DESIGN_SYSTEM_SCOPE_CLASS, state.enabled)
+    if (state.rootClass !== DESIGN_SYSTEM_SCOPE_CLASS) {
+      target.classList.toggle(state.rootClass, state.enabled)
+    }
 
     Object.values(variantRegistry).forEach((variant) => {
       target.classList.toggle(variant.cssClass, variant.name === state.variant)
@@ -291,7 +295,7 @@ export function createDesignSystemController(
   const destroy = () => {
     detachSystemListener()
     if (target) {
-      target.classList.remove(state.rootClass, 'qds-theme-light', 'qds-theme-dark')
+      target.classList.remove(DESIGN_SYSTEM_SCOPE_CLASS, state.rootClass, 'qds-theme-light', 'qds-theme-dark')
       Object.values(variantRegistry).forEach((variant) => target.classList.remove(variant.cssClass))
       delete target.dataset.qdsMode
       delete target.dataset.qdsResolved

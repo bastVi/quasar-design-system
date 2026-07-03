@@ -140,17 +140,18 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
       <div class="text-h6 qds-display q-mb-md">QInput / QSelect</div>
       <div class="row q-col-gutter-md">
         <div class="col-12 col-sm-6">
-          <q-input v-model="text" label="Outlined" outlined clearable class="q-mb-md" />
-          <q-input model-value="Search" label="With icon" outlined class="q-mb-md">
+          <q-input v-model="text" name="components-outlined" label="Outlined" outlined clearable class="q-mb-md" />
+          <q-input model-value="Search" name="components-search" label="With icon" outlined class="q-mb-md">
             <template #prepend><PhMagnifyingGlass :size="18" weight="regular" /></template>
           </q-input>
-          <q-input model-value="" label="Filled" filled class="q-mb-md" />
-          <q-input model-value="" label="With error" outlined error error-message="Required field" />
+          <q-input model-value="" name="components-filled" label="Filled" filled class="q-mb-md" />
+          <q-input model-value="" name="components-error" label="With error" outlined error error-message="Required field" />
         </div>
         <div class="col-12 col-sm-6">
-          <q-select v-model="select" :options="selectOptions" label="Outlined select" outlined class="q-mb-md" />
+          <q-select v-model="select" name="components-select" :options="selectOptions" label="Outlined select" outlined class="q-mb-md" />
           <q-select
             v-model="selectMultiple"
+            name="components-select-multiple"
             :options="selectOptions"
             label="Multiple select"
             filled
@@ -158,8 +159,8 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
             use-chips
             class="q-mb-md"
           />
-          <q-select v-model="select" :options="selectOptions" label="Dense select" outlined dense class="q-mb-md" />
-          <q-input model-value="" label="Disabled" outlined disable />
+          <q-select v-model="select" name="components-select-dense" :options="selectOptions" label="Dense select" outlined dense class="q-mb-md" />
+          <q-input model-value="" name="components-disabled" label="Disabled" outlined disable />
         </div>
       </div>
     </q-card>
@@ -293,22 +294,22 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
       <div class="text-h6 qds-display q-mb-md">Selection controls</div>
       <div class="row q-col-gutter-lg">
         <div class="col-12 col-md-5 column" style="gap: .75rem">
-          <q-checkbox v-model="checkbox" label="Checkbox selected" />
-          <q-radio v-model="radio" val="comfortable" label="Comfortable density" />
-          <q-radio v-model="radio" val="compact" label="Compact density" />
-          <q-toggle v-model="toggle" label="Enable tonal surfaces" />
+          <q-checkbox v-model="checkbox" name="components-checkbox" label="Checkbox selected" />
+          <q-radio v-model="radio" name="components-radio-comfortable" val="comfortable" label="Comfortable density" />
+          <q-radio v-model="radio" name="components-radio-compact" val="compact" label="Compact density" />
+          <q-toggle v-model="toggle" name="components-toggle" label="Enable tonal surfaces" />
           <div class="qds-text-muted q-mt-sm">Dense controls keep Quasar's compact branch.</div>
-          <q-checkbox v-model="denseCheckbox" dense label="Dense checkbox" />
-          <q-radio v-model="denseRadio" dense val="dense-comfortable" label="Dense radio selected" />
-          <q-radio v-model="denseRadio" dense val="dense-compact" label="Dense radio unselected" />
-          <q-toggle v-model="denseToggle" dense label="Dense toggle" />
+          <q-checkbox v-model="denseCheckbox" name="components-dense-checkbox" dense label="Dense checkbox" />
+          <q-radio v-model="denseRadio" name="components-dense-radio-comfortable" dense val="dense-comfortable" label="Dense radio selected" />
+          <q-radio v-model="denseRadio" name="components-dense-radio-compact" dense val="dense-compact" label="Dense radio unselected" />
+          <q-toggle v-model="denseToggle" name="components-dense-toggle" dense label="Dense toggle" />
         </div>
         <div class="col-12 col-md-7">
           <div class="text-subtitle2 qds-text-muted q-mb-sm">Slider</div>
-          <q-slider v-model="slider" :min="0" :max="100" label color="primary" />
+          <q-slider v-model="slider" name="components-slider" :min="0" :max="100" label color="primary" />
           <div class="qds-text-muted">Current value: {{ slider }}</div>
           <div class="text-subtitle2 qds-text-muted q-mt-md q-mb-sm">Range</div>
-          <q-range v-model="range" :min="0" :max="100" label color="primary" />
+          <q-range v-model="range" name="components-range" :min="0" :max="100" label color="primary" />
         </div>
       </div>
     </q-card>

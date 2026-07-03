@@ -31,7 +31,7 @@ const duotone = [
         <div class="col-auto"><q-btn round flat aria-label="Dropdown"><PhCaretDown :size="20" weight="regular" /></q-btn></div>
         <div class="col-auto"><q-chip removable color="primary" text-color="white" label="chip.remove" /></div>
         <div class="col-auto" style="min-width: 220px">
-          <q-select class="icons-dense-select" model-value="" :options="['One', 'Two']" outlined dense label="Select arrow" />
+          <q-select class="icons-dense-select" model-value="" name="icons-select-arrow" :options="['One', 'Two']" outlined dense label="Select arrow" />
         </div>
         <div class="col-auto"><q-rating :model-value="3" /></div>
       </div>

@@ -26,10 +26,10 @@
 @use 'components/footer';
 @use 'components/selection';
 @use 'components/plugins';
-@use 'components/catalog-actions';
-@use 'components/catalog-forms';
-@use 'components/catalog-loading-data';
-@use 'components/catalog-complex-media';
+@use 'components/actions';
+@use 'components/forms';
+@use 'components/loading-data';
+@use 'components/complex-media';
 
 @layer qds.base {
   @include base.styles;
@@ -59,8 +59,8 @@
   @include footer.styles;
   @include selection.styles;
   @include plugins.styles;
-  @include catalog-actions.styles;
-  @include catalog-forms.styles;
-  @include catalog-loading-data.styles;
-  @include catalog-complex-media.styles;
+  @include actions.styles;
+  @include forms.styles;
+  @include loading-data.styles;
+  @include complex-media.styles;
 }

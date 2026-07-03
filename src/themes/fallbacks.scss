@@ -112,6 +112,11 @@
 
     --qds-font-family: #{map.get(tokens.$font, body)};
     --qds-font-family-display: #{map.get(tokens.$font, display)};
+    @if map.get(tokens.$font, accent) != null {
+      --qds-font-family-accent: #{map.get(tokens.$font, accent)};
+    } @else {
+      --qds-font-family-accent: #{map.get(tokens.$font, display)};
+    }
     --qds-font-weight-regular: #{map.get(map.get(tokens.$font, weight), regular)};
     --qds-font-weight-medium: #{map.get(map.get(tokens.$font, weight), medium)};
     --qds-font-weight-semibold: #{map.get(map.get(tokens.$font, weight), semibold)};

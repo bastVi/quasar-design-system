@@ -31,7 +31,8 @@ pnpm add @bastvi/quasar-design-system
 > **Built TS + source SCSS.** TypeScript runtime entrypoints ship pre-compiled as ESM
 > JS with `.d.ts` declarations in `dist/`. SCSS and font exports remain in raw `src/`
 > so your build pipeline can consume and customize them. Import the design-system CSS
-> **after** Quasar's own CSS.
+> **after** Quasar's own CSS. Git/source installs run the package `prepare` script to
+> generate `dist/`; npm releases already include the built files.
 
 ## Basic Usage
 
@@ -94,10 +95,11 @@ For content icons, use `@phosphor-icons/vue` (duotone for feature icons, line we
 
 ## Fonts
 
-Inter (body) and Selawik (optional display) ship as optional CSS — import what you need:
+Inter (body), Open Sans (compatibility/body alternative), and Selawik (optional display) ship as optional CSS — import what you need:
 
 ```ts
 import '@bastvi/quasar-design-system/fonts/inter.css'
+import '@bastvi/quasar-design-system/fonts/open-sans.css'
 import '@bastvi/quasar-design-system/fonts/selawik.css'
 ```
 
@@ -128,7 +130,7 @@ The legacy `glass` value still resolves to `air` for existing consumers, but new
 
 ## Component Coverage
 
-QDS skins visible Quasar chrome — buttons, cards, inputs, toolbars, drawers, lists, expansion items, and similar surfaces that carry tokenized visual treatment.
+QDS skins visible Quasar chrome — buttons, cards, inputs, toolbars, drawers, lists, expansion items, and similar surfaces that carry tokenized visual treatment. The release gallery and Histoire catalog exercise the high-value sub-elements across forms/pickers, data/navigation/layout, media/complex/loading, and overlays/plugins.
 
 It intentionally does **not** add CSS for behavior-only, SSR, observer, or composable surfaces. These inherit Quasar's own defaults or have no visual representation at all:
 
@@ -140,6 +142,8 @@ It intentionally does **not** add CSS for behavior-only, SSR, observer, or compo
 - **Composables and utilities:** no CSS added unless visual behavior is directly affected
 
 Layout helpers that carry visible chrome (header, footer, toolbar, sticky child controls) are covered through the gallery examples and visual tests; scroll/position observers remain behavior-only unless an app adds visible child controls.
+
+Some interaction-heavy Quasar states are intentionally documented/manual rather than automated in the visual gate because they depend on teleported overlays, gestures, or scroll thresholds: QPopupEdit popup interaction, QPageScroller activation, QSlideItem and QPullToRefresh gestures, and QInfiniteScroll scroll-triggered loading. Static skins and common visible states remain covered.
 
 ## Gallery
 

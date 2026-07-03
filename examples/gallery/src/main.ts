@@ -7,7 +7,10 @@ import 'quasar/src/css/index.sass'
 // 2. Design-system CSS AFTER Quasar (import-after-Quasar — overrides are unlayered).
 import '@bastvi/quasar-design-system/css'
 
-// 3. Optional design-system fonts (drive --qds-font-family* faces).
+// 3. Gallery-only demo helpers (NOT part of the published design-system package).
+import './gallery.css'
+
+// 4. Optional design-system fonts (drive --qds-font-family* faces).
 import '@bastvi/quasar-design-system/fonts/inter.css'
 import '@bastvi/quasar-design-system/fonts/open-sans.css'
 import '@bastvi/quasar-design-system/fonts/selawik.css'

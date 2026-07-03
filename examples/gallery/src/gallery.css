@@ -1,0 +1,83 @@
+/* Gallery-only layout helpers.
+ * These classes are demo scaffolding, not part of the public @bastvi/quasar-design-system CSS. */
+
+/* From src/css/components/_catalog-forms.scss */
+.qds-ui .q-form.q-form .catalog-stack {
+  display: grid;
+  gap: var(--qds-space-sm);
+}
+
+.qds-ui .q-form.q-form .catalog-stack--relaxed {
+  gap: var(--qds-space-lg);
+  padding-block-start: var(--qds-space-md);
+}
+
+/* From src/css/components/_catalog-loading-data.scss */
+.qds-ui .catalog-expansion-list.catalog-expansion-list {
+  display: grid;
+  gap: var(--qds-space-sm);
+  color: var(--qds-text);
+  background: transparent;
+}
+
+.qds-ui .catalog-expansion-list.catalog-expansion-list .q-separator {
+  display: none;
+}
+
+.qds-ui .catalog-expansion-content {
+  padding: var(--qds-space-md);
+  color: var(--qds-text-muted);
+}
+
+.qds-ui .catalog-expansion-content--dense {
+  padding-block: var(--qds-space-sm);
+}
+
+.qds-ui.qds-variant-feather .catalog-expansion-list.catalog-expansion-list,
+.qds-ui .qds-variant-feather .catalog-expansion-list.catalog-expansion-list {
+  gap: 0;
+  background: var(--qds-surface-0);
+  border: var(--qds-border-width-control) solid var(--qds-separator-color);
+  border-radius: var(--qds-card-radius);
+}
+
+.qds-ui.qds-variant-feather .catalog-expansion-list.catalog-expansion-list .q-expansion-item + .q-expansion-item,
+.qds-ui .qds-variant-feather .catalog-expansion-list.catalog-expansion-list .q-expansion-item + .q-expansion-item {
+  border-top: var(--qds-border-width-control) solid var(--qds-separator-color);
+}
+
+/* From src/css/components/_catalog-complex-media.scss */
+.qds-ui .q-carousel.q-carousel .catalog-carousel-slide,
+.qds-ui .q-carousel.q-carousel .catalog-carousel-image.q-img {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+}
+
+.qds-ui .q-carousel.q-carousel .catalog-carousel-image.q-img {
+  border-radius: 0;
+}
+
+.qds-ui .q-carousel.q-carousel .catalog-carousel-image.q-img .q-img__image {
+  filter: saturate(1.04) contrast(1.02);
+}
+
+.qds-ui .catalog-scroll-box.q-scrollarea {
+  overflow: hidden;
+  background: var(--qds-surface-0);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--qds-surface-0) 72%, transparent);
+}
+
+.qds-ui .catalog-scroll-box.q-scrollarea .q-scrollarea__content {
+  padding: var(--qds-space-xs) calc(var(--qds-space-md) + var(--qds-scrollbar-size)) var(--qds-space-xs) var(--qds-space-xs);
+}
+
+.qds-ui.qds-variant-terminal .catalog-scroll-box.q-scrollarea,
+.qds-ui .qds-variant-terminal .catalog-scroll-box.q-scrollarea {
+  font-family: var(--qds-font-family);
+  background:
+    linear-gradient(180deg, rgba(var(--qds-color-primary-rgb), 0.035), transparent 42%),
+    var(--qds-surface-0);
+  border-color: color-mix(in srgb, var(--qds-color-primary) 24%, var(--qds-border) 76%);
+  box-shadow: none;
+}

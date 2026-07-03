@@ -80,7 +80,7 @@ const pages = reactive<Record<VariantName, number>>({
         <q-separator />
 
         <q-card-section class="variant-card__controls">
-          <q-input model-value="Variant token" label="Outlined field" outlined dense readonly />
+        <q-input model-value="Variant token" name="variant-outlined-field" label="Outlined field" outlined dense readonly />
           <div class="qds-button-row qds-button-row--tight">
             <q-btn unelevated color="primary" label="Apply" no-caps />
             <q-btn outline color="primary" label="Inspect" no-caps />

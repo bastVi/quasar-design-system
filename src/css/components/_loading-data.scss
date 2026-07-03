@@ -269,26 +269,6 @@
     border: var(--qds-border-width-control) solid var(--qds-chrome-border-soft);
   }
 
-  .qds-ui .catalog-expansion-list.catalog-expansion-list {
-    display: grid;
-    gap: var(--qds-space-sm);
-    color: var(--qds-text);
-    background: transparent;
-  }
-
-  .qds-ui .catalog-expansion-list.catalog-expansion-list .q-separator {
-    display: none;
-  }
-
-  .qds-ui .catalog-expansion-content {
-    padding: var(--qds-space-md);
-    color: var(--qds-text-muted);
-  }
-
-  .qds-ui .catalog-expansion-content--dense {
-    padding-block: var(--qds-space-sm);
-  }
-
   @media (prefers-reduced-motion: reduce) {
     .qds-ui .q-skeleton.q-skeleton::before,
     .qds-ui .q-linear-progress.q-linear-progress .q-linear-progress__model--indeterminate::before,
@@ -555,19 +535,6 @@
   .qds-ui.qds-variant-feather .q-skeleton.q-skeleton::before,
   .qds-ui .qds-variant-feather .q-skeleton.q-skeleton::before {
     background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--qds-surface-0) 74%, transparent), transparent);
-  }
-
-  .qds-ui.qds-variant-feather .catalog-expansion-list.catalog-expansion-list,
-  .qds-ui .qds-variant-feather .catalog-expansion-list.catalog-expansion-list {
-    gap: 0;
-    background: var(--qds-surface-0);
-    border: var(--qds-border-width-control) solid var(--qds-separator-color);
-    border-radius: var(--qds-card-radius);
-  }
-
-  .qds-ui.qds-variant-feather .catalog-expansion-list.catalog-expansion-list .q-expansion-item + .q-expansion-item,
-  .qds-ui .qds-variant-feather .catalog-expansion-list.catalog-expansion-list .q-expansion-item + .q-expansion-item {
-    border-top: var(--qds-border-width-control) solid var(--qds-separator-color);
   }
 
   .qds-ui.qds-variant-feather .q-tree.q-tree .q-tree__node:after,

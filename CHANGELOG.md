@@ -8,6 +8,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [0.5.1] — 2026-07-02
 
+### Added
+
+- Expanded Quasar sub-element proof coverage across the release gallery and Histoire catalog:
+  - Forms and pickers now expose and test QSlider, QRange, QCheckbox, QRadio, QToggle, QOptionGroup, QFile, and QInput/QSelect state surfaces.
+  - Data, navigation, and layout coverage now proves QAvatar, QPagination, QDrawer, and consolidated QTabPanels treatment.
+  - Media, complex, progress, and loading coverage now proves QCarousel, QEditor, deterministic QUploader queue/progress/error/uploaded states, QScrollArea, QSplitter, QTimeline, QKnob, QCircularProgress, and QSpinner.
+  - Overlay/plugin coverage now proves Air QMenu material, Air/Feather/Terminal Notify treatment, and plugin-scoped QInnerLoading.
+
 ### Changed
 
 - Deepened built-in variant structure beyond token swaps:
@@ -19,6 +27,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 ### Fixed
 
 - Added regression coverage for One rhythm, Air nested-chrome shadowlessness, Feather matte/table behavior, and existing Terminal typography/pagination behavior.
+- Added final gallery and Histoire release gates for the expanded component proof wave.
+- Ensured `configureDesignSystem({ rootClass })` always keeps the required `.qds-ui` scope class and treats `rootClass` as an additional hook, matching the documented CSS-scoping contract.
+
+### Notes
+
+- The following interaction-heavy states remain documented manual-only exceptions rather than brittle automated gates: QPopupEdit's teleported popup, QPageScroller scroll threshold, QSlideItem and QPullToRefresh gestures, QInfiniteScroll scroll-triggered loading, and any future LoadingBar ownership relocation.
 
 ## [0.5.0] — 2026-06-26
 
