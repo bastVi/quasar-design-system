@@ -424,7 +424,8 @@ test.describe('QDS override gate', () => {
           expect.soft(cardShadow, 'QCard shadow (restrained)').not.toBe('none')
         }
         expect.soft(await computed(page, card, 'border-top-width'), 'QCard border width').toBe('1px')
-        expect.soft(await computed(page, card, 'border-top-color'), 'QCard border color').not.toBe('rgba(0, 0, 0, 0)')
+        const cardBorderColor = await computed(page, card, 'border-top-color')
+        expect.soft(cardBorderColor, 'QCard border color').not.toBe('rgba(0, 0, 0, 0)')
         const cardBg = await computed(page, card, 'background-color')
         expect.soft(cardBg, 'QCard bg (acrylic base)').not.toBe('rgba(0, 0, 0, 0)')
         if (mode === 'dark') {
@@ -438,6 +439,10 @@ test.describe('QDS override gate', () => {
             tintRgb: cs.getPropertyValue('--qds-card-acrylic-tint-rgb').trim(),
             primaryRgb: cs.getPropertyValue('--qds-color-primary-rgb').trim(),
             tonalOpacity: Number(cs.getPropertyValue('--qds-card-tonal-opacity').trim()),
+            cardBorderMix: cs.getPropertyValue('--qds-card-border-mix').trim(),
+            chromeBorderMix: cs.getPropertyValue('--qds-chrome-border-mix').trim(),
+            chromeBorderSoftMix: cs.getPropertyValue('--qds-chrome-border-soft-mix').trim(),
+            separatorMix: cs.getPropertyValue('--qds-separator-mix').trim(),
           }
         })
         expect.soft(cardVars.bg, 'QCard token resolved').toContain('linear-gradient')
@@ -448,9 +453,17 @@ test.describe('QDS override gate', () => {
         if (variant === 'fluent') {
           expect.soft(cardVars.tintRgb, 'Fluent QCard resting tint is neutral, not primary').not.toBe(cardVars.primaryRgb)
           expect.soft(cardVars.tonalOpacity, 'Fluent QCard resting tonal opacity is restrained').toBeLessThan(0.04)
+          expect.soft(cardVars.cardBorderMix, 'Fluent QCard border mix is softened').toBe('16%')
+          expect.soft(cardVars.chromeBorderMix, 'Fluent chrome border mix is softened').toBe('46%')
+          expect.soft(cardVars.chromeBorderSoftMix, 'Fluent soft chrome mix is softened').toBe('24%')
+          expect.soft(cardVars.separatorMix, 'Fluent separator mix is softened').toBe('34%')
+          expect.soft(cardBorderColor, 'Fluent QCard avoids raw border chrome').not.toBe(expected.fieldBorder)
         }
         if (variant === 'feather') {
           expect.soft(cardVars.tintRgb, 'Feather QCard keeps variant tint behavior').toBe(cardVars.primaryRgb)
+        }
+        if (variant === 'feather' || variant === 'terminal') {
+          expect.soft(cardVars.separatorMix, `${variant} separator mix keeps intentional variant contrast`).toBe('100%')
         }
 
         // --- QMenu (open it): bg + shadow token-driven ---
@@ -631,6 +644,11 @@ test.describe('QDS override gate', () => {
         expect.soft(await computed(page, `${PANEL} .q-table th`, 'text-transform'), 'QTable header casing').toBe(
           variant === 'terminal' ? 'uppercase' : 'none',
         )
+        if (variant === 'fluent') {
+          expect
+            .soft(await computed(page, `${PANEL} .q-table td`, 'border-bottom-color'), 'Fluent QTable row separator is softened')
+            .not.toBe(expected.subtleBorder)
+        }
 
         // --- QPagination: current page is tonal, not Material solid primary ---
         const currentPage = `${PANEL} .q-pagination .q-btn.bg-primary`

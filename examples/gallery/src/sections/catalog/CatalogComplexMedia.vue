@@ -10,8 +10,77 @@ const editor = ref('<p><strong>Token notes</strong> stay local to the gallery.</
 const virtualItems = Array.from({ length: 18 }, (_, index) => `Virtual row ${index + 1}`)
 const infiniteItems = ['Loaded block 1', 'Loaded block 2', 'Loaded block 3']
 const uploadFactory = () => Promise.resolve({ url: '' })
-const visualImage =
-  'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540"%3E%3Cdefs%3E%3ClinearGradient id="g" x1="0" x2="1" y1="0" y2="1"%3E%3Cstop stop-color="%236366f1"/%3E%3Cstop offset=".55" stop-color="%2306b6d4"/%3E%3Cstop offset="1" stop-color="%23f59e0b"/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width="960" height="540" rx="48" fill="url(%23g)"/%3E%3Ccircle cx="760" cy="120" r="130" fill="white" fill-opacity=".22"/%3E%3Ccircle cx="210" cy="405" r="170" fill="white" fill-opacity=".18"/%3E%3Ctext x="72" y="106" font-family="Inter,Arial" font-size="56" font-weight="700" fill="white"%3EQDS Gallery%3C/text%3E%3Ctext x="76" y="172" font-family="Inter,Arial" font-size="30" fill="white" fill-opacity=".86"%3EStatic media surface%3C/text%3E%3C/svg%3E'
+
+function svgData(svg: string): string {
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`
+}
+
+function mediaSvg(title: string, subtitle: string, from: string, via: string, to: string): string {
+  return svgData(`
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-label="${title}">
+      <defs>
+        <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+          <stop stop-color="${from}"/>
+          <stop offset=".54" stop-color="${via}"/>
+          <stop offset="1" stop-color="${to}"/>
+        </linearGradient>
+        <radialGradient id="orb" cx="50%" cy="50%" r="50%">
+          <stop stop-color="white" stop-opacity=".42"/>
+          <stop offset="1" stop-color="white" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect width="960" height="540" rx="52" fill="url(#g)"/>
+      <path d="M0 414 C180 318 290 494 470 386 S735 260 960 350 V540 H0 Z" fill="white" fill-opacity=".16"/>
+      <circle cx="744" cy="132" r="156" fill="url(#orb)"/>
+      <circle cx="202" cy="392" r="194" fill="url(#orb)"/>
+      <rect x="64" y="66" width="420" height="162" rx="32" fill="black" fill-opacity=".18"/>
+      <text x="96" y="132" font-family="Inter, Arial, sans-serif" font-size="54" font-weight="750" fill="white">${title}</text>
+      <text x="98" y="184" font-family="Inter, Arial, sans-serif" font-size="28" fill="white" fill-opacity=".86">${subtitle}</text>
+    </svg>
+  `)
+}
+
+function avatarSvg(initials: string, from: string, to: string): string {
+  return svgData(`
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="${initials} avatar">
+      <defs>
+        <linearGradient id="a" x1="0" x2="1" y1="0" y2="1">
+          <stop stop-color="${from}"/>
+          <stop offset="1" stop-color="${to}"/>
+        </linearGradient>
+      </defs>
+      <rect width="96" height="96" rx="48" fill="url(#a)"/>
+      <circle cx="72" cy="24" r="24" fill="white" fill-opacity=".22"/>
+      <text x="48" y="58" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="750" fill="white">${initials}</text>
+    </svg>
+  `)
+}
+
+const visualImage = mediaSvg('QDS Gallery', 'Static media surface', '#6366f1', '#06b6d4', '#f59e0b')
+const carouselSlides = [
+  {
+    name: 'air',
+    title: 'Acrylic depth',
+    caption: 'Layered blur, soft controls, no remote images.',
+    src: mediaSvg('Acrylic', 'Soft media chrome', '#007aff', '#7c3aed', '#06b6d4'),
+  },
+  {
+    name: 'mobile',
+    title: 'Mobile radius',
+    caption: 'Large rounded frames with deterministic artwork.',
+    src: mediaSvg('Mobile', 'One UI inspired spacing', '#005a9e', '#14b8a6', '#ffb020'),
+  },
+  {
+    name: 'fluent',
+    title: 'Fluent contrast',
+    caption: 'Readable captions over owned gradient surfaces.',
+    src: mediaSvg('Fluent', 'Primary QDS tone', '#005a9e', '#2563eb', '#8b5cf6'),
+  },
+]
+const chatAvatars = {
+  designer: avatarSvg('DS', '#005a9e', '#06b6d4'),
+  reviewer: avatarSvg('RV', '#6a8f66', '#005a9e'),
+}
 const videoSrc = `data:text/html;charset=utf-8,${encodeURIComponent(`
   <!doctype html>
   <html lang="en">
@@ -52,8 +121,21 @@ function refresh(done: () => void): void {
 
       <div class="catalog-demo catalog-demo--wide">
         <div class="catalog-label">QChatMessage</div>
-        <q-chat-message name="Designer" avatar="" :text="['Does the surface keep QDS radius and spacing?']" sent />
-        <q-chat-message name="Reviewer" :text="['Yes, with neutral static content.']" bg-color="primary" text-color="white" />
+        <q-chat-message
+          data-test="qds-chat-sent"
+          name="Designer"
+          :avatar="chatAvatars.designer"
+          stamp="10:24"
+          :text="['Does the surface keep QDS radius, tail color, and readable contrast?']"
+          sent
+        />
+        <q-chat-message
+          data-test="qds-chat-received"
+          name="Reviewer"
+          :avatar="chatAvatars.reviewer"
+          stamp="10:25"
+          :text="['Yes — both bubbles use tokenized surfaces and deterministic avatars.']"
+        />
       </div>
     </div>
   </q-card>
@@ -66,12 +148,27 @@ function refresh(done: () => void): void {
         <q-img :src="visualImage" ratio="16/9" class="catalog-image q-mb-md">
           <div class="absolute-bottom catalog-media-caption">Standalone image surface</div>
         </q-img>
-        <q-carousel v-model="carouselSlide" animated arrows navigation height="260px" class="catalog-media">
-          <q-carousel-slide name="air" :img-src="visualImage">
-            <div class="absolute-bottom catalog-media-caption">Acrylic image slide</div>
-          </q-carousel-slide>
-          <q-carousel-slide name="mobile" class="column flex-center">
-            <q-img :src="visualImage" ratio="16/9" class="catalog-image" />
+        <q-carousel
+          v-model="carouselSlide"
+          animated
+          arrows
+          navigation
+          height="280px"
+          class="catalog-media"
+          data-test="qds-carousel"
+        >
+          <q-carousel-slide
+            v-for="slide in carouselSlides"
+            :key="slide.name"
+            :name="slide.name"
+            class="catalog-carousel-slide q-pa-none"
+          >
+            <q-img :src="slide.src" class="catalog-carousel-image" fit="cover" no-spinner>
+              <div class="absolute-bottom catalog-media-caption">
+                <div class="text-subtitle2 text-weight-bold">{{ slide.title }}</div>
+                <div class="text-caption">{{ slide.caption }}</div>
+              </div>
+            </q-img>
           </q-carousel-slide>
         </q-carousel>
       </div>
@@ -85,7 +182,7 @@ function refresh(done: () => void): void {
 
       <div class="catalog-demo catalog-demo--wide">
         <div class="catalog-label">QVideo</div>
-        <q-video :src="videoSrc" :ratio="16 / 9" />
+        <q-video :src="videoSrc" :ratio="16 / 9" data-test="qds-video" />
       </div>
     </div>
   </q-card>
@@ -95,14 +192,14 @@ function refresh(done: () => void): void {
     <div class="catalog-grid catalog-grid--two">
       <div class="catalog-demo">
         <div class="catalog-label">QScrollArea</div>
-        <q-scroll-area style="height: 180px" class="catalog-scroll-box">
+        <q-scroll-area style="height: 180px" class="catalog-scroll-box" data-test="qds-scroll-area">
           <div v-for="item in virtualItems" :key="`scroll-${item}`" class="q-pa-sm">{{ item }}</div>
         </q-scroll-area>
       </div>
 
       <div class="catalog-demo">
         <div class="catalog-label">QSplitter</div>
-        <q-splitter v-model="splitter" style="height: 180px" class="catalog-splitter">
+        <q-splitter v-model="splitter" style="height: 180px" class="catalog-splitter" data-test="qds-splitter">
           <template #before><div class="q-pa-md">Navigation</div></template>
           <template #after><div class="q-pa-md qds-text-muted">Preview content</div></template>
         </q-splitter>

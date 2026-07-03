@@ -5,7 +5,7 @@ const optionSingle = ref('compact')
 const optionMultiple = ref(['motion', 'contrast'])
 const file = ref<File | null>(null)
 const color = ref('#6366f1')
-const date = ref('2026/06/22')
+const date = ref('2029/08/17')
 const time = ref('10:30')
 const popupLabel = ref('Editable label')
 
@@ -41,17 +41,17 @@ const checkboxChoices = [
 
         <div class="catalog-demo">
           <div class="catalog-label">QColor</div>
-          <q-color v-model="color" no-header-tabs default-view="palette" class="catalog-picker" />
+          <q-color v-model="color" default-view="palette" class="catalog-picker" data-test="qds-catalog-color" />
         </div>
 
         <div class="catalog-demo">
           <div class="catalog-label">QDate</div>
-          <q-date v-model="date" flat bordered class="catalog-picker" />
+          <q-date v-model="date" flat bordered class="catalog-picker" data-test="qds-catalog-date" />
         </div>
 
         <div class="catalog-demo">
           <div class="catalog-label">QTime</div>
-          <q-time v-model="time" flat bordered format24h class="catalog-picker" />
+          <q-time v-model="time" flat bordered format24h class="catalog-picker" data-test="qds-catalog-time" />
         </div>
 
         <div class="catalog-demo">

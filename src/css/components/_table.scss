@@ -19,16 +19,16 @@
     min-height: 3rem;
     padding: var(--qds-space-sm) var(--qds-space-md);
     color: var(--qds-text-muted);
-    background: color-mix(in srgb, var(--qds-surface-1) 82%, transparent);
-    border-color: var(--qds-border-subtle);
+    background: var(--qds-chrome-surface);
+    border-color: var(--qds-separator-color);
   }
 
   .qds-ui .q-table__top {
-    border-bottom: var(--qds-border-width-control) solid var(--qds-border-subtle);
+    border-bottom: var(--qds-border-width-control) solid var(--qds-separator-color);
   }
 
   .qds-ui .q-table__bottom {
-    border-top: var(--qds-border-width-control) solid var(--qds-border-subtle);
+    border-top: var(--qds-border-width-control) solid var(--qds-separator-color);
   }
 
   .qds-ui .q-table.q-table {
@@ -47,13 +47,13 @@
     font-weight: var(--qds-font-weight-semibold);
     letter-spacing: 0.005em;
     text-transform: none;
-    border-color: var(--qds-border-subtle);
+    border-color: var(--qds-separator-color);
   }
 
   .qds-ui .q-table.q-table td {
     height: var(--qds-table-row-height);
     color: var(--qds-text);
-    border-color: var(--qds-border-subtle);
+    border-color: var(--qds-separator-color);
   }
 
   .qds-ui .q-table.q-table tbody tr {

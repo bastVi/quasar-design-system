@@ -156,11 +156,11 @@ $components: (
   card: (
     acrylic-tint-rgb: '255, 253, 248',
     dark-acrylic-tint-rgb: '32, 34, 37',
-    tonal-opacity: 0.028,
-    fallback-tonal-opacity: 0.018,
-    dark-tonal-opacity: 0.032,
-    dark-fallback-tonal-opacity: 0.024,
-    border-mix: 28%,
+    tonal-opacity: 0.022,
+    fallback-tonal-opacity: 0.014,
+    dark-tonal-opacity: 0.026,
+    dark-fallback-tonal-opacity: 0.018,
+    border-mix: 16%,
     backdrop-blur: 0.625rem,
     backdrop-saturate: 1.08,
   ),
@@ -175,6 +175,16 @@ $components: (
     label-size: 0.875rem,
     focus-border-width: 1px,
   ),
+) !default;
+
+$chrome: (
+  border-mix: 46%,
+  border-soft-mix: 24%,
+  surface-mix: 86%,
+  surface-strong-mix: 92%,
+  separator-mix: 34%,
+  handle-border-mix: 58%,
+  handle-primary-mix: 10%,
 ) !default;
 
 $effects: (
@@ -369,6 +379,11 @@ $variants: (
     dark-card-acrylic-tint-rgb: '101, 118, 87',
     dark-card-tonal-opacity: 0.018,
     dark-card-fallback-tonal-opacity: 0.012,
+    chrome-border-mix: 100%,
+    chrome-border-soft-mix: 72%,
+    separator-mix: 100%,
+    handle-border-mix: 76%,
+    handle-primary-mix: 12%,
   ),
   terminal: (
     font-family: (ui-monospace, 'SFMono-Regular', 'Cascadia Code', 'JetBrains Mono', 'Fira Code', Consolas, monospace),
@@ -455,5 +470,10 @@ $variants: (
     dark-card-acrylic-tint-rgb: '252, 196, 13',
     dark-card-tonal-opacity: 0.02,
     dark-card-fallback-tonal-opacity: 0.014,
+    chrome-border-mix: 100%,
+    chrome-border-soft-mix: 72%,
+    separator-mix: 100%,
+    handle-border-mix: 76%,
+    handle-primary-mix: 12%,
   ),
 ) !default;

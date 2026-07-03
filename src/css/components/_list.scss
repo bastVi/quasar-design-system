@@ -48,6 +48,10 @@
   .qds-ui .q-expansion-item.q-expansion-item {
     color: var(--qds-text);
     border-radius: var(--qds-radius-control);
+    transition:
+      background-color var(--qds-motion-fast),
+      box-shadow var(--qds-motion-fast),
+      opacity var(--qds-motion-fast);
   }
 
   .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container {
@@ -57,6 +61,7 @@
 
   .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item {
     min-height: var(--qds-expansion-item-min-height);
+    padding-block: var(--qds-space-xs);
     color: var(--qds-text);
     transition:
       background-color var(--qds-motion-fast),
@@ -65,33 +70,47 @@
   }
 
   .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item.q-item--dense {
-    min-height: 2.25rem;
+    min-height: 2.5rem;
+    padding-block: 0.25rem;
   }
 
   .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item:not(.disabled):hover {
-    background-color: var(--qds-tab-hover-bg);
+    background-color: color-mix(in srgb, var(--qds-tab-hover-bg) 78%, transparent);
+  }
+
+  .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item:focus-visible {
+    outline: var(--qds-focus-ring-width) solid color-mix(in srgb, var(--qds-color-primary) 82%, transparent);
+    outline-offset: -3px;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--qds-color-primary) 18%, transparent);
   }
 
   .qds-ui .q-expansion-item.q-expansion-item--expanded > .q-expansion-item__container > .q-item {
     color: var(--qds-tab-active-text);
-    background-color: var(--qds-tab-active-bg);
+    background-color: color-mix(in srgb, var(--qds-tab-active-bg) 72%, var(--qds-surface-1) 28%);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--qds-color-primary) 10%, transparent);
   }
 
   .qds-ui .q-expansion-item.q-expansion-item--expanded > .q-expansion-item__container > .q-item::before {
     content: '';
     position: absolute;
     inset-inline-start: 0;
-    inset-block: 0;
-    width: 3px;
+    inset-block: var(--qds-space-sm);
+    width: 2px;
     background: var(--qds-tab-active-rail);
-    border-start-end-radius: 2px;
-    border-end-end-radius: 2px;
+    border-radius: var(--qds-radius-full);
+    opacity: 0.82;
   }
 
   .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item.disabled {
-    color: var(--qds-text-muted);
-    background: transparent;
-    opacity: 0.62;
+    color: color-mix(in srgb, var(--qds-text-muted) 82%, transparent);
+    cursor: not-allowed;
+    background: color-mix(in srgb, var(--qds-surface-1) 52%, transparent);
+    opacity: 1;
+  }
+
+  .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item.disabled .q-item__label--caption,
+  .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item.disabled .q-expansion-item__toggle-icon {
+    opacity: 0.64;
   }
 
   .qds-ui .q-expansion-item.q-expansion-item .q-expansion-item__toggle-icon {
@@ -104,11 +123,12 @@
 
   .qds-ui .q-expansion-item.q-expansion-item .q-expansion-item__content {
     color: var(--qds-text);
-    background: color-mix(in srgb, var(--qds-surface-1) 78%, transparent);
+    background: color-mix(in srgb, var(--qds-surface-1) 72%, transparent);
+    border-top: var(--qds-border-width-control) solid color-mix(in srgb, var(--qds-border-subtle) 68%, transparent);
   }
 
   .qds-ui .q-expansion-item.q-expansion-item .q-expansion-item__border {
-    background: var(--qds-border-subtle);
+    background: color-mix(in srgb, var(--qds-border-subtle) 62%, transparent);
   }
 
   .qds-ui .q-expansion-item.q-expansion-item.qds-card {

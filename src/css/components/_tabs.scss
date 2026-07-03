@@ -101,6 +101,42 @@
     background: var(--qds-tab-hover-bg);
   }
 
+  .qds-ui .q-tab-panels.q-tab-panels.q-tab-panels {
+    overflow: hidden;
+    color: var(--qds-text);
+    background: var(--qds-card-bg);
+    border: var(--qds-border-width-control) solid color-mix(in srgb, var(--qds-card-border) 72%, transparent);
+    border-radius: var(--qds-card-radius);
+    box-shadow: var(--qds-shadow-sm);
+  }
+
+  .qds-ui .q-tab-panels.q-tab-panels.q-tab-panels.bg-transparent {
+    border-color: transparent;
+    box-shadow: none;
+  }
+
+  .qds-ui .q-tabs.q-tabs + .q-tab-panels.q-tab-panels.q-tab-panels {
+    margin-top: var(--qds-space-sm);
+  }
+
+  .qds-ui .q-tab-panel.q-tab-panel {
+    color: var(--qds-text);
+    background: transparent;
+  }
+
+  .qds-ui .q-tabs.q-tabs + .q-tab-panels.q-tab-panels .q-tab-panel.q-tab-panel {
+    padding: clamp(var(--qds-space-md), 2vw, var(--qds-space-xl));
+    line-height: 1.58;
+  }
+
+  .qds-ui .q-tabs.q-tabs + .q-tab-panels.q-tab-panels .q-tab-panel.q-panel--inactive {
+    pointer-events: none;
+  }
+
+  .qds-ui .q-color-picker.q-color-picker .q-tabs.q-tabs + .q-tab-panels.q-tab-panels {
+    margin-top: 0;
+  }
+
   .qds-ui.qds-variant-mobile .q-tabs.q-tabs .q-tabs__content,
   .qds-ui .qds-variant-mobile .q-tabs.q-tabs .q-tabs__content {
     gap: var(--qds-space-xs);
