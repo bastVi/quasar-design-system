@@ -60,6 +60,15 @@ const toggleOptions = [
         <div class="qds-text-muted">Separator rhythm below a tokenized bar.</div>
       </div>
 
+      <div class="catalog-demo">
+        <div class="catalog-label">QAvatar</div>
+        <div class="row items-center q-gutter-sm">
+          <q-avatar data-test="qds-avatar" color="primary" text-color="white">QD</q-avatar>
+          <q-avatar rounded color="accent" text-color="white">Air</q-avatar>
+          <q-avatar square color="secondary" text-color="white">UI</q-avatar>
+        </div>
+      </div>
+
       <div class="catalog-demo catalog-demo--wide">
         <div class="catalog-label">QFab</div>
         <div class="catalog-fab-stage">

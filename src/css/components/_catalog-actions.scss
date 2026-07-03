@@ -234,23 +234,6 @@
     width: var(--qds-border-width-control);
   }
 
-  .qds-ui .q-tab-panels.q-tab-panels {
-    color: var(--qds-text);
-    background: var(--qds-chrome-surface-strong);
-    border-radius: var(--qds-radius-lg);
-  }
-
-  .qds-ui .q-tab-panels.q-tab-panels.qds-card {
-    border: var(--qds-border-width-control) solid var(--qds-chrome-border);
-    box-shadow: var(--qds-media-frame-shadow);
-  }
-
-  .qds-ui .q-tab-panel.q-tab-panel {
-    padding: var(--qds-space-lg);
-    color: var(--qds-text);
-    background: transparent;
-  }
-
   .qds-ui.qds-variant-air .q-btn-group.q-btn-group,
   .qds-ui.qds-variant-air .q-btn-toggle.q-btn-toggle,
   .qds-ui .qds-variant-air .q-btn-group.q-btn-group,
@@ -318,9 +301,7 @@
   }
 
   .qds-ui.qds-variant-feather .q-bar.q-bar,
-  .qds-ui .qds-variant-feather .q-bar.q-bar,
-  .qds-ui.qds-variant-feather .q-tab-panels.q-tab-panels.qds-card,
-  .qds-ui .qds-variant-feather .q-tab-panels.q-tab-panels.qds-card {
+  .qds-ui .qds-variant-feather .q-bar.q-bar {
     background: var(--qds-surface-0);
     border-color: var(--qds-separator-color);
     box-shadow: none;

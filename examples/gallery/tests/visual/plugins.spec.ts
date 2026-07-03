@@ -1,7 +1,7 @@
 import { test, expect, type Page } from '@playwright/test'
 
 type Mode = 'light' | 'dark'
-type Variant = 'fluent' | 'air' | 'mobile'
+type Variant = 'fluent' | 'air' | 'mobile' | 'feather' | 'terminal'
 
 const SURFACE: Record<Mode, string> = {
   light: 'rgb(255, 253, 248)',
@@ -27,6 +27,10 @@ async function computed(page: Page, selector: string, prop: string): Promise<str
     (el, prop) => getComputedStyle(el as Element).getPropertyValue(prop as string),
     prop,
   )
+}
+
+function pluginStatus(page: Page) {
+  return page.locator('[data-test="qds-plugin-status"]')
 }
 
 async function expectNoResidualGlobalSurfaces(page: Page) {
@@ -61,7 +65,7 @@ test.describe('QDS plugin/global UI surfaces', () => {
     expect.soft(await computed(page, '.q-bottom-sheet', 'box-shadow'), 'BottomSheet list shadow').not.toBe('none')
     expect.soft(await computed(page, '.q-bottom-sheet', 'border-top-width'), 'BottomSheet list border').toBe('1px')
     await page.getByText('Pin surface').click()
-    await expect(page.getByTestId('plugin-status')).toContainText('BottomSheet list action: Pin surface')
+    await expect(pluginStatus(page)).toContainText('BottomSheet list action: Pin surface')
     await expectNoResidualGlobalSurfaces(page)
 
     await page.getByRole('button', { name: 'Open grid BottomSheet' }).click()
@@ -69,7 +73,7 @@ test.describe('QDS plugin/global UI surfaces', () => {
     expect.soft(await computed(page, '.q-bottom-sheet--grid .q-bottom-sheet__item', 'border-radius'), 'BottomSheet grid item radius').toBe('8px')
     expect.soft(await computed(page, '.q-bottom-sheet--grid .q-bottom-sheet__item', 'color'), 'BottomSheet grid item text').not.toBe('rgba(0, 0, 0, 0)')
     await page.locator('.q-bottom-sheet').getByText('Air').click()
-    await expect(page.getByTestId('plugin-status')).toContainText('BottomSheet grid action: Air')
+    await expect(pluginStatus(page)).toContainText('BottomSheet grid action: Air')
     await expectNoResidualGlobalSurfaces(page)
   })
 
@@ -79,7 +83,7 @@ test.describe('QDS plugin/global UI surfaces', () => {
     expect.soft(await computed(page, '.q-dialog__backdrop', 'background-color'), 'Dialog plugin scrim').not.toBe('rgba(0, 0, 0, 0)')
     expect.soft(await computed(page, '.q-dialog .q-card', 'box-shadow'), 'Dialog plugin card shadow').not.toBe('none')
     await page.getByRole('button', { name: 'Confirm' }).click()
-    await expect(page.getByTestId('plugin-status')).toContainText('Dialog plugin confirmed')
+    await expect(pluginStatus(page)).toContainText('Dialog plugin confirmed')
     await expectNoResidualGlobalSurfaces(page)
 
     await page.getByRole('button', { name: 'Show plugin notify' }).click()
@@ -90,7 +94,43 @@ test.describe('QDS plugin/global UI surfaces', () => {
     await expectNoResidualGlobalSurfaces(page)
   })
 
+  test('BottomSheet and Notify plugin proofs cover non-Fluent variants and dark surfaces', async ({ page }) => {
+    await applyTheme(page, 'dark', 'air')
+    await page.getByRole('button', { name: 'Open grid BottomSheet' }).click()
+    await expect(page.locator('.q-bottom-sheet.q-bottom-sheet--grid')).toBeVisible()
+    expect.soft(await computed(page, '.q-bottom-sheet', 'background-color'), 'Air dark BottomSheet surface').not.toBe('rgba(0, 0, 0, 0)')
+    expect.soft(await computed(page, '.q-bottom-sheet', 'backdrop-filter'), 'Air dark BottomSheet blur').not.toBe('none')
+    await page.locator('.q-bottom-sheet').getByText('Tokens').click()
+    await expectNoResidualGlobalSurfaces(page)
+
+    for (const proof of [
+      { mode: 'light' as const, variant: 'air' as const, shadow: 'elevated' },
+      { mode: 'light' as const, variant: 'feather' as const, shadow: 'none' },
+      { mode: 'dark' as const, variant: 'terminal' as const, shadow: 'elevated' },
+    ]) {
+      await applyTheme(page, proof.mode, proof.variant)
+      await page.getByRole('button', { name: 'Show plugin notify' }).click()
+      await expect(page.locator('.q-notification').first()).toBeVisible()
+      expect.soft(await computed(page, '.q-notification', 'background-color'), `${proof.variant} Notify surface`).not.toBe('rgba(0, 0, 0, 0)')
+      expect.soft(await computed(page, '.q-notification', 'border-top-width'), `${proof.variant} Notify border`).toBe('1px')
+
+      const shadow = await computed(page, '.q-notification', 'box-shadow')
+      if (proof.shadow === 'none') {
+        expect.soft(shadow, `${proof.variant} Notify shadow`).toBe('none')
+      } else {
+        expect.soft(shadow, `${proof.variant} Notify shadow`).not.toBe('none')
+      }
+
+      await page.getByRole('button', { name: 'Dismiss' }).click()
+      await expectNoResidualGlobalSurfaces(page)
+    }
+  })
+
   test('Loading and LoadingBar plugin surfaces are visible only during their assertions', async ({ page }) => {
+    await expect(page.locator('[data-test="qds-plugin-inner-loading"]')).toBeVisible()
+    expect.soft(await computed(page, '.qds-plugin-inner-loading', 'background-color'), 'QInnerLoading plugin proof surface').not.toBe('rgba(0, 0, 0, 0)')
+    expect.soft(await computed(page, '.qds-plugin-inner-loading', 'backdrop-filter'), 'QInnerLoading plugin proof blur').not.toBe('none')
+
     await page.getByRole('button', { name: 'Show loading overlay' }).click()
     await expect(page.locator('.q-loading').first()).toBeVisible()
     expect.soft(await computed(page, '.q-loading__box', 'background-color'), 'Loading box surface').not.toBe('rgba(0, 0, 0, 0)')

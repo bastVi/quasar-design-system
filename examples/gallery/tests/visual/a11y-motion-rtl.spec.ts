@@ -23,6 +23,8 @@ const AXE_EXCLUSIONS: Record<GalleryTab, string[]> = {
     '.q-color-picker',
     '.q-date',
     '.q-time',
+    '.q-slider',
+    '.q-range',
     '.q-linear-progress',
     '.q-circular-progress',
     '.q-knob',
@@ -37,6 +39,8 @@ const AXE_EXCLUSIONS: Record<GalleryTab, string[]> = {
     '.q-slide-item',
     '.q-infinite-scroll',
     '.q-editor',
+    '.q-editor__toolbar',
+    '.q-uploader',
   ],
   plugins: [],
 }

@@ -1,15 +1,44 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { nextTick, onMounted, ref } from 'vue'
+
+type UploaderProbe = {
+  addFiles: (files: File[]) => void
+  files: File[]
+  updateFileStatus: (file: File, status: 'idle' | 'uploading' | 'failed' | 'uploaded', uploadedSize?: number) => void
+}
 
 const step = ref(2)
 const carouselSlide = ref('air')
 const splitter = ref(42)
 const knob = ref(64)
 const editor = ref('<p><strong>Token notes</strong> stay local to the gallery.</p>')
+const uploader = ref<UploaderProbe | null>(null)
 
 const virtualItems = Array.from({ length: 18 }, (_, index) => `Virtual row ${index + 1}`)
 const infiniteItems = ['Loaded block 1', 'Loaded block 2', 'Loaded block 3']
 const uploadFactory = () => Promise.resolve({ url: '' })
+
+function makeProbeFile(name: string, size: number, type = 'text/plain'): File {
+  return new File([new Uint8Array(size).fill(65)], name, { type, lastModified: 86 })
+}
+
+onMounted(async () => {
+  await nextTick()
+
+  uploader.value?.addFiles([
+    makeProbeFile('media-queued.txt', 128),
+    makeProbeFile('media-progress.bin', 512, 'application/octet-stream'),
+    makeProbeFile('media-error.txt', 96),
+    makeProbeFile('media-uploaded.txt', 192),
+  ])
+
+  await nextTick()
+
+  const files = uploader.value?.files ?? []
+  if (files[1]) uploader.value?.updateFileStatus(files[1], 'uploading', Math.round(files[1].size * 0.58))
+  if (files[2]) uploader.value?.updateFileStatus(files[2], 'failed')
+  if (files[3]) uploader.value?.updateFileStatus(files[3], 'uploaded')
+})
 
 function svgData(svg: string): string {
   return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`
@@ -113,7 +142,7 @@ function refresh(done: () => void): void {
 
       <div class="catalog-demo">
         <div class="catalog-label">QTimeline</div>
-        <q-timeline color="primary" layout="dense">
+        <q-timeline color="primary" layout="dense" data-test="qds-timeline">
           <q-timeline-entry title="Baseline" subtitle="Tokens">Theme variables are loaded.</q-timeline-entry>
           <q-timeline-entry title="Catalog" subtitle="Components">Remaining Quasar widgets are visible.</q-timeline-entry>
         </q-timeline>
@@ -207,7 +236,7 @@ function refresh(done: () => void): void {
 
       <div class="catalog-demo">
         <div class="catalog-label">QSlideItem</div>
-        <q-slide-item left-color="positive" right-color="negative">
+        <q-slide-item left-color="positive" right-color="negative" data-test="qds-slide-item">
           <template #left>Archive</template>
           <template #right>Delete</template>
           <q-item>
@@ -218,19 +247,27 @@ function refresh(done: () => void): void {
 
       <div class="catalog-demo">
         <div class="catalog-label">QPullToRefresh</div>
-        <q-pull-to-refresh @refresh="refresh">
+        <q-pull-to-refresh data-test="qds-pull-to-refresh" @refresh="refresh">
           <div class="catalog-pull-box">Pull area with a safe local refresh callback.</div>
         </q-pull-to-refresh>
       </div>
 
       <div class="catalog-demo">
         <div class="catalog-label">QKnob</div>
-        <q-knob v-model="knob" show-value size="96px" :thickness="0.18" color="primary" track-color="grey-3" />
+        <q-knob
+          v-model="knob"
+          show-value
+          size="96px"
+          :thickness="0.18"
+          color="primary"
+          track-color="grey-3"
+          data-test="qds-knob"
+        />
       </div>
 
       <div class="catalog-demo">
         <div class="catalog-label">QInfiniteScroll</div>
-        <q-infinite-scroll disable :offset="120">
+        <q-infinite-scroll disable :offset="120" data-test="qds-infinite-scroll">
           <q-item v-for="item in infiniteItems" :key="item" dense>
             <q-item-section>{{ item }}</q-item-section>
           </q-item>
@@ -247,18 +284,26 @@ function refresh(done: () => void): void {
     <div class="catalog-grid catalog-grid--two">
       <div class="catalog-demo">
         <div class="catalog-label">QEditor</div>
-        <q-editor v-model="editor" min-height="8rem" :toolbar="[['bold', 'italic'], ['quote', 'unordered', 'ordered']]" />
+        <q-editor
+          v-model="editor"
+          min-height="8rem"
+          :toolbar="[['bold', 'italic'], ['quote', 'unordered', 'ordered']]"
+          data-test="qds-editor"
+        />
       </div>
 
       <div class="catalog-demo">
         <div class="catalog-label">QUploader</div>
         <q-uploader
-          label="Uploader shell (disabled)"
+          ref="uploader"
+          label="Uploader state proof"
           class="full-width"
+          data-test="qds-uploader"
           :factory="uploadFactory"
           :auto-upload="false"
+          multiple
+          no-thumbnails
           hide-upload-btn
-          disable
         />
       </div>
     </div>

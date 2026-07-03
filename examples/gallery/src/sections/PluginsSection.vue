@@ -170,14 +170,31 @@ onBeforeUnmount(() => {
               <q-btn outline color="accent" no-caps label="Start loading bar" @click="startLoadingBar" />
               <q-btn flat color="accent" no-caps label="Stop loading bar" @click="stopLoadingBar" />
             </div>
+            <div class="qds-plugin-inner-loading-box q-mt-md" data-test="qds-plugin-inner-loading-box">
+              <div class="qds-text-strong">Inline busy proof</div>
+              <div class="qds-text-muted">QInnerLoading keeps plugin-overlay material without a timer.</div>
+              <q-inner-loading showing label="Syncing" color="primary" class="qds-plugin-inner-loading" data-test="qds-plugin-inner-loading" />
+            </div>
           </q-card>
         </div>
       </div>
     </q-card>
 
-    <q-card class="q-pa-md" data-testid="plugin-status-card">
+    <q-card class="q-pa-md" data-test="qds-plugin-status-card" data-testid="plugin-status-card">
       <div class="text-subtitle2 qds-text-muted q-mb-xs">Last plugin event</div>
-      <div class="qds-text-strong" data-testid="plugin-status">{{ status }}</div>
+      <div class="qds-text-strong" data-test="qds-plugin-status" data-testid="plugin-status">{{ status }}</div>
     </q-card>
   </div>
 </template>
+
+<style scoped>
+.qds-plugin-inner-loading-box {
+  position: relative;
+  min-height: 6.5rem;
+  padding: var(--qds-space-md);
+  overflow: hidden;
+  background: var(--qds-surface-1);
+  border: var(--qds-border-width-control) solid var(--qds-border-subtle);
+  border-radius: var(--qds-radius-lg);
+}
+</style>

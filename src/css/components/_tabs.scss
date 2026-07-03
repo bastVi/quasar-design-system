@@ -110,6 +110,19 @@
     box-shadow: var(--qds-shadow-sm);
   }
 
+  .qds-ui.qds-variant-air .q-tab-panels.q-tab-panels.q-tab-panels,
+  .qds-ui .qds-variant-air .q-tab-panels.q-tab-panels.q-tab-panels {
+    border-color: color-mix(in srgb, var(--qds-card-border) 52%, transparent);
+    box-shadow: none;
+  }
+
+  .qds-ui.qds-variant-feather .q-tab-panels.q-tab-panels.q-tab-panels,
+  .qds-ui .qds-variant-feather .q-tab-panels.q-tab-panels.q-tab-panels {
+    background: var(--qds-surface-0);
+    border-color: var(--qds-separator-color);
+    box-shadow: none;
+  }
+
   .qds-ui .q-tab-panels.q-tab-panels.q-tab-panels.bg-transparent {
     border-color: transparent;
     box-shadow: none;

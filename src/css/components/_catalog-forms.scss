@@ -7,10 +7,22 @@
 
   .qds-ui .q-form.q-form .q-field,
   .qds-ui .q-form.q-form .q-option-group,
+  .qds-ui .q-form.q-form .q-slider,
+  .qds-ui .q-form.q-form .q-range,
   .qds-ui .q-form.q-form .q-color-picker,
   .qds-ui .q-form.q-form .q-date,
   .qds-ui .q-form.q-form .q-time {
     font-family: var(--qds-font-family);
+  }
+
+  .qds-ui .q-form.q-form .catalog-stack {
+    display: grid;
+    gap: var(--qds-space-sm);
+  }
+
+  .qds-ui .q-form.q-form .catalog-stack--relaxed {
+    gap: var(--qds-space-lg);
+    padding-block-start: var(--qds-space-md);
   }
 
   .qds-ui .q-option-group.q-option-group {

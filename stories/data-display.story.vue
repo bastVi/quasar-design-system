@@ -111,8 +111,9 @@ const rootState = computed(() => {
                 hide-bottom
               />
               <div class="row justify-end q-mt-md">
-                <QPagination v-model="page" color="primary" :max="5" :max-pages="5" boundary-numbers direction-links />
+                <QPagination v-model="page" data-test="qds-story-pagination" color="primary" :max="5" :max-pages="5" boundary-numbers direction-links />
               </div>
+              <p class="qds-text-muted q-mt-sm q-mb-none">Switch to Air or Feather to verify the same pagination proof against variant tokens.</p>
             </QCard>
 
             <div class="row q-col-gutter-lg">

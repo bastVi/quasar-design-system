@@ -4,12 +4,19 @@ import {
   QBadge,
   QCard,
   QCheckbox,
+  QColor,
   QDate,
+  QFile,
+  QInput,
   QOptionGroup,
+  QPopupEdit,
+  QRange,
   QRadio,
   QSelect,
   QSeparator,
+  QSlider,
   QToggle,
+  QTime,
 } from 'quasar'
 import { PhCalendarDots, PhChecks, PhSlidersHorizontal } from '@phosphor-icons/vue'
 import {
@@ -33,7 +40,19 @@ const toggle = ref(true)
 const denseToggle = ref(false)
 const groupSingle = ref('comfortable')
 const groupMultiple = ref(['motion', 'contrast'])
+const inputReadonly = ref('Readonly field')
+const inputError = ref('Needs attention')
+const inputDisabled = ref('Disabled field')
+const selectReadonly = ref('Comfortable')
+const selectError = ref('Compact')
+const selectDisabled = ref('Touch')
+const file = ref<File | null>(null)
 const date = ref('2026/07/02')
+const time = ref('10:30')
+const color = ref('#6366f1')
+const popupLabel = ref('Inline editable label')
+const slider = ref(64)
+const range = ref({ min: 22, max: 78 })
 
 const densityOptions = [
   { label: 'Compact', value: 'compact' },
@@ -46,6 +65,8 @@ const capabilityOptions = [
   { label: 'Contrast', value: 'contrast' },
   { label: 'Keyboard', value: 'keyboard' },
 ]
+
+const selectOptions = ['Compact', 'Comfortable', 'Touch']
 
 function applyTheme() {
   designSystem.setMode(mode.value)
@@ -142,6 +163,47 @@ const rootState = computed(() => {
                   </div>
                 </QCard>
               </div>
+
+              <div class="col-12 col-lg-6">
+                <QCard class="qds-story-panel q-pa-lg full-height">
+                  <div class="text-overline qds-text-muted">QInput, QSelect, QFile</div>
+                  <h3 class="qds-story-title q-my-sm">Visible field states</h3>
+                  <p class="qds-text-muted">
+                    Readonly, error, disabled, and file affordances keep the field sub-elements visible without interaction.
+                  </p>
+                  <div class="qds-story-stack">
+                    <QInput v-model="inputReadonly" label="Readonly input" outlined readonly />
+                    <QInput v-model="inputError" label="Error input" outlined error error-message="Validation remains visible" />
+                    <QInput v-model="inputDisabled" label="Disabled input" outlined disable />
+                    <QSelect v-model="selectReadonly" :options="selectOptions" label="Readonly select" outlined readonly />
+                    <QSelect v-model="selectError" :options="selectOptions" label="Error select" outlined error error-message="Selection needs review" />
+                    <QSelect v-model="selectDisabled" :options="selectOptions" label="Disabled select" outlined disable />
+                    <QFile v-model="file" label="File input" outlined clearable counter display-value="design-tokens.pdf" />
+                  </div>
+                </QCard>
+              </div>
+
+              <div class="col-12 col-lg-6">
+                <QCard class="qds-story-panel q-pa-lg full-height">
+                  <div class="text-overline qds-text-muted">QTime, QColor, QPopupEdit, QSlider, QRange</div>
+                  <h3 class="qds-story-title q-my-sm">Picker and edit surfaces</h3>
+                  <p class="qds-text-muted">
+                    Static picker surfaces, popup editing chrome, and range controls expose sub-elements for visual review.
+                  </p>
+                  <div class="qds-story-stack qds-story-stack--relaxed">
+                    <QTime v-model="time" flat bordered format24h class="qds-story-picker" />
+                    <QColor v-model="color" default-view="palette" class="qds-story-picker" />
+                    <div class="qds-story-edit-target">
+                      {{ popupLabel }}
+                      <QPopupEdit v-model="popupLabel" buttons v-slot="scope">
+                        <QInput v-model="scope.value" dense autofocus @keyup.enter="scope.set" />
+                      </QPopupEdit>
+                    </div>
+                    <QSlider v-model="slider" :min="0" :max="100" label label-always markers />
+                    <QRange v-model="range" :min="0" :max="100" label label-always markers />
+                  </div>
+                </QCard>
+              </div>
             </div>
           </div>
         </div>
@@ -184,6 +246,20 @@ const rootState = computed(() => {
 .qds-story-stack {
   display: grid;
   gap: var(--qds-space-sm);
+}
+
+.qds-story-stack--relaxed {
+  gap: var(--qds-space-lg);
+}
+
+.qds-story-edit-target {
+  display: inline-flex;
+  width: fit-content;
+  padding: var(--qds-space-sm) var(--qds-space-md);
+  color: var(--qds-text-strong);
+  background: var(--qds-surface-2);
+  border: var(--qds-border-width-control) solid var(--qds-border);
+  border-radius: var(--qds-radius-control);
 }
 
 .qds-story-picker {

@@ -216,7 +216,7 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
         flat
         class="q-mb-md"
       />
-      <q-pagination v-model="page" :max="7" direction-links boundary-links color="primary" />
+      <q-pagination v-model="page" data-test="qds-pagination" :max="7" direction-links boundary-links color="primary" />
     </q-card>
 
     <!-- QTabs -->
@@ -250,7 +250,7 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
         </q-btn>
       </div>
       <q-layout view="hHh lpR fFf" container style="height: 320px; border-radius: var(--qds-card-radius); overflow: hidden">
-        <q-drawer v-model="drawerOpen" show-if-above bordered :width="220">
+        <q-drawer v-model="drawerOpen" data-test="qds-drawer" show-if-above bordered :width="220">
           <q-list>
             <q-item clickable active>
               <q-item-section avatar><PhSparkle :size="18" weight="duotone" /></q-item-section>

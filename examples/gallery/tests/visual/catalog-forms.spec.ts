@@ -25,6 +25,13 @@ async function computed(page: Page, selector: string, prop: string): Promise<str
   )
 }
 
+async function computedPseudo(page: Page, selector: string, pseudo: string, prop: string): Promise<string> {
+  return page.locator(selector).first().evaluate(
+    (el, { pseudo, prop }) => getComputedStyle(el as Element, pseudo).getPropertyValue(prop),
+    { pseudo, prop },
+  )
+}
+
 async function resolvedColor(page: Page, name: string): Promise<string> {
   return page.locator('body').evaluate(
     (el, name) => {
@@ -41,6 +48,72 @@ async function resolvedColor(page: Page, name: string): Promise<string> {
 }
 
 test.describe('QDS catalog form picker gate', () => {
+  test('skins form controls, fields, file, slider, and range sub-elements with QDS tokens', async ({ page }) => {
+    await page.goto('/')
+    await page.getByRole('tab', { name: 'Catalog' }).click()
+    await applyTheme(page, 'light', 'fluent')
+
+    const primary = await resolvedColor(page, '--qds-color-primary')
+    const negative = await resolvedColor(page, '--qds-color-negative')
+
+    await expect(page.locator('[data-test="qds-catalog-input-readonly"] .q-field')).toHaveClass(/q-field--readonly/)
+    await expect(page.locator('[data-test="qds-catalog-input-error"] .q-field')).toHaveClass(/q-field--error/)
+    await expect(page.locator('[data-test="qds-catalog-input-disabled"] .q-field')).toHaveClass(/q-field--disabled/)
+    await expect(page.locator('[data-test="qds-catalog-input-error"] .q-field__messages')).toContainText('Visible validation message')
+    expect.soft(
+      await computedPseudo(page, '[data-test="qds-catalog-input-readonly"] .q-field__control', '::before', 'border-top-style'),
+      'QInput readonly outline is visibly distinct',
+    ).toBe('dashed')
+    expect.soft(
+      await computedPseudo(page, '[data-test="qds-catalog-input-error"] .q-field__control', '::after', 'border-top-color'),
+      'QInput error outline uses negative token',
+    ).toBe(negative)
+    expect.soft(
+      await computed(page, '[data-test="qds-catalog-input-disabled"] .q-field__control', 'background-color'),
+      'QInput disabled control keeps a visible disabled surface',
+    ).not.toBe('rgba(0, 0, 0, 0)')
+
+    await expect(page.locator('[data-test="qds-catalog-select-readonly"] .q-field')).toHaveClass(/q-field--readonly/)
+    await expect(page.locator('[data-test="qds-catalog-select-error"] .q-field')).toHaveClass(/q-field--error/)
+    await expect(page.locator('[data-test="qds-catalog-select-disabled"] .q-field')).toHaveClass(/q-field--disabled/)
+    await expect(page.locator('[data-test="qds-catalog-select-error"] .q-field__messages')).toContainText('Visible selection message')
+    expect.soft(
+      await computedPseudo(page, '[data-test="qds-catalog-select-readonly"] .q-field__control', '::before', 'border-top-style'),
+      'QSelect readonly outline is visibly distinct',
+    ).toBe('dashed')
+    expect.soft(
+      await computedPseudo(page, '[data-test="qds-catalog-select-error"] .q-field__control', '::after', 'border-top-color'),
+      'QSelect error outline uses negative token',
+    ).toBe(negative)
+
+    await expect(page.locator('[data-test="qds-catalog-checkbox"] .q-checkbox__bg')).toBeVisible()
+    await expect(page.locator('[data-test="qds-catalog-radio"] .q-radio__bg')).toBeVisible()
+    await expect(page.locator('[data-test="qds-catalog-toggle"] .q-toggle__track')).toBeVisible()
+    expect.soft(await computed(page, '[data-test="qds-catalog-checkbox"] .q-checkbox__bg', 'border-top-color'), 'QCheckbox truthy frame uses primary').toBe(primary)
+    expect.soft(await computed(page, '[data-test="qds-catalog-radio"] .q-radio__bg', 'border-top-color'), 'QRadio truthy frame uses primary').toBe(primary)
+    expect.soft(await computed(page, '[data-test="qds-catalog-radio"] .q-radio__check', 'fill'), 'QRadio check uses primary').toBe(primary)
+    expect.soft(await computed(page, '[data-test="qds-catalog-toggle"] .q-toggle__track', 'border-radius'), 'QToggle track is rounded').not.toBe('0px')
+    expect.soft(await computedPseudo(page, '[data-test="qds-catalog-toggle"] .q-toggle__thumb', '::after', 'background-color'), 'QToggle thumb uses primary when on').toBe(primary)
+
+    await expect(page.locator('[data-test="qds-catalog-option-radio"]')).toBeVisible()
+    await expect(page.locator('[data-test="qds-catalog-option-checkbox"]')).toBeVisible()
+    expect.soft(await computed(page, '[data-test="qds-catalog-option-radio"]', 'display'), 'QOptionGroup is layout-controlled').toBe('flex')
+    expect.soft(await computed(page, '[data-test="qds-catalog-option-checkbox"] .q-checkbox', 'border-radius'), 'QOptionGroup options are softened').not.toBe('0px')
+
+    await expect(page.locator('[data-test="qds-catalog-file"]')).toContainText('token-proof.pdf')
+    expect.soft(await computed(page, '[data-test="qds-catalog-file"] .q-field__control', 'border-radius'), 'QFile control is softened').not.toBe('0px')
+    expect.soft(await computed(page, '[data-test="qds-catalog-file"] .q-field__native', 'color'), 'QFile native text is tokenized').not.toBe('rgba(0, 0, 0, 0.87)')
+
+    await expect(page.locator('[data-test="qds-catalog-slider"] .q-slider__selection')).toBeVisible()
+    await expect(page.locator('[data-test="qds-catalog-range"] .q-slider__selection').first()).toBeVisible()
+    expect.soft(await computed(page, '[data-test="qds-catalog-slider"] .q-slider__track', 'border-radius'), 'QSlider track is rounded').not.toBe('0px')
+    expect.soft(await computed(page, '[data-test="qds-catalog-slider"] .q-slider__selection', 'background-color'), 'QSlider selection uses primary').toBe(primary)
+    expect.soft(await computed(page, '[data-test="qds-catalog-slider"] .q-slider__thumb', 'box-shadow'), 'QSlider thumb is elevated').not.toBe('none')
+    expect.soft(await computed(page, '[data-test="qds-catalog-range"] .q-slider__track', 'border-radius'), 'QRange track is rounded').not.toBe('0px')
+    expect.soft(await computed(page, '[data-test="qds-catalog-range"] .q-slider__selection', 'background-color'), 'QRange selection uses primary').toBe(primary)
+    expect.soft(await computed(page, '[data-test="qds-catalog-range"] .q-slider__thumb', 'box-shadow'), 'QRange thumbs are elevated').not.toBe('none')
+  })
+
   test('skins QColor, QDate, and QTime picker internals with QDS tokens', async ({ page }) => {
     await page.goto('/')
     await page.getByRole('tab', { name: 'Catalog' }).click()

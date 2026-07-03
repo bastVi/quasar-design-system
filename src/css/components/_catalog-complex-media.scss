@@ -614,6 +614,14 @@
     color: var(--qds-color-primary);
   }
 
+  .qds-ui .q-uploader.q-uploader .q-uploader__file .q-circular-progress {
+    color: var(--qds-color-primary);
+  }
+
+  .qds-ui .q-uploader.q-uploader .q-uploader__file-status {
+    color: var(--qds-color-negative);
+  }
+
   .qds-ui .q-uploader.q-uploader .q-uploader__file--error,
   .qds-ui .q-uploader.q-uploader .q-uploader__file--failed {
     border-color: var(--qds-color-negative);
@@ -632,6 +640,10 @@
   .qds-ui .q-uploader.q-uploader .q-uploader__file--uploaded .q-uploader__file-header {
     color: var(--qds-color-positive);
     background: rgba(var(--qds-color-positive-rgb), var(--qds-tonal-bg-opacity));
+  }
+
+  .qds-ui .q-uploader.q-uploader .q-uploader__file--uploaded .q-btn.q-btn {
+    color: var(--qds-color-positive);
   }
 
   .qds-ui.qds-variant-air .q-stepper.q-stepper,
@@ -766,6 +778,105 @@
 
   .qds-ui.qds-variant-feather .q-knob.q-knob .q-knob__svg,
   .qds-ui .qds-variant-feather .q-knob.q-knob .q-knob__svg {
+    filter: none;
+  }
+
+  .qds-ui.qds-variant-mobile .q-scrollarea.q-scrollarea .q-scrollarea__bar--v,
+  .qds-ui .qds-variant-mobile .q-scrollarea.q-scrollarea .q-scrollarea__bar--v {
+    width: 0.75rem;
+  }
+
+  .qds-ui.qds-variant-mobile .q-scrollarea.q-scrollarea .q-scrollarea__bar--h,
+  .qds-ui .qds-variant-mobile .q-scrollarea.q-scrollarea .q-scrollarea__bar--h {
+    height: 0.75rem;
+  }
+
+  .qds-ui.qds-variant-mobile .q-splitter.q-splitter--vertical > .q-splitter__separator,
+  .qds-ui .qds-variant-mobile .q-splitter.q-splitter--vertical > .q-splitter__separator {
+    width: 0.5rem;
+  }
+
+  .qds-ui.qds-variant-mobile .q-splitter.q-splitter--horizontal > .q-splitter__separator,
+  .qds-ui .qds-variant-mobile .q-splitter.q-splitter--horizontal > .q-splitter__separator {
+    height: 0.5rem;
+  }
+
+  .qds-ui.qds-variant-terminal .q-stepper.q-stepper,
+  .qds-ui.qds-variant-terminal .q-carousel.q-carousel,
+  .qds-ui.qds-variant-terminal .q-video.q-video,
+  .qds-ui.qds-variant-terminal .q-uploader.q-uploader,
+  .qds-ui.qds-variant-terminal .q-editor.q-editor,
+  .qds-ui.qds-variant-terminal .catalog-scroll-box.q-scrollarea,
+  .qds-ui.qds-variant-terminal .q-splitter.q-splitter,
+  .qds-ui .qds-variant-terminal .q-stepper.q-stepper,
+  .qds-ui .qds-variant-terminal .q-carousel.q-carousel,
+  .qds-ui .qds-variant-terminal .q-video.q-video,
+  .qds-ui .qds-variant-terminal .q-uploader.q-uploader,
+  .qds-ui .qds-variant-terminal .q-editor.q-editor,
+  .qds-ui .qds-variant-terminal .catalog-scroll-box.q-scrollarea,
+  .qds-ui .qds-variant-terminal .q-splitter.q-splitter {
+    font-family: var(--qds-font-family);
+    background:
+      linear-gradient(180deg, rgba(var(--qds-color-primary-rgb), 0.035), transparent 42%),
+      var(--qds-surface-0);
+    border-color: color-mix(in srgb, var(--qds-color-primary) 24%, var(--qds-border) 76%);
+    box-shadow: none;
+  }
+
+  .qds-ui.qds-variant-terminal .q-stepper.q-stepper .q-stepper__header,
+  .qds-ui.qds-variant-terminal .q-editor.q-editor .q-editor__toolbar,
+  .qds-ui.qds-variant-terminal .q-uploader.q-uploader .q-uploader__header,
+  .qds-ui .qds-variant-terminal .q-stepper.q-stepper .q-stepper__header,
+  .qds-ui .qds-variant-terminal .q-editor.q-editor .q-editor__toolbar,
+  .qds-ui .qds-variant-terminal .q-uploader.q-uploader .q-uploader__header {
+    background: color-mix(in srgb, var(--qds-surface-1) 86%, var(--qds-color-primary) 8%);
+    border-color: color-mix(in srgb, var(--qds-color-primary) 20%, var(--qds-border) 80%);
+  }
+
+  .qds-ui.qds-variant-terminal .q-stepper.q-stepper .q-stepper__content,
+  .qds-ui.qds-variant-terminal .q-stepper.q-stepper .q-stepper__step-content,
+  .qds-ui.qds-variant-terminal .q-editor.q-editor .q-editor__content,
+  .qds-ui.qds-variant-terminal .q-uploader.q-uploader .q-uploader__list,
+  .qds-ui .qds-variant-terminal .q-stepper.q-stepper .q-stepper__content,
+  .qds-ui .qds-variant-terminal .q-stepper.q-stepper .q-stepper__step-content,
+  .qds-ui .qds-variant-terminal .q-editor.q-editor .q-editor__content,
+  .qds-ui .qds-variant-terminal .q-uploader.q-uploader .q-uploader__list {
+    background: var(--qds-surface-0);
+  }
+
+  .qds-ui.qds-variant-terminal .q-carousel.q-carousel .q-carousel__control .q-btn.q-btn,
+  .qds-ui.qds-variant-terminal .q-carousel.q-carousel .q-carousel__prev-arrow .q-btn.q-btn,
+  .qds-ui.qds-variant-terminal .q-carousel.q-carousel .q-carousel__next-arrow .q-btn.q-btn,
+  .qds-ui.qds-variant-terminal .q-pull-to-refresh.q-pull-to-refresh .q-pull-to-refresh__puller,
+  .qds-ui .qds-variant-terminal .q-carousel.q-carousel .q-carousel__control .q-btn.q-btn,
+  .qds-ui .qds-variant-terminal .q-carousel.q-carousel .q-carousel__prev-arrow .q-btn.q-btn,
+  .qds-ui .qds-variant-terminal .q-carousel.q-carousel .q-carousel__next-arrow .q-btn.q-btn,
+  .qds-ui .qds-variant-terminal .q-pull-to-refresh.q-pull-to-refresh .q-pull-to-refresh__puller {
+    background: var(--qds-surface-1);
+    border-color: color-mix(in srgb, var(--qds-color-primary) 28%, var(--qds-border) 72%);
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .qds-ui.qds-variant-terminal .q-timeline.q-timeline .q-timeline__heading-title,
+  .qds-ui.qds-variant-terminal .q-timeline.q-timeline .q-timeline__title,
+  .qds-ui .qds-variant-terminal .q-timeline.q-timeline .q-timeline__heading-title,
+  .qds-ui .qds-variant-terminal .q-timeline.q-timeline .q-timeline__title {
+    font-family: var(--qds-font-family-display);
+    letter-spacing: var(--qds-control-letter-spacing, 0.035em);
+    text-transform: var(--qds-control-text-transform, uppercase);
+  }
+
+  .qds-ui.qds-variant-terminal .q-scrollarea.q-scrollarea .q-scrollarea__thumb,
+  .qds-ui .qds-variant-terminal .q-scrollarea.q-scrollarea .q-scrollarea__thumb,
+  .qds-ui.qds-variant-terminal .q-splitter.q-splitter .q-splitter__separator::before,
+  .qds-ui .qds-variant-terminal .q-splitter.q-splitter .q-splitter__separator::before {
+    background: color-mix(in srgb, var(--qds-color-primary) 62%, var(--qds-border) 38%);
+  }
+
+  .qds-ui.qds-variant-terminal .q-knob.q-knob .q-knob__svg,
+  .qds-ui .qds-variant-terminal .q-knob.q-knob .q-knob__svg {
     filter: none;
   }
 }

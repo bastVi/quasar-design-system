@@ -104,6 +104,36 @@
     border-width: var(--qds-field-focus-border-width);
   }
 
+  .qds-ui .q-field--outlined.q-field--error .q-field__control::after {
+    border-color: var(--qds-color-negative);
+    border-width: var(--qds-field-focus-border-width);
+  }
+
+  .qds-ui .q-field.q-field--error .q-field__bottom {
+    color: var(--qds-color-negative);
+  }
+
+  .qds-ui .q-field.q-field--readonly .q-field__control::before {
+    border-color: var(--qds-border-subtle);
+    border-style: dashed;
+  }
+
+  .qds-ui .q-field.q-field--disabled {
+    opacity: 1;
+  }
+
+  .qds-ui .q-field.q-field--disabled .q-field__control {
+    background: color-mix(in srgb, var(--qds-surface-2) 58%, transparent);
+  }
+
+  .qds-ui .q-field.q-field--disabled .q-field__label,
+  .qds-ui .q-field.q-field--disabled .q-field__native,
+  .qds-ui .q-field.q-field--disabled .q-field__append,
+  .qds-ui .q-field.q-field--disabled .q-field__prepend {
+    color: var(--qds-text-muted);
+    opacity: 0.72;
+  }
+
   .qds-ui .q-field--filled .q-field__control {
     background: color-mix(in srgb, var(--qds-surface-2) 68%, transparent);
   }

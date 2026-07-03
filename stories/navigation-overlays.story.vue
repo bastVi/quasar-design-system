@@ -5,16 +5,22 @@ import {
   QCard,
   QCardSection,
   QDialog,
+  QDrawer,
+  QFooter,
   QItem,
   QItemSection,
+  QLayout,
   QList,
   QMenu,
+  QPage,
+  QPageContainer,
   QSelect,
   QSeparator,
   QTab,
   QTabPanel,
   QTabPanels,
   QTabs,
+  QToolbar,
 } from 'quasar'
 import { PhBell, PhFolderOpen, PhPalette, PhSidebar, PhSparkle } from '@phosphor-icons/vue'
 import {
@@ -33,6 +39,7 @@ const mode = ref<DesignSystemMode>(designSystem.mode.value)
 const variant = ref<DesignSystemVariantName>(designSystem.variant.value)
 const tab = ref('overview')
 const dialogOpen = ref(true)
+const drawerOpen = ref(true)
 const menuOpen = ref(true)
 
 function applyTheme() {
@@ -103,13 +110,40 @@ const rootState = computed(() => {
               </QTabPanels>
             </QCard>
 
+            <QCard class="qds-story-panel q-pa-lg q-mb-lg">
+              <div class="text-overline qds-text-muted">QDrawer</div>
+              <div class="text-h6 qds-story-title q-mb-md">Layout shell proof</div>
+              <QLayout view="hHh lpR fFf" container class="qds-story-layout">
+                <QDrawer v-model="drawerOpen" show-if-above bordered :width="216" data-test="qds-story-drawer">
+                  <QList dense>
+                    <QItem clickable active>
+                      <QItemSection avatar><PhSparkle :size="18" weight="duotone" /></QItemSection>
+                      <QItemSection>Overview</QItemSection>
+                    </QItem>
+                    <QItem clickable>
+                      <QItemSection avatar><PhSidebar :size="18" weight="regular" /></QItemSection>
+                      <QItemSection>Navigation</QItemSection>
+                    </QItem>
+                  </QList>
+                </QDrawer>
+                <QPageContainer>
+                  <QPage class="q-pa-md">
+                    <div class="qds-story-panel q-pa-md">Air keeps acrylic depth; Feather resolves to a matte separator-driven drawer.</div>
+                  </QPage>
+                </QPageContainer>
+                <QFooter bordered>
+                  <QToolbar style="min-height: 2.25rem"><span class="qds-text-muted">Footer edge proof</span></QToolbar>
+                </QFooter>
+              </QLayout>
+            </QCard>
+
             <div class="row q-col-gutter-lg">
               <div class="col-12 col-md-6">
                 <QCard class="qds-story-panel q-pa-lg full-height">
                   <div class="text-overline qds-text-muted">QMenu</div>
                   <div class="text-h6 qds-story-title q-mb-md">Anchored overlay menu</div>
-                  <QBtn color="primary" unelevated label="Open menu" no-caps>
-                    <QMenu v-model="menuOpen" persistent anchor="bottom left" self="top left" :offset="[0, 8]">
+                  <QBtn color="primary" unelevated label="Open menu" no-caps data-test="qds-story-menu-trigger">
+                    <QMenu v-model="menuOpen" persistent anchor="bottom left" self="top left" :offset="[0, 8]" class="qds-story-menu-air-proof">
                       <QList dense style="min-width: 220px">
                         <QItem clickable>
                           <QItemSection avatar><PhPalette :size="18" weight="regular" /></QItemSection>
@@ -126,7 +160,7 @@ const rootState = computed(() => {
                       </QList>
                     </QMenu>
                   </QBtn>
-                  <p class="qds-text-muted q-mt-md q-mb-none">Menu is held open to expose the styled overlay in the story frame.</p>
+                  <p class="qds-text-muted q-mt-md q-mb-none">Menu is held open; switch the variant control to Air to proof the acrylic menu material.</p>
                 </QCard>
               </div>
 
@@ -193,5 +227,12 @@ const rootState = computed(() => {
 .qds-story-tabs,
 .qds-story-tab-panels {
   background: transparent;
+}
+
+.qds-story-layout {
+  height: 300px;
+  overflow: hidden;
+  border: var(--qds-border-width-control) solid var(--qds-card-border);
+  border-radius: var(--qds-card-radius);
 }
 </style>

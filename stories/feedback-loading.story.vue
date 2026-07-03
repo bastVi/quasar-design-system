@@ -4,7 +4,9 @@ import {
   QBanner,
   QBtn,
   QCard,
+  QCircularProgress,
   QInnerLoading,
+  QKnob,
   QLinearProgress,
   QSelect,
   QSeparator,
@@ -28,6 +30,7 @@ const modeOptions: DesignSystemMode[] = ['light', 'dark', 'system']
 const variantOptions = Object.keys(DESIGN_SYSTEM_VARIANTS) as DesignSystemVariantName[]
 const mode = ref<DesignSystemMode>(designSystem.mode.value)
 const variant = ref<DesignSystemVariantName>(designSystem.variant.value)
+const knobValue = ref(64)
 
 function applyTheme() {
   designSystem.setMode(mode.value)
@@ -106,11 +109,17 @@ const rootState = computed(() => {
                   <QLinearProgress :value="0.38" rounded color="secondary" size="8px" class="q-mt-md" />
                   <QSeparator class="q-my-md" />
                   <div class="row items-center q-gutter-md">
+                    <QCircularProgress show-value :value="72" size="3.5rem" color="accent" track-color="grey-3" />
                     <QSpinner color="primary" size="2rem" />
                     <div>
-                      <div class="text-weight-medium">Spinner companion</div>
-                      <div class="qds-text-muted">Used sparingly for live waits.</div>
+                      <div class="text-weight-medium">Circular progress + spinner</div>
+                      <div class="qds-text-muted">Static proof for determinate and live wait treatments.</div>
                     </div>
+                  </div>
+                  <QSeparator class="q-my-md" />
+                  <div class="row items-center q-gutter-md">
+                    <QKnob v-model="knobValue" show-value size="4.5rem" :thickness="0.18" color="primary" track-color="grey-3" />
+                    <div class="qds-text-muted">Knob inherits QDS progress color and track tokens.</div>
                   </div>
                 </QCard>
               </div>
@@ -137,7 +146,7 @@ const rootState = computed(() => {
                         <p class="qds-text-muted q-mb-none">A deterministic overlay state for loading-surface review.</p>
                       </div>
                     </div>
-                    <QInnerLoading showing label="Syncing" color="primary" />
+                    <QInnerLoading showing label="Syncing" color="primary" class="qds-plugin-inner-loading" data-test="qds-story-inner-loading" />
                   </div>
                 </QCard>
               </div>

@@ -291,7 +291,7 @@ test.describe('QDS override gate', () => {
 
         // Semantic colored default: tonal tint, not filled Material-style color.
         const semantic = `${PANEL} .q-btn--unelevated.bg-primary:not(.qds-solid):not(.q-btn--dense)`
-        const semanticBg = await computed(page, semantic, 'background-color')
+        const semanticBg = await settledComputed(page, () => computed(page, semantic, 'background-color'))
         expect.soft(semanticBg, 'QBtn semantic not Quasar Material primary').not.toBe('rgb(25, 118, 210)')
         if (variant === 'terminal') {
           expect.soft(semanticBg, 'Terminal QBtn semantic shell tint').toMatch(/^(rgba|color)\(/)
@@ -312,7 +312,7 @@ test.describe('QDS override gate', () => {
 
         // TONAL: colored non-solid buttons share the same soft treatment.
         const tonal = `${PANEL} .q-btn.bg-primary:not(.qds-solid):not(.q-btn--flat):not(.q-btn--outline)`
-        const tonalBg = await computed(page, tonal, 'background-color')
+        const tonalBg = await settledComputed(page, () => computed(page, tonal, 'background-color'))
         if (variant === 'terminal') {
           expect.soft(tonalBg, 'Terminal QBtn tonal shell tint').toMatch(/^(rgba|color)\(/)
           expect.soft(tonalBg, 'Terminal QBtn tonal not solid primary').not.toBe(expected.primary)
@@ -471,7 +471,11 @@ test.describe('QDS override gate', () => {
         const menu = '.q-menu'
         await expect(page.locator(menu).first()).toBeVisible()
         const menuBg = await computed(page, menu, 'background-color')
-        if (variant === 'mobile') {
+        if (variant === 'air') {
+          expect.soft(menuBg, 'Air QMenu uses translucent acrylic material').toMatch(/^(rgba|color)\(/)
+          expect.soft(menuBg, 'Air QMenu material remains visible').not.toBe('rgba(0, 0, 0, 0)')
+          expect.soft(await computed(page, menu, 'backdrop-filter'), 'Air QMenu blur').not.toBe('none')
+        } else if (variant === 'mobile') {
           expect.soft(menuBg, 'One QMenu uses elevated card material').not.toBe('rgba(0, 0, 0, 0)')
         } else {
           expect.soft(menuBg, 'QMenu bg').toBe(expected.surface)
@@ -480,6 +484,9 @@ test.describe('QDS override gate', () => {
         if (variant === 'terminal') {
           expect.soft(menuBorder, 'Terminal QMenu amber-mixed border').toMatch(/^(rgb|color)\(/)
           expect.soft(menuBorder, 'Terminal QMenu border remains visible').not.toBe('rgba(0, 0, 0, 0)')
+        } else if (variant === 'air') {
+          expect.soft(menuBorder, 'Air QMenu translucent border').toMatch(/^(rgb|rgba|color)\(/)
+          expect.soft(menuBorder, 'Air QMenu border remains visible').not.toBe('rgba(0, 0, 0, 0)')
         } else if (variant === 'mobile') {
           expect.soft(menuBorder, 'One QMenu soft grouped border').toMatch(/^(rgb|rgba|color)\(/)
           expect.soft(menuBorder, 'One QMenu border remains visible').not.toBe('rgba(0, 0, 0, 0)')
@@ -495,10 +502,23 @@ test.describe('QDS override gate', () => {
         await page.getByRole('button', { name: 'Info', exact: true }).click()
         const notify = '.q-notification'
         await expect(page.locator(notify).first()).toBeVisible()
-        // notification-radius = --qds-radius-md (8px), constant across variants.
-        expect.soft(await computed(page, notify, 'border-radius'), 'QNotification radius').toBe('8px')
-        expect.soft(await computed(page, notify, 'box-shadow'), 'QNotification shadow').not.toBe('none')
-        expect.soft(await computed(page, notify, 'background-color'), 'QNotification bg').toBe(expected.surface)
+        // Most variants use notification-radius = --qds-radius-md (8px); Terminal intentionally tightens chrome.
+        expect.soft(await computed(page, notify, 'border-radius'), 'QNotification radius').toBe(
+          variant === 'terminal' ? '4px' : '8px',
+        )
+        const notifyShadow = await computed(page, notify, 'box-shadow')
+        if (variant === 'feather') {
+          expect.soft(notifyShadow, 'Feather QNotification matte paper shadow').toBe('none')
+        } else {
+          expect.soft(notifyShadow, 'QNotification shadow').not.toBe('none')
+        }
+        const notifyBg = await computed(page, notify, 'background-color')
+        if (variant === 'air' || variant === 'terminal') {
+          expect.soft(notifyBg, `${variant} QNotification variant material`).toMatch(/^(rgba|color)\(/)
+          expect.soft(notifyBg, `${variant} QNotification bg visible`).not.toBe('rgba(0, 0, 0, 0)')
+        } else {
+          expect.soft(notifyBg, 'QNotification bg').toBe(expected.surface)
+        }
         const assertNotifyState = async (type: Semantic) => {
           const item = page.locator('.q-notification', { hasText: `This is a ${type} notification` }).first()
           await expect(item, `QNotification ${type} visible`).toBeVisible()
@@ -513,9 +533,14 @@ test.describe('QDS override gate', () => {
               icon: icon ? getComputedStyle(icon).color : '',
             }
           })
-          expect.soft(state.bg, `QNotification ${type} keeps QDS surface`).toBe(expected.surface)
+          if (variant === 'air' || variant === 'terminal') {
+            expect.soft(state.bg, `QNotification ${type} keeps variant material`).toBe(notifyBg)
+          } else {
+            expect.soft(state.bg, `QNotification ${type} keeps QDS surface`).toBe(expected.surface)
+          }
           expect.soft(state.rail, `QNotification ${type} semantic rail`).toBe(expected.semantic[type])
-          expect.soft(state.border, `QNotification ${type} semantic border`).toMatch(/^rgba?\(/)
+          expect.soft(state.border, `QNotification ${type} semantic border`).toMatch(/^(rgb|rgba|color)\(/)
+          expect.soft(state.border, `QNotification ${type} semantic border visible`).not.toBe('rgba(0, 0, 0, 0)')
           if (state.icon) {
             expect.soft(state.icon, `QNotification ${type} semantic icon`).toBe(expected.semantic[type])
           }
@@ -651,19 +676,38 @@ test.describe('QDS override gate', () => {
         }
 
         // --- QPagination: current page is tonal, not Material solid primary ---
-        const currentPage = `${PANEL} .q-pagination .q-btn.bg-primary`
+        const pagination = `${PANEL} [data-test="qds-pagination"]`
+        const currentPage = `${pagination} .q-btn.bg-primary`
+        await expect(page.locator(pagination).first(), 'QPagination rendered').toBeVisible()
         expect.soft(await computed(page, currentPage, 'background-color'), 'QPagination active tonal bg').toMatch(
           expected.primaryRgbPattern,
         )
         expect.soft(await computed(page, currentPage, 'background-color'), 'QPagination not Material primary').not.toBe(
           'rgb(25, 118, 210)',
         )
+        if (variant === 'air') {
+          expect.soft(await computed(page, currentPage, 'background-color'), 'Air QPagination uses Air primary channel').not.toMatch(/^rgba\(0,\s*90,\s*158/)
+        }
+        if (variant === 'feather') {
+          expect.soft(await computed(page, `${pagination} .q-btn`, 'border-top-color'), 'Feather QPagination keeps separator border token').toBe(expected.subtleBorder)
+          expect.soft(await computed(page, `${pagination} .q-btn`, 'box-shadow'), 'Feather QPagination stays flat').toBe('none')
+        }
 
         // --- QDrawer: layout shell uses tokenized acrylic side surface ---
         const drawer = `${PANEL} .q-drawer`
+        await expect(page.locator(`${PANEL} [data-test="qds-drawer"]`).first(), 'QDrawer data-test hook rendered').toBeVisible()
+        await expect(page.locator(drawer).first(), 'QDrawer rendered').toBeVisible()
         expect.soft(await computed(page, drawer, 'color'), 'QDrawer text color').not.toBe('rgba(0, 0, 0, 0)')
         expect.soft(await computed(page, drawer, 'border-right-color'), 'QDrawer border').not.toBe('rgba(0, 0, 0, 0)')
         expect.soft(await computed(page, drawer, 'border-right-style'), 'QDrawer explicit border style').toBe('solid')
+        if (variant === 'air') {
+          expect.soft(await computed(page, drawer, 'backdrop-filter'), 'Air QDrawer keeps acrylic blur').toContain('blur')
+        }
+        if (variant === 'feather') {
+          expect.soft(await computed(page, drawer, 'background-color'), 'Feather QDrawer matte surface').toBe(expected.surface)
+          expect.soft(await computed(page, drawer, 'border-right-color'), 'Feather QDrawer separator border').not.toBe('rgba(0, 0, 0, 0)')
+          expect.soft(await computed(page, drawer, 'box-shadow'), 'Feather QDrawer stays flat').toBe('none')
+        }
 
         // --- QFooter: tokenized surface + border-top (not border-bottom) ---
         const footer = `${PANEL} .q-footer`

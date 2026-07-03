@@ -12,6 +12,7 @@ const EXPECTED_CARD_RADIUS: Record<Variant, string> = {
 const EXPECTED_FLUENT_BUTTON_GROUP_RADIUS = '10px'
 const EXPECTED_FLUENT_ACTIVE_TOGGLE_BG = 'rgba(0, 90, 158, 0.12)'
 const EXPECTED_FLUENT_ACTIVE_TOGGLE_BORDER = 'rgba(0, 90, 158, 0.2)'
+const EXPECTED_FLUENT_PRIMARY = 'rgb(0, 90, 158)'
 
 /** Drive the runtime controller exactly as an external app would. */
 async function applyTheme(page: Page, mode: Mode, variant: Variant) {
@@ -49,6 +50,7 @@ test.describe('QDS catalog data display gate', () => {
 
     await expect(page.getByText('Remaining Quasar components')).toBeVisible()
     await expectVisible('.q-breadcrumbs')
+    await expectVisible('[data-test="qds-avatar"]')
     await expectVisible('.q-btn-dropdown')
     await expectVisible('.q-btn-toggle')
     await expectVisible('.q-fab')
@@ -74,7 +76,9 @@ test.describe('QDS catalog data display gate', () => {
     await expectVisible('.q-scrollarea')
     await expectVisible('.q-splitter')
     await expectVisible('.q-slide-item')
+    await expectVisible('.q-pull-to-refresh')
     await expectVisible('.q-knob')
+    await expectVisible('.q-infinite-scroll')
     await expectVisible('.q-editor')
     await expectVisible('.q-uploader')
 
@@ -87,11 +91,17 @@ test.describe('QDS catalog data display gate', () => {
     expect.soft(await computed(page, '[data-test="qds-btn-toggle"]', 'border-radius'), 'QBtnToggle QDS radius').toBe(EXPECTED_FLUENT_BUTTON_GROUP_RADIUS)
     expect.soft(await computed(page, '[data-test="qds-btn-toggle"] .q-btn[aria-pressed="true"]', 'background-color'), 'QBtnToggle active background').toBe(EXPECTED_FLUENT_ACTIVE_TOGGLE_BG)
     expect.soft(await computed(page, '[data-test="qds-btn-toggle"] .q-btn[aria-pressed="true"]', 'border-top-color'), 'QBtnToggle active border').toBe(EXPECTED_FLUENT_ACTIVE_TOGGLE_BORDER)
+    expect.soft(await computed(page, '[data-test="qds-avatar"]', 'border-top-width'), 'QAvatar QDS border').toBe('1px')
+    expect.soft(await computed(page, '[data-test="qds-avatar"]', 'border-radius'), 'QAvatar QDS radius').toBe('9999px')
+    expect.soft(await computed(page, '[data-test="qds-avatar"]', 'background-color'), 'QAvatar tokenized bg').not.toBe('rgba(0, 0, 0, 0)')
     expect.soft(await computed(page, '.catalog-panel', 'border-radius'), 'QTabPanels QDS radius').toBe(EXPECTED_CARD_RADIUS.fluent)
     expect.soft(await computed(page, '.q-stepper', 'border-radius'), 'QStepper QDS radius').toBe(EXPECTED_CARD_RADIUS.fluent)
     expect.soft(await computed(page, '.q-markup-table', 'border-radius'), 'QMarkupTable QDS radius').toBe(EXPECTED_CARD_RADIUS.fluent)
     expect.soft(await computed(page, '.q-editor', 'border-top-width'), 'QEditor QDS border').toBe('1px')
     expect.soft(await computed(page, '.q-uploader', 'border-radius'), 'QUploader QDS radius').toBe(EXPECTED_CARD_RADIUS.fluent)
+    expect.soft(await computed(page, '[data-test="qds-knob"]', 'color'), 'QKnob primary color').toBe(EXPECTED_FLUENT_PRIMARY)
+    expect.soft(await computed(page, '[data-test="qds-spinner"]', 'color'), 'QSpinner primary color').toBe(EXPECTED_FLUENT_PRIMARY)
+    expect.soft(await computed(page, '[data-test="qds-circular-progress"] .q-circular-progress__circle', 'filter'), 'QCircularProgress QDS glow').not.toBe('none')
   })
 
   test('QExpansionItem and QTree expose deterministic deep states', async ({ page }) => {

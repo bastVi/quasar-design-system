@@ -57,14 +57,21 @@ function pulseAjaxBar(): void {
 
       <div class="catalog-demo">
         <div class="catalog-label">QLinearProgress</div>
-        <q-linear-progress :value="0.68" rounded color="primary" size="12px" />
+        <q-linear-progress :value="0.68" rounded color="primary" size="12px" data-test="qds-linear-progress" />
       </div>
 
       <div class="catalog-demo">
         <div class="catalog-label">QCircularProgress + QSpinner</div>
         <div class="row items-center q-gutter-md">
-          <q-circular-progress show-value :value="72" size="64px" color="accent" track-color="grey-3" />
-          <q-spinner color="primary" size="2rem" />
+          <q-circular-progress
+            show-value
+            :value="72"
+            size="64px"
+            color="accent"
+            track-color="grey-3"
+            data-test="qds-circular-progress"
+          />
+          <q-spinner color="primary" size="2rem" data-test="qds-spinner" />
         </div>
       </div>
 

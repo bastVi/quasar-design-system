@@ -27,6 +27,22 @@
     box-shadow: none;
   }
 
+  .qds-ui.qds-variant-air .q-drawer.q-drawer,
+  .qds-ui .qds-variant-air .q-drawer.q-drawer {
+    background: color-mix(in srgb, var(--qds-chrome-surface-strong) 78%, transparent);
+    border-inline-end-color: color-mix(in srgb, var(--qds-chrome-border-soft) 42%, transparent);
+    box-shadow: var(--qds-chrome-shadow);
+  }
+
+  .qds-ui.qds-variant-feather .q-drawer.q-drawer,
+  .qds-ui .qds-variant-feather .q-drawer.q-drawer {
+    background: var(--qds-surface-0);
+    border-inline-end-color: var(--qds-separator-color);
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
   .qds-ui.qds-variant-mobile .q-drawer.q-drawer,
   .qds-ui .qds-variant-mobile .q-drawer.q-drawer {
     background: color-mix(in srgb, var(--qds-surface-1) 96%, transparent);

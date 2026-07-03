@@ -1,7 +1,13 @@
 import { expect, test, type Page } from '@playwright/test'
 
 type Mode = 'light' | 'dark'
-type Variant = 'fluent' | 'air' | 'mobile'
+type Variant = 'fluent' | 'air' | 'mobile' | 'feather' | 'terminal'
+
+const EXPECTED_MEDIA_RADIUS: Record<Extract<Variant, 'fluent' | 'mobile' | 'terminal'>, string> = {
+  fluent: '12px',
+  mobile: '20px',
+  terminal: '10px',
+}
 
 async function applyTheme(page: Page, mode: Mode, variant: Variant) {
   await page.waitForFunction(() => Boolean((window as unknown as { __qdsGallery?: unknown }).__qdsGallery))
@@ -63,5 +69,53 @@ test.describe('QDS catalog complex media gate', () => {
     expect.soft(await computed(page, '[data-test="qds-scroll-area"]', 'overflow'), 'QScrollArea frame clips scrollbar overlap').toBe('hidden')
     expect.soft(await computed(page, '[data-test="qds-splitter"]', 'overflow'), 'QSplitter frame clips separator hitbox').toBe('hidden')
     expect.soft(await computed(page, '[data-test="qds-splitter"] > .q-splitter__separator', 'width'), 'QSplitter separator is softened beyond raw 1px seam').toBe('6px')
+  })
+
+  test('complex media surfaces keep variant and dark proof coverage', async ({ page }) => {
+    await page.goto('/')
+    await page.getByRole('tab', { name: 'Catalog' }).click()
+
+    for (const variant of ['mobile', 'terminal'] as const) {
+      await applyTheme(page, 'dark', variant)
+
+      await expect(page.locator('[data-test="qds-timeline"]')).toBeVisible()
+      await expect(page.locator('[data-test="qds-carousel"]')).toBeVisible()
+      await expect(page.locator('[data-test="qds-scroll-area"]')).toBeVisible()
+      await expect(page.locator('[data-test="qds-splitter"]')).toBeVisible()
+      await expect(page.locator('[data-test="qds-editor"]')).toBeVisible()
+      await expect(page.locator('[data-test="qds-uploader"]')).toBeVisible()
+
+      expect.soft(await computed(page, '[data-test="qds-carousel"]', 'border-radius'), `${variant} carousel radius`).toBe(EXPECTED_MEDIA_RADIUS[variant])
+      expect.soft(await computed(page, '[data-test="qds-editor"]', 'border-top-width'), `${variant} editor keeps framed chrome`).toBe('1px')
+      expect.soft(await computed(page, '[data-test="qds-uploader"]', 'border-top-width'), `${variant} uploader keeps framed chrome`).toBe('1px')
+      expect.soft(await computed(page, '[data-test="qds-scroll-area"] .q-scrollarea__thumb', 'background-color'), `${variant} scroll thumb is themed`).not.toBe('rgba(0, 0, 0, 0)')
+      expect.soft(await computed(page, '[data-test="qds-splitter"] > .q-splitter__separator', 'background-color', '::before'), `${variant} splitter handle is themed`).not.toBe('rgba(0, 0, 0, 0)')
+
+      if (variant === 'terminal') {
+        expect.soft(await computed(page, '[data-test="qds-editor"]', 'font-family'), 'terminal editor uses monospace family').toContain('ui-monospace')
+      }
+    }
+  })
+
+  test('QUploader exposes deterministic queued, progress, error, and uploaded states', async ({ page }) => {
+    await page.goto('/')
+    await page.getByRole('tab', { name: 'Catalog' }).click()
+    await applyTheme(page, 'light', 'fluent')
+
+    const uploader = page.locator('[data-test="qds-uploader"]')
+    await expect(uploader.locator('.q-uploader__file')).toHaveCount(4)
+
+    const queued = uploader.locator('.q-uploader__file').filter({ hasText: 'media-queued.txt' })
+    const progress = uploader.locator('.q-uploader__file').filter({ hasText: 'media-progress.bin' })
+    const failed = uploader.locator('.q-uploader__file').filter({ hasText: 'media-error.txt' })
+    const uploaded = uploader.locator('.q-uploader__file').filter({ hasText: 'media-uploaded.txt' })
+
+    await expect(queued).toContainText('0.00%')
+    await expect(progress.locator('.q-circular-progress')).toBeVisible()
+    await expect(progress).toContainText(/58\.0\d%/)
+    await expect(failed).toHaveClass(/q-uploader__file--failed/)
+    await expect(failed.locator('.q-uploader__file-status')).toBeVisible()
+    await expect(uploaded).toHaveClass(/q-uploader__file--uploaded/)
+    await expect(uploaded).toContainText('100.00%')
   })
 })
