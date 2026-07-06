@@ -20,7 +20,7 @@
   .qds-ui .q-card.q-card.qds-variant-air,
   .qds-ui.qds-variant-air .qds-card,
   .qds-ui .qds-variant-air .qds-card {
-    border-color: color-mix(in srgb, var(--qds-chrome-border-soft) 54%, transparent);
+    border-color: color-mix(in srgb, var(--qds-chrome-border-soft) 36%, transparent);
   }
 
   .qds-ui.qds-variant-air .q-card.q-card .q-card.q-card,
@@ -29,7 +29,7 @@
   .qds-ui.qds-variant-air .q-card.q-card .qds-card,
   .qds-ui .qds-variant-air .q-card.q-card .qds-card {
     background: var(--qds-chrome-surface-strong);
-    border-color: color-mix(in srgb, var(--qds-chrome-border-soft) 34%, transparent);
+    border-color: color-mix(in srgb, var(--qds-chrome-border-soft) 24%, transparent);
     box-shadow: none;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;

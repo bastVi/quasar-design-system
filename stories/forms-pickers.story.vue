@@ -48,6 +48,7 @@ const selectError = ref('Compact')
 const selectDisabled = ref('Touch')
 const file = ref<File | null>(null)
 const date = ref('2026/07/02')
+const dateRange = ref({ from: '2026/07/06', to: '2026/07/12' })
 const time = ref('10:30')
 const color = ref('#6366f1')
 const popupLabel = ref('Inline editable label')
@@ -150,7 +151,7 @@ const rootState = computed(() => {
                       <div class="text-overline qds-text-muted">QDate</div>
                       <h3 class="qds-story-title q-my-sm">Calendar picker</h3>
                       <p class="qds-text-muted">
-                        Static date picker coverage keeps day cells, header, navigation controls, and selected state visible.
+                        Static date picker coverage keeps day cells, header, navigation controls, selected state, and range state visible.
                       </p>
                       <div class="row items-center q-gutter-sm">
                         <PhCalendarDots :size="28" weight="duotone" />
@@ -158,7 +159,10 @@ const rootState = computed(() => {
                       </div>
                     </div>
                     <div class="col-12 col-md-7">
-                      <QDate v-model="date" flat bordered class="qds-story-picker" />
+                      <div class="qds-story-stack qds-story-stack--relaxed">
+                        <QDate v-model="date" flat bordered class="qds-story-picker" />
+                        <QDate v-model="dateRange" range flat bordered class="qds-story-picker" />
+                      </div>
                     </div>
                   </div>
                 </QCard>

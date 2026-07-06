@@ -48,7 +48,7 @@ test.describe('QDS scene gallery', () => {
     expect.soft(airTokens.fallbackOpacity).toBeGreaterThanOrEqual(0.05)
     expect.soft(airTokens.blur).toBe('1.75rem')
     expect.soft(airTokens.saturate).toBeGreaterThanOrEqual(1.12)
-    expect.soft(airTokens.cardBorder).toContain('16%')
+    expect.soft(airTokens.cardBorder).toContain('10%')
     expect.soft(airTokens.chromeShadow).toBe('none')
   })
 

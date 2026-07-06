@@ -17,6 +17,7 @@ const slider = ref(62)
 const range = ref({ min: 24, max: 78 })
 const color = ref('#6366f1')
 const date = ref('2029/08/17')
+const dateRange = ref({ from: '2029/08/14', to: '2029/08/20' })
 const time = ref('10:30')
 const popupLabel = ref('Editable label')
 
@@ -113,6 +114,11 @@ const checkboxChoices = [
         <div class="catalog-demo">
           <div class="catalog-label">QDate</div>
           <q-date v-model="date" name="catalog-date" flat bordered class="catalog-picker" data-test="qds-catalog-date" />
+        </div>
+
+        <div class="catalog-demo">
+          <div class="catalog-label">QDate range</div>
+          <q-date v-model="dateRange" name="catalog-date-range" range flat bordered class="catalog-picker" data-test="qds-catalog-date-range" />
         </div>
 
         <div class="catalog-demo">

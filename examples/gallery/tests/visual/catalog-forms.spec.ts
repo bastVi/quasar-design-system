@@ -139,6 +139,13 @@ test.describe('QDS catalog form picker gate', () => {
     expect.soft(await selectedDate.evaluate((el) => getComputedStyle(el as Element).color), 'QDate selected day uses on-solid text').toBe(onSolid)
     expect.soft(await computed(page, '[data-test="qds-catalog-date"] .q-date__header', 'background-color'), 'QDate header is not transparent').not.toBe('rgba(0, 0, 0, 0)')
 
+    await expect(page.locator('[data-test="qds-catalog-date-range"] .q-date__range').first(), 'QDate range middle rendered').toBeVisible()
+    await expect(page.locator('[data-test="qds-catalog-date-range"] .q-date__range-from').first(), 'QDate range start rendered').toBeVisible()
+    await expect(page.locator('[data-test="qds-catalog-date-range"] .q-date__range-to').first(), 'QDate range end rendered').toBeVisible()
+    expect.soft(await computedPseudo(page, '[data-test="qds-catalog-date-range"] .q-date__range', '::before', 'background-color'), 'QDate range fill is tokenized').not.toBe('rgba(0, 0, 0, 0)')
+    expect.soft(await computed(page, '[data-test="qds-catalog-date-range"] .q-date__range-from', 'border-top-left-radius'), 'QDate range start is rounded').not.toBe('0px')
+    expect.soft(await computed(page, '[data-test="qds-catalog-date-range"] .q-date__range-to', 'border-top-right-radius'), 'QDate range end is rounded').not.toBe('0px')
+
     const activeTime = page.locator('[data-test="qds-catalog-time"] .q-time__clock-position--active').first()
     await expect(activeTime).toBeVisible()
     expect.soft(await activeTime.evaluate((el) => getComputedStyle(el as Element).backgroundColor), 'QTime active tick uses primary').toBe(primary)

@@ -175,14 +175,54 @@
   .qds-ui .q-date.q-date .q-date__calendar-item .q-btn.q-btn {
     color: var(--qds-text);
     border-radius: var(--qds-radius-full);
+    box-shadow: none !important;
+    transition:
+      background-color var(--qds-motion-fast),
+      color var(--qds-motion-fast),
+      box-shadow var(--qds-motion-fast);
+  }
+
+  .qds-ui .q-date.q-date .q-date__years-item,
+  .qds-ui .q-date.q-date .q-date__months-item,
+  .qds-ui .q-date.q-date .q-date__calendar-item,
+  .qds-ui .q-date.q-date .q-date__years-item > div,
+  .qds-ui .q-date.q-date .q-date__months-item > div,
+  .qds-ui .q-date.q-date .q-date__calendar-item > div,
+  .qds-ui .q-date.q-date .q-date__years-item button,
+  .qds-ui .q-date.q-date .q-date__months-item button,
+  .qds-ui .q-date.q-date .q-date__calendar-item button {
+    border-radius: var(--qds-radius-full);
+  }
+
+  .qds-ui .q-date.q-date .q-date__years-item > div,
+  .qds-ui .q-date.q-date .q-date__months-item > div,
+  .qds-ui .q-date.q-date .q-date__calendar-item > div {
+    transition:
+      background-color var(--qds-motion-fast),
+      color var(--qds-motion-fast),
+      box-shadow var(--qds-motion-fast);
   }
 
   .qds-ui .q-date.q-date .q-date__navigation .q-btn.q-btn:hover,
   .qds-ui .q-date.q-date .q-date__years-item .q-btn.q-btn:hover,
   .qds-ui .q-date.q-date .q-date__months-item .q-btn.q-btn:hover,
-  .qds-ui .q-date.q-date .q-date__calendar-item .q-btn.q-btn:hover {
+  .qds-ui .q-date.q-date .q-date__calendar-item .q-btn.q-btn:hover,
+  .qds-ui .q-date.q-date .q-date__years-item > div:hover,
+  .qds-ui .q-date.q-date .q-date__months-item > div:hover,
+  .qds-ui .q-date.q-date .q-date__calendar-item > div:hover {
     color: var(--qds-text-strong);
     background: color-mix(in srgb, var(--qds-chrome-surface) 82%, var(--qds-color-primary) 10%);
+  }
+
+  .qds-ui .q-date.q-date .q-date__navigation .q-btn.q-btn:focus-visible,
+  .qds-ui .q-date.q-date .q-date__years-item .q-btn.q-btn:focus-visible,
+  .qds-ui .q-date.q-date .q-date__months-item .q-btn.q-btn:focus-visible,
+  .qds-ui .q-date.q-date .q-date__calendar-item .q-btn.q-btn:focus-visible,
+  .qds-ui .q-date.q-date .q-date__years-item button:focus-visible,
+  .qds-ui .q-date.q-date .q-date__months-item button:focus-visible,
+  .qds-ui .q-date.q-date .q-date__calendar-item button:focus-visible {
+    outline: var(--qds-focus-ring-width) solid rgba(var(--qds-color-primary-rgb), var(--qds-focus-ring-opacity));
+    outline-offset: var(--qds-focus-ring-offset);
   }
 
   .qds-ui .q-date.q-date .q-date__calendar-weekdays > div {
@@ -197,6 +237,7 @@
   }
 
   .qds-ui .q-date.q-date .q-date__today {
+    border-radius: var(--qds-radius-full);
     box-shadow: none;
   }
 
@@ -204,6 +245,7 @@
   .qds-ui .q-date.q-date .q-date__today > div {
     color: color-mix(in srgb, var(--qds-color-primary) var(--qds-tonal-text-mix), var(--qds-text-strong));
     background: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-bg-opacity));
+    border-radius: var(--qds-radius-full);
     box-shadow: inset 0 0 0 var(--qds-border-width-control) rgba(var(--qds-color-primary-rgb), var(--qds-tonal-border-opacity));
   }
 
@@ -214,19 +256,47 @@
     color: var(--qds-color-primary);
   }
 
+  .qds-ui .q-date.q-date .q-date__range {
+    border-radius: 0;
+  }
+
+  .qds-ui .q-date.q-date .q-date__range-from {
+    border-start-start-radius: var(--qds-radius-full);
+    border-end-start-radius: var(--qds-radius-full);
+  }
+
+  .qds-ui .q-date.q-date .q-date__range-to {
+    border-start-end-radius: var(--qds-radius-full);
+    border-end-end-radius: var(--qds-radius-full);
+  }
+
   .qds-ui .q-date.q-date .q-date__range::before,
   .qds-ui .q-date.q-date .q-date__range-from::before,
   .qds-ui .q-date.q-date .q-date__range-to::before {
     background: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-bg-opacity));
+    border-radius: inherit;
     opacity: 1;
   }
 
+  .qds-ui .q-date.q-date .q-date__calendar-item--selected,
+  .qds-ui .q-date.q-date .q-date__calendar-item--selected > div,
+  .qds-ui .q-date.q-date .q-date__years-item--selected,
+  .qds-ui .q-date.q-date .q-date__years-item--selected > div,
+  .qds-ui .q-date.q-date .q-date__months-item--selected,
+  .qds-ui .q-date.q-date .q-date__months-item--selected > div,
   .qds-ui .q-date.q-date .q-date__calendar-item .q-btn.q-btn.bg-primary,
   .qds-ui .q-date.q-date .q-date__years-item .q-btn.q-btn.bg-primary,
   .qds-ui .q-date.q-date .q-date__months-item .q-btn.q-btn.bg-primary {
     color: var(--qds-text-on-solid, var(--qds-text-strong)) !important;
     background: var(--qds-color-primary) !important;
+    border-radius: var(--qds-radius-full);
     box-shadow: 0 0 0 3px rgba(var(--qds-color-primary-rgb), var(--qds-tonal-border-opacity));
+  }
+
+  .qds-ui .q-date.q-date .q-date__calendar-item--selected .q-btn.q-btn,
+  .qds-ui .q-date.q-date .q-date__years-item--selected .q-btn.q-btn,
+  .qds-ui .q-date.q-date .q-date__months-item--selected .q-btn.q-btn {
+    color: var(--qds-text-on-solid, var(--qds-text-strong)) !important;
   }
 
   .qds-ui .q-date.q-date .q-date__event {

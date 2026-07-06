@@ -141,13 +141,13 @@ const EXPECTED_TOKENS: Record<Mode, Record<Variant, VariantExpectations>> = {
   dark: {
     fluent: BASE_DARK,
     air: {
-      surface: 'rgb(28, 28, 30)', // #1c1c1e
+      surface: 'rgb(24, 33, 43)', // #18212b
       lightSurface: 'rgb(251, 251, 253)',
       primary: 'rgb(10, 132, 255)', // #0a84ff
       primaryHex: '#0a84ff',
       primaryRgbPattern: /^rgba\(10,\s*132,\s*255/,
-      fieldBorder: 'rgb(72, 72, 74)', // #48484a
-      subtleBorder: 'rgb(44, 44, 46)', // #2c2c2e
+      fieldBorder: 'rgb(66, 81, 99)', // #425163
+      subtleBorder: 'rgb(38, 51, 66)', // #263342
       semantic: AIR_DARK_SEMANTIC,
     },
     mobile: BASE_DARK,
@@ -453,7 +453,7 @@ test.describe('QDS override gate', () => {
         if (variant === 'fluent') {
           expect.soft(cardVars.tintRgb, 'Fluent QCard resting tint is neutral, not primary').not.toBe(cardVars.primaryRgb)
           expect.soft(cardVars.tonalOpacity, 'Fluent QCard resting tonal opacity is restrained').toBeLessThan(0.04)
-          expect.soft(cardVars.cardBorderMix, 'Fluent QCard border mix is softened').toBe('16%')
+          expect.soft(cardVars.cardBorderMix, 'Fluent QCard border mix is softened').toBe('12%')
           expect.soft(cardVars.chromeBorderMix, 'Fluent chrome border mix is softened').toBe('46%')
           expect.soft(cardVars.chromeBorderSoftMix, 'Fluent soft chrome mix is softened').toBe('24%')
           expect.soft(cardVars.separatorMix, 'Fluent separator mix is softened').toBe('34%')
@@ -654,6 +654,8 @@ test.describe('QDS override gate', () => {
         expect.soft(legacyVariant.variant, 'legacy glass canonical state').toBe('air')
         expect.soft(legacyVariant.hasAir, 'legacy glass applies air class').toBe(true)
         await applyTheme(page, mode, variant)
+        await waitForVariantTokens(page, expected)
+        await page.waitForTimeout(150)
 
         // --- QTable: shell, rows, and header consume QDS surface tokens ---
         const table = `${PANEL} .q-table__container`
@@ -689,7 +691,8 @@ test.describe('QDS override gate', () => {
           expect.soft(await computed(page, currentPage, 'background-color'), 'Air QPagination uses Air primary channel').not.toMatch(/^rgba\(0,\s*90,\s*158/)
         }
         if (variant === 'feather') {
-          expect.soft(await computed(page, `${pagination} .q-btn`, 'border-top-color'), 'Feather QPagination keeps separator border token').toBe(expected.subtleBorder)
+          expect.soft(await computed(page, pagination, 'border-top-color'), 'Feather QPagination keeps a visible segmented shell').not.toBe('rgba(0, 0, 0, 0)')
+          expect.soft(await computed(page, `${pagination} .q-btn`, 'border-top-color'), 'Feather QPagination removes per-button boxes').toBe('rgba(0, 0, 0, 0)')
           expect.soft(await computed(page, `${pagination} .q-btn`, 'box-shadow'), 'Feather QPagination stays flat').toBe('none')
         }
 
