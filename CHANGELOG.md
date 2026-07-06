@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [0.5.2] — 2026-07-06
+
+### Changed
+
+- Softened the default Fluent card material by reducing resting card border mix and dark elevation weight.
+- Retuned Air dark surfaces toward a cooler, airier material so Air separates more clearly from dark Fluent.
+- Reworked `QBtnGroup`, `QBtnToggle`, and `QPagination` into cohesive segmented controls with shared shells and internal dividers instead of per-button boxes.
+- Deepened `QDate` day/month/year, selected, today, focus, and range-state styling with tokenized rounded cells and range fills.
+
+### Fixed
+
+- Added gallery and Histoire `QDate` range examples plus Playwright assertions so range styling is covered by the release gate.
+- Updated gallery visual assertions for the new Fluent/Air token contract and stabilized variant restoration after the legacy `glass` alias check.
+
 ## [0.5.1] — 2026-07-02
 
 ### Added
