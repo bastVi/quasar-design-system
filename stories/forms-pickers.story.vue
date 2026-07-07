@@ -46,14 +46,20 @@ const inputDisabled = ref('Disabled field')
 const selectReadonly = ref('Comfortable')
 const selectError = ref('Compact')
 const selectDisabled = ref('Touch')
+const selectMultiple = ref(['Compact', 'Touch'])
 const file = ref<File | null>(null)
 const date = ref('2026/07/02')
+const dateMonthView = ref('2026/07/02')
+const dateYearView = ref('2026/07/02')
 const dateRange = ref({ from: '2026/07/06', to: '2026/07/12' })
 const time = ref('10:30')
 const color = ref('#6366f1')
+const colorAlpha = ref('rgba(99, 102, 241, 0.72)')
+const colorTune = ref('rgba(245, 158, 11, 0.84)')
 const popupLabel = ref('Inline editable label')
 const slider = ref(64)
 const range = ref({ min: 22, max: 78 })
+const timeHourOptions = [9, 10, 11]
 
 const densityOptions = [
   { label: 'Compact', value: 'compact' },
@@ -68,6 +74,10 @@ const capabilityOptions = [
 ]
 
 const selectOptions = ['Compact', 'Comfortable', 'Touch']
+
+function dateSelectable(day: string) {
+  return !day.endsWith('/03') && !day.endsWith('/15')
+}
 
 function applyTheme() {
   designSystem.setMode(mode.value)
@@ -151,7 +161,7 @@ const rootState = computed(() => {
                       <div class="text-overline qds-text-muted">QDate</div>
                       <h3 class="qds-story-title q-my-sm">Calendar picker</h3>
                       <p class="qds-text-muted">
-                        Static date picker coverage keeps day cells, header, navigation controls, selected state, and range state visible.
+                        Static date picker coverage keeps day cells, disabled days, month/year views, selected state, and range state visible.
                       </p>
                       <div class="row items-center q-gutter-sm">
                         <PhCalendarDots :size="28" weight="duotone" />
@@ -160,8 +170,10 @@ const rootState = computed(() => {
                     </div>
                     <div class="col-12 col-md-7">
                       <div class="qds-story-stack qds-story-stack--relaxed">
-                        <QDate v-model="date" flat bordered class="qds-story-picker" />
+                        <QDate v-model="date" :options="dateSelectable" flat bordered class="qds-story-picker" />
                         <QDate v-model="dateRange" range flat bordered class="qds-story-picker" />
+                        <QDate v-model="dateMonthView" default-view="Months" flat bordered class="qds-story-picker" />
+                        <QDate v-model="dateYearView" default-view="Years" flat bordered class="qds-story-picker" />
                       </div>
                     </div>
                   </div>
@@ -182,6 +194,7 @@ const rootState = computed(() => {
                     <QSelect v-model="selectReadonly" :options="selectOptions" label="Readonly select" outlined readonly />
                     <QSelect v-model="selectError" :options="selectOptions" label="Error select" outlined error error-message="Selection needs review" />
                     <QSelect v-model="selectDisabled" :options="selectOptions" label="Disabled select" outlined disable />
+                    <QSelect v-model="selectMultiple" :options="selectOptions" label="Multiple select chips" outlined multiple use-chips behavior="menu" />
                     <QFile v-model="file" label="File input" outlined clearable counter display-value="design-tokens.pdf" />
                   </div>
                 </QCard>
@@ -192,11 +205,13 @@ const rootState = computed(() => {
                   <div class="text-overline qds-text-muted">QTime, QColor, QPopupEdit, QSlider, QRange</div>
                   <h3 class="qds-story-title q-my-sm">Picker and edit surfaces</h3>
                   <p class="qds-text-muted">
-                    Static picker surfaces, popup editing chrome, and range controls expose sub-elements for visual review.
+                    Static picker surfaces expose AM/PM, landscape, spectrum/tune/alpha, popup editing chrome, and range controls.
                   </p>
                   <div class="qds-story-stack qds-story-stack--relaxed">
-                    <QTime v-model="time" flat bordered format24h class="qds-story-picker" />
+                    <QTime v-model="time" flat bordered landscape :format24h="false" :hour-options="timeHourOptions" class="qds-story-picker" />
                     <QColor v-model="color" default-view="palette" class="qds-story-picker" />
+                    <QColor v-model="colorAlpha" default-view="spectrum" format-model="rgba" class="qds-story-picker" />
+                    <QColor v-model="colorTune" default-view="tune" format-model="rgba" class="qds-story-picker" />
                     <div class="qds-story-edit-target">
                       {{ popupLabel }}
                       <QPopupEdit v-model="popupLabel" buttons v-slot="scope">

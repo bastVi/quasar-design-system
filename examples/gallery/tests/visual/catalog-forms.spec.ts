@@ -1,7 +1,7 @@
 import { expect, test, type Page } from '@playwright/test'
 
 type Mode = 'light' | 'dark'
-type Variant = 'fluent' | 'air' | 'mobile'
+type Variant = 'fluent' | 'air' | 'mobile' | 'feather' | 'terminal'
 
 async function applyTheme(page: Page, mode: Mode, variant: Variant) {
   await page.evaluate(
@@ -85,6 +85,14 @@ test.describe('QDS catalog form picker gate', () => {
       await computedPseudo(page, '[data-test="qds-catalog-select-error"] .q-field__control', '::after', 'border-top-color'),
       'QSelect error outline uses negative token',
     ).toBe(negative)
+    await expect(page.locator('[data-test="qds-catalog-select-multiple"] .q-chip').first(), 'QSelect multiple chip rendered').toBeVisible()
+    expect.soft(await computed(page, '[data-test="qds-catalog-select-multiple"] .q-chip', 'border-radius'), 'QSelect chips use chip radius').not.toBe('0px')
+    expect.soft(await computed(page, '[data-test="qds-catalog-select-multiple"] .q-chip', 'background-color'), 'QSelect chips are token surfaced').not.toBe('rgba(0, 0, 0, 0)')
+    await page.locator('[data-test="qds-catalog-select-multiple"] .q-field').click()
+    await expect(page.locator('.q-menu').last(), 'QSelect menu opens deterministically').toBeVisible()
+    await expect(page.locator('.q-menu .q-item[aria-selected="true"]').first(), 'QSelect selected option is exposed in menu').toBeVisible()
+    expect.soft(await computed(page, '.q-menu .q-item[aria-selected="true"]', 'background-color'), 'QSelect selected menu item has a visible state layer').not.toBe('rgba(0, 0, 0, 0)')
+    await page.keyboard.press('Escape')
 
     await expect(page.locator('[data-test="qds-catalog-checkbox"] .q-checkbox__bg')).toBeVisible()
     await expect(page.locator('[data-test="qds-catalog-radio"] .q-radio__bg')).toBeVisible()
@@ -131,10 +139,18 @@ test.describe('QDS catalog form picker gate', () => {
     await expect(page.locator('[data-test="qds-catalog-color"] .q-color-picker__header-tabs')).toBeVisible()
     await expect(page.locator('[data-test="qds-catalog-color"] .q-color-picker__footer')).toBeVisible()
     await expect(page.locator('[data-test="qds-catalog-color"] .q-color-picker__cube').first()).toBeVisible()
+    await expect(page.locator('[data-test="qds-catalog-color-spectrum"] .q-color-picker__spectrum')).toBeVisible()
+    await expect(page.locator('[data-test="qds-catalog-color-spectrum"] .q-color-picker__alpha')).toBeVisible()
+    await expect(page.locator('[data-test="qds-catalog-color-tune"] .q-color-picker__tune-tab input').first()).toBeVisible()
 
     expect.soft(await computed(page, '[data-test="qds-catalog-color"] .q-color-picker__header-bg', 'background-image'), 'QColor checker uses tokenized gradients').not.toContain('data:image')
     expect.soft(await computed(page, '[data-test="qds-catalog-color"] .q-tab.q-tab--active', 'border-radius'), 'QColor tabs are softened').not.toBe('0px')
     expect.soft(await computed(page, '[data-test="qds-catalog-color"] .q-tab.q-tab--active', 'transition-property'), 'QColor tabs animate state changes').toContain('box-shadow')
+    expect.soft(await computed(page, '[data-test="qds-catalog-color-spectrum"] .q-color-picker__spectrum', 'border-radius'), 'QColor spectrum is framed').not.toBe('0px')
+    expect.soft(await computed(page, '[data-test="qds-catalog-color-spectrum"] .q-color-picker__alpha .q-slider__track-container', 'background-image'), 'QColor alpha slider exposes checker pattern').not.toBe('none')
+    expect.soft(await computed(page, '[data-test="qds-catalog-color-tune"] .q-color-picker__tune-tab > .row', 'background-color'), 'QColor tune rows are surfaced').not.toBe('rgba(0, 0, 0, 0)')
+    await page.locator('[data-test="qds-catalog-color-tune"] .q-color-picker__tune-tab input').first().focus()
+    expect.soft(await computed(page, '[data-test="qds-catalog-color-tune"] .q-color-picker__tune-tab input', 'outline-style'), 'QColor tune input focus ring is visible').toBe('solid')
     expect.soft(await computed(page, '[data-test="qds-catalog-color"] .q-color-picker__cube', 'border-radius'), 'QColor swatches are softened').not.toBe('0px')
     expect.soft(await computed(page, '[data-test="qds-catalog-color"] .q-color-picker__cube', 'aspect-ratio'), 'QColor swatches stay square').toBe('1 / 1')
     const swatchDelta = await page.locator('[data-test="qds-catalog-color"] .q-color-picker__cube').first().evaluate((el) => {
@@ -151,6 +167,12 @@ test.describe('QDS catalog form picker gate', () => {
     expect.soft(await selectedDate.evaluate((el) => getComputedStyle(el as Element).backgroundColor), 'QDate selected day uses primary').toBe(primary)
     expect.soft(await selectedDate.evaluate((el) => getComputedStyle(el as Element).color), 'QDate selected day uses on-solid text').toBe(onSolid)
     expect.soft(await computed(page, '[data-test="qds-catalog-date"] .q-date__header', 'background-color'), 'QDate header is not transparent').not.toBe('rgba(0, 0, 0, 0)')
+    await expect(page.locator('[data-test="qds-catalog-date"] .q-date__calendar-item--out').first(), 'QDate disabled/out day rendered').toBeVisible()
+    expect.soft(await computed(page, '[data-test="qds-catalog-date"] .q-date__calendar-item--out > div', 'background-color'), 'QDate out days retain a subtle disabled surface').not.toBe('rgba(0, 0, 0, 0)')
+    await expect(page.locator('[data-test="qds-catalog-date-months"] .q-date__months')).toBeVisible()
+    await expect(page.locator('[data-test="qds-catalog-date-years"] .q-date__years')).toBeVisible()
+    expect.soft(await computed(page, '[data-test="qds-catalog-date-months"] .q-date__months', 'gap'), 'QDate month grid has native picker rhythm').not.toBe('0px')
+    expect.soft(await computed(page, '[data-test="qds-catalog-date-years"] .q-date__years-content', 'gap'), 'QDate year grid has native picker rhythm').not.toBe('0px')
 
     await expect(page.locator('[data-test="qds-catalog-date-range"] .q-date__range').first(), 'QDate range middle rendered').toBeVisible()
     await expect(page.locator('[data-test="qds-catalog-date-range"] .q-date__range-from').first(), 'QDate range start rendered').toBeVisible()
@@ -164,5 +186,15 @@ test.describe('QDS catalog form picker gate', () => {
     expect.soft(await activeTime.evaluate((el) => getComputedStyle(el as Element).backgroundColor), 'QTime active tick uses primary').toBe(primary)
     expect.soft(await activeTime.evaluate((el) => getComputedStyle(el as Element).color), 'QTime active tick uses on-solid text').toBe(onSolid)
     expect.soft(await computed(page, '[data-test="qds-catalog-time"] .q-time__container-child', 'background-color'), 'QTime clock face is token surfaced').not.toBe('rgba(0, 0, 0, 0.12)')
+    await expect(page.locator('[data-test="qds-catalog-time"] .q-time__header-ampm')).toBeVisible()
+    await expect(page.locator('[data-test="qds-catalog-time"].q-time--landscape')).toBeVisible()
+    await expect(page.locator('[data-test="qds-catalog-time"] .q-time__clock-position--disable').first(), 'QTime disabled clock positions rendered').toBeVisible()
+    expect.soft(await computed(page, '[data-test="qds-catalog-time"] .q-time__header-ampm', 'border-radius'), 'QTime AM/PM group is a segmented control').not.toBe('0px')
+    expect.soft(await computed(page, '[data-test="qds-catalog-time"] .q-time__clock-position--disable', 'cursor'), 'QTime disabled positions communicate unavailable state').toBe('not-allowed')
+
+    await page.locator('[data-test="qds-catalog-popup-edit-target"]').click()
+    await expect(page.locator('.q-popup-edit').last(), 'QPopupEdit popup opens deterministically').toBeVisible()
+    expect.soft(await computed(page, '.q-popup-edit', 'border-radius'), 'QPopupEdit popup uses menu radius').not.toBe('0px')
+    expect.soft(await computed(page, '.q-popup-edit', 'background-color'), 'QPopupEdit popup uses surfaced background').not.toBe('rgba(0, 0, 0, 0)')
   })
 })

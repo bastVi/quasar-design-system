@@ -9,6 +9,8 @@ type UploaderProbe = {
 
 const step = ref(2)
 const carouselSlide = ref('air')
+const carouselAutoplay = ref(false)
+const carouselFullscreen = ref(false)
 const splitter = ref(42)
 const knob = ref(64)
 const editor = ref('<p><strong>Token notes</strong> stay local to the gallery.</p>')
@@ -17,6 +19,25 @@ const uploader = ref<UploaderProbe | null>(null)
 const virtualItems = Array.from({ length: 18 }, (_, index) => `Virtual row ${index + 1}`)
 const infiniteItems = ['Loaded block 1', 'Loaded block 2', 'Loaded block 3']
 const uploadFactory = () => Promise.resolve({ url: '' })
+const editorToolbar = [
+  ['bold', 'italic', 'underline'],
+  [
+    {
+      label: 'Format',
+      icon: 'title',
+      list: 'no-icons',
+      options: ['p', 'h5', 'h6', 'code'],
+    },
+    {
+      label: 'Align',
+      icon: 'format_align_left',
+      fixedLabel: true,
+      options: ['left', 'center', 'right', 'justify'],
+    },
+  ],
+  ['quote', 'unordered', 'ordered'],
+  ['fullscreen'],
+]
 
 function makeProbeFile(name: string, size: number, type = 'text/plain'): File {
   return new File([new Uint8Array(size).fill(65)], name, { type, lastModified: 86 })
@@ -134,9 +155,37 @@ function refresh(done: () => void): void {
     <div class="catalog-grid catalog-grid--two">
       <div class="catalog-demo">
         <div class="catalog-label">QStepper</div>
-        <q-stepper v-model="step" flat bordered animated color="primary">
-          <q-step :name="1" title="Tokens" icon="palette" :done="step > 1">Define values.</q-step>
-          <q-step :name="2" title="Components" icon="widgets">Exercise Quasar surfaces.</q-step>
+        <q-stepper
+          v-model="step"
+          flat
+          bordered
+          animated
+          vertical
+          header-nav
+          color="primary"
+          done-color="positive"
+          error-color="negative"
+          data-test="qds-stepper"
+        >
+          <q-step :name="1" title="Tokens" caption="Done" icon="palette" done>
+            Token aliases and semantic CSS variables are ready.
+          </q-step>
+
+          <q-step :name="2" title="Components" caption="Editable active step" icon="widgets">
+            Exercise Quasar surfaces with a visible vertical rail and navigation slot.
+            <q-stepper-navigation data-test="qds-stepper-nav">
+              <q-btn color="primary" unelevated no-caps label="Continue" />
+              <q-btn flat no-caps color="primary" label="Back" class="q-ml-sm" />
+            </q-stepper-navigation>
+          </q-step>
+
+          <q-step :name="3" title="Native parity" caption="Error proof" icon="warning" error>
+            Error styling stays tokenized without changing stepper logic.
+          </q-step>
+
+          <q-step :name="4" title="Release note" caption="Done" icon="check_circle" done>
+            Completed state verifies the positive rail and marker treatment.
+          </q-step>
         </q-stepper>
       </div>
 
@@ -182,14 +231,50 @@ function refresh(done: () => void): void {
           animated
           arrows
           navigation
+          thumbnails
+          swipeable
+          infinite
+          v-model:fullscreen="carouselFullscreen"
+          :autoplay="carouselAutoplay ? 3500 : false"
           height="280px"
           class="catalog-media"
           data-test="qds-carousel"
         >
+          <template #control>
+            <q-carousel-control position="top-right" :offset="[12, 12]">
+              <div class="catalog-carousel-controls" data-test="qds-carousel-controls">
+                <q-btn
+                  dense
+                  round
+                  unelevated
+                  :color="carouselAutoplay ? 'primary' : 'white'"
+                  :text-color="carouselAutoplay ? 'white' : 'primary'"
+                  :icon="carouselAutoplay ? 'pause' : 'play_arrow'"
+                  :aria-pressed="carouselAutoplay"
+                  aria-label="Toggle local autoplay"
+                  data-test="qds-carousel-autoplay"
+                  @click="carouselAutoplay = !carouselAutoplay"
+                />
+                <q-btn
+                  dense
+                  round
+                  unelevated
+                  color="white"
+                  text-color="primary"
+                  icon="fullscreen"
+                  aria-label="Toggle carousel fullscreen"
+                  data-test="qds-carousel-fullscreen"
+                  @click="carouselFullscreen = !carouselFullscreen"
+                />
+              </div>
+            </q-carousel-control>
+          </template>
+
           <q-carousel-slide
             v-for="slide in carouselSlides"
             :key="slide.name"
             :name="slide.name"
+            :img-src="slide.src"
             class="catalog-carousel-slide q-pa-none"
           >
             <q-img :src="slide.src" class="catalog-carousel-image" fit="cover" no-spinner>
@@ -287,7 +372,7 @@ function refresh(done: () => void): void {
         <q-editor
           v-model="editor"
           min-height="8rem"
-          :toolbar="[['bold', 'italic'], ['quote', 'unordered', 'ordered']]"
+          :toolbar="editorToolbar"
           data-test="qds-editor"
         />
       </div>
@@ -304,8 +389,74 @@ function refresh(done: () => void): void {
           multiple
           no-thumbnails
           hide-upload-btn
+        >
+          <template #header="scope">
+            <div class="catalog-uploader-header">
+              <q-uploader-add-trigger />
+              <div>
+                <div class="text-weight-semibold">Uploader state proof</div>
+                <div class="text-caption qds-text-muted">Queued, progress, failed, uploaded, remove, and local-only upload affordances.</div>
+              </div>
+              <q-space />
+              <q-btn dense round flat icon="add" aria-label="Add local files" data-test="qds-uploader-add" />
+              <q-btn
+                dense
+                round
+                flat
+                icon="cloud_upload"
+                aria-label="Local upload intentionally disabled"
+                data-test="qds-uploader-upload"
+                :disable="scope.files.length === 0"
+                @click.stop.prevent
+              />
+              <q-btn
+                dense
+                round
+                flat
+                icon="delete"
+                aria-label="Remove queued files"
+                data-test="qds-uploader-clear"
+                :disable="scope.files.length === 0"
+                @click="scope.removeQueuedFiles"
+              />
+            </div>
+          </template>
+        </q-uploader>
+
+        <q-uploader
+          disable
+          label="Disabled upload shell"
+          class="full-width q-mt-md"
+          data-test="qds-uploader-disabled"
+          :factory="uploadFactory"
+          :auto-upload="false"
+          no-thumbnails
+          hide-upload-btn
         />
       </div>
     </div>
   </q-card>
 </template>
+
+<style scoped>
+.catalog-carousel-controls,
+.catalog-uploader-header {
+  display: flex;
+  align-items: center;
+  gap: var(--qds-space-sm);
+}
+
+.catalog-carousel-controls {
+  padding: var(--qds-space-2xs, 0.125rem);
+  border-radius: var(--qds-radius-full);
+}
+
+.catalog-uploader-header {
+  position: relative;
+  min-height: 4.75rem;
+  padding: var(--qds-space-md);
+  color: var(--qds-text-strong);
+  background: color-mix(in srgb, var(--qds-surface-1) 86%, var(--qds-color-primary) 6%);
+  border-bottom: var(--qds-border-width-control) solid var(--qds-separator-color);
+}
+</style>

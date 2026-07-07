@@ -21,6 +21,7 @@ const AXE_EXCLUSIONS: Record<GalleryTab, string[]> = {
   components: ['.q-slider', '.q-range'],
   catalog: [
     '.q-color-picker',
+    '.q-color-picker input',
     '.q-date',
     '.q-time',
     '.q-slider',

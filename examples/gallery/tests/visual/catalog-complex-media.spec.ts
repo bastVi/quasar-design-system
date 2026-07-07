@@ -54,6 +54,14 @@ test.describe('QDS catalog complex media gate', () => {
     expect.soft(await computed(page, sentStamp, 'color'), 'sent chat stamp keeps contrast on primary bubble').not.toBe('rgb(100, 116, 139)')
     expect.soft(await computed(page, receivedBubble, 'border-top-width'), 'received chat bubble keeps QDS border').toBe('1px')
 
+    const stepper = page.locator('[data-test="qds-stepper"]')
+    await expect(stepper).toHaveClass(/q-stepper--vertical/)
+    await expect(stepper.locator('.q-stepper__tab--done')).toHaveCount(2)
+    await expect(stepper.locator('.q-stepper__tab--active')).toContainText('Components')
+    await expect(stepper.locator('.q-stepper__tab--error')).toContainText('Native parity')
+    await expect(page.locator('[data-test="qds-stepper-nav"]')).toBeVisible()
+    expect.soft(await computed(page, '[data-test="qds-stepper"] .q-stepper__step-content', 'border-left-width'), 'vertical stepper uses QDS progress rail').toBe('2px')
+
     const carousel = page.locator('[data-test="qds-carousel"]')
     await expect(carousel).toBeVisible()
     await expect(carousel.locator('.q-carousel__slide:not(.q-carousel__slide--hidden) .catalog-carousel-image')).toBeVisible()
@@ -62,6 +70,11 @@ test.describe('QDS catalog complex media gate', () => {
       'carousel image uses owned SVG data',
     ).toHaveAttribute('src', /^data:image\/svg\+xml/)
     expect.soft(await computed(page, '[data-test="qds-carousel"]', 'border-radius'), 'carousel QDS radius').toBe('12px')
+    await expect(page.locator('[data-test="qds-carousel-controls"]')).toBeVisible()
+    await expect(carousel.locator('.q-carousel__navigation .q-btn')).toHaveCount(3)
+    expect.soft(await computed(page, '[data-test="qds-carousel"] .q-carousel__navigation .q-btn', 'border-top-width'), 'carousel thumbnail navigation gets QDS frame').toBe('1px')
+    await page.locator('[data-test="qds-carousel-autoplay"]').click()
+    await expect(page.locator('[data-test="qds-carousel-autoplay"]')).toHaveAttribute('aria-pressed', 'true')
 
     await expect(page.locator('[data-test="qds-video"] iframe')).toHaveAttribute('src', /^data:text\/html/)
     expect.soft(await computed(page, '[data-test="qds-video"]', 'border-top-width'), 'QVideo QDS frame').toBe('1px')
@@ -84,10 +97,13 @@ test.describe('QDS catalog complex media gate', () => {
       await expect(page.locator('[data-test="qds-splitter"]')).toBeVisible()
       await expect(page.locator('[data-test="qds-editor"]')).toBeVisible()
       await expect(page.locator('[data-test="qds-uploader"]')).toBeVisible()
+      await expect(page.locator('[data-test="qds-uploader-disabled"]')).toBeVisible()
 
       expect.soft(await computed(page, '[data-test="qds-carousel"]', 'border-radius'), `${variant} carousel radius`).toBe(EXPECTED_MEDIA_RADIUS[variant])
+      expect.soft(await computed(page, '[data-test="qds-stepper"] .q-stepper__tab--error', 'background-color'), `${variant} stepper error tab is themed`).not.toBe('rgba(0, 0, 0, 0)')
       expect.soft(await computed(page, '[data-test="qds-editor"]', 'border-top-width'), `${variant} editor keeps framed chrome`).toBe('1px')
       expect.soft(await computed(page, '[data-test="qds-uploader"]', 'border-top-width'), `${variant} uploader keeps framed chrome`).toBe('1px')
+      expect.soft(await computed(page, '[data-test="qds-uploader-disabled"]', 'opacity'), `${variant} disabled uploader state is softened`).toBe('0.68')
       expect.soft(await computed(page, '[data-test="qds-scroll-area"] .q-scrollarea__thumb', 'background-color'), `${variant} scroll thumb is themed`).not.toBe('rgba(0, 0, 0, 0)')
       expect.soft(await computed(page, '[data-test="qds-splitter"] > .q-splitter__separator', 'background-color', '::before'), `${variant} splitter handle is themed`).not.toBe('rgba(0, 0, 0, 0)')
 
@@ -117,5 +133,25 @@ test.describe('QDS catalog complex media gate', () => {
     await expect(failed.locator('.q-uploader__file-status')).toBeVisible()
     await expect(uploaded).toHaveClass(/q-uploader__file--uploaded/)
     await expect(uploaded).toContainText('100.00%')
+
+    await expect(uploader.locator('[data-test="qds-uploader-add"]')).toBeVisible()
+    await expect(uploader.locator('[data-test="qds-uploader-upload"]')).toBeEnabled()
+    await expect(uploader.locator('[data-test="qds-uploader-clear"]')).toBeEnabled()
+    await expect(queued.locator('.q-btn').first(), 'queued file exposes remove affordance').toBeVisible()
+    await expect(page.locator('[data-test="qds-uploader-disabled"]')).toHaveClass(/disabled/)
+  })
+
+  test('QEditor exposes focused and dropdown toolbar states', async ({ page }) => {
+    await page.goto('/')
+    await page.getByRole('tab', { name: 'Catalog' }).click()
+    await applyTheme(page, 'light', 'fluent')
+
+    const editor = page.locator('[data-test="qds-editor"]')
+    await page.focus('[data-test="qds-editor"] .q-editor__content')
+    expect.soft(await computed(page, '[data-test="qds-editor"]', 'border-top-color'), 'focused editor receives QDS focus border').toBe('rgb(0, 90, 158)')
+    await expect(editor.locator('.q-btn-dropdown')).toHaveCount(2)
+
+    await editor.locator('.q-btn-dropdown').first().click()
+    await expect(page.locator('.q-menu').first()).toBeVisible()
   })
 })

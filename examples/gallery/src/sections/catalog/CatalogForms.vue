@@ -13,15 +13,25 @@ const inputDisabled = ref('Disabled input')
 const selectReadonly = ref('Comfortable')
 const selectError = ref('Compact')
 const selectDisabled = ref('Touch')
+const selectMultiple = ref(['Compact', 'Touch'])
 const slider = ref(62)
 const range = ref({ min: 24, max: 78 })
 const color = ref('#6366f1')
+const colorAlpha = ref('rgba(99, 102, 241, 0.72)')
+const colorTune = ref('rgba(245, 158, 11, 0.84)')
 const date = ref('2029/08/17')
+const dateMonthView = ref('2029/08/17')
+const dateYearView = ref('2029/08/17')
 const dateRange = ref({ from: '2029/08/14', to: '2029/08/20' })
 const time = ref('10:30')
 const popupLabel = ref('Editable label')
 
 const selectOptions = ['Compact', 'Comfortable', 'Touch']
+const timeHourOptions = [9, 10, 11]
+
+function dateSelectable(day: string) {
+  return !day.endsWith('/16') && !day.endsWith('/22')
+}
 
 const optionChoices = [
   { label: 'Compact cards', value: 'compact' },
@@ -68,6 +78,9 @@ const checkboxChoices = [
             <div data-test="qds-catalog-select-disabled">
               <q-select v-model="selectDisabled" name="catalog-select-disabled" :options="selectOptions" label="Disabled" outlined disable />
             </div>
+            <div data-test="qds-catalog-select-multiple">
+              <q-select v-model="selectMultiple" name="catalog-select-multiple" :options="selectOptions" label="Multiple chips" outlined multiple use-chips behavior="menu" />
+            </div>
           </div>
         </div>
 
@@ -112,8 +125,24 @@ const checkboxChoices = [
         </div>
 
         <div class="catalog-demo">
+          <div class="catalog-label">QColor spectrum &amp; tune</div>
+          <div class="catalog-stack catalog-stack--relaxed">
+            <q-color v-model="colorAlpha" name="catalog-color-spectrum" default-view="spectrum" format-model="rgba" class="catalog-picker" data-test="qds-catalog-color-spectrum" />
+            <q-color v-model="colorTune" name="catalog-color-tune" default-view="tune" format-model="rgba" class="catalog-picker" data-test="qds-catalog-color-tune" />
+          </div>
+        </div>
+
+        <div class="catalog-demo">
           <div class="catalog-label">QDate</div>
-          <q-date v-model="date" name="catalog-date" flat bordered class="catalog-picker" data-test="qds-catalog-date" />
+          <q-date v-model="date" name="catalog-date" :options="dateSelectable" flat bordered class="catalog-picker" data-test="qds-catalog-date" />
+        </div>
+
+        <div class="catalog-demo">
+          <div class="catalog-label">QDate month/year views</div>
+          <div class="catalog-stack catalog-stack--relaxed">
+            <q-date v-model="dateMonthView" name="catalog-date-months" default-view="Months" flat bordered class="catalog-picker" data-test="qds-catalog-date-months" />
+            <q-date v-model="dateYearView" name="catalog-date-years" default-view="Years" flat bordered class="catalog-picker" data-test="qds-catalog-date-years" />
+          </div>
         </div>
 
         <div class="catalog-demo">
@@ -122,13 +151,13 @@ const checkboxChoices = [
         </div>
 
         <div class="catalog-demo">
-          <div class="catalog-label">QTime</div>
-          <q-time v-model="time" name="catalog-time" flat bordered format24h class="catalog-picker" data-test="qds-catalog-time" />
+          <div class="catalog-label">QTime AM/PM landscape</div>
+          <q-time v-model="time" name="catalog-time" flat bordered landscape :format24h="false" :hour-options="timeHourOptions" class="catalog-picker" data-test="qds-catalog-time" />
         </div>
 
         <div class="catalog-demo">
           <div class="catalog-label">QPopupEdit</div>
-          <div class="catalog-edit-target">
+          <div class="catalog-edit-target" data-test="qds-catalog-popup-edit-target">
             {{ popupLabel }}
             <q-popup-edit v-model="popupLabel" buttons v-slot="scope">
               <q-input v-model="scope.value" name="catalog-popup-edit" dense autofocus @keyup.enter="scope.set" />

@@ -22,9 +22,10 @@ selectors. Anything that is not generic, reusable visual language does not belon
 - `pnpm gallery:build` — build the static gallery.
 - `pnpm gallery:test` — Playwright visual gate (the release gate; keep it green).
 
-There is **no build/compile/test/lint step**: the package publishes raw `src/` (`main` and `types` in
-`package.json` both point at `src/index.ts`; `exports` expose the `.scss` paths directly). Consumers'
-build pipelines compile the TS and SCSS. Validate work via `typecheck` + visual review in the gallery.
+The package publishes built TypeScript runtime entrypoints in `dist/` (`main` and `types` in
+`package.json` point at compiled ESM and `.d.ts` files), while SCSS and font exports remain source-first
+from `src/`. Run `pnpm build` after changing exported `.ts` files so the gallery and package exports use
+fresh compiled runtime code. Validate visual work via `typecheck` + visual review in the gallery.
 
 ## Architecture
 
@@ -66,13 +67,13 @@ and `@include` it in `index.scss` (and the layered entry).
   `$q.dark`, and writes `data-qds-mode` / `data-qds-resolved` / `data-qds-variant` plus the
   `qds-theme-light|dark` and `.qds-ui` classes onto the target (default `document.body`).
 - `.qds-ui` is the scoping class the stronger overrides depend on — it is added here, not by hand.
-- Applies the `variant` as a body class (`qds-variant-fluent|air|mobile`; legacy `glass` normalizes to `air`).
+- Applies the `variant` as a body class (`qds-variant-fluent|air|mobile|feather|terminal`; legacy `glass` normalizes to `air`).
 - Persists `{ mode, variant }` to `localStorage` and listens to system theme changes. Defaults live
   in `DEFAULT_DESIGN_SYSTEM_OPTIONS`.
 
 ### Themes vs variants — `src/themes/index.ts`
 
-There is **one theme** (`default`). "Variants" (`fluent`, `air`, `mobile`) are small mood shifts
+There is **one theme** (`default`). "Variants" (`fluent`, `air`, `mobile`, `feather`, `terminal`) are small mood shifts
 expressed purely as CSS classes (`DESIGN_SYSTEM_VARIANTS[*].cssClass`) over the same token system —
 not separate brands. New themes start as variables-only files: `src/themes/{name}.scss` for CSS
 vars/classes + registration metadata in `src/themes/index.ts`. Keep `src/themes/` free of component
