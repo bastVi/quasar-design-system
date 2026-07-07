@@ -24,6 +24,9 @@ importers:
       '@phosphor-icons/vue':
         specifier: ^2.2.1
         version: 2.2.1(vue@3.5.38(typescript@5.9.3))
+      '@quasar/quasar-ui-qwindow':
+        specifier: ^3.0.0
+        version: 3.0.0
       '@types/node':
         specifier: ^24.0.0
         version: 24.13.2
@@ -60,6 +63,9 @@ importers:
       '@phosphor-icons/vue':
         specifier: ^2.2.1
         version: 2.2.1(vue@3.5.38(typescript@5.9.3))
+      '@quasar/quasar-ui-qwindow':
+        specifier: ^3.0.0
+        version: 3.0.0
       quasar:
         specifier: ^2.18.0
         version: 2.20.0
@@ -514,6 +520,10 @@ packages:
 
   '@polka/url@1.0.0-next.29':
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
+
+  '@quasar/quasar-ui-qwindow@3.0.0':
+    resolution: {integrity: sha512-MS01GHlLe2ckftwoXNWClKnD6vnRKTdlE/KlJG0XCsa9DGBcg/sUyIULzxCHGVqTA9uovvnzVbkI/SzH6OckrA==}
+    engines: {node: '>=22.13', pnpm: '>=11.5.0'}
 
   '@quasar/vite-plugin@1.12.0':
     resolution: {integrity: sha512-EME6h0bhsHJgpRGeJA2BvC7R5rtZGg/FWCeWAH34c0wcV77n5iIRC3jsp9Ju6gW557sOiczJXxChmhYikTrWEw==}
@@ -2027,6 +2037,8 @@ snapshots:
       playwright: 1.61.0
 
   '@polka/url@1.0.0-next.29': {}
+
+  '@quasar/quasar-ui-qwindow@3.0.0': {}
 
   '@quasar/vite-plugin@1.12.0(@vitejs/plugin-vue@6.0.7(vite@7.3.5(@types/node@24.13.2)(jiti@2.7.0)(sass-embedded@1.100.0)(sass@1.101.0))(vue@3.5.38(typescript@5.9.3)))(quasar@2.20.0)(vite@7.3.5(@types/node@24.13.2)(jiti@2.7.0)(sass-embedded@1.100.0)(sass@1.101.0))(vue@3.5.38(typescript@5.9.3))':
     dependencies:

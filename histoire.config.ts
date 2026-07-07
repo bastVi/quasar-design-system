@@ -10,5 +10,8 @@ export default defineConfig({
   vite: {
     base: './',
     plugins: [vue()],
+    ssr: {
+      noExternal: ['@quasar/quasar-ui-qwindow'],
+    },
   },
 })

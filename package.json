@@ -39,8 +39,14 @@
       "types": "./dist/icons/quasar-icon-set.d.ts",
       "import": "./dist/icons/quasar-icon-set.js"
     },
+    "./qwindow": {
+      "types": "./dist/qwindow.d.ts",
+      "import": "./dist/qwindow.js"
+    },
     "./css": "./src/css/index.scss",
     "./css/layered": "./src/css/index.layered.scss",
+    "./css/extensions/qwindow": "./src/css/extensions/qwindow.scss",
+    "./css/extensions/qwindow/layered": "./src/css/extensions/qwindow.layered.scss",
     "./quasar-variables": "./src/quasar.variables.scss",
     "./tokens/default": "./src/tokens/_default.scss",
     "./themes/default": "./src/themes/default.scss",
@@ -87,11 +93,15 @@
   "homepage": "https://github.com/bastVi/quasar-design-system#readme",
   "peerDependencies": {
     "@phosphor-icons/vue": "^2.0.0",
+    "@quasar/quasar-ui-qwindow": "^3.0.0",
     "quasar": "^2.0.0",
     "vue": "^3.0.0"
   },
   "peerDependenciesMeta": {
     "@phosphor-icons/vue": {
+      "optional": true
+    },
+    "@quasar/quasar-ui-qwindow": {
       "optional": true
     }
   },
@@ -100,6 +110,7 @@
     "@fontsource-variable/open-sans": "^5.2.7",
     "@histoire/plugin-vue": "^1.0.0-alpha.2",
     "@phosphor-icons/vue": "^2.2.1",
+    "@quasar/quasar-ui-qwindow": "^3.0.0",
     "@types/node": "^24.0.0",
     "@vitejs/plugin-vue": "^6.0.0",
     "histoire": "^1.0.0-alpha.2",

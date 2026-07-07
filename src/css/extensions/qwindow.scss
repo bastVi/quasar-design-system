@@ -1,0 +1,5 @@
+// Optional QWindow extension. Import this after @quasar/quasar-ui-qwindow/index.css
+// and after the default QDS CSS bundle.
+@use 'qwindow-styles';
+
+@include qwindow-styles.styles;

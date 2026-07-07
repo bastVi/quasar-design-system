@@ -67,6 +67,28 @@ configureDesignSystem(app, {
 
 Add `qds-ui` to the body automatically through `configureDesignSystem()`. The class scopes the stronger Quasar overrides.
 
+## Optional Modules
+
+Optional modules stay out of the default runtime and CSS bundle. Install their native peer explicitly, import the native CSS first, then import the QDS extension stylesheet.
+
+### QWindow
+
+`QdsWindow` wraps `@quasar/quasar-ui-qwindow` with QDS BEM chrome (`.qds-window`, `.qds-window__*`, `.qds-window--*`) while passing QWindow props, slots, methods, and events through to the native component.
+
+```bash
+pnpm add @quasar/quasar-ui-qwindow @bastvi/quasar-design-system
+```
+
+```ts
+import '@quasar/quasar-ui-qwindow/index.css'
+import '@bastvi/quasar-design-system/css/extensions/qwindow'
+import { QdsWindow } from '@bastvi/quasar-design-system/qwindow'
+```
+
+For layered Quasar setups, use `@bastvi/quasar-design-system/css/extensions/qwindow/layered` instead. Do not import either QWindow stylesheet unless the native QWindow peer is installed and used.
+
+> **Native QWindow minimize caveat:** `@quasar/quasar-ui-qwindow@3.0.0` exposes a `minimize` action/method, but that native action currently throws in its internal state guard. `QdsWindow` therefore treats `minimized` as a consumer-controlled visual state and filters `minimize` out of the native action list. Use your app/state layer (for example quasar-core's taskbar/window store) to hide/restore minimized windows until the peer fixes this action.
+
 ## Buttons
 
 Four usage states over Quasar's native `QBtn`:
@@ -131,6 +153,8 @@ The legacy `glass` value still resolves to `air` for existing consumers, but new
 ## Component Coverage
 
 QDS skins visible Quasar chrome — buttons, cards, inputs, toolbars, drawers, lists, expansion items, and similar surfaces that carry tokenized visual treatment. The release gallery and Histoire catalog exercise the high-value sub-elements across forms/pickers, data/navigation/layout, media/complex/loading, and overlays/plugins.
+
+Public QDS-owned component classes use strict namespaced BEM for new optional modules: block `.qds-window`, elements such as `.qds-window__titlebar`, and modifiers such as `.qds-window--embedded`. Utility hooks such as `.qds-ui`, `.qds-solid`, and variant classes remain intentionally semantic rather than component blocks.
 
 It intentionally does **not** add CSS for behavior-only, SSR, observer, or composable surfaces. These inherit Quasar's own defaults or have no visual representation at all:
 

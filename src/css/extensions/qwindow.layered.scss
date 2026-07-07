@@ -1,0 +1,6 @@
+// Layered optional QWindow extension for apps that also layer Quasar/QWindow CSS.
+@use 'qwindow-styles' as qwindow;
+
+@layer qds.quasar {
+  @include qwindow.styles;
+}
