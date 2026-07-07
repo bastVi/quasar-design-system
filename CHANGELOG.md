@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [0.5.6] — 2026-07-07
+
+### Changed
+
+- Deepened native-pattern styling and proof coverage for complex controls: `QStepper`, `QCarousel`, `QEditor`, and `QUploader` now expose richer active/done/error/navigation, thumbnail/control, toolbar/dropdown/focus, and upload-state treatments.
+- Expanded picker coverage for `QSelect` multiple chips/menu states, `QColor` spectrum/tune/alpha views, `QDate` disabled/month/year views, `QTime` AM/PM landscape mode, and `QPopupEdit` popup chrome.
+- Updated public project guidance to reflect built `dist/` TypeScript entrypoints and the current five built-in variants.
+
+### Fixed
+
+- Kept the catalog a11y gate green after adding QColor tune inputs by extending the existing known Quasar picker exclusion to QColor's internal unlabeled channel inputs.
+
 ## [0.5.5] — 2026-07-07
 
 ### Changed
