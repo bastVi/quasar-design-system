@@ -135,6 +135,7 @@
     height: 2rem;
     padding: 0;
     color: var(--qds-border);
+    transform: none;
   }
 
   .qds-ui .q-toggle.q-toggle--dense .q-toggle__inner {
@@ -143,6 +144,7 @@
     height: 1.25rem;
     padding: 0;
     color: var(--qds-border);
+    transform: none;
   }
 
   .qds-ui .q-checkbox.q-checkbox:focus-visible .q-checkbox__inner,
@@ -163,6 +165,11 @@
     border: var(--qds-border-width-control) solid var(--qds-border);
     border-radius: var(--qds-radius-full);
     opacity: 1;
+    transform: none;
+    transition:
+      background-color var(--qds-motion-fast),
+      border-color var(--qds-motion-fast),
+      box-shadow var(--qds-motion-fast);
   }
 
   .qds-ui .q-toggle.q-toggle--dense .q-toggle__track {
@@ -175,6 +182,11 @@
     border: var(--qds-border-width-control) solid var(--qds-border);
     border-radius: var(--qds-radius-full);
     opacity: 1;
+    transform: none;
+    transition:
+      background-color var(--qds-motion-fast),
+      border-color var(--qds-motion-fast),
+      box-shadow var(--qds-motion-fast);
   }
 
   .qds-ui .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__thumb {
@@ -203,6 +215,10 @@
     background: var(--qds-surface-0);
     border: var(--qds-border-width-control) solid var(--qds-border-subtle);
     box-shadow: var(--qds-shadow-sm);
+    transition:
+      background-color var(--qds-motion-fast),
+      border-color var(--qds-motion-fast),
+      box-shadow var(--qds-motion-fast);
   }
 
   .qds-ui .q-toggle.q-toggle .q-toggle__inner--truthy .q-toggle__track {
@@ -212,12 +228,12 @@
   }
 
   .qds-ui .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__inner--truthy .q-toggle__thumb {
-    inset-inline-start: 1.75rem;
+    inset-inline-start: 1.5rem;
     color: var(--qds-color-primary);
   }
 
   .qds-ui .q-toggle.q-toggle--dense .q-toggle__inner--truthy .q-toggle__thumb {
-    inset-inline-start: 1.25rem;
+    inset-inline-start: 1.125rem;
     color: var(--qds-color-primary);
   }
 

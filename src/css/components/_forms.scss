@@ -357,6 +357,11 @@
 
   .qds-ui .q-color-picker.q-color-picker {
     color: var(--qds-text);
+    overflow: hidden;
+    background: var(--qds-menu-bg);
+    border: var(--qds-border-width-control) solid var(--qds-chrome-border);
+    border-radius: var(--qds-menu-radius);
+    box-shadow: var(--qds-media-frame-shadow);
   }
 
   .qds-ui .q-color-picker.q-color-picker .q-color-picker__header-content,
@@ -392,8 +397,8 @@
   .qds-ui .q-color-picker.q-color-picker .q-color-picker__footer {
     display: flex;
     align-items: center;
-    gap: 0.125rem;
-    padding: 0.125rem;
+    gap: 0.1875rem;
+    padding: 0.1875rem;
     color: var(--qds-text);
     background: color-mix(in srgb, var(--qds-chrome-surface) 84%, var(--qds-color-primary) 6%);
   }
@@ -403,19 +408,33 @@
   }
 
   .qds-ui .q-color-picker.q-color-picker .q-tab.q-tab {
+    min-height: 2rem;
     color: inherit;
     border-radius: var(--qds-radius-sm);
+    transition:
+      background-color var(--qds-motion-fast),
+      color var(--qds-motion-fast),
+      box-shadow var(--qds-motion-fast),
+      transform var(--qds-motion-fast);
   }
 
   .qds-ui .q-color-picker.q-color-picker .q-tab.q-tab--inactive {
-    background: color-mix(in srgb, var(--qds-text-strong) 10%, transparent);
-    opacity: 0.78;
+    color: var(--qds-text-muted);
+    background: color-mix(in srgb, var(--qds-text-strong) 8%, transparent);
+    opacity: 1;
+  }
+
+  .qds-ui .q-color-picker.q-color-picker .q-tab.q-tab:hover {
+    color: var(--qds-text-strong);
+    background: var(--qds-tab-hover-bg);
   }
 
   .qds-ui .q-color-picker.q-color-picker .q-tab.q-tab--active {
     color: var(--qds-text-strong);
     background: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-bg-opacity));
-    box-shadow: inset 0 -2px 0 var(--qds-color-primary);
+    box-shadow:
+      inset 0 -2px 0 var(--qds-color-primary),
+      inset 0 0 0 1px rgba(var(--qds-color-primary-rgb), var(--qds-tonal-border-opacity));
   }
 
   .qds-ui .q-color-picker.q-color-picker .q-tab__indicator {
@@ -458,17 +477,21 @@
   }
 
   .qds-ui .q-color-picker.q-color-picker .q-color-picker__palette-rows {
+    gap: 0.125rem;
     padding: var(--qds-space-sm);
     background: var(--qds-chrome-surface-strong);
   }
 
   .qds-ui .q-color-picker.q-color-picker .q-color-picker__cube {
-    width: calc(10% - 0.25rem) !important;
-    margin: 0.125rem;
+    width: calc(10% - 0.15rem) !important;
+    height: 0 !important;
+    padding-block-end: calc(10% - 0.15rem) !important;
+    aspect-ratio: 1;
+    margin: 0;
     border-radius: var(--qds-radius-xs);
     box-shadow:
       inset 0 0 0 1px color-mix(in srgb, var(--qds-text-strong) 16%, transparent),
-      var(--qds-shadow-sm);
+      0 1px 1px color-mix(in srgb, var(--qds-text-strong) 10%, transparent);
     transition:
       box-shadow var(--qds-motion-fast),
       transform var(--qds-motion-fast);

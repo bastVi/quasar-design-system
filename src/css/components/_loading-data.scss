@@ -289,7 +289,8 @@
 
   .qds-ui .q-tree.q-tree .q-tree__node-header {
     position: relative;
-    min-height: 2.25rem;
+    min-height: 2.375rem;
+    padding-inline: var(--qds-space-xs) var(--qds-space-sm);
     border-radius: calc(var(--qds-radius-control) - 2px);
     color: var(--qds-text);
     transition:
@@ -300,6 +301,7 @@
 
   .qds-ui .q-tree.q-tree .q-tree__node-header:hover {
     background-color: var(--qds-tab-hover-bg);
+    color: var(--qds-text-strong);
   }
 
   .qds-ui .q-tree.q-tree .q-tree__node-header-content {
@@ -346,6 +348,15 @@
     margin-right: 0;
   }
 
+  .qds-ui .q-tree.q-tree .q-tree__children {
+    padding-left: var(--qds-space-lg);
+    padding-inline-start: var(--qds-space-lg);
+  }
+
+  .qds-ui .q-tree.q-tree .q-tree__node + .q-tree__node {
+    margin-top: 0.125rem;
+  }
+
   .qds-ui .q-tree.q-tree .q-tree__node-header.q-tree__node--selected .q-tree__arrow,
   .qds-ui .q-tree.q-tree .q-tree__node-header.q-tree__node--selected .q-tree__icon,
   .qds-ui .q-tree.q-tree .q-tree__node-header.q-tree__node--selected .q-tree__tickbox {
@@ -372,7 +383,8 @@
   }
 
   .qds-ui .q-tree.q-tree.q-tree--dense .q-tree__node-header {
-    min-height: 1.875rem;
+    min-height: 2rem;
+    padding-inline: 0.1875rem var(--qds-space-xs);
     border-radius: calc(var(--qds-radius-control) - 4px);
   }
 
@@ -387,8 +399,8 @@
   }
 
   .qds-ui .q-tree.q-tree.q-tree--no-connectors .q-tree__children {
-    padding-inline-start: var(--qds-space-md);
     padding-left: var(--qds-space-md);
+    padding-inline-start: var(--qds-space-md);
   }
 
   .qds-ui .q-tree.q-tree .q-tree__node:after,

@@ -20,6 +20,7 @@
     transition:
       background-color var(--qds-motion-fast),
       color var(--qds-motion-fast),
+      box-shadow var(--qds-motion-fast),
       outline-color var(--qds-motion-fast);
   }
 
@@ -46,7 +47,7 @@
   }
 
   .qds-ui .q-tab.q-tab:hover {
-    background-color: color-mix(in srgb, var(--qds-surface-2) 70%, transparent);
+    background-color: var(--qds-tab-hover-bg);
     color: var(--qds-text);
   }
 

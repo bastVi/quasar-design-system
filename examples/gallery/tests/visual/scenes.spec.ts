@@ -50,14 +50,14 @@ test.describe('QDS scene gallery', () => {
       }
     })
 
-    expect.soft(airTokens.surfaceGlass).toMatch(/^rgba\(250, 252, 255, 0?\.78\)$/)
+    expect.soft(airTokens.surfaceGlass).toMatch(/^rgba\(250, 252, 255, 0?\.42\)$/)
     expect.soft(airTokens.tintRgb).toBe('232, 242, 252')
-    expect.soft(airTokens.tonalOpacity).toBeGreaterThanOrEqual(0.07)
-    expect.soft(airTokens.tonalOpacity).toBeLessThan(0.1)
-    expect.soft(airTokens.fallbackOpacity).toBeGreaterThanOrEqual(0.05)
+    expect.soft(airTokens.tonalOpacity).toBeGreaterThanOrEqual(0.11)
+    expect.soft(airTokens.tonalOpacity).toBeLessThan(0.14)
+    expect.soft(airTokens.fallbackOpacity).toBeGreaterThanOrEqual(0.07)
     expect.soft(airTokens.blur).toBe('1.75rem')
     expect.soft(airTokens.saturate).toBeGreaterThanOrEqual(1.12)
-    expect.soft(airTokens.cardBorder).toContain('10%')
+    expect.soft(airTokens.cardBorder).toContain('18%')
     expect.soft(airTokens.chromeShadow).toBe('none')
   })
 

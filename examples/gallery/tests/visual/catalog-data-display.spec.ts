@@ -140,7 +140,7 @@ test.describe('QDS catalog data display gate', () => {
     await expect(denseTree).toHaveClass(/q-tree--dense/)
     await expect(denseTree).toHaveClass(/q-tree--no-connectors/)
     await expect(denseTree.locator('.q-tree__node-header.q-tree__node--selected').first()).toContainText('Controls')
-    expect.soft(await computed(page, '[data-test="qds-tree-dense"] .q-tree__node-header', 'min-height'), 'dense QTree header height').toBe('30px')
+    expect.soft(await computed(page, '[data-test="qds-tree-dense"] .q-tree__node-header', 'min-height'), 'dense QTree header height').toBe('32px')
     expect.soft(await computed(page, '[data-test="qds-tree-dense"] .q-tree__node-header', 'display', '::before'), 'no-connectors rail display').toBe('none')
   })
 })

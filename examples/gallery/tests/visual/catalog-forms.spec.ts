@@ -94,6 +94,12 @@ test.describe('QDS catalog form picker gate', () => {
     expect.soft(await computed(page, '[data-test="qds-catalog-radio"] .q-radio__check', 'fill'), 'QRadio check uses primary').toBe(primary)
     expect.soft(await computed(page, '[data-test="qds-catalog-toggle"] .q-toggle__track', 'border-radius'), 'QToggle track is rounded').not.toBe('0px')
     expect.soft(await computedPseudo(page, '[data-test="qds-catalog-toggle"] .q-toggle__thumb', '::after', 'background-color'), 'QToggle thumb uses primary when on').toBe(primary)
+    const toggleInset = await page.locator('[data-test="qds-catalog-toggle"]').evaluate((el) => {
+      const track = el.querySelector('.q-toggle__track')!.getBoundingClientRect()
+      const thumb = el.querySelector('.q-toggle__thumb')!.getBoundingClientRect()
+      return Math.round((track.right - thumb.right) * 100) / 100
+    })
+    expect.soft(toggleInset, 'QToggle truthy thumb keeps breathing room inside track').toBeGreaterThanOrEqual(3)
 
     await expect(page.locator('[data-test="qds-catalog-option-radio"]')).toBeVisible()
     await expect(page.locator('[data-test="qds-catalog-option-checkbox"]')).toBeVisible()
@@ -128,7 +134,14 @@ test.describe('QDS catalog form picker gate', () => {
 
     expect.soft(await computed(page, '[data-test="qds-catalog-color"] .q-color-picker__header-bg', 'background-image'), 'QColor checker uses tokenized gradients').not.toContain('data:image')
     expect.soft(await computed(page, '[data-test="qds-catalog-color"] .q-tab.q-tab--active', 'border-radius'), 'QColor tabs are softened').not.toBe('0px')
+    expect.soft(await computed(page, '[data-test="qds-catalog-color"] .q-tab.q-tab--active', 'transition-property'), 'QColor tabs animate state changes').toContain('box-shadow')
     expect.soft(await computed(page, '[data-test="qds-catalog-color"] .q-color-picker__cube', 'border-radius'), 'QColor swatches are softened').not.toBe('0px')
+    expect.soft(await computed(page, '[data-test="qds-catalog-color"] .q-color-picker__cube', 'aspect-ratio'), 'QColor swatches stay square').toBe('1 / 1')
+    const swatchDelta = await page.locator('[data-test="qds-catalog-color"] .q-color-picker__cube').first().evaluate((el) => {
+      const rect = el.getBoundingClientRect()
+      return Math.abs(rect.width - rect.height)
+    })
+    expect.soft(swatchDelta, 'QColor swatch rendered box stays near-square').toBeLessThanOrEqual(1)
     expect.soft(await computed(page, '[data-test="qds-catalog-color"] .q-color-picker__footer', 'background-color'), 'QColor footer is surfaced').not.toBe('rgba(0, 0, 0, 0)')
     expect.soft(await computed(page, '[data-test="qds-catalog-date"]', 'border-top-color'), 'QDate bordered frame is softened').not.toBe('rgb(200, 200, 200)')
     expect.soft(await computed(page, '[data-test="qds-catalog-time"]', 'border-top-color'), 'QTime bordered frame is softened').not.toBe('rgb(200, 200, 200)')
