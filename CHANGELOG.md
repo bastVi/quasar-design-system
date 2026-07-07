@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [0.5.5] — 2026-07-07
+
+### Changed
+
+- Rebalanced the Air variant so it is more translucent than Fluent while preserving contrast with stronger tonal tint, border, and chrome guardrails.
+- Improved `QColor` picker chrome with cleaner tabs, animated state transitions, and square palette swatches.
+- Refined `QTree` row spacing, indentation, hover treatment, and RTL-safe child padding.
+
+### Fixed
+
+- Kept `QToggle` knobs inset inside their tracks in normal and dense branches.
+- Strengthened tab/tree hover transitions without changing active tabs back into filled pills.
+
 ## [0.5.4] — 2026-07-07
 
 ### Fixed
