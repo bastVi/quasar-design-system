@@ -2,7 +2,6 @@
 // Content icons: @phosphor-icons/vue, duotone weight (the documented app-level path).
 import {
   PhBell,
-  PhCaretDown,
   PhHeart,
   PhGear,
   PhRocketLaunch,
@@ -28,12 +27,17 @@ const duotone = [
         These glyphs come from the Quasar icon-set wired via <code>app.use(Quasar, { iconSet: qdsIconSet })</code>.
       </p>
       <div class="row q-col-gutter-md items-center">
-        <div class="col-auto"><q-btn round flat aria-label="Dropdown"><PhCaretDown :size="20" weight="regular" /></q-btn></div>
+        <div class="col-auto"><q-btn-dropdown flat dense label="Button menu" /></div>
         <div class="col-auto"><q-chip removable color="primary" text-color="white" label="chip.remove" /></div>
         <div class="col-auto" style="min-width: 220px">
           <q-select class="icons-dense-select" model-value="" name="icons-select-arrow" :options="['One', 'Two']" outlined dense label="Select arrow" />
         </div>
         <div class="col-auto"><q-rating :model-value="3" /></div>
+      </div>
+      <div class="row q-col-gutter-sm items-center q-mt-md">
+        <div class="col-auto"><q-btn dense outline color="primary" label="sm" /></div>
+        <div class="col-auto"><q-btn outline color="primary" label="md" /></div>
+        <div class="col-auto"><q-btn class="icons-lg-control" outline color="primary" label="lg" /></div>
       </div>
       <q-expansion-item label="Expansion item (chevron)" class="q-mt-md qds-card" style="border-radius: var(--qds-radius-md)">
         <q-card-section class="qds-text-muted">Uses the icon-set caret.</q-card-section>
@@ -62,5 +66,10 @@ const duotone = [
 .caption {
   font-size: 0.7rem;
   color: var(--qds-text-muted);
+}
+
+.icons-lg-control {
+  --qds-button-min-height: var(--qds-control-size-lg);
+  --qds-button-padding-inline: 1rem;
 }
 </style>

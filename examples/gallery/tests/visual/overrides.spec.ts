@@ -452,8 +452,8 @@ test.describe('QDS override gate', () => {
         expect.soft(cardVars.fallback, 'QCard fallback uses resolved acrylic tint').toContain(`rgba(${cardVars.tintRgb}`)
         if (variant === 'fluent') {
           expect.soft(cardVars.tintRgb, 'Fluent QCard resting tint is neutral, not primary').not.toBe(cardVars.primaryRgb)
-          expect.soft(cardVars.tonalOpacity, 'Fluent QCard resting tonal opacity is restrained').toBeLessThan(0.04)
-          expect.soft(cardVars.cardBorderMix, 'Fluent QCard border mix is softened').toBe('12%')
+          expect.soft(cardVars.tonalOpacity, 'Fluent QCard resting tint remains restrained while improving separation').toBeLessThanOrEqual(0.04)
+          expect.soft(cardVars.cardBorderMix, 'Fluent QCard has clearer default separation than acrylic Air').toBe('34%')
           expect.soft(cardVars.chromeBorderMix, 'Fluent chrome border mix is softened').toBe('46%')
           expect.soft(cardVars.chromeBorderSoftMix, 'Fluent soft chrome mix is softened').toBe('24%')
           expect.soft(cardVars.separatorMix, 'Fluent separator mix is softened').toBe('34%')

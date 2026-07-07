@@ -40,7 +40,7 @@ app.use(Quasar, {
 // `persist: false` keeps the visual gate deterministic (no localStorage carry-over
 // of mode/variant between matrix cells).
 const ds = configureDesignSystem(app, {
-  mode: 'light',
+  mode: 'system',
   variant: 'fluent',
   persist: false,
 })

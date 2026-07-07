@@ -123,6 +123,14 @@ $border-width: (
 ) !default;
 
 $control: (
+  size-sm: 2rem,
+  size-md: 2.25rem,
+  size-lg: 2.75rem,
+  icon-size-sm: 0.875rem,
+  icon-size-md: 1rem,
+  icon-size-lg: 1.25rem,
+  icon-opacity: 0.72,
+  icon-opacity-active: 0.88,
   letter-spacing: 0,
   text-transform: none,
   content-line-height: 1,
@@ -141,13 +149,13 @@ $focus-ring: (
 
 $components: (
   button: (
-    min-height: 2rem,
-    padding-inline: 0.75rem,
-    dense-min-height: 1.75rem,
+    min-height: 2.25rem,
+    padding-inline: 0.875rem,
+    dense-min-height: 2rem,
     dense-padding-inline: 0.75rem,
-    dense-radius: 0.75rem,
+    dense-radius: 0.625rem,
     dense-font-size: 0.78rem,
-    round-size: 2rem,
+    round-size: 2.25rem,
     elevated-shadow: (0 1px 1px rgba(0, 0, 0, 0.08), 0 3px 8px rgba(0, 0, 0, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.42)),
     elevated-shadow-hover: (0 1px 2px rgba(0, 0, 0, 0.1), 0 5px 14px rgba(0, 0, 0, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.5)),
     dark-elevated-shadow: (0 1px 0 rgba(255, 255, 255, 0.04), 0 10px 24px rgba(0, 0, 0, 0.28)),
@@ -156,11 +164,11 @@ $components: (
   card: (
     acrylic-tint-rgb: '255, 253, 248',
     dark-acrylic-tint-rgb: '32, 34, 37',
-    tonal-opacity: 0.022,
-    fallback-tonal-opacity: 0.014,
-    dark-tonal-opacity: 0.026,
-    dark-fallback-tonal-opacity: 0.018,
-    border-mix: 12%,
+    tonal-opacity: 0.034,
+    fallback-tonal-opacity: 0.026,
+    dark-tonal-opacity: 0.04,
+    dark-fallback-tonal-opacity: 0.03,
+    border-mix: 34%,
     backdrop-blur: 0.625rem,
     backdrop-saturate: 1.08,
   ),
@@ -171,8 +179,8 @@ $components: (
   field: (
     min-height: 2.25rem,
     dense-min-height: 2rem,
-    padding-inline: 0.75rem,
-    label-size: 0.875rem,
+    padding-inline: 0.875rem,
+    label-size: 0.8125rem,
     focus-border-width: 1px,
   ),
 ) !default;
@@ -390,6 +398,11 @@ $variants: (
     font-family-display: (ui-monospace, 'SFMono-Regular', 'Cascadia Code', 'JetBrains Mono', 'Fira Code', Consolas, monospace),
     radius-control: 6px,
     radius-lg: 10px,
+    button-min-height: 2rem,
+    button-padding-inline: 0.75rem,
+    button-dense-min-height: 1.75rem,
+    button-dense-padding-inline: 0.625rem,
+    button-round-size: 2rem,
     control-letter-spacing: 0.035em,
     control-text-transform: uppercase,
     field-label-size: 0.75rem,

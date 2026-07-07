@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [0.5.3] — 2026-07-07
+
+### Changed
+
+- Made the deployed gallery default to `system` mode so it follows the OS light/dark preference on first load.
+- Added initial `sm` / `md` / `lg` control and icon-size CSS tokens for calmer default field, button, chip, and expansion control proportions.
+- Rebalanced Fluent/default card material with clearer surface and border separation while keeping Air/acrylic card chrome softer.
+- Updated the gallery icon proof row to exercise Quasar icon-set-driven controls and `sm` / `md` / `lg` button sizing.
+
+### Fixed
+
+- Fixed `QSlider` / `QRange` always-visible labels rendering as unstyled square chips, including dark mode.
+- Reduced oversized/aggressive internal control icons for fields, selects, chips, buttons, and expansion chevrons.
+- Updated visual expectations so deterministic tests explicitly force light mode where they assert light-token values.
+
 ## [0.5.2] — 2026-07-06
 
 ### Changed

@@ -67,8 +67,31 @@
     line-height: var(--qds-control-content-line-height);
   }
 
+  .qds-ui .q-btn.q-btn .q-btn__content > .q-icon,
+  .qds-ui .q-btn.q-btn .q-btn__content > .q-icon svg {
+    width: var(--qds-button-icon-size);
+    min-width: var(--qds-button-icon-size);
+    height: var(--qds-button-icon-size);
+    font-size: var(--qds-button-icon-size);
+    opacity: var(--qds-control-icon-opacity);
+  }
+
   .qds-ui .q-btn.q-btn.q-btn--dense .q-btn__content {
     gap: var(--qds-button-dense-icon-gap);
+  }
+
+  .qds-ui .q-btn.q-btn.q-btn--dense .q-btn__content > .q-icon,
+  .qds-ui .q-btn.q-btn.q-btn--dense .q-btn__content > .q-icon svg {
+    width: var(--qds-button-dense-icon-size);
+    min-width: var(--qds-button-dense-icon-size);
+    height: var(--qds-button-dense-icon-size);
+    font-size: var(--qds-button-dense-icon-size);
+  }
+
+  .qds-ui .q-btn.q-btn:hover .q-btn__content > .q-icon,
+  .qds-ui .q-btn.q-btn:focus-visible .q-btn__content > .q-icon,
+  .qds-ui .q-btn.q-btn[aria-expanded='true'] .q-btn__content > .q-icon {
+    opacity: var(--qds-control-icon-opacity-active);
   }
 
   .qds-ui .q-btn.q-btn:not(.q-btn--round):not(.q-btn--fab):not(.q-btn--fab-mini) {
@@ -88,6 +111,25 @@
   .qds-ui .q-btn.q-btn.q-btn--fab-mini {
     min-width: var(--qds-button-round-size);
     min-height: var(--qds-button-round-size);
+  }
+
+  .qds-ui .q-expansion-item.q-expansion-item .q-expansion-item__toggle-icon {
+    width: var(--qds-control-icon-size-md);
+    min-width: var(--qds-control-icon-size-md);
+    height: var(--qds-control-icon-size-md);
+    font-size: var(--qds-control-icon-size-md);
+    opacity: var(--qds-control-icon-opacity);
+  }
+
+  .qds-ui .q-expansion-item.q-expansion-item--expanded .q-expansion-item__toggle-icon {
+    opacity: var(--qds-control-icon-opacity-active);
+  }
+
+  .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item.q-item--dense .q-expansion-item__toggle-icon {
+    width: var(--qds-control-icon-size-sm);
+    min-width: var(--qds-control-icon-size-sm);
+    height: var(--qds-control-icon-size-sm);
+    font-size: var(--qds-control-icon-size-sm);
   }
 
   .qds-ui .q-btn.q-btn.q-btn--flat,

@@ -1,10 +1,18 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, type Page } from '@playwright/test'
 
 const VARIANTS = ['fluent', 'air', 'mobile', 'feather', 'terminal'] as const
+
+async function forceLightMode(page: Page) {
+  await page.waitForFunction(() => Boolean((window as unknown as { __qdsGallery?: unknown }).__qdsGallery))
+  await page.evaluate(() => {
+    ;(window as unknown as { __qdsGallery: { setMode: (mode: 'light') => void } }).__qdsGallery.setMode('light')
+  })
+}
 
 test.describe('QDS scene gallery', () => {
   test('hash route mounts scenic variant matrix', async ({ page }) => {
     await page.goto('/#scenes')
+    await forceLightMode(page)
 
     await expect(page.getByRole('tab', { name: 'Scenes' })).toHaveClass(/q-tab--active/)
     await expect(page.locator('[data-test="qds-scenes-section"]')).toBeVisible()
@@ -23,6 +31,7 @@ test.describe('QDS scene gallery', () => {
 
   test('Air scene exposes pure SwiftUI-like material tokens', async ({ page }) => {
     await page.goto('/#scenes')
+    await forceLightMode(page)
 
     const air = page.locator('[data-test="qds-scene-air"]')
     await expect(air).toBeVisible()
@@ -54,6 +63,7 @@ test.describe('QDS scene gallery', () => {
 
   test('Feather scene remains paper-first, not glass-first', async ({ page }) => {
     await page.goto('/#scenes')
+    await forceLightMode(page)
 
     const feather = page.locator('[data-test="qds-scene-feather"]')
     await expect(feather).toBeVisible()

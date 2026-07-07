@@ -12,6 +12,22 @@
   --qds-interactive-border-strong: var(--qds-border);
   --qds-interactive-text: var(--qds-text);
   --qds-interactive-text-muted: var(--qds-text-muted);
+  --qds-button-size-sm: var(--qds-control-size-sm);
+  --qds-button-size-md: var(--qds-control-size-md);
+  --qds-button-size-lg: var(--qds-control-size-lg);
+  --qds-field-size-sm: calc(var(--qds-control-size-sm) + 0.125rem);
+  --qds-field-size-md: calc(var(--qds-control-size-md) + 0.125rem);
+  --qds-field-size-lg: calc(var(--qds-control-size-lg) + 0.125rem);
+  --qds-icon-size-sm: var(--qds-control-icon-size-sm);
+  --qds-icon-size-md: var(--qds-control-icon-size-md);
+  --qds-icon-size-lg: var(--qds-control-icon-size-lg);
+  --qds-control-icon-color: var(--qds-text-muted);
+  --qds-button-icon-size: var(--qds-control-icon-size-md);
+  --qds-button-dense-icon-size: var(--qds-control-icon-size-sm);
+  --qds-field-icon-size: var(--qds-control-icon-size-md);
+  --qds-field-dense-icon-size: var(--qds-control-icon-size-sm);
+  --qds-chip-icon-size: var(--qds-control-icon-size-md);
+  --qds-chip-dense-icon-size: var(--qds-control-icon-size-sm);
   --qds-button-icon-gap: var(--qds-inline-icon-gap);
   --qds-button-dense-icon-gap: var(--qds-inline-icon-dense-gap);
   --qds-button-radius: var(--qds-radius-control);
@@ -24,6 +40,7 @@
   --qds-card-bg: linear-gradient(135deg, rgba(var(--qds-card-acrylic-tint-rgb), var(--qds-card-tonal-opacity)), transparent 72%), var(--qds-surface-glass);
   --qds-card-bg-fallback: linear-gradient(135deg, rgba(var(--qds-card-acrylic-tint-rgb), var(--qds-card-fallback-tonal-opacity)), transparent 72%), var(--qds-surface-0);
   --qds-card-border: color-mix(in srgb, var(--qds-border) var(--qds-card-border-mix), transparent);
+  --qds-card-border-strong: color-mix(in srgb, var(--qds-border) 44%, transparent);
   --qds-card-radius: var(--qds-radius-lg);
   --qds-card-shadow: var(--qds-card-shadow-value, var(--qds-shadow-sm));
   --qds-chrome-border: color-mix(in srgb, var(--qds-border-subtle) var(--qds-chrome-border-mix, 46%), transparent);
@@ -47,6 +64,9 @@
   --qds-table-row-height: var(--qds-table-row-height-value, 3rem);
   --qds-toolbar-bg: var(--qds-surface-1);
   --qds-field-label-bg: var(--qds-surface-0);
+  --qds-slider-label-bg: color-mix(in srgb, var(--qds-surface-0) 88%, var(--qds-color-primary) 12%);
+  --qds-slider-label-text: color-mix(in srgb, var(--qds-color-primary) 74%, var(--qds-text-strong));
+  --qds-slider-label-border: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-border-opacity));
   --qds-tab-radius: var(--qds-radius-control);
   --qds-tab-hover-bg: color-mix(in srgb, var(--qds-surface-2) 88%, var(--qds-color-primary) 12%);
   --qds-tab-active-bg: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-bg-opacity));
@@ -143,6 +163,14 @@
 
     --qds-border-width-control: #{map.get(tokens.$border-width, control)};
 
+    --qds-control-size-sm: #{map.get(tokens.$control, size-sm)};
+    --qds-control-size-md: #{map.get(tokens.$control, size-md)};
+    --qds-control-size-lg: #{map.get(tokens.$control, size-lg)};
+    --qds-control-icon-size-sm: #{map.get(tokens.$control, icon-size-sm)};
+    --qds-control-icon-size-md: #{map.get(tokens.$control, icon-size-md)};
+    --qds-control-icon-size-lg: #{map.get(tokens.$control, icon-size-lg)};
+    --qds-control-icon-opacity: #{map.get(tokens.$control, icon-opacity)};
+    --qds-control-icon-opacity-active: #{map.get(tokens.$control, icon-opacity-active)};
     --qds-control-letter-spacing: #{map.get(tokens.$control, letter-spacing)};
     --qds-control-text-transform: #{map.get(tokens.$control, text-transform)};
     --qds-control-content-line-height: #{map.get(tokens.$control, content-line-height)};

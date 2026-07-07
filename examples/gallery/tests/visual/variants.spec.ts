@@ -1,8 +1,16 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
+
+async function forceLightMode(page: Page) {
+  await page.waitForFunction(() => Boolean((window as unknown as { __qdsGallery?: unknown }).__qdsGallery))
+  await page.evaluate(() => {
+    ;(window as unknown as { __qdsGallery: { setMode: (mode: 'light') => void } }).__qdsGallery.setMode('light')
+  })
+}
 
 test.describe('QDS variant distinctiveness lab', () => {
   test('mounts variant comparison cards with distinct typography and pagination geometry', async ({ page }) => {
     await page.goto('/#variants')
+    await forceLightMode(page)
 
     await expect(page.getByRole('tab', { name: 'Variants' })).toHaveAttribute('aria-selected', 'true')
     await expect(page.locator('[data-test="qds-variant-card-fluent"]')).toBeVisible()

@@ -38,6 +38,36 @@
     gap: var(--qds-chip-dense-icon-gap);
   }
 
+  .qds-ui .q-chip.q-chip .q-chip__icon,
+  .qds-ui .q-chip.q-chip .q-chip__icon svg {
+    width: var(--qds-chip-icon-size);
+    min-width: var(--qds-chip-icon-size);
+    height: var(--qds-chip-icon-size);
+    font-size: var(--qds-chip-icon-size);
+    color: currentColor;
+    opacity: var(--qds-control-icon-opacity);
+  }
+
+  .qds-ui .q-chip.q-chip.q-chip--dense .q-chip__icon,
+  .qds-ui .q-field--dense .q-chip.q-chip .q-chip__icon,
+  .qds-ui .q-chip.q-chip.q-chip--dense .q-chip__icon svg,
+  .qds-ui .q-field--dense .q-chip.q-chip .q-chip__icon svg {
+    width: var(--qds-chip-dense-icon-size);
+    min-width: var(--qds-chip-dense-icon-size);
+    height: var(--qds-chip-dense-icon-size);
+    font-size: var(--qds-chip-dense-icon-size);
+  }
+
+  .qds-ui .q-chip.q-chip .q-chip__icon--remove {
+    border-radius: var(--qds-radius-full);
+  }
+
+  .qds-ui .q-chip.q-chip .q-chip__icon--remove:hover,
+  .qds-ui .q-chip.q-chip .q-chip__icon--remove:focus-visible {
+    opacity: var(--qds-control-icon-opacity-active);
+    background: rgba(var(--qds-color-primary-rgb), var(--qds-state-hover-opacity));
+  }
+
   @include qds-tonal-chip('primary', 'primary');
   @include qds-tonal-chip('secondary', 'secondary');
   @include qds-tonal-chip('positive', 'positive');

@@ -3,7 +3,7 @@
   .qds-ui .q-radio.q-radio:not(.q-radio--dense),
   .qds-ui .q-toggle.q-toggle:not(.q-toggle--dense) {
     color: var(--qds-text);
-    min-height: 2.25rem;
+    min-height: var(--qds-control-size-md);
   }
 
   .qds-ui .q-checkbox.q-checkbox .q-checkbox__label,
@@ -280,10 +280,27 @@
 
   .qds-ui .q-slider.q-slider .q-slider__pin,
   .qds-ui .q-range.q-range .q-slider__pin {
-    color: #fff;
-    background: var(--qds-color-primary);
-    border-radius: var(--qds-radius-sm);
-    box-shadow: var(--qds-shadow-sm);
+    color: var(--qds-slider-label-bg);
+    background: transparent;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.12));
+  }
+
+  .qds-ui .q-slider.q-slider .q-slider__text-container,
+  .qds-ui .q-range.q-range .q-slider__text-container {
+    min-height: 1.5rem;
+    padding: 0.125rem 0.5rem;
+    color: var(--qds-slider-label-bg);
+    background: var(--qds-slider-label-bg);
+    border: var(--qds-border-width-control) solid var(--qds-slider-label-border);
+    border-radius: var(--qds-radius-full);
+    box-shadow: none;
+  }
+
+  .qds-ui .q-slider.q-slider .q-slider__text,
+  .qds-ui .q-range.q-range .q-slider__text {
+    color: var(--qds-slider-label-text);
+    font-size: 0.75rem;
+    font-weight: var(--qds-font-weight-semibold);
   }
 
   .qds-ui .q-slider.q-slider .q-slider__marker,

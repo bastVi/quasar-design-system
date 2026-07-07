@@ -5,6 +5,7 @@
     border-radius: var(--qds-card-radius);
     box-shadow: var(--qds-card-shadow);
     color: var(--qds-text);
+    background-clip: padding-box;
     backdrop-filter: blur(var(--qds-card-backdrop-blur)) saturate(var(--qds-card-backdrop-saturate));
     -webkit-backdrop-filter: blur(var(--qds-card-backdrop-blur)) saturate(var(--qds-card-backdrop-saturate));
   }
@@ -15,12 +16,17 @@
     }
   }
 
+  .qds-ui .q-card.q-card.q-card--bordered {
+    border-color: var(--qds-card-border-strong);
+  }
+
   .qds-ui.qds-variant-air .q-card.q-card,
   .qds-ui .qds-variant-air .q-card.q-card,
   .qds-ui .q-card.q-card.qds-variant-air,
   .qds-ui.qds-variant-air .qds-card,
   .qds-ui .qds-variant-air .qds-card {
     border-color: color-mix(in srgb, var(--qds-chrome-border-soft) 36%, transparent);
+    box-shadow: var(--qds-card-shadow);
   }
 
   .qds-ui.qds-variant-air .q-card.q-card .q-card.q-card,
