@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [0.6.0] — 2026-07-07
+
 ### Added
 
 - Added an optional `@bastvi/quasar-design-system/qwindow` module with `QdsWindow`, QWindow type re-exports, and opt-in QWindow extension styles at `./css/extensions/qwindow` and `./css/extensions/qwindow/layered`.
