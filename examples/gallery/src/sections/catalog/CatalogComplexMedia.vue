@@ -211,7 +211,7 @@ function refresh(done: () => void): void {
 
       <div class="catalog-demo catalog-demo--wide">
         <div class="catalog-label">QVideo</div>
-        <q-video :src="videoSrc" :ratio="16 / 9" data-test="qds-video" />
+        <q-video :src="videoSrc" :ratio="16 / 9" class="catalog-video" data-test="qds-video" />
       </div>
     </div>
   </q-card>

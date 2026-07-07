@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [0.5.4] — 2026-07-07
+
+### Fixed
+
+- Fixed the deployed gallery Media section `QVideo` proof overflowing into the following Scrolling section on wide viewports by constraining the demo iframe frame.
+
 ## [0.5.3] — 2026-07-07
 
 ### Changed

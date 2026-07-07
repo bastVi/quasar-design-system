@@ -111,6 +111,21 @@ import CatalogLoadingData from './catalog/CatalogLoadingData.vue'
   border-radius: var(--qds-radius-lg);
 }
 
+.catalog-video.q-video {
+  width: min(100%, 56rem);
+  height: 20rem !important;
+  padding-bottom: 0 !important;
+  margin-inline: auto;
+}
+
+.catalog-video.q-video iframe,
+.catalog-video.q-video object,
+.catalog-video.q-video embed {
+  position: static !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
 .catalog-media-caption {
   padding: var(--qds-space-sm) var(--qds-space-md);
   color: white;
