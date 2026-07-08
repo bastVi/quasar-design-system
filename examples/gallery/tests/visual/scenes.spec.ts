@@ -20,7 +20,10 @@ test.describe('QDS scene gallery', () => {
     for (const variant of VARIANTS) {
       const scene = page.locator(`[data-test="qds-scene-${variant}"]`)
       await expect(scene, `${variant} scene frame`).toBeVisible()
-      await expect(scene.locator(`[data-test="qds-scene-card-${variant}"]`)).toBeVisible()
+      const card = scene.locator(`[data-test="qds-scene-card-${variant}"]`)
+      await expect(card).toBeVisible()
+      await expect(card).toHaveClass(/qds-card--readable/)
+      await expect(card.locator('.qds-card__header')).toBeVisible()
 
       const backgroundImage = await scene.evaluate((el) => getComputedStyle(el).backgroundImage)
       expect.soft(backgroundImage, `${variant} scene uses owned wallpaper`).toContain(
@@ -46,6 +49,11 @@ test.describe('QDS scene gallery', () => {
         blur: cs.getPropertyValue('--qds-card-backdrop-blur').trim(),
         saturate: Number(cs.getPropertyValue('--qds-card-backdrop-saturate').trim()),
         cardBorder: cs.getPropertyValue('--qds-card-border').trim(),
+        readableBg: cs.getPropertyValue('--qds-card-bg-readable').trim(),
+        readableSurfaceMix: cs.getPropertyValue('--qds-card-readable-surface-mix').trim(),
+        headerBg: cs.getPropertyValue('--qds-card-header-bg-opaque').trim(),
+        fontWeightMedium: cs.getPropertyValue('--qds-font-weight-medium').trim(),
+        iconOpacity: cs.getPropertyValue('--qds-control-icon-opacity').trim(),
         chromeShadow: cs.getPropertyValue('--qds-chrome-shadow').trim(),
       }
     })
@@ -58,6 +66,11 @@ test.describe('QDS scene gallery', () => {
     expect.soft(airTokens.blur).toBe('1.75rem')
     expect.soft(airTokens.saturate).toBeGreaterThanOrEqual(1.12)
     expect.soft(airTokens.cardBorder).toContain('18%')
+    expect.soft(airTokens.readableBg).toContain('color-mix')
+    expect.soft(airTokens.readableSurfaceMix).toBe('78%')
+    expect.soft(airTokens.headerBg).toContain('#fbfbfd')
+    expect.soft(airTokens.fontWeightMedium).toBe('450')
+    expect.soft(Number(airTokens.iconOpacity)).toBeCloseTo(0.64, 2)
     expect.soft(airTokens.chromeShadow).toBe('none')
   })
 

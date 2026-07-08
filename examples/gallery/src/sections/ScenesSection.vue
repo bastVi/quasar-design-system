@@ -70,8 +70,8 @@ const scenes: Scene[] = [
       >
         <div class="scene-wallpaper" aria-hidden="true" />
 
-        <q-card class="scene-panel" :data-test="`qds-scene-card-${scene.variant}`">
-          <q-card-section>
+        <q-card class="scene-panel qds-card--readable" :data-test="`qds-scene-card-${scene.variant}`">
+          <q-card-section class="qds-card__header qds-card__header--opaque">
             <div class="scene-panel__eyebrow">{{ scene.tagline }}</div>
             <h2 class="scene-panel__title qds-display">{{ scene.label }}</h2>
             <p class="scene-panel__copy">{{ scene.detail }}</p>
@@ -90,7 +90,7 @@ const scenes: Scene[] = [
           </q-card-actions>
         </q-card>
 
-        <div class="scene-dock qds-card" aria-hidden="true">
+        <div class="scene-dock qds-card qds-card--readable" aria-hidden="true">
           <span />
           <span />
           <span />

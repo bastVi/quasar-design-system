@@ -20,6 +20,40 @@
     border-color: var(--qds-card-border-strong);
   }
 
+  .qds-ui .q-card.q-card.qds-card--readable,
+  .qds-ui .q-card.q-card.qds-card--contrast {
+    background: var(--qds-card-bg-readable);
+    border-color: var(--qds-card-border-strong);
+  }
+
+  .qds-ui .q-card.q-card.qds-card--opaque,
+  .qds-ui .q-card.q-card.qds-card--solid {
+    background: var(--qds-card-bg-opaque);
+    border-color: var(--qds-card-border-strong);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .qds-ui .q-card.q-card > .q-card__section.qds-card__header,
+  .qds-ui .q-card.q-card > .q-card__section.qds-card-header {
+    background: var(--qds-card-header-bg);
+    border-block-end: var(--qds-border-width-control) solid var(--qds-card-header-border);
+    border-start-start-radius: calc(var(--qds-card-radius) - var(--qds-border-width-control));
+    border-start-end-radius: calc(var(--qds-card-radius) - var(--qds-border-width-control));
+  }
+
+  .qds-ui .q-card.q-card > .q-card__section.qds-card__header--opaque,
+  .qds-ui .q-card.q-card > .q-card__section.qds-card-header--opaque {
+    background: var(--qds-card-header-bg-opaque);
+  }
+
+  .qds-ui .q-card.q-card > .q-card__section.qds-card__header--accent,
+  .qds-ui .q-card.q-card > .q-card__section.qds-card-header--accent {
+    color: color-mix(in srgb, var(--qds-color-primary) var(--qds-tonal-text-mix), var(--qds-text-strong));
+    background: linear-gradient(135deg, rgba(var(--qds-color-primary-rgb), var(--qds-tonal-bg-opacity)), transparent 76%), var(--qds-card-header-bg-opaque);
+    border-block-end-color: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-border-opacity));
+  }
+
   .qds-ui.qds-variant-air .q-card.q-card,
   .qds-ui .qds-variant-air .q-card.q-card,
   .qds-ui .q-card.q-card.qds-variant-air,
@@ -27,6 +61,13 @@
   .qds-ui .qds-variant-air .qds-card {
     border-color: color-mix(in srgb, var(--qds-chrome-border-soft) 36%, transparent);
     box-shadow: var(--qds-card-shadow);
+  }
+
+  .qds-ui.qds-variant-air .q-card.q-card.qds-card--readable,
+  .qds-ui .qds-variant-air .q-card.q-card.qds-card--readable,
+  .qds-ui.qds-variant-air .q-card.q-card.qds-card--contrast,
+  .qds-ui .qds-variant-air .q-card.q-card.qds-card--contrast {
+    border-color: color-mix(in srgb, var(--qds-border) 36%, transparent);
   }
 
   .qds-ui.qds-variant-air .q-card.q-card .q-card.q-card,

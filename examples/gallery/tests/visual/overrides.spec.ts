@@ -36,6 +36,14 @@ const EXPECTED_BUTTON_RADIUS: Record<Variant, string> = {
   mobile: '18px',
 }
 
+const EXPECTED_BUTTON_WEIGHT: Record<Variant, string> = {
+  fluent: '500',
+  air: '450',
+  mobile: '500',
+  feather: '500',
+  terminal: '500',
+}
+
 type Semantic = 'positive' | 'negative' | 'warning' | 'info'
 type VariantExpectations = {
   surface: string
@@ -275,7 +283,7 @@ test.describe('QDS override gate', () => {
         // Non-dense unelevated button in the panel (avoids the dense toolbar toggles).
         const btn = `${PANEL} .q-btn--unelevated:not(.q-btn--dense)`
         expect.soft(await computed(page, btn, 'border-radius'), 'QBtn radius').toBe(EXPECTED_BUTTON_RADIUS[variant])
-        expect.soft(await computed(page, btn, 'font-weight'), 'QBtn font-weight').toBe('500')
+        expect.soft(await computed(page, btn, 'font-weight'), 'QBtn font-weight').toBe(EXPECTED_BUTTON_WEIGHT[variant])
         const denseBtn = `${PANEL} .q-btn--dense:not(.q-btn--round):not(.q-btn--fab):not(.q-btn--fab-mini)`
         const buttonGap = await computed(page, `${btn} .q-btn__content`, 'column-gap')
         const denseButtonGap = await computed(page, `${denseBtn} .q-btn__content`, 'column-gap')

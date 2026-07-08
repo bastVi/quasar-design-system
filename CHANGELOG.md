@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [0.6.1] — 2026-07-08
+
+### Changed
+
+- Added reusable readable/opaque card surface and header classes for image-backed layouts, and updated the Scenes gallery to use them for stronger live contrast.
+- Lightened Air typography weights and control icon opacity/stroke treatment so the variant reads thinner without losing contrast.
+
 ## [0.6.0] — 2026-07-07
 
 ### Added
