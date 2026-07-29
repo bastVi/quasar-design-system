@@ -208,16 +208,43 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
     <!-- QTable / pagination -->
     <q-card class="q-pa-lg">
       <div class="text-h6 qds-display q-mb-md">QTable &amp; QPagination</div>
-      <q-table
-        title="Surface audit"
-        :rows="tableRows"
-        :columns="tableColumns"
-        row-key="surface"
-        dense
-        flat
-        class="q-mb-md"
-      />
+      <div>
+        <q-table
+          title="Surface audit"
+          :rows="tableRows"
+          :columns="tableColumns"
+          row-key="surface"
+          dense
+          flat
+          class="q-mb-md"
+        />
+      </div>
       <q-pagination v-model="page" data-test="qds-pagination" :max="7" direction-links boundary-links color="primary" />
+    </q-card>
+
+    <q-card data-test="qds-card-table-composition">
+      <q-card-section>
+        <div class="text-h6 qds-display">Flush card table</div>
+        <div class="qds-text-muted">The card owns the outer frame; the direct table keeps a clean section separator.</div>
+      </q-card-section>
+      <q-markup-table flat bordered dense data-test="qds-flush-card-table">
+        <thead>
+          <tr>
+            <th class="text-left">Resource</th>
+            <th class="text-right">Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Memory</td>
+            <td class="text-right">42%</td>
+          </tr>
+          <tr>
+            <td>Storage</td>
+            <td class="text-right">68%</td>
+          </tr>
+        </tbody>
+      </q-markup-table>
     </q-card>
 
     <!-- QTabs -->

@@ -684,6 +684,11 @@ test.describe('QDS override gate', () => {
             .soft(await computed(page, `${PANEL} .q-table td`, 'border-bottom-color'), 'Fluent QTable row separator is softened')
             .not.toBe(expected.subtleBorder)
         }
+        const flushTable = `${PANEL} [data-test="qds-card-table-composition"] > [data-test="qds-flush-card-table"]`
+        expect.soft(await computed(page, flushTable, 'border-left-width'), 'Direct card table drops duplicate frame').toBe('0px')
+        expect.soft(await computed(page, flushTable, 'border-radius'), 'Direct card table drops nested radius').toBe('0px')
+        expect.soft(await computed(page, flushTable, 'box-shadow'), 'Direct card table drops nested shadow').toBe('none')
+        expect.soft(await computed(page, flushTable, 'border-top-style'), 'Direct card table keeps section separator').toBe('solid')
 
         // --- QPagination: current page is tonal, not Material solid primary ---
         const pagination = `${PANEL} [data-test="qds-pagination"]`

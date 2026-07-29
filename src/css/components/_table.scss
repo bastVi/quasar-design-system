@@ -95,6 +95,20 @@
     padding: var(--qds-space-md);
   }
 
+  // A section followed by a table is a flush card composition: the card owns
+  // the outer frame, while the table keeps only its internal separators.
+  .qds-ui .q-card.q-card > .q-card__section + .q-table__container.q-table__container {
+    background: transparent;
+    border: 0;
+    border-block-start: var(--qds-border-width-control) solid var(--qds-separator-color);
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .qds-ui .q-card.q-card > .q-card__section + .q-table__container.q-table__container:not(:last-child) {
+    border-block-end: var(--qds-border-width-control) solid var(--qds-separator-color);
+  }
+
   .qds-ui.qds-variant-air .q-table__container.q-table__container,
   .qds-ui .qds-variant-air .q-table__container.q-table__container {
     border-color: color-mix(in srgb, var(--qds-chrome-border-soft) 46%, transparent);

@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [0.6.2] — 2026-07-29
+
+### Fixed
+
+- Removed duplicate borders, rounded corners, and shadows when a table is used as flush direct content inside a card, while retaining section separators and standalone table frames.
+
 ## [0.6.1] — 2026-07-08
 
 ### Changed
