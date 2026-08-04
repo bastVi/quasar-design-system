@@ -1,48 +1,32 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { useQuasar } from 'quasar'
 import {
   PhBellRinging,
   PhCheckCircle,
-  PhDevices,
-  PhMoonStars,
-  PhPalette,
   PhSparkle,
-  PhSun,
 } from '@phosphor-icons/vue'
 import {
   DESIGN_SYSTEM_VARIANTS,
-  useDesignSystem,
   type DesignSystemMode,
   type DesignSystemVariantName,
 } from '../src'
+import StoryShell from './_shared/StoryShell.vue'
 
 const $q = useQuasar()
-const designSystem = useDesignSystem()
-const variantRegistry = DESIGN_SYSTEM_VARIANTS as Record<string, (typeof DESIGN_SYSTEM_VARIANTS)[keyof typeof DESIGN_SYSTEM_VARIANTS]>
 
 const modeOptions: DesignSystemMode[] = ['light', 'dark', 'system']
-const variantOptions = Object.keys(DESIGN_SYSTEM_VARIANTS) as DesignSystemVariantName[]
-const mode = ref<DesignSystemMode>(designSystem.mode.value)
-const variant = ref<DesignSystemVariantName>(designSystem.variant.value)
+const variantOptions = Object.keys(DESIGN_SYSTEM_VARIANTS) as Array<Extract<DesignSystemVariantName, string>>
 const density = ref('Comfortable')
 const search = ref('Design tokens')
 const enabled = ref(true)
 
-function applyTheme() {
-  designSystem.setMode(mode.value)
-  designSystem.setVariant(variant.value)
+interface OverviewStoryState {
+  mode: DesignSystemMode
+  variant: DesignSystemVariantName
 }
 
-const rootState = computed(() => {
-  const state = designSystem.state
-
-  return [
-    'qds-ui',
-    state.isDark ? 'qds-theme-dark' : 'qds-theme-light',
-    variantRegistry[state.variant]?.cssClass ?? DESIGN_SYSTEM_VARIANTS.fluent.cssClass,
-  ].filter(Boolean).join(' · ')
-})
+const initState = (): OverviewStoryState => ({ mode: 'light', variant: 'fluent' })
 
 function notify() {
   $q.notify({
@@ -55,34 +39,15 @@ function notify() {
 </script>
 
 <template>
-  <Story title="Design System / Overview" :layout="{ type: 'single', iframe: true }">
+  <Story title="Design System / Overview" :layout="{ type: 'single', iframe: true }" :init-state="initState">
     <Variant title="QDS catalog">
-      <div class="qds-story-shell q-pa-xl">
+      <template #default="{ state }">
+        <StoryShell title="Quasar Design System" description="Tonal-first components over Quasar 2 primitives." :mode="state.mode" :variant="state.variant">
         <q-toolbar class="qds-story-toolbar q-mb-lg rounded-borders">
           <q-toolbar-title>
-            <div class="text-h5 qds-story-title">Quasar Design System</div>
-            <div class="text-caption qds-text-muted">Tonal-first components over Quasar 2 primitives.</div>
+            <div class="text-h6 qds-story-title">Component catalog</div>
+            <div class="text-caption qds-text-muted">Fields, feedback, typography, and semantic actions.</div>
           </q-toolbar-title>
-
-          <q-btn flat round aria-label="Theme menu">
-            <PhPalette :size="22" weight="regular" />
-            <q-menu>
-              <q-list style="min-width: 220px">
-                <q-item v-close-popup clickable @click="mode = 'light'; applyTheme()">
-                  <q-item-section avatar><PhSun :size="20" weight="regular" /></q-item-section>
-                  <q-item-section>Light mode</q-item-section>
-                </q-item>
-                <q-item v-close-popup clickable @click="mode = 'dark'; applyTheme()">
-                  <q-item-section avatar><PhMoonStars :size="20" weight="regular" /></q-item-section>
-                  <q-item-section>Dark mode</q-item-section>
-                </q-item>
-                <q-item v-close-popup clickable @click="mode = 'system'; applyTheme()">
-                  <q-item-section avatar><PhDevices :size="20" weight="regular" /></q-item-section>
-                  <q-item-section>Follow system</q-item-section>
-                </q-item>
-              </q-list>
-            </q-menu>
-          </q-btn>
           <q-btn color="info" unelevated @click="notify">
             <template #default>
               <PhBellRinging :size="18" weight="regular" />
@@ -93,11 +58,9 @@ function notify() {
 
         <div class="row q-col-gutter-lg">
           <div class="col-12 col-lg-4">
-            <q-card class="q-pa-lg qds-story-panel">
-              <div class="text-overline qds-text-muted">Runtime controls</div>
-              <div class="text-h6 q-mb-md">Mode and variant</div>
-              <q-select v-model="mode" :options="modeOptions" label="Mode" outlined dense class="q-mb-md" @update:model-value="applyTheme" />
-              <q-select v-model="variant" :options="variantOptions" label="Variant" outlined dense class="q-mb-md" @update:model-value="applyTheme" />
+            <q-card class="q-pa-lg qds-story-panel qds-story-panel--neutral">
+              <div class="text-overline qds-text-muted">Field controls</div>
+              <div class="text-h6 q-mb-md">Interactive states</div>
               <q-input v-model="search" label="Search field" outlined dense class="q-mb-md">
                 <template #prepend>
                   <PhSparkle :size="18" weight="regular" />
@@ -106,7 +69,7 @@ function notify() {
               <q-select v-model="density" :options="['Compact', 'Comfortable', 'Spacious']" label="Density sample" outlined dense class="q-mb-md" />
               <q-toggle v-model="enabled" color="primary" label="Interactive state" />
               <q-separator class="q-my-md" />
-              <div class="text-caption qds-text-muted">{{ rootState }}</div>
+              <div class="text-caption qds-text-muted">Mode and variant are controlled from the Histoire panel.</div>
             </q-card>
           </div>
 
@@ -187,35 +150,42 @@ function notify() {
             </q-card>
           </div>
         </div>
-      </div>
+        </StoryShell>
+      </template>
+
+      <template #controls="{ state }">
+        <HstSelect v-model="state.mode" title="Mode" :options="modeOptions" />
+        <HstSelect v-model="state.variant" title="Variant" :options="variantOptions" />
+      </template>
     </Variant>
   </Story>
 </template>
 
 <style scoped>
-.qds-story-shell {
-  min-height: 100vh;
-  background:
-    radial-gradient(circle at top right, rgba(var(--qds-color-primary-rgb), 0.14), transparent 32rem),
-    var(--qds-surface-1);
-  color: var(--qds-text);
-}
-
 .qds-story-toolbar,
 .qds-story-panel {
   background: var(--qds-card-bg);
   border: var(--qds-border-width-control) solid var(--qds-card-border);
 }
 
-.qds-story-title,
-.qds-story-heading,
-.qds-story-display {
-  font-family: var(--qds-font-family-display);
+.qds-story-toolbar :deep(.q-toolbar__title) {
+  overflow: visible;
+  white-space: normal;
+  text-overflow: clip;
 }
 
-.qds-story-heading {
-  font-size: clamp(1.5rem, 2.6vw, 2.35rem);
-  line-height: 1.08;
+.qds-story-toolbar {
+  min-height: auto;
+  gap: var(--qds-space-sm);
+}
+
+.qds-story-toolbar :deep(.q-toolbar__title) {
+  min-width: 0;
+}
+
+.qds-story-title,
+.qds-story-display {
+  font-family: var(--qds-font-family-display);
 }
 
 .qds-story-feature {
@@ -238,5 +208,17 @@ function notify() {
 .qds-story-body {
   max-width: 64ch;
   color: var(--qds-text-muted);
+}
+
+@media (max-width: 32rem) {
+  .qds-story-toolbar {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .qds-story-toolbar :deep(.q-toolbar__title),
+  .qds-story-toolbar :deep(.q-btn) {
+    flex-basis: 100%;
+  }
 }
 </style>

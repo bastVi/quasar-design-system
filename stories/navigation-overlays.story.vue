@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import {
   QBtn,
   QCard,
@@ -14,7 +14,6 @@ import {
   QMenu,
   QPage,
   QPageContainer,
-  QSelect,
   QSeparator,
   QTab,
   QTabPanel,
@@ -25,64 +24,44 @@ import {
 import { PhBell, PhFolderOpen, PhPalette, PhSidebar, PhSparkle } from '@phosphor-icons/vue'
 import {
   DESIGN_SYSTEM_VARIANTS,
-  useDesignSystem,
   type DesignSystemMode,
   type DesignSystemVariantName,
 } from '../src'
-
-const designSystem = useDesignSystem()
-const variantRegistry = DESIGN_SYSTEM_VARIANTS as Record<string, (typeof DESIGN_SYSTEM_VARIANTS)[keyof typeof DESIGN_SYSTEM_VARIANTS]>
+import StoryShell from './_shared/StoryShell.vue'
 
 const modeOptions: DesignSystemMode[] = ['light', 'dark', 'system']
-const variantOptions = Object.keys(DESIGN_SYSTEM_VARIANTS) as DesignSystemVariantName[]
-const mode = ref<DesignSystemMode>(designSystem.mode.value)
-const variant = ref<DesignSystemVariantName>(designSystem.variant.value)
+const variantOptions = Object.keys(DESIGN_SYSTEM_VARIANTS) as Array<Extract<DesignSystemVariantName, string>>
 const tab = ref('overview')
-const dialogOpen = ref(true)
-const drawerOpen = ref(true)
-const menuOpen = ref(true)
+const dialogOpen = ref(false)
+const drawerOpen = ref(false)
+const menuOpen = ref(false)
 
-function applyTheme() {
-  designSystem.setMode(mode.value)
-  designSystem.setVariant(variant.value)
+interface NavigationStoryState {
+  mode: DesignSystemMode
+  variant: DesignSystemVariantName
 }
 
-const rootState = computed(() => {
-  const state = designSystem.state
-
-  return [
-    'qds-ui',
-    state.isDark ? 'qds-theme-dark' : 'qds-theme-light',
-    variantRegistry[state.variant]?.cssClass ?? DESIGN_SYSTEM_VARIANTS.fluent.cssClass,
-  ].filter(Boolean).join(' · ')
-})
+const initState = (): NavigationStoryState => ({ mode: 'light', variant: 'fluent' })
 </script>
 
 <template>
-  <Story title="Design System / Navigation & Overlays" :layout="{ type: 'single', iframe: true }">
+  <Story title="Design System / Navigation" :layout="{ type: 'single', iframe: true }" :init-state="initState">
     <Variant title="Tabs, panels, dialog and menu">
-      <div class="qds-story-shell q-pa-xl">
-        <div class="qds-story-kicker">{{ rootState }}</div>
-        <div class="row q-col-gutter-lg">
-          <div class="col-12 col-lg-4">
-            <QCard class="qds-story-panel q-pa-lg full-height">
-              <div class="text-overline qds-text-muted">Theme controls</div>
-              <h2 class="qds-story-heading q-my-sm">Navigation states</h2>
-              <p class="qds-text-muted">
-                Tabs, tab panels, menus, and modal overlays use tokenized chrome and keep the same scope as the overview story.
-              </p>
-              <QSelect v-model="mode" :options="modeOptions" label="Mode" outlined dense class="q-mb-md" @update:model-value="applyTheme" />
-              <QSelect v-model="variant" :options="variantOptions" label="Variant" outlined dense @update:model-value="applyTheme" />
-            </QCard>
-          </div>
-
-          <div class="col-12 col-lg-8">
+      <template #default="{ state }">
+        <StoryShell title="Navigation states" description="Tabs, panels, menus, drawers, and modal overlays use tokenized chrome across QDS variants." :mode="state.mode" :variant="state.variant">
+          <div class="qds-story-stack qds-story-stack--relaxed">
             <QCard class="qds-story-panel q-pa-lg q-mb-lg">
               <div class="text-overline qds-text-muted">QTabs + QTabPanels</div>
               <QTabs v-model="tab" align="left" inline-label class="qds-story-tabs q-mt-sm">
-                <QTab name="overview" label="Overview" icon="dashboard" />
-                <QTab name="assets" label="Assets" icon="folder" />
-                <QTab name="alerts" label="Alerts" icon="notifications" />
+                <QTab name="overview" aria-label="Overview">
+                  <PhSparkle :size="18" weight="regular" class="qds-story-tab-icon on-left" /> <span class="qds-story-tab-label">Overview</span>
+                </QTab>
+                <QTab name="assets" aria-label="Assets">
+                  <PhFolderOpen :size="18" weight="regular" class="qds-story-tab-icon on-left" /> <span class="qds-story-tab-label">Assets</span>
+                </QTab>
+                <QTab name="alerts" aria-label="Alerts">
+                  <PhBell :size="18" weight="regular" class="qds-story-tab-icon on-left" /> <span class="qds-story-tab-label">Alerts</span>
+                </QTab>
               </QTabs>
               <QSeparator />
               <QTabPanels v-model="tab" animated class="qds-story-tab-panels">
@@ -112,9 +91,12 @@ const rootState = computed(() => {
 
             <QCard class="qds-story-panel q-pa-lg q-mb-lg">
               <div class="text-overline qds-text-muted">QDrawer</div>
-              <div class="text-h6 qds-story-title q-mb-md">Layout shell proof</div>
+              <div class="row items-center justify-between q-gutter-md q-mb-md">
+                <div class="text-h6 qds-story-title">Layout shell proof</div>
+                <QBtn outline color="primary" no-caps label="Toggle drawer" @click="drawerOpen = !drawerOpen" />
+              </div>
               <QLayout view="hHh lpR fFf" container class="qds-story-layout">
-                <QDrawer v-model="drawerOpen" show-if-above bordered :width="216" data-test="qds-story-drawer">
+                <QDrawer v-model="drawerOpen" bordered :width="216" data-test="qds-story-drawer">
                   <QList dense>
                     <QItem clickable active>
                       <QItemSection avatar><PhSparkle :size="18" weight="duotone" /></QItemSection>
@@ -128,7 +110,7 @@ const rootState = computed(() => {
                 </QDrawer>
                 <QPageContainer>
                   <QPage class="q-pa-md">
-                    <div class="qds-story-panel q-pa-md">Air keeps acrylic depth; Feather resolves to a matte separator-driven drawer.</div>
+                    <div class="qds-story-panel q-pa-md">Fluent keeps selective material; Ink resolves to a matte separator-driven drawer.</div>
                   </QPage>
                 </QPageContainer>
                 <QFooter bordered>
@@ -143,7 +125,7 @@ const rootState = computed(() => {
                   <div class="text-overline qds-text-muted">QMenu</div>
                   <div class="text-h6 qds-story-title q-mb-md">Anchored overlay menu</div>
                   <QBtn color="primary" unelevated label="Open menu" no-caps data-test="qds-story-menu-trigger">
-                    <QMenu v-model="menuOpen" persistent anchor="bottom left" self="top left" :offset="[0, 8]" class="qds-story-menu-air-proof">
+                    <QMenu v-model="menuOpen" persistent anchor="bottom left" self="top left" :offset="[0, 8]" class="qds-story-menu-proof">
                       <QList dense style="min-width: 220px">
                         <QItem clickable>
                           <QItemSection avatar><PhPalette :size="18" weight="regular" /></QItemSection>
@@ -160,7 +142,7 @@ const rootState = computed(() => {
                       </QList>
                     </QMenu>
                   </QBtn>
-                  <p class="qds-text-muted q-mt-md q-mb-none">Menu is held open; switch the variant control to Air to proof the acrylic menu material.</p>
+                  <p class="qds-text-muted q-mt-md q-mb-none">Open the menu to review the anchored overlay material in each variant.</p>
                 </QCard>
               </div>
 
@@ -168,12 +150,12 @@ const rootState = computed(() => {
                 <QCard class="qds-story-panel q-pa-lg full-height">
                   <div class="text-overline qds-text-muted">QDialog</div>
                   <div class="text-h6 qds-story-title q-mb-md">Modal surface</div>
-                  <QBtn outline color="primary" label="Toggle dialog" no-caps @click="dialogOpen = !dialogOpen" />
+                  <QBtn outline color="primary" label="Open dialog" no-caps @click="dialogOpen = true" />
                   <QDialog v-model="dialogOpen" persistent>
                     <QCard class="qds-story-dialog" style="min-width: 320px">
                       <QCardSection>
                         <div class="text-h6 qds-story-title">Design-system dialog</div>
-                        <p class="qds-text-muted q-mb-none">Open by default for visual review of scrim, card radius, and action spacing.</p>
+                        <p class="qds-text-muted q-mb-none">Open on demand to review scrim, card radius, and action spacing.</p>
                       </QCardSection>
                       <QCardSection class="row justify-end q-gutter-sm">
                         <QBtn flat label="Cancel" no-caps @click="dialogOpen = false" />
@@ -186,42 +168,26 @@ const rootState = computed(() => {
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </StoryShell>
+      </template>
+
+      <template #controls="{ state }">
+        <HstSelect v-model="state.mode" title="Mode" :options="modeOptions" />
+        <HstSelect v-model="state.variant" title="Variant" :options="variantOptions" />
+      </template>
     </Variant>
   </Story>
 </template>
 
 <style scoped>
-.qds-story-shell {
-  min-height: 100vh;
-  background:
-    radial-gradient(circle at top right, rgba(var(--qds-color-primary-rgb), 0.14), transparent 32rem),
-    var(--qds-surface-1);
-  color: var(--qds-text);
-}
-
 .qds-story-panel,
 .qds-story-dialog {
   background: var(--qds-card-bg);
   border: var(--qds-border-width-control) solid var(--qds-card-border);
 }
 
-.qds-story-heading,
 .qds-story-title {
   font-family: var(--qds-font-family-display);
-}
-
-.qds-story-heading {
-  font-size: clamp(1.5rem, 2.4vw, 2.25rem);
-  line-height: 1.08;
-}
-
-.qds-story-kicker {
-  margin-bottom: var(--qds-space-md);
-  color: var(--qds-text-muted);
-  font-size: 0.8125rem;
-  font-weight: 650;
 }
 
 .qds-story-tabs,
@@ -230,9 +196,30 @@ const rootState = computed(() => {
 }
 
 .qds-story-layout {
-  height: 300px;
+  block-size: clamp(16rem, 48vw, 18.75rem);
   overflow: hidden;
   border: var(--qds-border-width-control) solid var(--qds-card-border);
   border-radius: var(--qds-card-radius);
+}
+
+@media (max-width: 32rem) {
+  .qds-story-tabs :deep(.q-tab) {
+    flex: 1 1 0;
+    min-width: 0;
+    padding-inline: var(--qds-space-sm);
+  }
+
+  .qds-story-tab-label {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .qds-story-tab-icon {
+    margin-inline: 0;
+  }
 }
 </style>

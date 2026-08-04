@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import {
   QBadge,
   QCard,
@@ -17,25 +17,23 @@ import {
   QSlider,
   QToggle,
   QTime,
+  useQuasar,
 } from 'quasar'
 import { PhCalendarDots, PhChecks, PhSlidersHorizontal } from '@phosphor-icons/vue'
 import {
   DESIGN_SYSTEM_VARIANTS,
-  useDesignSystem,
   type DesignSystemMode,
   type DesignSystemVariantName,
 } from '../src'
+import StoryShell from './_shared/StoryShell.vue'
 
-const designSystem = useDesignSystem()
-const variantRegistry = DESIGN_SYSTEM_VARIANTS as Record<string, (typeof DESIGN_SYSTEM_VARIANTS)[keyof typeof DESIGN_SYSTEM_VARIANTS]>
+const $q = useQuasar()
 
 const modeOptions: DesignSystemMode[] = ['light', 'dark', 'system']
-const variantOptions = Object.keys(DESIGN_SYSTEM_VARIANTS) as DesignSystemVariantName[]
-const mode = ref<DesignSystemMode>(designSystem.mode.value)
-const variant = ref<DesignSystemVariantName>(designSystem.variant.value)
+const variantOptions = Object.keys(DESIGN_SYSTEM_VARIANTS) as Array<Extract<DesignSystemVariantName, string>>
 const checkbox = ref(true)
 const denseCheckbox = ref(false)
-const radio = ref('air')
+const radio = ref('ink')
 const toggle = ref(true)
 const denseToggle = ref(false)
 const groupSingle = ref('comfortable')
@@ -48,10 +46,10 @@ const selectError = ref('Compact')
 const selectDisabled = ref('Touch')
 const selectMultiple = ref(['Compact', 'Touch'])
 const file = ref<File | null>(null)
-const date = ref('2026/07/02')
-const dateMonthView = ref('2026/07/02')
-const dateYearView = ref('2026/07/02')
-const dateRange = ref({ from: '2026/07/06', to: '2026/07/12' })
+const date = ref('2026/08/02')
+const dateMonthView = ref('2026/08/02')
+const dateYearView = ref('2026/08/02')
+const dateRange = ref({ from: '2026/08/06', to: '2026/08/12' })
 const time = ref('10:30')
 const color = ref('#6366f1')
 const colorAlpha = ref('rgba(99, 102, 241, 0.72)')
@@ -60,6 +58,13 @@ const popupLabel = ref('Inline editable label')
 const slider = ref(64)
 const range = ref({ min: 22, max: 78 })
 const timeHourOptions = [9, 10, 11]
+
+interface FormsStoryState {
+  mode: DesignSystemMode
+  variant: DesignSystemVariantName
+}
+
+const initState = (): FormsStoryState => ({ mode: 'light', variant: 'fluent' })
 
 const densityOptions = [
   { label: 'Compact', value: 'compact' },
@@ -79,41 +84,14 @@ function dateSelectable(day: string) {
   return !day.endsWith('/03') && !day.endsWith('/15')
 }
 
-function applyTheme() {
-  designSystem.setMode(mode.value)
-  designSystem.setVariant(variant.value)
-}
-
-const rootState = computed(() => {
-  const state = designSystem.state
-
-  return [
-    'qds-ui',
-    state.isDark ? 'qds-theme-dark' : 'qds-theme-light',
-    variantRegistry[state.variant]?.cssClass ?? DESIGN_SYSTEM_VARIANTS.fluent.cssClass,
-  ].filter(Boolean).join(' · ')
-})
 </script>
 
 <template>
-  <Story title="Design System / Forms & Pickers" :layout="{ type: 'single', iframe: true }">
+  <Story title="Design System / Forms & Pickers" :layout="{ type: 'single', iframe: true }" :init-state="initState">
     <Variant title="Selection controls and QDate">
-      <div class="qds-story-shell q-pa-xl">
-        <div class="qds-story-kicker">{{ rootState }}</div>
-        <div class="row q-col-gutter-lg">
-          <div class="col-12 col-lg-4">
-            <QCard class="qds-story-panel q-pa-lg full-height">
-              <div class="text-overline qds-text-muted">Theme controls</div>
-              <h2 class="qds-story-heading q-my-sm">Form states</h2>
-              <p class="qds-text-muted">
-                Selection controls cover checked, unchecked, radio-selected, toggle, dense, disabled, and grouped states.
-              </p>
-              <QSelect v-model="mode" :options="modeOptions" label="Mode" outlined dense class="q-mb-md" @update:model-value="applyTheme" />
-              <QSelect v-model="variant" :options="variantOptions" label="Variant" outlined dense @update:model-value="applyTheme" />
-            </QCard>
-          </div>
-
-          <div class="col-12 col-lg-8">
+      <template #default="{ state }">
+        <StoryShell title="Form states" description="Selection controls cover checked, unchecked, radio-selected, toggle, dense, disabled, and grouped states." :mode="state.mode" :variant="state.variant">
+          <div class="qds-story-stack qds-story-stack--relaxed">
             <div class="row q-col-gutter-lg">
               <div class="col-12 col-md-6">
                 <QCard class="qds-story-panel q-pa-lg full-height">
@@ -122,13 +100,13 @@ const rootState = computed(() => {
                       <div class="text-overline qds-text-muted">Checkbox, radio, toggle</div>
                       <div class="text-h6 qds-story-title">Individual controls</div>
                     </div>
-                    <PhChecks class="q-ml-auto" :size="28" weight="duotone" />
+                    <PhChecks class="qds-story-card-icon q-ml-auto" :size="28" weight="duotone" />
                   </div>
                   <div class="qds-story-stack">
                     <QCheckbox v-model="checkbox" color="primary" label="Checked checkbox" />
                     <QCheckbox v-model="denseCheckbox" dense color="secondary" label="Dense unchecked checkbox" />
                     <QRadio v-model="radio" val="fluent" color="primary" label="Fluent radio" />
-                    <QRadio v-model="radio" val="air" color="primary" label="Air radio selected" />
+                    <QRadio v-model="radio" val="ink" color="primary" label="Ink radio selected" />
                     <QToggle v-model="toggle" color="primary" label="Enabled toggle" />
                     <QToggle v-model="denseToggle" dense color="accent" label="Dense disabled toggle" disable />
                   </div>
@@ -142,7 +120,7 @@ const rootState = computed(() => {
                       <div class="text-overline qds-text-muted">QOptionGroup</div>
                       <div class="text-h6 qds-story-title">Grouped choices</div>
                     </div>
-                    <PhSlidersHorizontal class="q-ml-auto" :size="28" weight="duotone" />
+                    <PhSlidersHorizontal class="qds-story-card-icon q-ml-auto" :size="28" weight="duotone" />
                   </div>
                   <QOptionGroup v-model="groupSingle" color="primary" :options="densityOptions" />
                   <QSeparator spaced />
@@ -159,7 +137,7 @@ const rootState = computed(() => {
                   <div class="row q-col-gutter-lg items-start">
                     <div class="col-12 col-md-5">
                       <div class="text-overline qds-text-muted">QDate</div>
-                      <h3 class="qds-story-title q-my-sm">Calendar picker</h3>
+                      <h2 class="qds-story-title q-my-sm">Calendar picker</h2>
                       <p class="qds-text-muted">
                         Static date picker coverage keeps day cells, disabled days, month/year views, selected state, and range state visible.
                       </p>
@@ -181,9 +159,9 @@ const rootState = computed(() => {
               </div>
 
               <div class="col-12 col-lg-6">
-                <QCard class="qds-story-panel q-pa-lg full-height">
+                <QCard class="qds-story-panel qds-story-panel--neutral q-pa-lg full-height">
                   <div class="text-overline qds-text-muted">QInput, QSelect, QFile</div>
-                  <h3 class="qds-story-title q-my-sm">Visible field states</h3>
+                  <h2 class="qds-story-title q-my-sm">Visible field states</h2>
                   <p class="qds-text-muted">
                     Readonly, error, disabled, and file affordances keep the field sub-elements visible without interaction.
                   </p>
@@ -203,12 +181,12 @@ const rootState = computed(() => {
               <div class="col-12 col-lg-6">
                 <QCard class="qds-story-panel q-pa-lg full-height">
                   <div class="text-overline qds-text-muted">QTime, QColor, QPopupEdit, QSlider, QRange</div>
-                  <h3 class="qds-story-title q-my-sm">Picker and edit surfaces</h3>
+                  <h2 class="qds-story-title q-my-sm">Picker and edit surfaces</h2>
                   <p class="qds-text-muted">
                     Static picker surfaces expose AM/PM, landscape, spectrum/tune/alpha, popup editing chrome, and range controls.
                   </p>
                   <div class="qds-story-stack qds-story-stack--relaxed">
-                    <QTime v-model="time" flat bordered landscape :format24h="false" :hour-options="timeHourOptions" class="qds-story-picker" />
+                    <QTime v-model="time" flat bordered :landscape="$q.screen.gt.xs" :format24h="false" :hour-options="timeHourOptions" class="qds-story-picker" />
                     <QColor v-model="color" default-view="palette" class="qds-story-picker" />
                     <QColor v-model="colorAlpha" default-view="spectrum" format-model="rgba" class="qds-story-picker" />
                     <QColor v-model="colorTune" default-view="tune" format-model="rgba" class="qds-story-picker" />
@@ -225,50 +203,20 @@ const rootState = computed(() => {
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </StoryShell>
+      </template>
+
+      <template #controls="{ state }">
+        <HstSelect v-model="state.mode" title="Mode" :options="modeOptions" />
+        <HstSelect v-model="state.variant" title="Variant" :options="variantOptions" />
+      </template>
     </Variant>
   </Story>
 </template>
 
 <style scoped>
-.qds-story-shell {
-  min-height: 100vh;
-  background:
-    radial-gradient(circle at top right, rgba(var(--qds-color-primary-rgb), 0.14), transparent 32rem),
-    var(--qds-surface-1);
-  color: var(--qds-text);
-}
-
-.qds-story-panel {
-  background: var(--qds-card-bg);
-  border: var(--qds-border-width-control) solid var(--qds-card-border);
-}
-
-.qds-story-heading,
 .qds-story-title {
   font-family: var(--qds-font-family-display);
-}
-
-.qds-story-heading {
-  font-size: clamp(1.5rem, 2.4vw, 2.25rem);
-  line-height: 1.08;
-}
-
-.qds-story-kicker {
-  margin-bottom: var(--qds-space-md);
-  color: var(--qds-text-muted);
-  font-size: 0.8125rem;
-  font-weight: 650;
-}
-
-.qds-story-stack {
-  display: grid;
-  gap: var(--qds-space-sm);
-}
-
-.qds-story-stack--relaxed {
-  gap: var(--qds-space-lg);
 }
 
 .qds-story-edit-target {
@@ -284,5 +232,15 @@ const rootState = computed(() => {
 .qds-story-picker {
   width: 100%;
   max-width: 24rem;
+}
+
+@media (max-width: 32rem) {
+  .qds-story-card-icon {
+    display: none;
+  }
+
+  .qds-story-picker {
+    max-width: 100%;
+  }
 }
 </style>
