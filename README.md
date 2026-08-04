@@ -131,10 +131,9 @@ The core CSS only declares the font stack, so skipping these still yields a sane
 
 The package is structured around `src/themes/`. For now there is one real theme, `default`, plus small runtime variants layered over it:
 
-- `fluent`: default Fluent 2-inspired direction, balanced desktop/admin density.
-- `air`: airier acrylic surfaces for colorful, image-rich, transparency-forward apps. Legacy `glass` input is normalized for compatibility.
-- `mobile` (labelled **One**): Samsung One UI-inspired rounding, spacing, and touch-friendly controls.
-- `feather`: warm paper/e-ink mood with minimal glass behavior, muted sage/earth actions, and low-fatigue surfaces.
+- `fluent`: default Fluent 2-inspired direction with solid mica surfaces, low-border content, and selective transient material. Absorbs the legacy Air translucency behavior.
+- `ink`: paper-neutral editorial surfaces with charcoal type and coordinated pastel role washes.
+- `mobile` (labelled **One**): Samsung One UI-inspired focus blocks, rounding, spacing, and touch-friendly control rhythm.
 - `terminal`: dark amber developer UI with near-black surfaces, crisp hairline cards, restrained glow, and a monospace-forward feel.
 
 They are not separate brands — deliberate overlays over the same token system.
@@ -144,11 +143,11 @@ Choose the variant once at app startup and let the runtime keep the matching bod
 ```ts
 configureDesignSystem(app, {
   mode: 'system',
-  variant: 'feather', // fluent | air | mobile (One) | feather | terminal
+  variant: 'ink', // fluent | ink | mobile (One) | terminal
 })
 ```
 
-The legacy `glass` value still resolves to `air` for existing consumers, but new apps should use the canonical names above.
+Legacy inputs `air`, `glass`, and `studio` resolve to `fluent`; `feather` resolves to `ink`. The runtime keeps persisted state and body classes compatible, but new apps should use the canonical names above.
 
 ## Component Coverage
 

@@ -323,4 +323,38 @@
   .qds-ui .q-range.q-range .q-slider__marker {
     color: var(--qds-border);
   }
+
+  .qds-ui.qds-variant-ink .q-checkbox.q-checkbox .q-checkbox__inner--truthy .q-checkbox__bg,
+  .qds-ui.qds-variant-ink .q-checkbox.q-checkbox .q-checkbox__inner--indet .q-checkbox__bg,
+  .qds-ui.qds-variant-ink .q-radio.q-radio .q-radio__inner--truthy .q-radio__bg,
+  .qds-ui.qds-variant-feather .q-checkbox.q-checkbox .q-checkbox__inner--truthy .q-checkbox__bg,
+  .qds-ui.qds-variant-feather .q-checkbox.q-checkbox .q-checkbox__inner--indet .q-checkbox__bg,
+  .qds-ui.qds-variant-feather .q-radio.q-radio .q-radio__inner--truthy .q-radio__bg,
+  .qds-ui .qds-variant-ink .q-checkbox.q-checkbox .q-checkbox__inner--truthy .q-checkbox__bg,
+  .qds-ui .qds-variant-ink .q-checkbox.q-checkbox .q-checkbox__inner--indet .q-checkbox__bg,
+  .qds-ui .qds-variant-ink .q-radio.q-radio .q-radio__inner--truthy .q-radio__bg,
+  .qds-ui .qds-variant-feather .q-checkbox.q-checkbox .q-checkbox__inner--truthy .q-checkbox__bg,
+  .qds-ui .qds-variant-feather .q-checkbox.q-checkbox .q-checkbox__inner--indet .q-checkbox__bg,
+  .qds-ui .qds-variant-feather .q-radio.q-radio .q-radio__inner--truthy .q-radio__bg {
+    border-color: var(--qds-color-primary);
+    background: var(--qds-surface-brand-soft);
+    box-shadow: none;
+  }
+
+  .qds-ui.qds-variant-ink .q-toggle.q-toggle .q-toggle__inner--truthy .q-toggle__track,
+  .qds-ui.qds-variant-feather .q-toggle.q-toggle .q-toggle__inner--truthy .q-toggle__track,
+  .qds-ui .qds-variant-ink .q-toggle.q-toggle .q-toggle__inner--truthy .q-toggle__track,
+  .qds-ui .qds-variant-feather .q-toggle.q-toggle .q-toggle__inner--truthy .q-toggle__track {
+    background: var(--qds-surface-brand-soft);
+    border-color: var(--qds-color-primary);
+  }
+
+  .qds-ui.qds-variant-mobile .q-checkbox.q-checkbox:not(.q-checkbox--dense),
+  .qds-ui.qds-variant-mobile .q-radio.q-radio:not(.q-radio--dense),
+  .qds-ui.qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense),
+  .qds-ui .qds-variant-mobile .q-checkbox.q-checkbox:not(.q-checkbox--dense),
+  .qds-ui .qds-variant-mobile .q-radio.q-radio:not(.q-radio--dense),
+  .qds-ui .qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense) {
+    min-height: 2.75rem;
+  }
 }

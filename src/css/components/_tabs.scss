@@ -111,13 +111,9 @@
     box-shadow: var(--qds-shadow-sm);
   }
 
-  .qds-ui.qds-variant-air .q-tab-panels.q-tab-panels.q-tab-panels,
-  .qds-ui .qds-variant-air .q-tab-panels.q-tab-panels.q-tab-panels {
-    border-color: color-mix(in srgb, var(--qds-card-border) 52%, transparent);
-    box-shadow: none;
-  }
-
+  .qds-ui.qds-variant-ink .q-tab-panels.q-tab-panels.q-tab-panels,
   .qds-ui.qds-variant-feather .q-tab-panels.q-tab-panels.q-tab-panels,
+  .qds-ui .qds-variant-ink .q-tab-panels.q-tab-panels.q-tab-panels,
   .qds-ui .qds-variant-feather .q-tab-panels.q-tab-panels.q-tab-panels {
     background: var(--qds-surface-0);
     border-color: var(--qds-separator-color);
@@ -155,15 +151,15 @@
   .qds-ui .qds-variant-mobile .q-tabs.q-tabs .q-tabs__content {
     gap: var(--qds-space-xs);
     padding: var(--qds-space-xs);
-    background: var(--qds-card-bg);
-    border-radius: var(--qds-card-radius);
+    background: var(--qds-surface-focus-block);
+    border-radius: calc(var(--qds-card-radius) + 2px);
   }
 
   .qds-ui.qds-variant-mobile .q-tab.q-tab,
   .qds-ui .qds-variant-mobile .q-tab.q-tab {
-    min-height: 3.25rem;
+    min-height: 2.75rem;
     padding-inline: var(--qds-space-md);
-    border-radius: var(--qds-radius-control);
+    border-radius: var(--qds-card-radius);
   }
 
   .qds-ui.qds-variant-mobile .q-tab.q-tab::after,
@@ -173,8 +169,8 @@
 
   .qds-ui.qds-variant-mobile .q-tab.q-tab.q-tab--active,
   .qds-ui .qds-variant-mobile .q-tab.q-tab.q-tab--active {
-    background-color: var(--qds-tab-active-bg);
-    box-shadow: inset 0 0 0 1px rgba(var(--qds-color-primary-rgb), 0.08);
+    background-color: var(--qds-surface-0);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), inset 0 0 0 1px rgba(var(--qds-color-primary-rgb), 0.06);
   }
 
   .qds-ui.qds-variant-mobile .q-tabs.q-tabs--vertical .q-tabs__content,

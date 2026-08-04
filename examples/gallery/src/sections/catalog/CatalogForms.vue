@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 
 const optionSingle = ref('compact')
 const optionMultiple = ref(['motion', 'contrast'])
 const checkbox = ref(true)
-const radio = ref('air')
+const radio = ref('ink')
 const toggle = ref(true)
 const file = ref<File | null>(null)
 const inputReadonly = ref('Tokenized readonly input')
@@ -28,6 +28,19 @@ const popupLabel = ref('Editable label')
 
 const selectOptions = ['Compact', 'Comfortable', 'Touch']
 const timeHourOptions = [9, 10, 11]
+
+const isWideViewport = ref(typeof window !== 'undefined' ? window.innerWidth > 640 : true)
+function handleResize() {
+  isWideViewport.value = window.innerWidth > 640
+}
+
+onMounted(() => {
+  window.addEventListener('resize', handleResize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
+})
 
 function dateSelectable(day: string) {
   return !day.endsWith('/16') && !day.endsWith('/22')
@@ -99,7 +112,7 @@ const checkboxChoices = [
           <q-separator spaced />
           <div class="catalog-stack">
             <q-checkbox v-model="checkbox" name="catalog-checkbox" data-test="qds-catalog-checkbox" color="primary" label="Checkbox proof" />
-            <q-radio v-model="radio" name="catalog-radio" data-test="qds-catalog-radio" val="air" color="primary" label="Radio proof" />
+            <q-radio v-model="radio" name="catalog-radio" data-test="qds-catalog-radio" val="ink" color="primary" label="Radio proof" />
             <q-toggle v-model="toggle" name="catalog-toggle" data-test="qds-catalog-toggle" color="primary" label="Toggle proof" />
           </div>
         </div>
@@ -151,8 +164,8 @@ const checkboxChoices = [
         </div>
 
         <div class="catalog-demo">
-          <div class="catalog-label">QTime AM/PM landscape</div>
-          <q-time v-model="time" name="catalog-time" flat bordered landscape :format24h="false" :hour-options="timeHourOptions" class="catalog-picker" data-test="qds-catalog-time" />
+          <div class="catalog-label">QTime AM/PM {{ isWideViewport ? 'landscape' : 'portrait' }}</div>
+          <q-time v-model="time" name="catalog-time" flat bordered :landscape="isWideViewport" :format24h="false" :hour-options="timeHourOptions" class="catalog-picker" data-test="qds-catalog-time" />
         </div>
 
         <div class="catalog-demo">

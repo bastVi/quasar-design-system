@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { ppPlus, ppPencil, ppShare } from 'quasar-extras-svg-icons/phosphor-icons-v2'
 
 const dropdownItems = ['Duplicate', 'Move', 'Archive']
 const toggleChoice = ref('weekly')
@@ -64,7 +65,7 @@ const toggleOptions = [
         <div class="catalog-label">QAvatar</div>
         <div class="row items-center q-gutter-sm">
           <q-avatar data-test="qds-avatar" color="primary" text-color="white">QD</q-avatar>
-          <q-avatar rounded color="accent" text-color="white">Air</q-avatar>
+          <q-avatar rounded color="accent" text-color="white">Ink</q-avatar>
           <q-avatar square color="secondary" text-color="white">UI</q-avatar>
         </div>
       </div>
@@ -72,9 +73,20 @@ const toggleOptions = [
       <div class="catalog-demo catalog-demo--wide">
         <div class="catalog-label">QFab</div>
         <div class="catalog-fab-stage">
-          <q-fab v-model="fabOpen" color="accent" direction="right" icon="add" label="Create" no-caps>
-            <q-fab-action color="primary" icon="edit" label="Draft" />
-            <q-fab-action color="secondary" icon="share" label="Share" />
+          <q-fab v-model="fabOpen" color="accent" direction="right" label="Create" no-caps>
+            <template #icon>
+              <q-icon :name="ppPlus" />
+            </template>
+            <q-fab-action color="primary" label="Draft">
+              <template #icon>
+                <q-icon :name="ppPencil" />
+              </template>
+            </q-fab-action>
+            <q-fab-action color="secondary" label="Share">
+              <template #icon>
+                <q-icon :name="ppShare" />
+              </template>
+            </q-fab-action>
           </q-fab>
         </div>
       </div>

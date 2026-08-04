@@ -18,8 +18,8 @@ const $q = useQuasar()
 const colors = ['primary', 'secondary', 'accent', 'positive', 'negative', 'warning', 'info'] as const
 const text = ref('')
 const select = ref<string | null>(null)
-const selectMultiple = ref(['Fluent', 'Air'])
-const selectOptions = ['Fluent', 'Air', 'Mobile']
+const selectMultiple = ref(['Fluent', 'Ink'])
+const selectOptions = ['Fluent', 'Ink', 'One']
 const dialogOpen = ref(false)
 const tooltipOpen = ref(false)
 const drawerOpen = ref(true)
@@ -369,8 +369,8 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
         <q-menu>
           <q-list style="min-width: 160px">
             <q-item v-close-popup clickable><q-item-section>Fluent</q-item-section></q-item>
-            <q-item v-close-popup clickable><q-item-section>Air</q-item-section></q-item>
-            <q-item v-close-popup clickable><q-item-section>Mobile</q-item-section></q-item>
+            <q-item v-close-popup clickable><q-item-section>Ink</q-item-section></q-item>
+            <q-item v-close-popup clickable><q-item-section>One</q-item-section></q-item>
           </q-list>
         </q-menu>
       </q-btn>

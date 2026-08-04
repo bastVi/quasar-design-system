@@ -1,7 +1,8 @@
 import { expect, test, type Page } from '@playwright/test'
+import { MATRIX_VARIANTS } from './helpers'
 
 type Mode = 'light' | 'dark'
-type Variant = 'fluent' | 'air' | 'mobile' | 'feather' | 'terminal'
+type Variant = 'fluent' | 'ink' | 'mobile' | 'terminal'
 
 async function applyTheme(page: Page, mode: Mode, variant: Variant) {
   await page.evaluate(
@@ -122,10 +123,10 @@ test.describe('QDS catalog form picker gate', () => {
     await expect(page.locator('[data-test="qds-catalog-range"] .q-slider__selection').first()).toBeVisible()
     expect.soft(await computed(page, '[data-test="qds-catalog-slider"] .q-slider__track', 'border-radius'), 'QSlider track is rounded').not.toBe('0px')
     expect.soft(await computed(page, '[data-test="qds-catalog-slider"] .q-slider__selection', 'background-color'), 'QSlider selection uses primary').toBe(primary)
-    expect.soft(await computed(page, '[data-test="qds-catalog-slider"] .q-slider__thumb', 'box-shadow'), 'QSlider thumb is elevated').not.toBe('none')
+    expect.soft(await computed(page, '[data-test="qds-catalog-slider"] .q-slider__thumb', 'box-shadow'), 'QSlider thumb follows Fluent solid/no-small-shadow treatment').toBe('none')
     expect.soft(await computed(page, '[data-test="qds-catalog-range"] .q-slider__track', 'border-radius'), 'QRange track is rounded').not.toBe('0px')
     expect.soft(await computed(page, '[data-test="qds-catalog-range"] .q-slider__selection', 'background-color'), 'QRange selection uses primary').toBe(primary)
-    expect.soft(await computed(page, '[data-test="qds-catalog-range"] .q-slider__thumb', 'box-shadow'), 'QRange thumbs are elevated').not.toBe('none')
+    expect.soft(await computed(page, '[data-test="qds-catalog-range"] .q-slider__thumb', 'box-shadow'), 'QRange thumbs follow Fluent solid/no-small-shadow treatment').toBe('none')
   })
 
   test('skins QColor, QDate, and QTime picker internals with QDS tokens', async ({ page }) => {
@@ -187,7 +188,13 @@ test.describe('QDS catalog form picker gate', () => {
     expect.soft(await activeTime.evaluate((el) => getComputedStyle(el as Element).color), 'QTime active tick uses on-solid text').toBe(onSolid)
     expect.soft(await computed(page, '[data-test="qds-catalog-time"] .q-time__container-child', 'background-color'), 'QTime clock face is token surfaced').not.toBe('rgba(0, 0, 0, 0.12)')
     await expect(page.locator('[data-test="qds-catalog-time"] .q-time__header-ampm')).toBeVisible()
-    await expect(page.locator('[data-test="qds-catalog-time"].q-time--landscape')).toBeVisible()
+    // Viewport-aware landscape: landscape on >=640px, portrait on narrow
+    const viewportWidth = page.viewportSize()?.width ?? 1280
+    if (viewportWidth > 640) {
+      await expect(page.locator('[data-test="qds-catalog-time"].q-time--landscape')).toBeVisible()
+    } else {
+      await expect(page.locator('[data-test="qds-catalog-time"]')).not.toHaveClass(/q-time--landscape/)
+    }
     await expect(page.locator('[data-test="qds-catalog-time"] .q-time__clock-position--disable').first(), 'QTime disabled clock positions rendered').toBeVisible()
     expect.soft(await computed(page, '[data-test="qds-catalog-time"] .q-time__header-ampm', 'border-radius'), 'QTime AM/PM group is a segmented control').not.toBe('0px')
     expect.soft(await computed(page, '[data-test="qds-catalog-time"] .q-time__clock-position--disable', 'cursor'), 'QTime disabled positions communicate unavailable state').toBe('not-allowed')
@@ -196,5 +203,60 @@ test.describe('QDS catalog form picker gate', () => {
     await expect(page.locator('.q-popup-edit').last(), 'QPopupEdit popup opens deterministically').toBeVisible()
     expect.soft(await computed(page, '.q-popup-edit', 'border-radius'), 'QPopupEdit popup uses menu radius').not.toBe('0px')
     expect.soft(await computed(page, '.q-popup-edit', 'background-color'), 'QPopupEdit popup uses surfaced background').not.toBe('rgba(0, 0, 0, 0)')
+  })
+
+  test('forms and pickers render Fluent, Ink, and One in both resolved modes', async ({ page }) => {
+    await page.goto('/#catalog')
+    for (const mode of ['light', 'dark'] as const) {
+      for (const variant of MATRIX_VARIANTS) {
+        await applyTheme(page, mode, variant)
+        const primary = await resolvedColor(page, '--qds-color-primary')
+        await expect(page.locator('[data-test="qds-catalog-input-error"] .q-field')).toBeVisible()
+        await expect(page.locator('[data-test="qds-catalog-date"] .q-date__header')).toBeVisible()
+        await expect(page.locator('[data-test="qds-catalog-time"] .q-time__container-child')).toBeVisible()
+        expect.soft(await computed(page, '[data-test="qds-catalog-input-error"] .q-field__control', 'border-radius'), `${mode}/${variant} field radius`).not.toBe('0px')
+        expect.soft(await computedPseudo(page, '[data-test="qds-catalog-input-error"] .q-field__control', '::after', 'border-top-color'), `${mode}/${variant} error outline is semantic`).not.toBe('rgba(0, 0, 0, 0)')
+        expect.soft(await page.locator('[data-test="qds-catalog-date"]').getByRole('button', { name: '17', exact: true }).evaluate((el) => getComputedStyle(el).backgroundColor), `${mode}/${variant} selected date uses the active primary`).toBe(primary)
+        expect.soft(await computed(page, '[data-test="qds-catalog-time"] .q-time__clock-position--active', 'background-color'), `${mode}/${variant} active time uses the active primary`).toBe(primary)
+        if (variant === 'ink') {
+          expect.soft(await page.locator('body').evaluate((el) => getComputedStyle(el).getPropertyValue('--qds-surface-positive-soft').trim()), `${mode}/ink has a pastel semantic role surface`).toBe(mode === 'light' ? '#d9f1e4' : '#30493e')
+        }
+        if (variant === 'mobile') {
+          expect.soft(await computed(page, '[data-test="qds-catalog-input-error"] .q-field__control', 'min-height'), `${mode}/One fields retain 44px touch controls`).toBe('44px')
+        }
+      }
+    }
+  })
+
+  test('QTime renders portrait on narrow viewports to prevent clipping', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 })
+    await page.goto('/#catalog')
+    await applyTheme(page, 'light', 'fluent')
+
+    const activeTabBox = await page.getByRole('tab', { name: 'Catalog' }).boundingBox()
+    const tabsBox = await page.locator('.gallery-tabs').boundingBox()
+    const leftArrow = page.locator('.gallery-tabs .q-tabs__arrow--left')
+    const rightArrow = page.locator('.gallery-tabs .q-tabs__arrow--right')
+    const leftArrowBox = await leftArrow.isVisible() ? await leftArrow.boundingBox() : null
+    const rightArrowBox = await rightArrow.isVisible() ? await rightArrow.boundingBox() : null
+    if (activeTabBox && tabsBox) {
+      const visibleLeft = leftArrowBox ? leftArrowBox.x + leftArrowBox.width : tabsBox.x
+      const visibleRight = rightArrowBox ? rightArrowBox.x : tabsBox.x + tabsBox.width
+      expect.soft(activeTabBox.x, 'deep-linked active tab clears the left scroll arrow').toBeGreaterThanOrEqual(visibleLeft - 1)
+      expect.soft(activeTabBox.x + activeTabBox.width, 'deep-linked active tab clears the right scroll arrow').toBeLessThanOrEqual(visibleRight + 1)
+    }
+
+    const timePicker = page.locator('[data-test="qds-catalog-time"]')
+    await expect(timePicker).toBeVisible()
+    await expect(timePicker).not.toHaveClass(/q-time--landscape/)
+    const timeBox = await timePicker.boundingBox()
+    const demoCard = await timePicker.locator('xpath=ancestor::*[contains(@class, "catalog-demo")][1]').boundingBox()
+    if (timeBox && demoCard) {
+      expect.soft(timeBox.width, 'QTime narrow width fits within card').toBeLessThanOrEqual(demoCard.width + 1)
+      expect.soft(timeBox.x, 'QTime does not overflow card left edge').toBeGreaterThanOrEqual(demoCard.x - 1)
+      expect.soft(timeBox.x + timeBox.width, 'QTime does not overflow card right edge').toBeLessThanOrEqual(demoCard.x + demoCard.width + 1)
+    }
+    await expect(timePicker.locator('.q-time__header-ampm')).toBeVisible()
+    await expect(timePicker.locator('.q-time__clock-position--disable').first()).toBeVisible()
   })
 })

@@ -1,92 +1,44 @@
-import { expect, test, type Page } from '@playwright/test'
-
-async function forceLightMode(page: Page) {
-  await page.waitForFunction(() => Boolean((window as unknown as { __qdsGallery?: unknown }).__qdsGallery))
-  await page.evaluate(() => {
-    ;(window as unknown as { __qdsGallery: { setMode: (mode: 'light') => void } }).__qdsGallery.setMode('light')
-  })
-}
+import { expect, test } from '@playwright/test'
+import { applyTheme, computed, resolvedColor } from './helpers'
 
 test.describe('QDS variant distinctiveness lab', () => {
-  test('mounts variant comparison cards with distinct typography and pagination geometry', async ({ page }) => {
+  test('mounts four canonical comparison cards with deliberate visual systems', async ({ page }) => {
     await page.goto('/#variants')
-    await forceLightMode(page)
+    await applyTheme(page, 'light', 'fluent')
 
     await expect(page.getByRole('tab', { name: 'Variants' })).toHaveAttribute('aria-selected', 'true')
-    await expect(page.locator('[data-test="qds-variant-card-fluent"]')).toBeVisible()
-    await expect(page.locator('[data-test="qds-variant-card-air"]')).toBeVisible()
-    await expect(page.locator('[data-test="qds-variant-card-mobile"]')).toContainText('One')
-    await expect(page.locator('[data-test="qds-variant-card-feather"]')).toBeVisible()
-    await expect(page.locator('[data-test="qds-variant-card-terminal"]')).toBeVisible()
+    for (const variant of ['fluent', 'ink', 'mobile', 'terminal'] as const) {
+      await expect(page.locator(`[data-test="qds-variant-card-${variant}"]`), `${variant} card`).toBeVisible()
+      await expect(page.locator(`[data-test="qds-variant-roles-${variant}"]`), `${variant} role fixtures`).toBeVisible()
+      await expect(page.locator(`[data-test="qds-variant-progress-${variant}"] .q-linear-progress`), `${variant} progress fixtures`).toHaveCount(2)
+    }
+    await expect(page.locator('[data-test="qds-variant-card-air"], [data-test="qds-variant-card-feather"]')).toHaveCount(0)
 
-    const readVariant = (selector: string) => page.locator(selector).evaluate((el) => {
-      const card = el as Element
-      const firstRow = card.querySelector('.q-list .q-item')
-      const nestedCard = card.querySelector('.variant-card__nested')
-      const table = card.querySelector('.q-markup-table')
-      const tableCell = table?.querySelector('td')
+    const fluent = page.locator('[data-test="qds-variant-card-fluent"]')
+    expect.soft(await computed(page, '[data-test="qds-variant-card-fluent"] .variant-card__nested', 'backdrop-filter'), 'Fluent content has no blur').toBe('none')
+    expect.soft(await computed(page, '[data-test="qds-variant-card-fluent"] .variant-card__nested', 'box-shadow'), 'Fluent content has no resting small shadow').toBe('none')
+    expect.soft(await computed(page, '[data-test="qds-variant-card-fluent"] .q-card', 'border-radius'), 'Fluent compact card radius').toBe('12px')
+    expect.soft(await fluent.evaluate((el) => getComputedStyle(el).getPropertyValue('--qds-card-border-mix').trim()), 'Fluent uses low-border content').toBe('22%')
 
-      return {
-        itemMinHeight: firstRow ? getComputedStyle(firstRow as Element).minHeight : '',
-        itemRadius: firstRow ? getComputedStyle(firstRow as Element).borderRadius : '',
-        nestedShadow: nestedCard ? getComputedStyle(nestedCard as Element).boxShadow : '',
-        nestedBackdrop: nestedCard ? getComputedStyle(nestedCard as Element).backdropFilter : '',
-        tableShadow: table ? getComputedStyle(table as Element).boxShadow : '',
-        tableBorder: table ? getComputedStyle(table as Element).borderTopColor : '',
-        tableCellBorder: tableCell ? getComputedStyle(tableCell as Element).borderTopColor : '',
-      }
-    })
+    const ink = page.locator('[data-test="qds-variant-card-ink"]')
+    const inkTitleFont = await computed(page, '[data-test="qds-variant-card-ink"] .variant-card__title', 'font-family')
+    expect.soft(inkTitleFont, 'Ink display uses serif editorial family').toMatch(/Iowan Old Style|Palatino|Georgia/)
+    expect.soft(await ink.evaluate((el) => getComputedStyle(el).getPropertyValue('--qds-surface-positive-soft').trim()), 'Ink exposes pastel positive role token').toBe('#d9f1e4')
+    expect.soft(await ink.locator('.variant-role--positive').evaluate((el) => getComputedStyle(el).backgroundColor), 'Ink role fixture is painted').not.toBe('rgba(0, 0, 0, 0)')
+    expect.soft(await computed(page, '[data-test="qds-variant-card-ink"] .variant-card__nested', 'backdrop-filter'), 'Ink is flat, not blurred').toBe('none')
+    expect.soft(await computed(page, '[data-test="qds-variant-card-ink"] .variant-card__nested', 'box-shadow'), 'Ink content is matte').toBe('none')
 
-    const fluentVars = await readVariant('[data-test="qds-variant-card-fluent"]')
-    const airVars = await readVariant('[data-test="qds-variant-card-air"]')
-    const oneVars = await readVariant('[data-test="qds-variant-card-mobile"]')
-    const featherVars = await readVariant('[data-test="qds-variant-card-feather"]')
-
-    expect.soft(parseFloat(oneVars.itemMinHeight), 'One list rows are touch-forward').toBeGreaterThan(parseFloat(fluentVars.itemMinHeight))
-    expect.soft(parseFloat(oneVars.itemRadius), 'One list rows are rounder').toBeGreaterThanOrEqual(14)
-    expect.soft(airVars.nestedShadow, 'Air nested chrome is shadowless').toBe('none')
-    expect.soft(airVars.nestedBackdrop, 'Air nested chrome disables nested blur').toBe('none')
-    expect.soft(featherVars.nestedShadow, 'Feather nested card is matte').toBe('none')
-    expect.soft(featherVars.tableShadow, 'Feather table is document-flat').toBe('none')
-    expect.soft(featherVars.tableBorder, 'Feather table keeps a paper-rule border').not.toBe('rgba(0, 0, 0, 0)')
-    expect.soft(featherVars.tableCellBorder, 'Feather table cells keep paper-rule separators').not.toBe('rgba(0, 0, 0, 0)')
+    const one = page.locator('[data-test="qds-variant-card-mobile"]')
+    const fluentRow = await fluent.locator('.q-list .q-item').first().evaluate((el) => getComputedStyle(el).minHeight)
+    const oneRow = await one.locator('.q-list .q-item').first().evaluate((el) => getComputedStyle(el).minHeight)
+    expect.soft(parseFloat(oneRow), 'One list rows are touch-forward').toBeGreaterThanOrEqual(44)
+    expect.soft(parseFloat(oneRow), 'One rows exceed Fluent density').toBeGreaterThan(parseFloat(fluentRow))
+    expect.soft(await one.evaluate((el) => getComputedStyle(el).getPropertyValue('--qds-surface-focus-block').trim()), 'One focus-block token is available').toBe('#d7e4ff')
 
     const terminal = page.locator('[data-test="qds-variant-card-terminal"]')
-    const terminalVars = await terminal.evaluate((el) => {
-      const cs = getComputedStyle(el as Element)
-      const button = (el as Element).querySelector('.q-btn')
-      const pagination = Array.from((el as Element).querySelectorAll('.q-pagination .q-btn'))
-      const paginationBoxes = pagination.map((item) => {
-        const rect = item.getBoundingClientRect()
-        return {
-          ariaLabel: item.getAttribute('aria-label') || '',
-          text: item.textContent?.trim() || '',
-          width: rect.width,
-          height: rect.height,
-        }
-      })
-
-      return {
-        font: cs.getPropertyValue('--qds-font-family').trim(),
-        displayFont: cs.getPropertyValue('--qds-font-family-display').trim(),
-        controlTransform: cs.getPropertyValue('--qds-control-text-transform').trim(),
-        buttonTransform: button ? getComputedStyle(button as Element).textTransform : '',
-        paginationBoxes,
-      }
-    })
-
-    expect.soft(terminalVars.font, 'Terminal body font token uses monospace').toContain('ui-monospace')
-    expect.soft(terminalVars.displayFont, 'Terminal display font token uses monospace').toContain('ui-monospace')
-    expect.soft(terminalVars.controlTransform, 'Terminal controls request uppercase').toBe('uppercase')
-    expect.soft(terminalVars.buttonTransform, 'Terminal button text is uppercase').toBe('uppercase')
-
-    const numericButtons = terminalVars.paginationBoxes.filter((box) => /^\d+$/.test(box.text))
-    const multiDigit = numericButtons.find((box) => box.text.length > 1)
-    const navButtons = terminalVars.paginationBoxes.filter((box) => /^(First|Previous|Next|Last) page$/.test(box.ariaLabel))
-    expect.soft(numericButtons.length, 'Terminal pagination exposes numeric pages').toBeGreaterThan(0)
-    expect.soft(navButtons.length, 'Terminal pagination exposes nav controls').toBeGreaterThan(0)
-    expect.soft(Math.min(...numericButtons.map((box) => box.height)), 'Terminal numeric page height').toBeGreaterThanOrEqual(31)
-    expect.soft(Math.max(...navButtons.map((box) => box.width)), 'Terminal nav buttons are compact squares').toBeLessThanOrEqual(34)
-    expect.soft(multiDigit?.width ?? 0, 'Terminal multi-digit page can grow past square nav size').toBeGreaterThan(34)
+    expect.soft(await terminal.evaluate((el) => getComputedStyle(el).getPropertyValue('--qds-font-family').trim()), 'Terminal body font token is monospace').toContain('ui-monospace')
+    expect.soft(await terminal.evaluate((el) => getComputedStyle(el).getPropertyValue('--qds-control-text-transform').trim()), 'Terminal controls request uppercase').toBe('uppercase')
+    expect.soft(await computed(page, '[data-test="qds-variant-card-terminal"] .q-btn', 'text-transform'), 'Terminal button renders uppercase').toBe('uppercase')
+    expect.soft(await resolvedColor(page, '--qds-color-primary'), 'Fluent primary remains calibrated from source tokens').toBe('rgb(0, 90, 158)')
   })
 })

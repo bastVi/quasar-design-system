@@ -38,6 +38,14 @@ export const QDS_TOKENS = [
   '--qds-surface-2',
   '--qds-surface-3',
   '--qds-surface-glass',
+  '--qds-surface-brand-soft',
+  '--qds-surface-accent-soft',
+  '--qds-surface-positive-soft',
+  '--qds-surface-warning-soft',
+  '--qds-surface-negative-soft',
+  '--qds-surface-info-soft',
+  '--qds-surface-focus-block',
+  '--qds-surface-transient',
 
   // ── Text ────────────────────────────────────────────────────────────
   '--qds-text',

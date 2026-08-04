@@ -23,7 +23,7 @@
   .qds-ui .q-btn.q-btn.bg-#{$name}:not(.q-btn--flat):not(.q-btn--outline):not(.qds-solid) {
     color: color-mix(in srgb, var(--qds-color-#{$token}) var(--qds-tonal-text-mix), var(--qds-text-strong)) !important;
     background-color: rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-bg-opacity)) !important;
-    border: var(--qds-border-width-control) solid rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-border-opacity));
+    border: var(--qds-border-width-control) solid transparent;
   }
 
   .qds-ui .q-btn.q-btn.bg-#{$name}:not(.q-btn--flat):not(.q-btn--outline):not(.qds-solid):hover {
@@ -203,6 +203,51 @@
   .qds-ui.qds-variant-terminal .q-btn.q-btn.q-btn--flat,
   .qds-ui .qds-variant-terminal .q-btn.q-btn.q-btn--flat {
     color: var(--qds-color-primary) !important;
+  }
+
+  .qds-ui.qds-variant-ink .q-btn.q-btn,
+  .qds-ui.qds-variant-feather .q-btn.q-btn,
+  .qds-ui .qds-variant-ink .q-btn.q-btn,
+  .qds-ui .qds-variant-feather .q-btn.q-btn {
+    font-family: var(--qds-font-family);
+  }
+
+  .qds-ui.qds-variant-ink .q-btn.q-btn.q-btn--unelevated:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent):not(.qds-solid),
+  .qds-ui.qds-variant-ink .q-btn.q-btn.q-btn--standard:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent):not(.qds-solid),
+  .qds-ui.qds-variant-feather .q-btn.q-btn.q-btn--unelevated:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent):not(.qds-solid),
+  .qds-ui.qds-variant-feather .q-btn.q-btn.q-btn--standard:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent):not(.qds-solid),
+  .qds-ui .qds-variant-ink .q-btn.q-btn.q-btn--unelevated:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent):not(.qds-solid),
+  .qds-ui .qds-variant-ink .q-btn.q-btn.q-btn--standard:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent):not(.qds-solid),
+  .qds-ui .qds-variant-feather .q-btn.q-btn.q-btn--unelevated:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent):not(.qds-solid),
+  .qds-ui .qds-variant-feather .q-btn.q-btn.q-btn--standard:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent):not(.qds-solid) {
+    background-color: var(--qds-surface-transient);
+    border-color: var(--qds-separator-color);
+    box-shadow: none !important;
+  }
+
+  .qds-ui.qds-variant-ink .q-btn.q-btn.q-btn--standard:not(.q-btn--flat):not(.q-btn--outline),
+  .qds-ui.qds-variant-feather .q-btn.q-btn.q-btn--standard:not(.q-btn--flat):not(.q-btn--outline),
+  .qds-ui .qds-variant-ink .q-btn.q-btn.q-btn--standard:not(.q-btn--flat):not(.q-btn--outline),
+  .qds-ui .qds-variant-feather .q-btn.q-btn.q-btn--standard:not(.q-btn--flat):not(.q-btn--outline) {
+    background-color: var(--qds-surface-1);
+    box-shadow: none !important;
+  }
+
+  .qds-ui.qds-variant-ink .q-btn.q-btn.q-btn--standard:not(.q-btn--flat):not(.q-btn--outline):hover,
+  .qds-ui.qds-variant-feather .q-btn.q-btn.q-btn--standard:not(.q-btn--flat):not(.q-btn--outline):hover,
+  .qds-ui .qds-variant-ink .q-btn.q-btn.q-btn--standard:not(.q-btn--flat):not(.q-btn--outline):hover,
+  .qds-ui .qds-variant-feather .q-btn.q-btn.q-btn--standard:not(.q-btn--flat):not(.q-btn--outline):hover {
+    transform: none;
+    box-shadow: none !important;
+  }
+
+  .qds-ui.qds-variant-ink .q-btn.q-btn.qds-active:not(.qds-solid),
+  .qds-ui.qds-variant-feather .q-btn.q-btn.qds-active:not(.qds-solid),
+  .qds-ui .qds-variant-ink .q-btn.q-btn.qds-active:not(.qds-solid),
+  .qds-ui .qds-variant-feather .q-btn.q-btn.qds-active:not(.qds-solid) {
+    background-color: var(--qds-surface-brand-soft) !important;
+    color: color-mix(in srgb, var(--qds-color-primary) var(--qds-tonal-text-mix), var(--qds-text-strong)) !important;
+    border-color: transparent;
   }
 
   .qds-ui.qds-variant-mobile .q-btn.q-btn,

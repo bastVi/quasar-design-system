@@ -1,118 +1,109 @@
 @mixin styles {
-  .qds-ui .q-card.q-card {
-    background: var(--qds-card-bg);
-    border: var(--qds-border-width-control) solid var(--qds-card-border);
+  // Cards are content containers by default. Framing is opt-in so nested content
+  // reads as a single surface rather than a stack of material slabs.
+  .qds-ui .q-card.q-card,
+  .qds-ui .qds-card {
+    background: var(--qds-surface-0);
+    border: 0;
     border-radius: var(--qds-card-radius);
-    box-shadow: var(--qds-card-shadow);
+    box-shadow: none;
     color: var(--qds-text);
-    background-clip: padding-box;
-    backdrop-filter: blur(var(--qds-card-backdrop-blur)) saturate(var(--qds-card-backdrop-saturate));
-    -webkit-backdrop-filter: blur(var(--qds-card-backdrop-blur)) saturate(var(--qds-card-backdrop-saturate));
   }
 
-  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    .qds-ui .q-card.q-card {
-      background: var(--qds-card-bg-fallback);
-    }
-  }
-
-  .qds-ui .q-card.q-card.q-card--bordered {
-    border-color: var(--qds-card-border-strong);
+  .qds-ui .q-card.q-card.q-card--bordered,
+  .qds-ui .q-card.q-card.qds-card--readable,
+  .qds-ui .q-card.q-card.qds-card--contrast,
+  .qds-ui .qds-card.qds-card--readable,
+  .qds-ui .qds-card.qds-card--contrast {
+    border: var(--qds-border-width-control) solid var(--qds-card-border-strong);
   }
 
   .qds-ui .q-card.q-card.qds-card--readable,
-  .qds-ui .q-card.q-card.qds-card--contrast {
+  .qds-ui .q-card.q-card.qds-card--contrast,
+  .qds-ui .qds-card.qds-card--readable,
+  .qds-ui .qds-card.qds-card--contrast {
     background: var(--qds-card-bg-readable);
-    border-color: var(--qds-card-border-strong);
   }
 
   .qds-ui .q-card.q-card.qds-card--opaque,
-  .qds-ui .q-card.q-card.qds-card--solid {
+  .qds-ui .q-card.q-card.qds-card--solid,
+  .qds-ui .qds-card.qds-card--opaque,
+  .qds-ui .qds-card.qds-card--solid {
     background: var(--qds-card-bg-opaque);
-    border-color: var(--qds-card-border-strong);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+    border: var(--qds-border-width-control) solid var(--qds-card-border-strong);
   }
 
   .qds-ui .q-card.q-card > .q-card__section.qds-card__header,
   .qds-ui .q-card.q-card > .q-card__section.qds-card-header {
-    background: var(--qds-card-header-bg);
-    border-block-end: var(--qds-border-width-control) solid var(--qds-card-header-border);
-    border-start-start-radius: calc(var(--qds-card-radius) - var(--qds-border-width-control));
-    border-start-end-radius: calc(var(--qds-card-radius) - var(--qds-border-width-control));
-  }
-
-  .qds-ui .q-card.q-card > .q-card__section.qds-card__header--opaque,
-  .qds-ui .q-card.q-card > .q-card__section.qds-card-header--opaque {
-    background: var(--qds-card-header-bg-opaque);
+    background: var(--qds-surface-1);
+    border-block-end: var(--qds-border-width-control) solid var(--qds-separator-color);
+    border-start-start-radius: inherit;
+    border-start-end-radius: inherit;
   }
 
   .qds-ui .q-card.q-card > .q-card__section.qds-card__header--accent,
   .qds-ui .q-card.q-card > .q-card__section.qds-card-header--accent {
-    color: color-mix(in srgb, var(--qds-color-primary) var(--qds-tonal-text-mix), var(--qds-text-strong));
-    background: linear-gradient(135deg, rgba(var(--qds-color-primary-rgb), var(--qds-tonal-bg-opacity)), transparent 76%), var(--qds-card-header-bg-opaque);
-    border-block-end-color: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-border-opacity));
+    color: var(--qds-text-strong);
+    background: var(--qds-surface-brand-soft);
+    border-block-end-color: color-mix(in srgb, var(--qds-color-primary) 30%, var(--qds-separator-color));
   }
 
-  .qds-ui.qds-variant-air .q-card.q-card,
-  .qds-ui .qds-variant-air .q-card.q-card,
-  .qds-ui .q-card.q-card.qds-variant-air,
-  .qds-ui.qds-variant-air .qds-card,
-  .qds-ui .qds-variant-air .qds-card {
-    border-color: color-mix(in srgb, var(--qds-chrome-border-soft) 36%, transparent);
-    box-shadow: var(--qds-card-shadow);
-  }
-
-  .qds-ui.qds-variant-air .q-card.q-card.qds-card--readable,
-  .qds-ui .qds-variant-air .q-card.q-card.qds-card--readable,
-  .qds-ui.qds-variant-air .q-card.q-card.qds-card--contrast,
-  .qds-ui .qds-variant-air .q-card.q-card.qds-card--contrast {
-    border-color: color-mix(in srgb, var(--qds-border) 36%, transparent);
-  }
-
-  .qds-ui.qds-variant-air .q-card.q-card .q-card.q-card,
-  .qds-ui .qds-variant-air .q-card.q-card .q-card.q-card,
-  .qds-ui .q-card.q-card.qds-variant-air .q-card.q-card,
-  .qds-ui.qds-variant-air .q-card.q-card .qds-card,
-  .qds-ui .qds-variant-air .q-card.q-card .qds-card {
-    background: var(--qds-chrome-surface-strong);
-    border-color: color-mix(in srgb, var(--qds-chrome-border-soft) 24%, transparent);
+  .qds-ui .q-card.q-card .q-card.q-card,
+  .qds-ui .q-card.q-card .qds-card {
+    background: var(--qds-surface-1);
     box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
   }
 
+  .qds-ui.qds-variant-ink .q-card.q-card,
   .qds-ui.qds-variant-feather .q-card.q-card,
+  .qds-ui .qds-variant-ink .q-card.q-card,
   .qds-ui .qds-variant-feather .q-card.q-card,
-  .qds-ui .q-card.q-card.qds-variant-feather,
+  .qds-ui.qds-variant-ink .qds-card,
   .qds-ui.qds-variant-feather .qds-card,
+  .qds-ui .qds-variant-ink .qds-card,
   .qds-ui .qds-variant-feather .qds-card {
-    background: var(--qds-surface-0);
-    border-color: var(--qds-separator-color);
-    box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+    background: var(--qds-surface-brand-soft);
+    color: var(--qds-text);
   }
 
-  .qds-ui.qds-variant-feather .q-card.q-card .q-card__section + .q-card__section,
-  .qds-ui .qds-variant-feather .q-card.q-card .q-card__section + .q-card__section {
-    border-top: var(--qds-border-width-control) solid var(--qds-separator-color);
+  .qds-ui.qds-variant-ink .q-card.q-card.q-card--bordered,
+  .qds-ui.qds-variant-feather .q-card.q-card.q-card--bordered,
+  .qds-ui .qds-variant-ink .q-card.q-card.q-card--bordered,
+  .qds-ui .qds-variant-feather .q-card.q-card.q-card--bordered {
+    border-color: color-mix(in srgb, var(--qds-color-primary) 28%, var(--qds-border));
   }
 
-  .qds-ui.qds-variant-feather .q-card.q-card .q-card__actions,
-  .qds-ui .qds-variant-feather .q-card.q-card .q-card__actions {
-    background: color-mix(in srgb, var(--qds-surface-1) 72%, transparent);
-    border-top: var(--qds-border-width-control) solid var(--qds-separator-color);
+  .qds-ui.qds-variant-ink .q-card.q-card > .q-card__section.qds-card__header,
+  .qds-ui.qds-variant-feather .q-card.q-card > .q-card__section.qds-card__header,
+  .qds-ui .qds-variant-ink .q-card.q-card > .q-card__section.qds-card__header,
+  .qds-ui .qds-variant-feather .q-card.q-card > .q-card__section.qds-card__header,
+  .qds-ui.qds-variant-ink .q-card.q-card > .q-card__section.qds-card-header,
+  .qds-ui.qds-variant-feather .q-card.q-card > .q-card__section.qds-card-header,
+  .qds-ui .qds-variant-ink .q-card.q-card > .q-card__section.qds-card-header,
+  .qds-ui .qds-variant-feather .q-card.q-card > .q-card__section.qds-card-header {
+    background: var(--qds-surface-accent-soft);
+  }
+
+  .qds-ui.qds-variant-mobile .q-card.q-card,
+  .qds-ui .qds-variant-mobile .q-card.q-card,
+  .qds-ui.qds-variant-mobile .qds-card,
+  .qds-ui .qds-variant-mobile .qds-card {
+    background: var(--qds-surface-focus-block);
+    border: var(--qds-border-width-control) solid var(--qds-separator-color);
+  }
+
+  .qds-ui.qds-variant-mobile .q-card.q-card > .q-card__section.qds-card__header,
+  .qds-ui .qds-variant-mobile .q-card.q-card > .q-card__section.qds-card__header,
+  .qds-ui.qds-variant-mobile .q-card.q-card > .q-card__section.qds-card-header,
+  .qds-ui .qds-variant-mobile .q-card.q-card > .q-card__section.qds-card-header {
+    background: var(--qds-surface-brand-soft);
   }
 
   .qds-ui.qds-variant-terminal .q-card.q-card,
   .qds-ui .qds-variant-terminal .q-card.q-card,
-  .qds-ui .q-card.q-card.qds-variant-terminal,
   .qds-ui.qds-variant-terminal .qds-card,
   .qds-ui .qds-variant-terminal .qds-card {
-    border-color: color-mix(in srgb, var(--qds-color-primary) 24%, var(--qds-border) 76%);
-    background:
-      linear-gradient(180deg, rgba(var(--qds-color-primary-rgb), 0.035), transparent 42%),
-      var(--qds-card-bg);
+    border: var(--qds-border-width-control) solid color-mix(in srgb, var(--qds-color-primary) 24%, var(--qds-border));
+    background: linear-gradient(180deg, rgba(var(--qds-color-primary-rgb), 0.035), transparent 42%), var(--qds-surface-0);
   }
 }

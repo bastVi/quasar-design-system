@@ -1,5 +1,5 @@
 <script setup lang="ts">
-type SceneVariant = 'fluent' | 'air' | 'mobile' | 'feather' | 'terminal'
+type SceneVariant = 'fluent' | 'ink' | 'mobile' | 'terminal'
 
 type Scene = {
   variant: SceneVariant
@@ -18,25 +18,18 @@ const scenes: Scene[] = [
     detail: 'Calm depth, solid reading surfaces, and restrained acrylic over cool geometry.',
   },
   {
-    variant: 'air',
-    label: 'Air',
-    tagline: 'Matte glass over imagery',
-    wallpaper: '/scenes/qds-wallpaper-air.svg',
-    detail: 'Higher blur, softer translucency, and image-aware depth without shiny legacy glass.',
+    variant: 'ink',
+    label: 'Ink',
+    tagline: 'Paper and ink',
+    wallpaper: '/scenes/qds-wallpaper-ink.svg',
+    detail: 'Paper-neutral surface with charcoal type and coordinated pastel role washes.',
   },
   {
     variant: 'mobile',
     label: 'One',
     tagline: 'One UI rhythm',
     wallpaper: '/scenes/qds-wallpaper-mobile.svg',
-    detail: 'Rounder controls, roomier rows, and calmer touch-first panels without being a mobile-only mode.',
-  },
-  {
-    variant: 'feather',
-    label: 'Feather',
-    tagline: 'Paper and ink',
-    wallpaper: '/scenes/qds-wallpaper-feather.svg',
-    detail: 'Warm paper color, minimal acrylic, and quiet shadows for eink-like reading.',
+    detail: 'Focus blocks, rounder controls, roomier rows, and calmer touch-first panels.',
   },
   {
     variant: 'terminal',
@@ -55,7 +48,7 @@ const scenes: Scene[] = [
       <h1 id="qds-scenes-title" class="qds-display">Variant matrix over owned scenic wallpapers</h1>
       <p class="qds-text-muted">
         These frames compare the same tokenized Quasar card anatomy over deterministic SVG wallpapers.
-        The backgrounds are gallery-owned assets, so Air can be judged as matte glass against image-rich context.
+        Each canonical variant is judged against image-rich context so surface, border, and depth rules stay visible.
       </p>
     </div>
 
@@ -81,7 +74,7 @@ const scenes: Scene[] = [
 
           <q-card-section class="scene-metrics">
             <span>blur <strong>var(--qds-card-backdrop-blur)</strong></span>
-            <span>alpha <strong>var(--qds-surface-glass)</strong></span>
+            <span>surface <strong>var(--qds-card-bg)</strong></span>
           </q-card-section>
 
           <q-card-actions align="between">
@@ -226,12 +219,7 @@ const scenes: Scene[] = [
   background: rgba(var(--qds-color-primary-rgb), 0.7);
 }
 
-.scene-frame--air .scene-panel,
-.scene-frame--air .scene-dock {
-  transform: translateY(-0.25rem);
-}
-
-.scene-frame--feather::before {
+.scene-frame--ink::before {
   background:
     repeating-linear-gradient(0deg, rgba(95, 111, 82, 0.045) 0 1px, transparent 1px 9px),
     linear-gradient(135deg, rgba(255, 248, 232, 0.72), rgba(255, 248, 232, 0.08));

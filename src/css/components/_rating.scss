@@ -20,4 +20,18 @@
   .qds-ui .q-rating.q-rating .q-rating__icon:hover {
     transform: translateY(-1px);
   }
+
+  .qds-ui.qds-variant-ink .q-rating.q-rating,
+  .qds-ui.qds-variant-feather .q-rating.q-rating,
+  .qds-ui .qds-variant-ink .q-rating.q-rating,
+  .qds-ui .qds-variant-feather .q-rating.q-rating {
+    color: var(--qds-color-accent);
+  }
+
+  .qds-ui.qds-variant-ink .q-rating.q-rating .q-rating__icon,
+  .qds-ui.qds-variant-feather .q-rating.q-rating .q-rating__icon,
+  .qds-ui .qds-variant-ink .q-rating.q-rating .q-rating__icon,
+  .qds-ui .qds-variant-feather .q-rating.q-rating .q-rating__icon {
+    opacity: 0.28;
+  }
 }

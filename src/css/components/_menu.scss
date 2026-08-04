@@ -48,24 +48,20 @@
     background: var(--qds-border-subtle);
   }
 
-  .qds-ui.qds-variant-air .q-menu.q-menu,
-  .qds-ui .qds-variant-air .q-menu.q-menu {
-    background:
-      linear-gradient(135deg, rgba(var(--qds-card-acrylic-tint-rgb), var(--qds-card-tonal-opacity)), transparent 68%),
-      var(--qds-surface-glass);
-    border-color: color-mix(in srgb, var(--qds-chrome-border-soft) 42%, transparent);
-    box-shadow: var(--qds-shadow-md);
-    backdrop-filter: blur(var(--qds-card-backdrop-blur)) saturate(var(--qds-card-backdrop-saturate));
-    -webkit-backdrop-filter: blur(var(--qds-card-backdrop-blur)) saturate(var(--qds-card-backdrop-saturate));
+  .qds-ui.qds-variant-ink .q-menu.q-menu,
+  .qds-ui .qds-variant-ink .q-menu.q-menu {
+    background: var(--qds-surface-0);
+    border-color: var(--qds-separator-color);
+    box-shadow: none;
   }
 
-  .qds-ui.qds-variant-air .q-menu.q-menu .q-item.q-item:hover,
-  .qds-ui.qds-variant-air .q-menu.q-menu .q-item.q-item.q-hoverable:hover,
-  .qds-ui.qds-variant-air .q-menu.q-menu .q-item.q-item:focus-visible,
-  .qds-ui .qds-variant-air .q-menu.q-menu .q-item.q-item:hover,
-  .qds-ui .qds-variant-air .q-menu.q-menu .q-item.q-item.q-hoverable:hover,
-  .qds-ui .qds-variant-air .q-menu.q-menu .q-item.q-item:focus-visible {
-    background-color: color-mix(in srgb, var(--qds-chrome-surface-strong) 72%, var(--qds-color-primary) 8%);
+  .qds-ui.qds-variant-ink .q-menu.q-menu .q-item.q-item:hover,
+  .qds-ui.qds-variant-ink .q-menu.q-menu .q-item.q-item.q-hoverable:hover,
+  .qds-ui.qds-variant-ink .q-menu.q-menu .q-item.q-item:focus-visible,
+  .qds-ui .qds-variant-ink .q-menu.q-menu .q-item.q-item:hover,
+  .qds-ui .qds-variant-ink .q-menu.q-menu .q-item.q-item.q-hoverable:hover,
+  .qds-ui .qds-variant-ink .q-menu.q-menu .q-item.q-item:focus-visible {
+    background-color: var(--qds-surface-transient);
   }
 
   .qds-ui.qds-variant-terminal .q-menu.q-menu,
@@ -121,7 +117,7 @@
   .qds-ui.qds-variant-mobile .q-menu.q-menu .q-item.q-item[aria-selected='true'],
   .qds-ui .qds-variant-mobile .q-menu.q-menu .q-item.q-item.q-item--active,
   .qds-ui .qds-variant-mobile .q-menu.q-menu .q-item.q-item[aria-selected='true'] {
-    background-color: color-mix(in srgb, var(--qds-tab-active-bg) 82%, var(--qds-surface-2) 18%);
+    background-color: var(--qds-surface-focus-block);
     box-shadow: inset 0 0 0 1px rgba(var(--qds-color-primary-rgb), 0.08);
   }
 

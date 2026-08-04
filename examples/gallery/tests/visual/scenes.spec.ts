@@ -1,97 +1,35 @@
-import { test, expect, type Page } from '@playwright/test'
-
-const VARIANTS = ['fluent', 'air', 'mobile', 'feather', 'terminal'] as const
-
-async function forceLightMode(page: Page) {
-  await page.waitForFunction(() => Boolean((window as unknown as { __qdsGallery?: unknown }).__qdsGallery))
-  await page.evaluate(() => {
-    ;(window as unknown as { __qdsGallery: { setMode: (mode: 'light') => void } }).__qdsGallery.setMode('light')
-  })
-}
+import { expect, test } from '@playwright/test'
+import { applyTheme, computed, customProperty } from './helpers'
 
 test.describe('QDS scene gallery', () => {
-  test('hash route mounts scenic variant matrix', async ({ page }) => {
+  test('mounts the four owned canonical scenes and their readable cards', async ({ page }) => {
     await page.goto('/#scenes')
-    await forceLightMode(page)
-
+    await applyTheme(page, 'light', 'fluent')
     await expect(page.getByRole('tab', { name: 'Scenes' })).toHaveClass(/q-tab--active/)
-    await expect(page.locator('[data-test="qds-scenes-section"]')).toBeVisible()
 
-    for (const variant of VARIANTS) {
+    for (const variant of ['fluent', 'ink', 'mobile', 'terminal'] as const) {
       const scene = page.locator(`[data-test="qds-scene-${variant}"]`)
-      await expect(scene, `${variant} scene frame`).toBeVisible()
-      const card = scene.locator(`[data-test="qds-scene-card-${variant}"]`)
-      await expect(card).toBeVisible()
-      await expect(card).toHaveClass(/qds-card--readable/)
-      await expect(card.locator('.qds-card__header')).toBeVisible()
-
-      const backgroundImage = await scene.evaluate((el) => getComputedStyle(el).backgroundImage)
-      expect.soft(backgroundImage, `${variant} scene uses owned wallpaper`).toContain(
-        `/scenes/qds-wallpaper-${variant}.svg`,
-      )
+      await expect(scene).toBeVisible()
+      await expect(scene.locator(`[data-test="qds-scene-card-${variant}"]`)).toHaveClass(/qds-card--readable/)
+      expect.soft(await scene.evaluate((el) => getComputedStyle(el).backgroundImage), `${variant} uses its owned wallpaper`).toContain(`/scenes/qds-wallpaper-${variant}.svg`)
     }
+    await expect(page.locator('[data-test="qds-scene-air"], [data-test="qds-scene-feather"]')).toHaveCount(0)
   })
 
-  test('Air scene exposes pure SwiftUI-like material tokens', async ({ page }) => {
+  test('Ink scene stays paper-first with pastel roles while transient surfaces retain depth', async ({ page }) => {
     await page.goto('/#scenes')
-    await forceLightMode(page)
+    await applyTheme(page, 'light', 'ink')
+    const ink = '[data-test="qds-scene-ink"]'
+    expect.soft(await customProperty(page, '--qds-surface-0'), 'Ink paper surface comes from current token source').toBe('#fdf9f1')
+    expect.soft(await customProperty(page, '--qds-surface-info-soft'), 'Ink coordinated pastel info surface').toBe('#dbeafb')
+    expect.soft(await computed(page, `${ink} .scene-panel`, 'backdrop-filter'), 'Ink scene card has no blur').toBe('none')
+    expect.soft(await computed(page, `${ink} .scene-panel`, 'box-shadow'), 'Ink scene content is flat').toBe('none')
 
-    const air = page.locator('[data-test="qds-scene-air"]')
-    await expect(air).toBeVisible()
-
-    const airTokens = await air.evaluate((el) => {
-      const cs = getComputedStyle(el)
-      return {
-        surfaceGlass: cs.getPropertyValue('--qds-surface-glass').trim(),
-        tintRgb: cs.getPropertyValue('--qds-card-acrylic-tint-rgb').trim(),
-        tonalOpacity: Number(cs.getPropertyValue('--qds-card-tonal-opacity').trim()),
-        fallbackOpacity: Number(cs.getPropertyValue('--qds-card-fallback-tonal-opacity').trim()),
-        blur: cs.getPropertyValue('--qds-card-backdrop-blur').trim(),
-        saturate: Number(cs.getPropertyValue('--qds-card-backdrop-saturate').trim()),
-        cardBorder: cs.getPropertyValue('--qds-card-border').trim(),
-        readableBg: cs.getPropertyValue('--qds-card-bg-readable').trim(),
-        readableSurfaceMix: cs.getPropertyValue('--qds-card-readable-surface-mix').trim(),
-        headerBg: cs.getPropertyValue('--qds-card-header-bg-opaque').trim(),
-        fontWeightMedium: cs.getPropertyValue('--qds-font-weight-medium').trim(),
-        iconOpacity: cs.getPropertyValue('--qds-control-icon-opacity').trim(),
-        chromeShadow: cs.getPropertyValue('--qds-chrome-shadow').trim(),
-      }
-    })
-
-    expect.soft(airTokens.surfaceGlass).toMatch(/^rgba\(250, 252, 255, 0?\.42\)$/)
-    expect.soft(airTokens.tintRgb).toBe('232, 242, 252')
-    expect.soft(airTokens.tonalOpacity).toBeGreaterThanOrEqual(0.11)
-    expect.soft(airTokens.tonalOpacity).toBeLessThan(0.14)
-    expect.soft(airTokens.fallbackOpacity).toBeGreaterThanOrEqual(0.07)
-    expect.soft(airTokens.blur).toBe('1.75rem')
-    expect.soft(airTokens.saturate).toBeGreaterThanOrEqual(1.12)
-    expect.soft(airTokens.cardBorder).toContain('18%')
-    expect.soft(airTokens.readableBg).toContain('color-mix')
-    expect.soft(airTokens.readableSurfaceMix).toBe('78%')
-    expect.soft(airTokens.headerBg).toContain('#fbfbfd')
-    expect.soft(airTokens.fontWeightMedium).toBe('450')
-    expect.soft(Number(airTokens.iconOpacity)).toBeCloseTo(0.64, 2)
-    expect.soft(airTokens.chromeShadow).toBe('none')
-  })
-
-  test('Feather scene remains paper-first, not glass-first', async ({ page }) => {
-    await page.goto('/#scenes')
-    await forceLightMode(page)
-
-    const feather = page.locator('[data-test="qds-scene-feather"]')
-    await expect(feather).toBeVisible()
-
-    const featherTokens = await feather.evaluate((el) => {
-      const cs = getComputedStyle(el)
-      return {
-        surface: cs.getPropertyValue('--qds-surface-0').trim(),
-        glass: cs.getPropertyValue('--qds-surface-glass').trim(),
-        blur: cs.getPropertyValue('--qds-card-backdrop-blur').trim(),
-      }
-    })
-
-    expect.soft(featherTokens.surface).toBe('#fbf6ea')
-    expect.soft(featherTokens.glass).toMatch(/^rgba\(251, 246, 234, 0?\.96\)$/)
-    expect.soft(featherTokens.blur).toBe('0')
+    await applyTheme(page, 'light', 'fluent')
+    await page.goto('/#components')
+    await expect(page.getByRole('button', { name: 'Info', exact: true })).toBeVisible()
+    await page.getByRole('button', { name: 'Info', exact: true }).click()
+    await expect(page.locator('.q-notification').first()).toBeVisible()
+    expect.soft(await computed(page, '.q-notification', 'box-shadow'), 'Fluent transient notification retains selective depth').not.toBe('none')
   })
 })

@@ -19,9 +19,9 @@ const listActions = [
 
 const gridActions = [
   { id: 'fluent', label: 'Fluent' },
-  { id: 'air', label: 'Air' },
+  { id: 'ink', label: 'Ink' },
   { id: 'mobile', label: 'One' },
-  { id: 'feather', label: 'Feather' },
+  { id: 'terminal', label: 'Terminal' },
   {},
   { id: 'tokens', label: 'Tokens' },
   { id: 'motion', label: 'Motion' },

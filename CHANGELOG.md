@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Changed
+
+- **Breaking visual redesign — variant convergence.** The visible variant set is now `fluent`, `ink`, `mobile` (One), and `terminal`. The Air visual system is removed; its low-border/selective-material behavior is absorbed by Fluent. Feather is renamed to Ink and is now a colored, flat, paper-neutral editorial surface with charcoal anchors and coordinated pastel role washes (no longer monochrome).
+- Fluent inherits the legacy Air translucency behavior without the iOS palette or oversized geometry.
+- Ink replaces Feather as the paper-neutral variant, now with deliberate pastel role surfaces across cards, tables, progress, badges, and selection.
+- One (mobile) gains its own focus blocks and touch rhythm treatment distinct from Fluent.
+- Gallery and Histoire variant switchers, scenes, and story controls enumerate the four canonical variants only. The Air showcase and Feather showcase are removed as public surfaces.
+- Gallery mobile header layout repaired at 390px: single accessible horizontally scrollable tab strip with visible but non-obstructive overflow; compact control layout avoids competing clipped scrollers.
+
+### Compatibility
+
+- Runtime legacy aliases preserved: `air`, `glass`, and `studio` inputs resolve to `fluent`; `feather` resolves to `ink`. Persisted state and body classes remain compatible.
+- The `qds-variant-air`, `qds-variant-glass`, and `qds-variant-feather` body classes are no longer emitted for new sessions; legacy classes are cleared on variant change.
+- Public TypeScript types expose `CanonicalDesignSystemVariantName` (`fluent` | `ink` | `mobile` | `terminal`) and `LegacyDesignSystemVariantName` (`studio` | `air` | `glass` | `feather`) for migration.
+
 ## [0.6.2] — 2026-07-29
 
 ### Fixed

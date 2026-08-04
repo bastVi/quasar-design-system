@@ -1,65 +1,53 @@
 @mixin styles {
-  .qds-ui .q-tooltip.q-tooltip {
-    max-width: min(20rem, calc(100vw - 2rem));
-    padding: var(--qds-space-xs) var(--qds-space-sm);
-    color: var(--qds-text);
-    font-size: 0.8125rem;
-    line-height: 1.35;
-    background: color-mix(in srgb, var(--qds-surface-0) 92%, var(--qds-color-primary) 8%);
-    border: var(--qds-border-width-control) solid var(--qds-border-subtle);
-    border-radius: var(--qds-radius-sm);
-    box-shadow: var(--qds-shadow-md);
-  }
-
+  // Popups are one of the few transient layers allowed to use acrylic material.
+  .qds-ui .q-tooltip.q-tooltip,
   .qds-ui .q-popup-proxy.q-popup-proxy {
-    background: var(--qds-menu-bg);
+    color: var(--qds-text);
+    background: var(--qds-surface-transient);
     border: var(--qds-border-width-control) solid var(--qds-menu-border);
     border-radius: var(--qds-menu-radius);
-    box-shadow: var(--qds-menu-shadow);
-    color: var(--qds-text);
-    overflow: hidden;
-  }
-
-  .qds-ui .q-date.q-date,
-  .qds-ui .q-time.q-time {
-    color: var(--qds-text);
-    background: var(--qds-menu-bg);
-    border-radius: var(--qds-menu-radius);
-    box-shadow: none;
-  }
-
-  .qds-ui.qds-variant-air .q-tooltip.q-tooltip,
-  .qds-ui .qds-variant-air .q-tooltip.q-tooltip {
-    background: color-mix(in srgb, var(--qds-chrome-surface-strong) 88%, transparent);
-    border-color: color-mix(in srgb, var(--qds-chrome-border-soft) 42%, transparent);
     box-shadow: var(--qds-menu-shadow);
     backdrop-filter: blur(var(--qds-card-backdrop-blur)) saturate(var(--qds-card-backdrop-saturate));
     -webkit-backdrop-filter: blur(var(--qds-card-backdrop-blur)) saturate(var(--qds-card-backdrop-saturate));
   }
 
-  .qds-ui.qds-variant-air .q-popup-proxy.q-popup-proxy,
-  .qds-ui .qds-variant-air .q-popup-proxy.q-popup-proxy {
-    background: var(--qds-menu-bg);
-    border-color: color-mix(in srgb, var(--qds-menu-border) 58%, transparent);
-    box-shadow: var(--qds-menu-shadow);
+  .qds-ui .q-tooltip.q-tooltip {
+    max-width: min(20rem, calc(100vw - 2rem));
+    padding: var(--qds-space-xs) var(--qds-space-sm);
+    font-size: 0.8125rem;
+    line-height: 1.35;
   }
 
+  .qds-ui .q-popup-proxy.q-popup-proxy { overflow: hidden; }
+  .qds-ui .q-date.q-date,
+  .qds-ui .q-time.q-time { color: var(--qds-text); background: transparent; border-radius: inherit; box-shadow: none; }
+
+  .qds-ui.qds-variant-ink .q-tooltip.q-tooltip,
   .qds-ui.qds-variant-feather .q-tooltip.q-tooltip,
+  .qds-ui .qds-variant-ink .q-tooltip.q-tooltip,
   .qds-ui .qds-variant-feather .q-tooltip.q-tooltip,
+  .qds-ui.qds-variant-ink .q-popup-proxy.q-popup-proxy,
   .qds-ui.qds-variant-feather .q-popup-proxy.q-popup-proxy,
+  .qds-ui .qds-variant-ink .q-popup-proxy.q-popup-proxy,
   .qds-ui .qds-variant-feather .q-popup-proxy.q-popup-proxy {
-    background: var(--qds-surface-0);
-    border-color: var(--qds-separator-color);
+    background: var(--qds-surface-accent-soft);
+    border-color: color-mix(in srgb, var(--qds-color-accent) 28%, var(--qds-border));
     box-shadow: none;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
 
-  .qds-ui.qds-variant-feather .q-date.q-date,
-  .qds-ui.qds-variant-feather .q-time.q-time,
-  .qds-ui .qds-variant-feather .q-date.q-date,
-  .qds-ui .qds-variant-feather .q-time.q-time {
+  .qds-ui.qds-variant-mobile .q-popup-proxy.q-popup-proxy,
+  .qds-ui .qds-variant-mobile .q-popup-proxy.q-popup-proxy { background: var(--qds-surface-focus-block); border-radius: var(--qds-radius-xl); }
+
+  .qds-ui.qds-variant-terminal .q-tooltip.q-tooltip,
+  .qds-ui .qds-variant-terminal .q-tooltip.q-tooltip,
+  .qds-ui.qds-variant-terminal .q-popup-proxy.q-popup-proxy,
+  .qds-ui .qds-variant-terminal .q-popup-proxy.q-popup-proxy {
     background: var(--qds-surface-0);
+    border-color: color-mix(in srgb, var(--qds-color-primary) 28%, var(--qds-border));
     box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 }

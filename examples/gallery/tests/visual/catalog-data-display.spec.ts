@@ -1,11 +1,12 @@
 import { test, expect, type Page } from '@playwright/test'
+import { MATRIX_VARIANTS } from './helpers'
 
 type Mode = 'light' | 'dark'
-type Variant = 'fluent' | 'air' | 'mobile'
+type Variant = 'fluent' | 'ink' | 'mobile'
 
 const EXPECTED_CARD_RADIUS: Record<Variant, string> = {
   fluent: '12px',
-  air: '16px',
+  ink: '16px',
   mobile: '20px',
 }
 
@@ -101,7 +102,7 @@ test.describe('QDS catalog data display gate', () => {
     expect.soft(await computed(page, '.q-uploader', 'border-radius'), 'QUploader QDS radius').toBe(EXPECTED_CARD_RADIUS.fluent)
     expect.soft(await computed(page, '[data-test="qds-knob"]', 'color'), 'QKnob primary color').toBe(EXPECTED_FLUENT_PRIMARY)
     expect.soft(await computed(page, '[data-test="qds-spinner"]', 'color'), 'QSpinner primary color').toBe(EXPECTED_FLUENT_PRIMARY)
-    expect.soft(await computed(page, '[data-test="qds-circular-progress"] .q-circular-progress__circle', 'filter'), 'QCircularProgress QDS glow').not.toBe('none')
+    expect.soft(await computed(page, '[data-test="qds-circular-progress"] .q-circular-progress__circle', 'filter'), 'QCircularProgress retains Fluent solid/no-glow treatment').toBe('none')
   })
 
   test('QExpansionItem and QTree expose deterministic deep states', async ({ page }) => {
@@ -140,7 +141,40 @@ test.describe('QDS catalog data display gate', () => {
     await expect(denseTree).toHaveClass(/q-tree--dense/)
     await expect(denseTree).toHaveClass(/q-tree--no-connectors/)
     await expect(denseTree.locator('.q-tree__node-header.q-tree__node--selected').first()).toContainText('Controls')
-    expect.soft(await computed(page, '[data-test="qds-tree-dense"] .q-tree__node-header', 'min-height'), 'dense QTree header height').toBe('32px')
+    expect.soft(await computed(page, '[data-test="qds-tree-dense"] .q-tree__node-header', 'min-height'), 'dense QTree header height').toBe('38px')
     expect.soft(await computed(page, '[data-test="qds-tree-dense"] .q-tree__node-header', 'display', '::before'), 'no-connectors rail display').toBe('none')
+  })
+
+  test('actions, data, and loading fixtures cover Fluent, Ink, and One across light and dark', async ({ page }) => {
+    await page.goto('/#catalog')
+    for (const mode of ['light', 'dark'] as const) {
+      for (const variant of MATRIX_VARIANTS) {
+        await applyTheme(page, mode, variant)
+        const primary = await page.locator('body').evaluate((el) => {
+          const probe = document.createElement('span')
+          probe.style.color = 'var(--qds-color-primary)'
+          el.append(probe)
+          const value = getComputedStyle(probe).color
+          probe.remove()
+          return value
+        })
+        await expect(page.locator('[data-test="qds-btn-group"]')).toBeVisible()
+        await expect(page.locator('[data-test="qds-linear-progress"]')).toBeVisible()
+        await expect(page.locator('[data-test="qds-circular-progress"]')).toBeVisible()
+        await expect(page.locator('[data-test="qds-expansion-expanded"]')).toBeVisible()
+        expect.soft(await computed(page, '[data-test="qds-btn-group"]', 'border-radius'), `${mode}/${variant} action group geometry`).toBe(variant === 'mobile' ? '16px' : variant === 'ink' ? '12px' : '10px')
+        expect.soft(await computed(page, '[data-test="qds-linear-progress"] .q-linear-progress__model', 'background-color'), `${mode}/${variant} linear progress uses primary`).toBe(primary)
+        expect.soft(await computed(page, '[data-test="qds-circular-progress"]', 'color'), `${mode}/${variant} circular progress retains contrast`).not.toBe('rgba(0, 0, 0, 0)')
+        if (variant === 'fluent') {
+          expect.soft(await computed(page, '[data-test="qds-btn-group"]', 'box-shadow'), `${mode}/Fluent action content is flat`).toBe('none')
+        }
+        if (variant === 'ink') {
+          expect.soft(await computed(page, '[data-test="qds-expansion-expanded"]', 'box-shadow'), `${mode}/Ink data content is matte`).toBe('none')
+        }
+        if (variant === 'mobile') {
+          expect.soft(await computed(page, '[data-test="qds-expansion-expanded"] .q-item', 'min-height'), `${mode}/One data rows meet touch height`).toBe('52px')
+        }
+      }
+    }
   })
 })

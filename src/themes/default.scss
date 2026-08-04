@@ -1,242 +1,120 @@
 @use 'sass:map';
 @use '../tokens/default' as tokens;
+@use 'fallbacks' as fallbacks;
 
 @function qds-variant-token($variant, $token) {
   @return map.get(map.get(tokens.$variants, $variant), $token);
 }
 
-// Re-include after base overrides so var() chains do not strand.
+// Re-include after base overrides so var() chains never retain a prior variant.
 @mixin qds-derived-tokens {
-  --qds-elevation-1: var(--qds-shadow-sm);
-  --qds-elevation-2: var(--qds-shadow-md);
-  --qds-elevation-3: var(--qds-shadow-lg);
-  --qds-interactive-bg: var(--qds-surface-0);
-  --qds-interactive-bg-hover: var(--qds-surface-1);
-  --qds-interactive-bg-active: var(--qds-surface-2);
-  --qds-interactive-border: var(--qds-border-subtle);
-  --qds-interactive-border-strong: var(--qds-border);
-  --qds-interactive-text: var(--qds-text);
-  --qds-interactive-text-muted: var(--qds-text-muted);
+  @include fallbacks.qds-derived-tokens;
+}
 
-  --qds-button-size-sm: var(--qds-control-size-sm);
-  --qds-button-size-md: var(--qds-control-size-md);
-  --qds-button-size-lg: var(--qds-control-size-lg);
-  --qds-field-size-sm: calc(var(--qds-control-size-sm) + 0.125rem);
-  --qds-field-size-md: calc(var(--qds-control-size-md) + 0.125rem);
-  --qds-field-size-lg: calc(var(--qds-control-size-lg) + 0.125rem);
-  --qds-icon-size-sm: var(--qds-control-icon-size-sm);
-  --qds-icon-size-md: var(--qds-control-icon-size-md);
-  --qds-icon-size-lg: var(--qds-control-icon-size-lg);
-  --qds-control-icon-color: var(--qds-text-muted);
-  --qds-button-icon-size: var(--qds-control-icon-size-md);
-  --qds-button-dense-icon-size: var(--qds-control-icon-size-sm);
-  --qds-field-icon-size: var(--qds-control-icon-size-md);
-  --qds-field-dense-icon-size: var(--qds-control-icon-size-sm);
-  --qds-chip-icon-size: var(--qds-control-icon-size-md);
-  --qds-chip-dense-icon-size: var(--qds-control-icon-size-sm);
+@mixin qds-variant-palette($variant, $prefix: '') {
+  @each $color in primary, primary-light, primary-dark, secondary, accent, positive, negative, warning, info {
+    --qds-color-#{$color}: #{qds-variant-token($variant, '#{$prefix}#{$color}')};
+    --qds-color-#{$color}-rgb: #{qds-variant-token($variant, '#{$prefix}#{$color}-rgb')};
+  }
+}
 
-  --qds-button-icon-gap: var(--qds-inline-icon-gap);
-  --qds-button-dense-icon-gap: var(--qds-inline-icon-dense-gap);
-  --qds-button-radius: var(--qds-radius-control);
-  --qds-chip-icon-gap: var(--qds-inline-icon-gap);
-  --qds-chip-dense-icon-gap: var(--qds-inline-icon-dense-gap);
-  --qds-chip-radius: var(--qds-radius-control);
-  --qds-badge-icon-gap: var(--qds-inline-icon-gap);
-  --qds-badge-dense-icon-gap: var(--qds-inline-icon-dense-gap);
-  --qds-badge-radius: var(--qds-radius-control);
-  --qds-card-bg: linear-gradient(135deg, rgba(var(--qds-card-acrylic-tint-rgb), var(--qds-card-tonal-opacity)), transparent 72%), var(--qds-surface-glass);
-  --qds-card-bg-fallback: linear-gradient(135deg, rgba(var(--qds-card-acrylic-tint-rgb), var(--qds-card-fallback-tonal-opacity)), transparent 72%), var(--qds-surface-0);
-  --qds-card-bg-readable: linear-gradient(135deg, rgba(var(--qds-card-acrylic-tint-rgb), var(--qds-card-readable-tonal-opacity)), transparent 72%), color-mix(in srgb, var(--qds-surface-0) var(--qds-card-readable-surface-mix), var(--qds-surface-glass));
-  --qds-card-bg-opaque: linear-gradient(135deg, rgba(var(--qds-card-acrylic-tint-rgb), var(--qds-card-readable-tonal-opacity)), transparent 72%), var(--qds-surface-0);
-  --qds-card-border: color-mix(in srgb, var(--qds-border) var(--qds-card-border-mix), transparent);
-  --qds-card-border-strong: color-mix(in srgb, var(--qds-border) 44%, transparent);
-  --qds-card-header-bg: linear-gradient(135deg, rgba(var(--qds-card-acrylic-tint-rgb), var(--qds-card-header-tonal-opacity)), transparent 76%), color-mix(in srgb, var(--qds-surface-0) var(--qds-card-header-surface-mix), var(--qds-surface-glass));
-  --qds-card-header-bg-opaque: linear-gradient(135deg, rgba(var(--qds-card-acrylic-tint-rgb), var(--qds-card-header-tonal-opacity)), transparent 76%), var(--qds-surface-0);
-  --qds-card-header-border: var(--qds-separator-color);
-  --qds-card-radius: var(--qds-radius-lg);
-  --qds-card-shadow: var(--qds-card-shadow-value, var(--qds-shadow-sm));
-  --qds-chrome-border: color-mix(in srgb, var(--qds-border-subtle) var(--qds-chrome-border-mix, 46%), transparent);
-  --qds-chrome-border-soft: color-mix(in srgb, var(--qds-border-subtle) var(--qds-chrome-border-soft-mix, 24%), transparent);
-  --qds-chrome-surface: color-mix(in srgb, var(--qds-surface-1) var(--qds-chrome-surface-mix, 86%), transparent);
-  --qds-chrome-surface-strong: color-mix(in srgb, var(--qds-surface-0) var(--qds-chrome-surface-strong-mix, 92%), transparent);
-  --qds-chrome-shadow: var(--qds-chrome-shadow-value, none);
-  --qds-media-frame-shadow: var(--qds-media-frame-shadow-value, var(--qds-card-shadow));
-  --qds-separator-color: color-mix(in srgb, var(--qds-border-subtle) var(--qds-separator-mix, 34%), transparent);
-  --qds-handle-color: color-mix(in srgb, var(--qds-border) var(--qds-handle-border-mix, 58%), var(--qds-color-primary) var(--qds-handle-primary-mix, 10%));
-  --qds-menu-bg: var(--qds-surface-0);
-  --qds-menu-border: var(--qds-border-subtle);
-  --qds-menu-item-min-height: var(--qds-menu-item-min-height-value, 2.25rem);
-  --qds-menu-radius: var(--qds-radius-lg);
-  --qds-menu-shadow: var(--qds-shadow-md);
-  --qds-notification-radius: var(--qds-radius-md);
-  --qds-notification-shadow: var(--qds-shadow-md);
-  --qds-list-item-min-height: var(--qds-list-item-min-height-value, 2.5rem);
-  --qds-table-header-height: var(--qds-table-header-height-value, 2.75rem);
-  --qds-table-row-height: var(--qds-table-row-height-value, 3rem);
-  --qds-toolbar-bg: var(--qds-surface-1);
-  --qds-field-label-bg: var(--qds-surface-0);
-  --qds-slider-label-bg: color-mix(in srgb, var(--qds-surface-0) 88%, var(--qds-color-primary) 12%);
-  --qds-slider-label-text: color-mix(in srgb, var(--qds-color-primary) 74%, var(--qds-text-strong));
-  --qds-slider-label-border: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-border-opacity));
-  --qds-tab-radius: var(--qds-radius-control);
-  --qds-tab-hover-bg: color-mix(in srgb, var(--qds-surface-2) 88%, var(--qds-color-primary) 12%);
-  --qds-tab-active-bg: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-bg-opacity));
-  --qds-tab-active-text: color-mix(in srgb, var(--qds-color-primary) var(--qds-tonal-text-mix), var(--qds-text-strong));
-  --qds-tab-active-rail: var(--qds-color-primary);
+@mixin qds-variant-scheme($variant, $dark: false) {
+  $palette-prefix: '';
+  $surface-prefix: 'light-';
+  $component-prefix: '';
+  @if $dark {
+    $palette-prefix: 'dark-';
+    $surface-prefix: 'dark-';
+    $component-prefix: 'dark-';
+  }
+
+  @include qds-variant-palette($variant, $palette-prefix);
+  --qds-surface-0: #{qds-variant-token($variant, '#{$surface-prefix}surface-0')};
+  --qds-surface-1: #{qds-variant-token($variant, '#{$surface-prefix}surface-1')};
+  --qds-surface-2: #{qds-variant-token($variant, '#{$surface-prefix}surface-2')};
+  --qds-surface-3: #{qds-variant-token($variant, '#{$surface-prefix}surface-3')};
+  --qds-surface-glass: var(--qds-surface-0);
+  --qds-text: #{qds-variant-token($variant, '#{$surface-prefix}text')};
+  --qds-text-strong: #{qds-variant-token($variant, '#{$surface-prefix}text-strong')};
+  --qds-text-muted: #{qds-variant-token($variant, '#{$surface-prefix}text-muted')};
+  --qds-border: #{qds-variant-token($variant, '#{$surface-prefix}border')};
+  --qds-border-subtle: #{qds-variant-token($variant, '#{$surface-prefix}border-subtle')};
+  --qds-shadow-sm: #{qds-variant-token($variant, '#{$component-prefix}shadow-sm')};
+  --qds-shadow-md: #{qds-variant-token($variant, '#{$component-prefix}shadow-md')};
+  --qds-shadow-lg: #{qds-variant-token($variant, '#{$component-prefix}shadow-lg')};
+  --qds-card-acrylic-tint-rgb: #{qds-variant-token($variant, '#{$component-prefix}card-acrylic-tint-rgb')};
+  --qds-card-tonal-opacity: #{qds-variant-token($variant, '#{$component-prefix}card-tonal-opacity')};
+  --qds-card-fallback-tonal-opacity: #{qds-variant-token($variant, '#{$component-prefix}card-fallback-tonal-opacity')};
+  --qds-card-readable-tonal-opacity: #{qds-variant-token($variant, '#{$component-prefix}card-readable-tonal-opacity')};
+  --qds-card-readable-surface-mix: #{qds-variant-token($variant, '#{$component-prefix}card-readable-surface-mix')};
+  --qds-card-header-tonal-opacity: #{qds-variant-token($variant, '#{$component-prefix}card-header-tonal-opacity')};
+  --qds-card-header-surface-mix: #{qds-variant-token($variant, '#{$component-prefix}card-header-surface-mix')};
+
+  @include qds-derived-tokens;
+
+  @if not $dark {
+    --qds-radius-control: #{qds-variant-token($variant, radius-control)};
+    --qds-radius-lg: #{qds-variant-token($variant, radius-lg)};
+    --qds-tonal-bg-opacity: #{qds-variant-token($variant, tonal-bg-opacity)};
+    --qds-card-border-mix: #{qds-variant-token($variant, card-border-mix)};
+    --qds-card-backdrop-blur: #{qds-variant-token($variant, card-backdrop-blur)};
+    --qds-card-backdrop-saturate: #{qds-variant-token($variant, card-backdrop-saturate)};
+    --qds-chrome-border-mix: #{qds-variant-token($variant, chrome-border-mix)};
+    --qds-chrome-border-soft-mix: #{qds-variant-token($variant, chrome-border-soft-mix)};
+    --qds-chrome-surface-mix: #{qds-variant-token($variant, chrome-surface-mix)};
+    --qds-chrome-surface-strong-mix: #{qds-variant-token($variant, chrome-surface-strong-mix)};
+    --qds-separator-mix: #{qds-variant-token($variant, separator-mix)};
+    --qds-handle-border-mix: #{qds-variant-token($variant, handle-border-mix)};
+    --qds-handle-primary-mix: #{qds-variant-token($variant, handle-primary-mix)};
+  }
+
+  @if map.has-key(map.get(tokens.$variants, $variant), '#{$component-prefix}soft-brand') {
+    --qds-surface-brand-soft: #{qds-variant-token($variant, '#{$component-prefix}soft-brand')};
+    --qds-surface-accent-soft: #{qds-variant-token($variant, '#{$component-prefix}soft-accent')};
+    --qds-surface-positive-soft: #{qds-variant-token($variant, '#{$component-prefix}soft-positive')};
+    --qds-surface-warning-soft: #{qds-variant-token($variant, '#{$component-prefix}soft-warning')};
+    --qds-surface-negative-soft: #{qds-variant-token($variant, '#{$component-prefix}soft-negative')};
+    --qds-surface-info-soft: #{qds-variant-token($variant, '#{$component-prefix}soft-info')};
+    --qds-surface-focus-block: #{qds-variant-token($variant, '#{$component-prefix}soft-focus-block')};
+    --qds-surface-transient: #{qds-variant-token($variant, '#{$component-prefix}soft-transient')};
+  }
+}
+
+@mixin qds-mobile-sizing {
+  --qds-space-md: #{qds-variant-token(mobile, space-md)};
+  --qds-motion-fast: #{qds-variant-token(mobile, motion-fast)};
+  --qds-button-min-height: #{qds-variant-token(mobile, button-min-height)};
+  --qds-list-item-min-height-value: #{qds-variant-token(mobile, list-item-min-height)};
+  --qds-menu-item-min-height-value: #{qds-variant-token(mobile, menu-item-min-height)};
+  --qds-expansion-item-min-height-value: #{qds-variant-token(mobile, expansion-item-min-height)};
+}
+
+@mixin qds-terminal-sizing {
+  --qds-control-letter-spacing: #{qds-variant-token(terminal, control-letter-spacing)};
+  --qds-control-text-transform: #{qds-variant-token(terminal, control-text-transform)};
+  --qds-button-min-height: #{qds-variant-token(terminal, button-min-height)};
+  --qds-button-padding-inline: #{qds-variant-token(terminal, button-padding-inline)};
+  --qds-button-dense-min-height: #{qds-variant-token(terminal, button-dense-min-height)};
+  --qds-button-dense-padding-inline: #{qds-variant-token(terminal, button-dense-padding-inline)};
+  --qds-button-round-size: #{qds-variant-token(terminal, button-round-size)};
+  --qds-field-label-size: #{qds-variant-token(terminal, field-label-size)};
+  --qds-list-item-min-height-value: #{qds-variant-token(terminal, list-item-min-height)};
+  --qds-menu-item-min-height-value: #{qds-variant-token(terminal, menu-item-min-height)};
+  --qds-expansion-item-min-height-value: #{qds-variant-token(terminal, expansion-item-min-height)};
+  --qds-table-row-height-value: #{qds-variant-token(terminal, table-row-height)};
+  --qds-table-header-height-value: #{qds-variant-token(terminal, table-header-height)};
 }
 
 @layer qds.tokens {
+  // fallbacks.scss is also a standalone entry and emits the full base contract.
   :root {
     color-scheme: light;
-
-    --qds-color-primary: #{map.get(tokens.$palette, primary)};
-    --qds-color-primary-light: #{map.get(tokens.$palette, primary-light)};
-    --qds-color-primary-dark: #{map.get(tokens.$palette, primary-dark)};
-    --qds-color-secondary: #{map.get(tokens.$palette, secondary)};
-    --qds-color-accent: #{map.get(tokens.$palette, accent)};
-    --qds-color-positive: #{map.get(tokens.$palette, positive)};
-    --qds-color-negative: #{map.get(tokens.$palette, negative)};
-    --qds-color-warning: #{map.get(tokens.$palette, warning)};
-    --qds-color-info: #{map.get(tokens.$palette, info)};
-
-    --qds-color-primary-rgb: #{map.get(tokens.$palette-rgb, primary)};
-    --qds-color-primary-light-rgb: #{map.get(tokens.$palette-rgb, primary-light)};
-    --qds-color-primary-dark-rgb: #{map.get(tokens.$palette-rgb, primary-dark)};
-    --qds-color-secondary-rgb: #{map.get(tokens.$palette-rgb, secondary)};
-    --qds-color-accent-rgb: #{map.get(tokens.$palette-rgb, accent)};
-    --qds-color-positive-rgb: #{map.get(tokens.$palette-rgb, positive)};
-    --qds-color-negative-rgb: #{map.get(tokens.$palette-rgb, negative)};
-    --qds-color-warning-rgb: #{map.get(tokens.$palette-rgb, warning)};
-    --qds-color-info-rgb: #{map.get(tokens.$palette-rgb, info)};
-
-    --qds-surface-0: #{map.get(tokens.$light-surfaces, 0)};
-    --qds-surface-1: #{map.get(tokens.$light-surfaces, 1)};
-    --qds-surface-2: #{map.get(tokens.$light-surfaces, 2)};
-    --qds-surface-3: #{map.get(tokens.$light-surfaces, 3)};
-    --qds-surface-glass: #{map.get(tokens.$light-surfaces, glass)};
-
-    --qds-text: #{map.get(tokens.$light-text, default)};
-    --qds-text-strong: #{map.get(tokens.$light-text, strong)};
-    --qds-text-muted: #{map.get(tokens.$light-text, muted)};
-    --qds-text-on-solid: #{map.get(tokens.$dark-text, strong)};
-    --qds-media-scrim: rgba(0, 0, 0, 0.58);
-    --qds-media-scrim-strong: rgba(0, 0, 0, 0.86);
-    --qds-border: #{map.get(tokens.$borders, light)};
-    --qds-border-subtle: #{map.get(tokens.$borders, subtle)};
-
-    --qds-space-xs: #{map.get(tokens.$space, xs)};
-    --qds-space-sm: #{map.get(tokens.$space, sm)};
-    --qds-space-md: #{map.get(tokens.$space, md)};
-    --qds-space-lg: #{map.get(tokens.$space, lg)};
-    --qds-space-xl: #{map.get(tokens.$space, xl)};
-
-    --qds-radius-xs: #{map.get(tokens.$radius, xs)};
-    --qds-radius-sm: #{map.get(tokens.$radius, sm)};
-    --qds-radius-md: #{map.get(tokens.$radius, md)};
-    --qds-radius-lg: #{map.get(tokens.$radius, lg)};
-    --qds-radius-xl: #{map.get(tokens.$radius, xl)};
-    --qds-radius-full: #{map.get(tokens.$radius, full)};
-    --qds-radius-control: #{map.get(tokens.$radius, control)};
-
-    --qds-shadow-sm: #{map.get(tokens.$shadow, sm)};
-    --qds-shadow-md: #{map.get(tokens.$shadow, md)};
-    --qds-shadow-lg: #{map.get(tokens.$shadow, lg)};
-
-    --qds-font-family: #{map.get(tokens.$font, body)};
-    --qds-font-family-display: #{map.get(tokens.$font, display)};
-    @if map.get(tokens.$font, accent) != null {
-      --qds-font-family-accent: #{map.get(tokens.$font, accent)};
-    } @else {
-      --qds-font-family-accent: #{map.get(tokens.$font, display)};
-    }
-    --qds-font-weight-regular: #{map.get(map.get(tokens.$font, weight), regular)};
-    --qds-font-weight-medium: #{map.get(map.get(tokens.$font, weight), medium)};
-    --qds-font-weight-semibold: #{map.get(map.get(tokens.$font, weight), semibold)};
-    --qds-font-weight-bold: #{map.get(map.get(tokens.$font, weight), bold)};
-
-    --qds-motion-fast: #{map.get(tokens.$motion, fast)};
-    --qds-motion-base: #{map.get(tokens.$motion, base)};
-    --qds-motion-duration-fast: #{map.get(tokens.$motion, duration-fast)};
-    --qds-motion-duration-base: #{map.get(tokens.$motion, duration-base)};
-    --qds-motion-ease-out: #{map.get(tokens.$motion, ease-out)};
-    --qds-motion-ease-in-out: #{map.get(tokens.$motion, ease-in-out)};
-    --qds-focus-ring-width: #{map.get(tokens.$focus-ring, width)};
-    --qds-focus-ring-offset: #{map.get(tokens.$focus-ring, offset)};
-    --qds-focus-ring-opacity: #{map.get(tokens.$focus-ring, opacity)};
-
-    --qds-state-hover-opacity: #{map.get(tokens.$state-opacity, hover)};
-    --qds-state-focus-opacity: #{map.get(tokens.$state-opacity, focus)};
-    --qds-state-press-opacity: #{map.get(tokens.$state-opacity, press)};
-    --qds-tonal-bg-opacity: #{map.get(tokens.$state-opacity, tonal-bg)};
-    --qds-tonal-hover-opacity: #{map.get(tokens.$state-opacity, tonal-hover)};
-    --qds-tonal-border-opacity: #{map.get(tokens.$state-opacity, tonal-border)};
-    --qds-tonal-text-mix: #{map.get(tokens.$state-opacity, tonal-text-mix)};
-
-    --qds-border-width-control: #{map.get(tokens.$border-width, control)};
-
-    --qds-control-size-sm: #{map.get(tokens.$control, size-sm)};
-    --qds-control-size-md: #{map.get(tokens.$control, size-md)};
-    --qds-control-size-lg: #{map.get(tokens.$control, size-lg)};
-    --qds-control-icon-size-sm: #{map.get(tokens.$control, icon-size-sm)};
-    --qds-control-icon-size-md: #{map.get(tokens.$control, icon-size-md)};
-    --qds-control-icon-size-lg: #{map.get(tokens.$control, icon-size-lg)};
-    --qds-control-icon-opacity: #{map.get(tokens.$control, icon-opacity)};
-    --qds-control-icon-opacity-active: #{map.get(tokens.$control, icon-opacity-active)};
-    --qds-control-letter-spacing: #{map.get(tokens.$control, letter-spacing)};
-    --qds-control-text-transform: #{map.get(tokens.$control, text-transform)};
-    --qds-control-content-line-height: #{map.get(tokens.$control, content-line-height)};
-
-    --qds-inline-icon-gap: #{map.get(tokens.$inline, icon-gap)};
-    --qds-inline-icon-dense-gap: #{map.get(tokens.$inline, dense-icon-gap)};
-
-    --qds-button-min-height: #{map.get(map.get(tokens.$components, button), min-height)};
-    --qds-button-padding-inline: #{map.get(map.get(tokens.$components, button), padding-inline)};
-    --qds-button-dense-min-height: #{map.get(map.get(tokens.$components, button), dense-min-height)};
-    --qds-button-dense-padding-inline: #{map.get(map.get(tokens.$components, button), dense-padding-inline)};
-    --qds-button-dense-radius: #{map.get(map.get(tokens.$components, button), dense-radius)};
-    --qds-button-dense-font-size: #{map.get(map.get(tokens.$components, button), dense-font-size)};
-    --qds-button-round-size: #{map.get(map.get(tokens.$components, button), round-size)};
-    --qds-button-elevated-shadow: #{map.get(map.get(tokens.$components, button), elevated-shadow)};
-    --qds-button-elevated-shadow-hover: #{map.get(map.get(tokens.$components, button), elevated-shadow-hover)};
-
-    --qds-card-acrylic-tint-rgb: #{map.get(map.get(tokens.$components, card), acrylic-tint-rgb)};
-    --qds-card-tonal-opacity: #{map.get(map.get(tokens.$components, card), tonal-opacity)};
-    --qds-card-fallback-tonal-opacity: #{map.get(map.get(tokens.$components, card), fallback-tonal-opacity)};
-    --qds-card-readable-tonal-opacity: #{map.get(map.get(tokens.$components, card), readable-tonal-opacity)};
-    --qds-card-readable-surface-mix: #{map.get(map.get(tokens.$components, card), readable-surface-mix)};
-    --qds-card-header-tonal-opacity: #{map.get(map.get(tokens.$components, card), header-tonal-opacity)};
-    --qds-card-header-surface-mix: #{map.get(map.get(tokens.$components, card), header-surface-mix)};
-    --qds-card-border-mix: #{map.get(map.get(tokens.$components, card), border-mix)};
-    --qds-card-backdrop-blur: #{map.get(map.get(tokens.$components, card), backdrop-blur)};
-    --qds-card-backdrop-saturate: #{map.get(map.get(tokens.$components, card), backdrop-saturate)};
-    --qds-chrome-border-mix: #{map.get(tokens.$chrome, border-mix)};
-    --qds-chrome-border-soft-mix: #{map.get(tokens.$chrome, border-soft-mix)};
-    --qds-chrome-surface-mix: #{map.get(tokens.$chrome, surface-mix)};
-    --qds-chrome-surface-strong-mix: #{map.get(tokens.$chrome, surface-strong-mix)};
-    --qds-separator-mix: #{map.get(tokens.$chrome, separator-mix)};
-    --qds-handle-border-mix: #{map.get(tokens.$chrome, handle-border-mix)};
-    --qds-handle-primary-mix: #{map.get(tokens.$chrome, handle-primary-mix)};
-
-    --qds-badge-min-height: #{map.get(map.get(tokens.$components, badge), min-height)};
-    --qds-badge-padding: #{map.get(map.get(tokens.$components, badge), padding)};
-
-    --qds-field-min-height: #{map.get(map.get(tokens.$components, field), min-height)};
-    --qds-field-dense-min-height: #{map.get(map.get(tokens.$components, field), dense-min-height)};
-    --qds-field-padding-inline: #{map.get(map.get(tokens.$components, field), padding-inline)};
-    --qds-field-label-size: #{map.get(map.get(tokens.$components, field), label-size)};
-    --qds-field-focus-border-width: #{map.get(map.get(tokens.$components, field), focus-border-width)};
-
-    --qds-glass-blur: #{map.get(map.get(tokens.$effects, glass), blur)};
-    --qds-glass-saturate: #{map.get(map.get(tokens.$effects, glass), saturate)};
-    --qds-glass-border-mix: #{map.get(map.get(tokens.$effects, glass), border-mix)};
-
     @include qds-derived-tokens;
   }
 
   .qds-theme-dark,
   body.qds-ui.body--dark {
     color-scheme: dark;
-
     --qds-surface-0: #{map.get(tokens.$dark-surfaces, 0)};
     --qds-surface-1: #{map.get(tokens.$dark-surfaces, 1)};
     --qds-surface-2: #{map.get(tokens.$dark-surfaces, 2)};
@@ -259,345 +137,54 @@
     --qds-card-readable-surface-mix: #{map.get(map.get(tokens.$components, card), dark-readable-surface-mix)};
     --qds-card-header-tonal-opacity: #{map.get(map.get(tokens.$components, card), dark-header-tonal-opacity)};
     --qds-card-header-surface-mix: #{map.get(map.get(tokens.$components, card), dark-header-surface-mix)};
-
     @include qds-derived-tokens;
   }
 
-  .qds-variant-air,
-  .qds-variant-glass {
-    --qds-font-family: #{qds-variant-token(glass, font-family)};
-    --qds-font-family-display: #{qds-variant-token(glass, font-family-display)};
-    --qds-font-weight-medium: 450;
-    --qds-font-weight-semibold: 540;
-    --qds-font-weight-bold: 640;
-    --qds-control-icon-opacity: 0.64;
-    --qds-control-icon-opacity-active: 0.82;
-    --qds-color-primary: #{qds-variant-token(glass, primary)};
-    --qds-color-primary-light: #{qds-variant-token(glass, primary-light)};
-    --qds-color-primary-dark: #{qds-variant-token(glass, primary-dark)};
-    --qds-color-secondary: #{qds-variant-token(glass, secondary)};
-    --qds-color-accent: #{qds-variant-token(glass, accent)};
-    --qds-color-positive: #{qds-variant-token(glass, positive)};
-    --qds-color-negative: #{qds-variant-token(glass, negative)};
-    --qds-color-warning: #{qds-variant-token(glass, warning)};
-    --qds-color-info: #{qds-variant-token(glass, info)};
-    --qds-color-primary-rgb: #{qds-variant-token(glass, primary-rgb)};
-    --qds-color-primary-light-rgb: #{qds-variant-token(glass, primary-light-rgb)};
-    --qds-color-primary-dark-rgb: #{qds-variant-token(glass, primary-dark-rgb)};
-    --qds-color-secondary-rgb: #{qds-variant-token(glass, secondary-rgb)};
-    --qds-color-accent-rgb: #{qds-variant-token(glass, accent-rgb)};
-    --qds-color-positive-rgb: #{qds-variant-token(glass, positive-rgb)};
-    --qds-color-negative-rgb: #{qds-variant-token(glass, negative-rgb)};
-    --qds-color-warning-rgb: #{qds-variant-token(glass, warning-rgb)};
-    --qds-color-info-rgb: #{qds-variant-token(glass, info-rgb)};
-    --qds-surface-0: #{qds-variant-token(glass, light-surface-0)};
-    --qds-surface-1: #{qds-variant-token(glass, light-surface-1)};
-    --qds-surface-2: #{qds-variant-token(glass, light-surface-2)};
-    --qds-surface-3: #{qds-variant-token(glass, light-surface-3)};
-    --qds-text: #{qds-variant-token(glass, light-text)};
-    --qds-text-strong: #{qds-variant-token(glass, light-text-strong)};
-    --qds-text-muted: #{qds-variant-token(glass, light-text-muted)};
-    --qds-border: #{qds-variant-token(glass, light-border)};
-    --qds-border-subtle: #{qds-variant-token(glass, light-border-subtle)};
-    --qds-radius-control: #{qds-variant-token(glass, radius-control)};
-    --qds-radius-lg: #{qds-variant-token(glass, radius-lg)};
-    --qds-surface-glass: #{qds-variant-token(glass, light-surface-glass)};
-    --qds-shadow-sm: #{qds-variant-token(glass, shadow-sm)};
-    --qds-shadow-md: #{qds-variant-token(glass, shadow-md)};
-    --qds-card-acrylic-tint-rgb: #{qds-variant-token(glass, card-acrylic-tint-rgb)};
-    --qds-card-tonal-opacity: #{qds-variant-token(glass, card-tonal-opacity)};
-    --qds-card-fallback-tonal-opacity: #{qds-variant-token(glass, card-fallback-tonal-opacity)};
-    --qds-card-readable-tonal-opacity: #{qds-variant-token(glass, card-readable-tonal-opacity)};
-    --qds-card-readable-surface-mix: #{qds-variant-token(glass, card-readable-surface-mix)};
-    --qds-card-header-tonal-opacity: #{qds-variant-token(glass, card-header-tonal-opacity)};
-    --qds-card-header-surface-mix: #{qds-variant-token(glass, card-header-surface-mix)};
-    --qds-card-border-mix: #{qds-variant-token(glass, card-border-mix)};
-    --qds-card-shadow-value: #{qds-variant-token(glass, card-shadow)};
-    --qds-card-backdrop-blur: #{qds-variant-token(glass, card-backdrop-blur)};
-    --qds-card-backdrop-saturate: #{qds-variant-token(glass, card-backdrop-saturate)};
-    --qds-chrome-border-mix: #{qds-variant-token(glass, chrome-border-mix)};
-    --qds-chrome-border-soft-mix: #{qds-variant-token(glass, chrome-border-soft-mix)};
-    --qds-chrome-surface-mix: #{qds-variant-token(glass, chrome-surface-mix)};
-    --qds-chrome-surface-strong-mix: #{qds-variant-token(glass, chrome-surface-strong-mix)};
-    --qds-chrome-shadow-value: #{qds-variant-token(glass, chrome-shadow)};
-    --qds-media-frame-shadow-value: #{qds-variant-token(glass, media-frame-shadow)};
-    --qds-separator-mix: #{qds-variant-token(glass, separator-mix)};
-    --qds-handle-border-mix: #{qds-variant-token(glass, handle-border-mix)};
-    --qds-handle-primary-mix: #{qds-variant-token(glass, handle-primary-mix)};
-
-    @include qds-derived-tokens;
+  .qds-variant-ink,
+  .qds-variant-feather {
+    --qds-font-family: #{qds-variant-token(ink, font-family)};
+    --qds-font-family-display: #{qds-variant-token(ink, font-family-display)};
+    @include qds-variant-scheme(ink);
   }
 
-  .qds-theme-dark.qds-variant-air,
-  .qds-theme-dark.qds-variant-glass,
-  .qds-theme-dark .qds-variant-air,
-  .qds-theme-dark .qds-variant-glass,
-  body.qds-ui.body--dark.qds-variant-air,
-  body.qds-ui.body--dark.qds-variant-glass,
-  body.qds-ui.body--dark .qds-variant-air,
-  body.qds-ui.body--dark .qds-variant-glass {
-    --qds-color-primary: #{qds-variant-token(glass, dark-primary)};
-    --qds-color-primary-light: #{qds-variant-token(glass, dark-primary-light)};
-    --qds-color-primary-dark: #{qds-variant-token(glass, dark-primary-dark)};
-    --qds-color-secondary: #{qds-variant-token(glass, dark-secondary)};
-    --qds-color-accent: #{qds-variant-token(glass, dark-accent)};
-    --qds-color-positive: #{qds-variant-token(glass, dark-positive)};
-    --qds-color-negative: #{qds-variant-token(glass, dark-negative)};
-    --qds-color-warning: #{qds-variant-token(glass, dark-warning)};
-    --qds-color-info: #{qds-variant-token(glass, dark-info)};
-    --qds-color-primary-rgb: #{qds-variant-token(glass, dark-primary-rgb)};
-    --qds-color-primary-light-rgb: #{qds-variant-token(glass, dark-primary-light-rgb)};
-    --qds-color-primary-dark-rgb: #{qds-variant-token(glass, dark-primary-dark-rgb)};
-    --qds-color-secondary-rgb: #{qds-variant-token(glass, dark-secondary-rgb)};
-    --qds-color-accent-rgb: #{qds-variant-token(glass, dark-accent-rgb)};
-    --qds-color-positive-rgb: #{qds-variant-token(glass, dark-positive-rgb)};
-    --qds-color-negative-rgb: #{qds-variant-token(glass, dark-negative-rgb)};
-    --qds-color-warning-rgb: #{qds-variant-token(glass, dark-warning-rgb)};
-    --qds-color-info-rgb: #{qds-variant-token(glass, dark-info-rgb)};
-    --qds-surface-0: #{qds-variant-token(glass, dark-surface-0)};
-    --qds-surface-1: #{qds-variant-token(glass, dark-surface-1)};
-    --qds-surface-2: #{qds-variant-token(glass, dark-surface-2)};
-    --qds-surface-3: #{qds-variant-token(glass, dark-surface-3)};
-    --qds-surface-glass: #{qds-variant-token(glass, dark-surface-glass)};
-    --qds-text: #{qds-variant-token(glass, dark-text)};
-    --qds-text-strong: #{qds-variant-token(glass, dark-text-strong)};
-    --qds-text-muted: #{qds-variant-token(glass, dark-text-muted)};
-    --qds-border: #{qds-variant-token(glass, dark-border)};
-    --qds-border-subtle: #{qds-variant-token(glass, dark-border-subtle)};
-    --qds-shadow-sm: #{qds-variant-token(glass, dark-shadow-sm)};
-    --qds-shadow-md: #{qds-variant-token(glass, dark-shadow-md)};
-    --qds-card-acrylic-tint-rgb: #{qds-variant-token(glass, dark-card-acrylic-tint-rgb)};
-    --qds-card-tonal-opacity: #{qds-variant-token(glass, dark-card-tonal-opacity)};
-    --qds-card-fallback-tonal-opacity: #{qds-variant-token(glass, dark-card-fallback-tonal-opacity)};
-    --qds-card-readable-tonal-opacity: #{qds-variant-token(glass, dark-card-readable-tonal-opacity)};
-    --qds-card-readable-surface-mix: #{qds-variant-token(glass, dark-card-readable-surface-mix)};
-    --qds-card-header-tonal-opacity: #{qds-variant-token(glass, dark-card-header-tonal-opacity)};
-    --qds-card-header-surface-mix: #{qds-variant-token(glass, dark-card-header-surface-mix)};
-    --qds-card-shadow-value: #{qds-variant-token(glass, dark-card-shadow)};
-    --qds-chrome-border-mix: #{qds-variant-token(glass, dark-chrome-border-mix)};
-    --qds-chrome-border-soft-mix: #{qds-variant-token(glass, dark-chrome-border-soft-mix)};
-    --qds-chrome-surface-mix: #{qds-variant-token(glass, dark-chrome-surface-mix)};
-    --qds-chrome-surface-strong-mix: #{qds-variant-token(glass, dark-chrome-surface-strong-mix)};
-
-    @include qds-derived-tokens;
+  .qds-theme-dark.qds-variant-ink,
+  .qds-theme-dark.qds-variant-feather,
+  .qds-theme-dark .qds-variant-ink,
+  .qds-theme-dark .qds-variant-feather,
+  body.qds-ui.body--dark.qds-variant-ink,
+  body.qds-ui.body--dark.qds-variant-feather,
+  body.qds-ui.body--dark .qds-variant-ink,
+  body.qds-ui.body--dark .qds-variant-feather {
+    @include qds-variant-scheme(ink, true);
   }
 
   .qds-variant-mobile {
-    --qds-font-family: #{map.get(map.get(tokens.$variants, mobile), font-family)};
-    --qds-font-family-display: #{map.get(map.get(tokens.$variants, mobile), font-family-display)};
-    --qds-radius-control: #{map.get(map.get(tokens.$variants, mobile), radius-control)};
-    --qds-radius-lg: #{map.get(map.get(tokens.$variants, mobile), radius-lg)};
-    --qds-space-md: #{map.get(map.get(tokens.$variants, mobile), space-md)};
-    --qds-motion-fast: #{map.get(map.get(tokens.$variants, mobile), motion-fast)};
-    --qds-tonal-bg-opacity: #{map.get(map.get(tokens.$variants, mobile), tonal-bg-opacity)};
-    --qds-card-tonal-opacity: #{map.get(map.get(tokens.$variants, mobile), card-tonal-opacity)};
-    --qds-card-fallback-tonal-opacity: #{map.get(map.get(tokens.$variants, mobile), card-fallback-tonal-opacity)};
-    --qds-button-min-height: #{map.get(map.get(tokens.$variants, mobile), button-min-height)};
-    --qds-list-item-min-height-value: #{map.get(map.get(tokens.$variants, mobile), list-item-min-height)};
-    --qds-menu-item-min-height-value: #{map.get(map.get(tokens.$variants, mobile), menu-item-min-height)};
-    --qds-expansion-item-min-height-value: #{map.get(map.get(tokens.$variants, mobile), expansion-item-min-height)};
-
-    @include qds-derived-tokens;
+    --qds-font-family: #{qds-variant-token(mobile, font-family)};
+    --qds-font-family-display: #{qds-variant-token(mobile, font-family-display)};
+    @include qds-variant-scheme(mobile);
+    @include qds-mobile-sizing;
   }
 
-  .qds-variant-feather {
-    --qds-font-family: #{qds-variant-token(feather, font-family)};
-    --qds-font-family-display: #{qds-variant-token(feather, font-family-display)};
-    --qds-color-primary: #{qds-variant-token(feather, primary)};
-    --qds-color-primary-light: #{qds-variant-token(feather, primary-light)};
-    --qds-color-primary-dark: #{qds-variant-token(feather, primary-dark)};
-    --qds-color-secondary: #{qds-variant-token(feather, secondary)};
-    --qds-color-accent: #{qds-variant-token(feather, accent)};
-    --qds-color-positive: #{qds-variant-token(feather, positive)};
-    --qds-color-negative: #{qds-variant-token(feather, negative)};
-    --qds-color-warning: #{qds-variant-token(feather, warning)};
-    --qds-color-info: #{qds-variant-token(feather, info)};
-    --qds-color-primary-rgb: #{qds-variant-token(feather, primary-rgb)};
-    --qds-color-primary-light-rgb: #{qds-variant-token(feather, primary-light-rgb)};
-    --qds-color-primary-dark-rgb: #{qds-variant-token(feather, primary-dark-rgb)};
-    --qds-color-secondary-rgb: #{qds-variant-token(feather, secondary-rgb)};
-    --qds-color-accent-rgb: #{qds-variant-token(feather, accent-rgb)};
-    --qds-color-positive-rgb: #{qds-variant-token(feather, positive-rgb)};
-    --qds-color-negative-rgb: #{qds-variant-token(feather, negative-rgb)};
-    --qds-color-warning-rgb: #{qds-variant-token(feather, warning-rgb)};
-    --qds-color-info-rgb: #{qds-variant-token(feather, info-rgb)};
-    --qds-surface-0: #{qds-variant-token(feather, light-surface-0)};
-    --qds-surface-1: #{qds-variant-token(feather, light-surface-1)};
-    --qds-surface-2: #{qds-variant-token(feather, light-surface-2)};
-    --qds-surface-3: #{qds-variant-token(feather, light-surface-3)};
-    --qds-surface-glass: #{qds-variant-token(feather, light-surface-glass)};
-    --qds-text: #{qds-variant-token(feather, light-text)};
-    --qds-text-strong: #{qds-variant-token(feather, light-text-strong)};
-    --qds-text-muted: #{qds-variant-token(feather, light-text-muted)};
-    --qds-border: #{qds-variant-token(feather, light-border)};
-    --qds-border-subtle: #{qds-variant-token(feather, light-border-subtle)};
-    --qds-shadow-sm: #{qds-variant-token(feather, shadow-sm)};
-    --qds-shadow-md: #{qds-variant-token(feather, shadow-md)};
-    --qds-shadow-lg: #{qds-variant-token(feather, shadow-lg)};
-    --qds-radius-control: #{qds-variant-token(feather, radius-control)};
-    --qds-radius-lg: #{qds-variant-token(feather, radius-lg)};
-    --qds-tonal-bg-opacity: #{qds-variant-token(feather, tonal-bg-opacity)};
-    --qds-card-acrylic-tint-rgb: #{qds-variant-token(feather, card-acrylic-tint-rgb)};
-    --qds-card-tonal-opacity: #{qds-variant-token(feather, card-tonal-opacity)};
-    --qds-card-fallback-tonal-opacity: #{qds-variant-token(feather, card-fallback-tonal-opacity)};
-    --qds-card-border-mix: #{qds-variant-token(feather, card-border-mix)};
-    --qds-card-backdrop-blur: #{qds-variant-token(feather, card-backdrop-blur)};
-    --qds-card-backdrop-saturate: #{qds-variant-token(feather, card-backdrop-saturate)};
-    --qds-chrome-border-mix: #{qds-variant-token(feather, chrome-border-mix)};
-    --qds-chrome-border-soft-mix: #{qds-variant-token(feather, chrome-border-soft-mix)};
-    --qds-separator-mix: #{qds-variant-token(feather, separator-mix)};
-    --qds-handle-border-mix: #{qds-variant-token(feather, handle-border-mix)};
-    --qds-handle-primary-mix: #{qds-variant-token(feather, handle-primary-mix)};
-
-    @include qds-derived-tokens;
-  }
-
-  .qds-theme-dark.qds-variant-feather,
-  .qds-theme-dark .qds-variant-feather,
-  body.qds-ui.body--dark.qds-variant-feather,
-  body.qds-ui.body--dark .qds-variant-feather {
-    --qds-color-primary: #{qds-variant-token(feather, dark-primary)};
-    --qds-color-primary-light: #{qds-variant-token(feather, dark-primary-light)};
-    --qds-color-primary-dark: #{qds-variant-token(feather, dark-primary-dark)};
-    --qds-color-secondary: #{qds-variant-token(feather, dark-secondary)};
-    --qds-color-accent: #{qds-variant-token(feather, dark-accent)};
-    --qds-color-positive: #{qds-variant-token(feather, dark-positive)};
-    --qds-color-negative: #{qds-variant-token(feather, dark-negative)};
-    --qds-color-warning: #{qds-variant-token(feather, dark-warning)};
-    --qds-color-info: #{qds-variant-token(feather, dark-info)};
-    --qds-color-primary-rgb: #{qds-variant-token(feather, dark-primary-rgb)};
-    --qds-color-primary-light-rgb: #{qds-variant-token(feather, dark-primary-light-rgb)};
-    --qds-color-primary-dark-rgb: #{qds-variant-token(feather, dark-primary-dark-rgb)};
-    --qds-color-secondary-rgb: #{qds-variant-token(feather, dark-secondary-rgb)};
-    --qds-color-accent-rgb: #{qds-variant-token(feather, dark-accent-rgb)};
-    --qds-color-positive-rgb: #{qds-variant-token(feather, dark-positive-rgb)};
-    --qds-color-negative-rgb: #{qds-variant-token(feather, dark-negative-rgb)};
-    --qds-color-warning-rgb: #{qds-variant-token(feather, dark-warning-rgb)};
-    --qds-color-info-rgb: #{qds-variant-token(feather, dark-info-rgb)};
-    --qds-surface-0: #{qds-variant-token(feather, dark-surface-0)};
-    --qds-surface-1: #{qds-variant-token(feather, dark-surface-1)};
-    --qds-surface-2: #{qds-variant-token(feather, dark-surface-2)};
-    --qds-surface-3: #{qds-variant-token(feather, dark-surface-3)};
-    --qds-surface-glass: #{qds-variant-token(feather, dark-surface-glass)};
-    --qds-text: #{qds-variant-token(feather, dark-text)};
-    --qds-text-strong: #{qds-variant-token(feather, dark-text-strong)};
-    --qds-text-muted: #{qds-variant-token(feather, dark-text-muted)};
-    --qds-border: #{qds-variant-token(feather, dark-border)};
-    --qds-border-subtle: #{qds-variant-token(feather, dark-border-subtle)};
-    --qds-shadow-sm: #{qds-variant-token(feather, dark-shadow-sm)};
-    --qds-shadow-md: #{qds-variant-token(feather, dark-shadow-md)};
-    --qds-shadow-lg: #{qds-variant-token(feather, dark-shadow-lg)};
-    --qds-card-acrylic-tint-rgb: #{qds-variant-token(feather, dark-card-acrylic-tint-rgb)};
-    --qds-card-tonal-opacity: #{qds-variant-token(feather, dark-card-tonal-opacity)};
-    --qds-card-fallback-tonal-opacity: #{qds-variant-token(feather, dark-card-fallback-tonal-opacity)};
-
-    @include qds-derived-tokens;
+  .qds-theme-dark.qds-variant-mobile,
+  .qds-theme-dark .qds-variant-mobile,
+  body.qds-ui.body--dark.qds-variant-mobile,
+  body.qds-ui.body--dark .qds-variant-mobile {
+    @include qds-variant-scheme(mobile, true);
+    @include qds-mobile-sizing;
   }
 
   .qds-variant-terminal {
     --qds-font-family: #{qds-variant-token(terminal, font-family)};
     --qds-font-family-display: #{qds-variant-token(terminal, font-family-display)};
-    --qds-control-letter-spacing: #{qds-variant-token(terminal, control-letter-spacing)};
-    --qds-control-text-transform: #{qds-variant-token(terminal, control-text-transform)};
-    --qds-button-min-height: #{qds-variant-token(terminal, button-min-height)};
-    --qds-button-padding-inline: #{qds-variant-token(terminal, button-padding-inline)};
-    --qds-button-dense-min-height: #{qds-variant-token(terminal, button-dense-min-height)};
-    --qds-button-dense-padding-inline: #{qds-variant-token(terminal, button-dense-padding-inline)};
-    --qds-button-round-size: #{qds-variant-token(terminal, button-round-size)};
-    --qds-field-label-size: #{qds-variant-token(terminal, field-label-size)};
-    --qds-menu-item-min-height-value: #{qds-variant-token(terminal, menu-item-min-height)};
-    --qds-list-item-min-height-value: #{qds-variant-token(terminal, list-item-min-height)};
-    --qds-expansion-item-min-height-value: #{qds-variant-token(terminal, expansion-item-min-height)};
-    --qds-table-row-height-value: #{qds-variant-token(terminal, table-row-height)};
-    --qds-table-header-height-value: #{qds-variant-token(terminal, table-header-height)};
-    --qds-color-primary: #{qds-variant-token(terminal, primary)};
-    --qds-color-primary-light: #{qds-variant-token(terminal, primary-light)};
-    --qds-color-primary-dark: #{qds-variant-token(terminal, primary-dark)};
-    --qds-color-secondary: #{qds-variant-token(terminal, secondary)};
-    --qds-color-accent: #{qds-variant-token(terminal, accent)};
-    --qds-color-positive: #{qds-variant-token(terminal, positive)};
-    --qds-color-negative: #{qds-variant-token(terminal, negative)};
-    --qds-color-warning: #{qds-variant-token(terminal, warning)};
-    --qds-color-info: #{qds-variant-token(terminal, info)};
-    --qds-color-primary-rgb: #{qds-variant-token(terminal, primary-rgb)};
-    --qds-color-primary-light-rgb: #{qds-variant-token(terminal, primary-light-rgb)};
-    --qds-color-primary-dark-rgb: #{qds-variant-token(terminal, primary-dark-rgb)};
-    --qds-color-secondary-rgb: #{qds-variant-token(terminal, secondary-rgb)};
-    --qds-color-accent-rgb: #{qds-variant-token(terminal, accent-rgb)};
-    --qds-color-positive-rgb: #{qds-variant-token(terminal, positive-rgb)};
-    --qds-color-negative-rgb: #{qds-variant-token(terminal, negative-rgb)};
-    --qds-color-warning-rgb: #{qds-variant-token(terminal, warning-rgb)};
-    --qds-color-info-rgb: #{qds-variant-token(terminal, info-rgb)};
-    --qds-surface-0: #{qds-variant-token(terminal, light-surface-0)};
-    --qds-surface-1: #{qds-variant-token(terminal, light-surface-1)};
-    --qds-surface-2: #{qds-variant-token(terminal, light-surface-2)};
-    --qds-surface-3: #{qds-variant-token(terminal, light-surface-3)};
-    --qds-surface-glass: #{qds-variant-token(terminal, light-surface-glass)};
-    --qds-text: #{qds-variant-token(terminal, light-text)};
-    --qds-text-strong: #{qds-variant-token(terminal, light-text-strong)};
-    --qds-text-muted: #{qds-variant-token(terminal, light-text-muted)};
-    --qds-border: #{qds-variant-token(terminal, light-border)};
-    --qds-border-subtle: #{qds-variant-token(terminal, light-border-subtle)};
-    --qds-shadow-sm: #{qds-variant-token(terminal, shadow-sm)};
-    --qds-shadow-md: #{qds-variant-token(terminal, shadow-md)};
-    --qds-shadow-lg: #{qds-variant-token(terminal, shadow-lg)};
-    --qds-radius-control: #{qds-variant-token(terminal, radius-control)};
-    --qds-radius-lg: #{qds-variant-token(terminal, radius-lg)};
-    --qds-tonal-bg-opacity: #{qds-variant-token(terminal, tonal-bg-opacity)};
-    --qds-card-acrylic-tint-rgb: #{qds-variant-token(terminal, card-acrylic-tint-rgb)};
-    --qds-card-tonal-opacity: #{qds-variant-token(terminal, card-tonal-opacity)};
-    --qds-card-fallback-tonal-opacity: #{qds-variant-token(terminal, card-fallback-tonal-opacity)};
-    --qds-card-border-mix: #{qds-variant-token(terminal, card-border-mix)};
-    --qds-card-backdrop-blur: #{qds-variant-token(terminal, card-backdrop-blur)};
-    --qds-card-backdrop-saturate: #{qds-variant-token(terminal, card-backdrop-saturate)};
-    --qds-chrome-border-mix: #{qds-variant-token(terminal, chrome-border-mix)};
-    --qds-chrome-border-soft-mix: #{qds-variant-token(terminal, chrome-border-soft-mix)};
-    --qds-separator-mix: #{qds-variant-token(terminal, separator-mix)};
-    --qds-handle-border-mix: #{qds-variant-token(terminal, handle-border-mix)};
-    --qds-handle-primary-mix: #{qds-variant-token(terminal, handle-primary-mix)};
-
-    @include qds-derived-tokens;
+    @include qds-variant-scheme(terminal);
+    @include qds-terminal-sizing;
   }
 
   .qds-theme-dark.qds-variant-terminal,
   .qds-theme-dark .qds-variant-terminal,
   body.qds-ui.body--dark.qds-variant-terminal,
   body.qds-ui.body--dark .qds-variant-terminal {
-    --qds-color-primary: #{qds-variant-token(terminal, dark-primary)};
-    --qds-color-primary-light: #{qds-variant-token(terminal, dark-primary-light)};
-    --qds-color-primary-dark: #{qds-variant-token(terminal, dark-primary-dark)};
-    --qds-color-secondary: #{qds-variant-token(terminal, dark-secondary)};
-    --qds-color-accent: #{qds-variant-token(terminal, dark-accent)};
-    --qds-color-positive: #{qds-variant-token(terminal, dark-positive)};
-    --qds-color-negative: #{qds-variant-token(terminal, dark-negative)};
-    --qds-color-warning: #{qds-variant-token(terminal, dark-warning)};
-    --qds-color-info: #{qds-variant-token(terminal, dark-info)};
-    --qds-color-primary-rgb: #{qds-variant-token(terminal, dark-primary-rgb)};
-    --qds-color-primary-light-rgb: #{qds-variant-token(terminal, dark-primary-light-rgb)};
-    --qds-color-primary-dark-rgb: #{qds-variant-token(terminal, dark-primary-dark-rgb)};
-    --qds-color-secondary-rgb: #{qds-variant-token(terminal, dark-secondary-rgb)};
-    --qds-color-accent-rgb: #{qds-variant-token(terminal, dark-accent-rgb)};
-    --qds-color-positive-rgb: #{qds-variant-token(terminal, dark-positive-rgb)};
-    --qds-color-negative-rgb: #{qds-variant-token(terminal, dark-negative-rgb)};
-    --qds-color-warning-rgb: #{qds-variant-token(terminal, dark-warning-rgb)};
-    --qds-color-info-rgb: #{qds-variant-token(terminal, dark-info-rgb)};
-    --qds-surface-0: #{qds-variant-token(terminal, dark-surface-0)};
-    --qds-surface-1: #{qds-variant-token(terminal, dark-surface-1)};
-    --qds-surface-2: #{qds-variant-token(terminal, dark-surface-2)};
-    --qds-surface-3: #{qds-variant-token(terminal, dark-surface-3)};
-    --qds-surface-glass: #{qds-variant-token(terminal, dark-surface-glass)};
-    --qds-text: #{qds-variant-token(terminal, dark-text)};
-    --qds-text-strong: #{qds-variant-token(terminal, dark-text-strong)};
-    --qds-text-muted: #{qds-variant-token(terminal, dark-text-muted)};
-    --qds-border: #{qds-variant-token(terminal, dark-border)};
-    --qds-border-subtle: #{qds-variant-token(terminal, dark-border-subtle)};
-    --qds-shadow-sm: #{qds-variant-token(terminal, dark-shadow-sm)};
-    --qds-shadow-md: #{qds-variant-token(terminal, dark-shadow-md)};
-    --qds-shadow-lg: #{qds-variant-token(terminal, dark-shadow-lg)};
-    --qds-card-acrylic-tint-rgb: #{qds-variant-token(terminal, dark-card-acrylic-tint-rgb)};
-    --qds-card-tonal-opacity: #{qds-variant-token(terminal, dark-card-tonal-opacity)};
-    --qds-card-fallback-tonal-opacity: #{qds-variant-token(terminal, dark-card-fallback-tonal-opacity)};
-
-    @include qds-derived-tokens;
+    @include qds-variant-scheme(terminal, true);
+    @include qds-terminal-sizing;
   }
 }

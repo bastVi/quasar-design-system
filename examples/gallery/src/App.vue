@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref, watch, type Component } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted, ref, watch, type Component } from 'vue'
 import {
   PhDeviceMobile,
-  PhFeather,
   PhMoonStars,
   PhMonitor,
   PhPalette,
-  PhSparkle,
+  PhPenNib,
   PhSun,
   PhTerminal,
 } from '@phosphor-icons/vue'
@@ -44,9 +43,8 @@ const modeIcons = {
 } as const
 const variantIcons: Record<string, Component> = {
   fluent: PhPalette,
-  air: PhSparkle,
+  ink: PhPenNib,
   mobile: PhDeviceMobile,
-  feather: PhFeather,
   terminal: PhTerminal,
 }
 
@@ -71,8 +69,20 @@ function onHashChange() {
   tab.value = tabFromHash()
 }
 
+function revealActiveGalleryTab() {
+  nextTick(() => {
+    window.setTimeout(() => {
+      document.querySelector<HTMLElement>('.gallery-tabs .q-tab--active')?.scrollIntoView({
+        block: 'nearest',
+        inline: 'center',
+      })
+    }, 0)
+  })
+}
+
 onMounted(() => {
   window.addEventListener('hashchange', onHashChange)
+  revealActiveGalleryTab()
 })
 
 onBeforeUnmount(() => {
@@ -89,6 +99,8 @@ watch(tab, (value) => {
   if (`${window.location.pathname}${window.location.search}${window.location.hash}` !== next) {
     window.history.replaceState(null, '', next)
   }
+
+  revealActiveGalleryTab()
 })
 </script>
 
@@ -108,6 +120,7 @@ watch(tab, (value) => {
               no-caps
               color="primary"
               class="gallery-switcher__button"
+              :aria-label="`${mode} mode`"
               :aria-pressed="ds.mode.value === mode"
               :class="{ 'qds-active': ds.mode.value === mode }"
               @click="onMode(mode)"
@@ -126,6 +139,7 @@ watch(tab, (value) => {
               no-caps
               color="accent"
               class="gallery-switcher__button"
+              :aria-label="variant.label"
               :aria-pressed="ds.variant.value === variant.name"
               :class="{ 'qds-active': ds.variant.value === variant.name }"
               @click="onVariant(variant.name)"
@@ -182,38 +196,87 @@ watch(tab, (value) => {
 
 .gallery-header :deep(.q-toolbar) {
   flex-wrap: wrap;
-  gap: var(--qds-space-sm);
+  gap: var(--qds-space-xs);
   padding-block: var(--qds-space-xs);
 }
 
 .gallery-title {
-  flex: 1 1 16rem;
-  min-width: 14rem;
+  flex: 1 1 12rem;
+  min-width: 10rem;
   overflow: visible;
+  font-size: clamp(1rem, 3.6vw, 1.35rem);
 }
 
 .gallery-controls {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: flex-end;
-  gap: var(--qds-space-sm);
+  gap: 0.25rem;
+  min-width: 0;
 }
 
 .gallery-switcher {
-  display: flex;
-  flex-wrap: wrap;
+  display: inline-flex;
+  flex-wrap: nowrap;
   align-items: center;
-  gap: 0.1875rem;
-  padding: 0.1875rem;
+  gap: 0.125rem;
+  padding: 0.125rem;
   border: 1px solid var(--qds-border-subtle);
   border-radius: var(--qds-radius-full);
   background: color-mix(in srgb, var(--qds-surface-glass) 88%, transparent);
   backdrop-filter: blur(var(--qds-glass-blur)) saturate(var(--qds-glass-saturate));
+  overflow-x: auto;
+  scrollbar-width: thin;
+  max-width: 100%;
+}
+
+.gallery-switcher::-webkit-scrollbar {
+  height: 0.1875rem;
 }
 
 .gallery-switcher__button {
-  min-height: 1.875rem;
+  min-height: 1.75rem;
+  padding: 0 0.5rem;
   border-radius: var(--qds-radius-full);
+  font-size: 0.78rem;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.gallery-switcher__button :deep(.q-btn__content) {
+  gap: 0.25rem;
+}
+
+.gallery-tabs {
+  background: color-mix(in srgb, var(--qds-toolbar-bg) 88%, transparent);
+  color: var(--qds-text);
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--qds-text) 28%, transparent) transparent;
+}
+
+.gallery-tabs::-webkit-scrollbar {
+  height: 0.1875rem;
+}
+
+.gallery-tabs::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--qds-text) 28%, transparent);
+  border-radius: var(--qds-radius-full);
+}
+
+.gallery-tabs :deep(.q-tabs__content) {
+  flex-wrap: nowrap;
+}
+
+.gallery-tabs :deep(.q-tab) {
+  flex: 0 0 auto;
+  min-width: max-content;
+  padding: 0 0.75rem;
+}
+
+.gallery-panels :deep(.q-tab-panel) {
+  padding: 0;
 }
 
 @media (max-width: 720px) {
@@ -224,21 +287,21 @@ watch(tab, (value) => {
   .gallery-controls {
     flex: 1 1 100%;
     justify-content: flex-start;
-    overflow-x: auto;
-    padding-bottom: 0.125rem;
   }
 
   .gallery-switcher {
-    flex: 0 0 auto;
+    flex: 0 1 auto;
+    min-width: 0;
   }
 }
 
-.gallery-tabs {
-  background: color-mix(in srgb, var(--qds-toolbar-bg) 88%, transparent);
-  color: var(--qds-text);
-}
+@media (max-width: 420px) {
+  .gallery-switcher__button span:not(.q-icon) {
+    display: none;
+  }
 
-.gallery-panels :deep(.q-tab-panel) {
-  padding: 0;
+  .gallery-switcher__button {
+    padding: 0 0.375rem;
+  }
 }
 </style>

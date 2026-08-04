@@ -12,6 +12,16 @@
   --qds-interactive-border-strong: var(--qds-border);
   --qds-interactive-text: var(--qds-text);
   --qds-interactive-text-muted: var(--qds-text-muted);
+  // Semantic washes are public so components can keep role color consistent
+  // without carrying variant-specific palette values.
+  --qds-surface-brand-soft: rgba(var(--qds-color-primary-rgb), 0.12);
+  --qds-surface-accent-soft: rgba(var(--qds-color-accent-rgb), 0.14);
+  --qds-surface-positive-soft: rgba(var(--qds-color-positive-rgb), 0.14);
+  --qds-surface-warning-soft: rgba(var(--qds-color-warning-rgb), 0.14);
+  --qds-surface-negative-soft: rgba(var(--qds-color-negative-rgb), 0.14);
+  --qds-surface-info-soft: rgba(var(--qds-color-info-rgb), 0.14);
+  --qds-surface-focus-block: rgba(var(--qds-color-primary-rgb), 0.18);
+  --qds-surface-transient: color-mix(in srgb, var(--qds-surface-0) 92%, var(--qds-color-primary));
   --qds-button-size-sm: var(--qds-control-size-sm);
   --qds-button-size-md: var(--qds-control-size-md);
   --qds-button-size-lg: var(--qds-control-size-lg);

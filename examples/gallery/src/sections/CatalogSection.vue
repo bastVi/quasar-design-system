@@ -92,6 +92,7 @@ import CatalogLoadingData from './catalog/CatalogLoadingData.vue'
 
 .catalog-picker {
   width: 100%;
+  min-width: 0;
   max-width: 21rem;
 }
 

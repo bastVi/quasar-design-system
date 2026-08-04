@@ -1,5 +1,19 @@
 <script setup lang="ts">
 import { nextTick, onMounted, ref } from 'vue'
+import {
+  ppPlus,
+  ppTrash,
+  ppCloudArrowUp,
+  ppArrowsOut,
+  ppPlay,
+  ppPause,
+  ppPalette,
+  ppSliders,
+  ppWarning,
+  ppCheckCircle,
+  ppTextAa,
+  ppAlignLeft,
+} from 'quasar-extras-svg-icons/phosphor-icons-v2'
 
 type UploaderProbe = {
   addFiles: (files: File[]) => void
@@ -8,7 +22,7 @@ type UploaderProbe = {
 }
 
 const step = ref(2)
-const carouselSlide = ref('air')
+const carouselSlide = ref('ink')
 const carouselAutoplay = ref(false)
 const carouselFullscreen = ref(false)
 const splitter = ref(42)
@@ -24,13 +38,13 @@ const editorToolbar = [
   [
     {
       label: 'Format',
-      icon: 'title',
+      icon: ppTextAa,
       list: 'no-icons',
       options: ['p', 'h5', 'h6', 'code'],
     },
     {
       label: 'Align',
-      icon: 'format_align_left',
+      icon: ppAlignLeft,
       fixedLabel: true,
       options: ['left', 'center', 'right', 'justify'],
     },
@@ -109,10 +123,10 @@ function avatarSvg(initials: string, from: string, to: string): string {
 const visualImage = mediaSvg('QDS Gallery', 'Static media surface', '#6366f1', '#06b6d4', '#f59e0b')
 const carouselSlides = [
   {
-    name: 'air',
-    title: 'Acrylic depth',
-    caption: 'Layered blur, soft controls, no remote images.',
-    src: mediaSvg('Acrylic', 'Soft media chrome', '#007aff', '#7c3aed', '#06b6d4'),
+    name: 'ink',
+    title: 'Editorial surface',
+    caption: 'Paper-neutral surface with pastel role washes and charcoal type.',
+    src: mediaSvg('Ink', 'Editorial pastel roles', '#5f6f52', '#a98255', '#6366f1'),
   },
   {
     name: 'mobile',
@@ -167,11 +181,11 @@ function refresh(done: () => void): void {
           error-color="negative"
           data-test="qds-stepper"
         >
-          <q-step :name="1" title="Tokens" caption="Done" icon="palette" done>
+          <q-step :name="1" title="Tokens" caption="Done" :icon="ppPalette" done>
             Token aliases and semantic CSS variables are ready.
           </q-step>
 
-          <q-step :name="2" title="Components" caption="Editable active step" icon="widgets">
+          <q-step :name="2" title="Components" caption="Editable active step" :icon="ppSliders">
             Exercise Quasar surfaces with a visible vertical rail and navigation slot.
             <q-stepper-navigation data-test="qds-stepper-nav">
               <q-btn color="primary" unelevated no-caps label="Continue" />
@@ -179,11 +193,11 @@ function refresh(done: () => void): void {
             </q-stepper-navigation>
           </q-step>
 
-          <q-step :name="3" title="Native parity" caption="Error proof" icon="warning" error>
+          <q-step :name="3" title="Native parity" caption="Error proof" :icon="ppWarning" error>
             Error styling stays tokenized without changing stepper logic.
           </q-step>
 
-          <q-step :name="4" title="Release note" caption="Done" icon="check_circle" done>
+          <q-step :name="4" title="Release note" caption="Done" :icon="ppCheckCircle" done>
             Completed state verifies the positive rail and marker treatment.
           </q-step>
         </q-stepper>
@@ -249,23 +263,25 @@ function refresh(done: () => void): void {
                   unelevated
                   :color="carouselAutoplay ? 'primary' : 'white'"
                   :text-color="carouselAutoplay ? 'white' : 'primary'"
-                  :icon="carouselAutoplay ? 'pause' : 'play_arrow'"
                   :aria-pressed="carouselAutoplay"
                   aria-label="Toggle local autoplay"
                   data-test="qds-carousel-autoplay"
                   @click="carouselAutoplay = !carouselAutoplay"
-                />
+                >
+                  <q-icon :name="carouselAutoplay ? ppPause : ppPlay" />
+                </q-btn>
                 <q-btn
                   dense
                   round
                   unelevated
                   color="white"
                   text-color="primary"
-                  icon="fullscreen"
                   aria-label="Toggle carousel fullscreen"
                   data-test="qds-carousel-fullscreen"
                   @click="carouselFullscreen = !carouselFullscreen"
-                />
+                >
+                  <q-icon :name="ppArrowsOut" />
+                </q-btn>
               </div>
             </q-carousel-control>
           </template>
@@ -398,27 +414,31 @@ function refresh(done: () => void): void {
                 <div class="text-caption qds-text-muted">Queued, progress, failed, uploaded, remove, and local-only upload affordances.</div>
               </div>
               <q-space />
-              <q-btn dense round flat icon="add" aria-label="Add local files" data-test="qds-uploader-add" />
+              <q-btn dense round flat aria-label="Add local files" data-test="qds-uploader-add">
+                <q-icon :name="ppPlus" />
+              </q-btn>
               <q-btn
                 dense
                 round
                 flat
-                icon="cloud_upload"
                 aria-label="Local upload intentionally disabled"
                 data-test="qds-uploader-upload"
                 :disable="scope.files.length === 0"
                 @click.stop.prevent
-              />
+              >
+                <q-icon :name="ppCloudArrowUp" />
+              </q-btn>
               <q-btn
                 dense
                 round
                 flat
-                icon="delete"
                 aria-label="Remove queued files"
                 data-test="qds-uploader-clear"
                 :disable="scope.files.length === 0"
                 @click="scope.removeQueuedFiles"
-              />
+              >
+                <q-icon :name="ppTrash" />
+              </q-btn>
             </div>
           </template>
         </q-uploader>

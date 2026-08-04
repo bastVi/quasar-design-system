@@ -1,7 +1,8 @@
 import { expect, test, type Page } from '@playwright/test'
+import { MATRIX_VARIANTS } from './helpers'
 
 type Mode = 'light' | 'dark'
-type Variant = 'fluent' | 'air' | 'mobile' | 'feather' | 'terminal'
+type Variant = 'fluent' | 'ink' | 'mobile' | 'terminal'
 
 const EXPECTED_MEDIA_RADIUS: Record<Extract<Variant, 'fluent' | 'mobile' | 'terminal'>, string> = {
   fluent: '12px',
@@ -51,7 +52,7 @@ test.describe('QDS catalog complex media gate', () => {
     expect.soft(sentBg, 'sent chat bubble is painted').not.toBe('rgba(0, 0, 0, 0)')
     expect.soft(sentTail, 'sent chat tail inherits bubble color').toBe(await computed(page, sentBubble, 'color'))
     expect.soft(sentFg, 'sent chat content contrasts with bubble paint').not.toBe(sentBg)
-    expect.soft(await computed(page, sentStamp, 'color'), 'sent chat stamp keeps contrast on primary bubble').not.toBe('rgb(100, 116, 139)')
+    expect.soft(await computed(page, sentStamp, 'color'), 'sent chat stamp keeps contrast on primary bubble').not.toBe(sentBg)
     expect.soft(await computed(page, receivedBubble, 'border-top-width'), 'received chat bubble keeps QDS border').toBe('1px')
 
     const stepper = page.locator('[data-test="qds-stepper"]')
@@ -82,6 +83,24 @@ test.describe('QDS catalog complex media gate', () => {
     expect.soft(await computed(page, '[data-test="qds-scroll-area"]', 'overflow'), 'QScrollArea frame clips scrollbar overlap').toBe('hidden')
     expect.soft(await computed(page, '[data-test="qds-splitter"]', 'overflow'), 'QSplitter frame clips separator hitbox').toBe('hidden')
     expect.soft(await computed(page, '[data-test="qds-splitter"] > .q-splitter__separator', 'width'), 'QSplitter separator is softened beyond raw 1px seam').toBe('6px')
+
+    // No Material Icons ligature text in custom controls (carousel, uploader, Fab)
+    await expect(page.locator('[data-test="qds-carousel-controls"] .material-icons')).toHaveCount(0)
+    await expect(page.locator('.catalog-uploader-header .material-icons')).toHaveCount(0)
+    await expect(page.locator('.catalog-fab-stage .material-icons')).toHaveCount(0)
+    await expect(page.locator('[data-test="qds-editor"] .material-icons')).toHaveCount(0)
+
+    for (const variant of ['fluent', 'ink', 'mobile', 'terminal'] as const) {
+      await applyTheme(page, 'dark', variant)
+      const sentContentFg = await computed(page, '[data-test="qds-chat-sent"] .q-message-text-content', 'color')
+      const receivedContentFg = await computed(page, '[data-test="qds-chat-received"] .q-message-text-content', 'color')
+      expect.soft(sentContentFg, `${variant} dark sent chat content inherits bubble foreground`).toBe(
+        await computed(page, '[data-test="qds-chat-sent"] .q-message-text', 'color'),
+      )
+      expect.soft(receivedContentFg, `${variant} dark received chat content inherits bubble foreground`).toBe(
+        await computed(page, '[data-test="qds-chat-received"] .q-message-text', 'color'),
+      )
+    }
   })
 
   test('complex media surfaces keep variant and dark proof coverage', async ({ page }) => {
@@ -103,9 +122,14 @@ test.describe('QDS catalog complex media gate', () => {
       expect.soft(await computed(page, '[data-test="qds-stepper"] .q-stepper__tab--error', 'background-color'), `${variant} stepper error tab is themed`).not.toBe('rgba(0, 0, 0, 0)')
       expect.soft(await computed(page, '[data-test="qds-editor"]', 'border-top-width'), `${variant} editor keeps framed chrome`).toBe('1px')
       expect.soft(await computed(page, '[data-test="qds-uploader"]', 'border-top-width'), `${variant} uploader keeps framed chrome`).toBe('1px')
-      expect.soft(await computed(page, '[data-test="qds-uploader-disabled"]', 'opacity'), `${variant} disabled uploader state is softened`).toBe('0.68')
+      expect.soft(await computed(page, '[data-test="qds-uploader-disabled"]', 'opacity'), `${variant} disabled uploader state is softened`).toBe('0.6')
       expect.soft(await computed(page, '[data-test="qds-scroll-area"] .q-scrollarea__thumb', 'background-color'), `${variant} scroll thumb is themed`).not.toBe('rgba(0, 0, 0, 0)')
       expect.soft(await computed(page, '[data-test="qds-splitter"] > .q-splitter__separator', 'background-color', '::before'), `${variant} splitter handle is themed`).not.toBe('rgba(0, 0, 0, 0)')
+
+      const carouselControls = page.locator('[data-test="qds-carousel-controls"]')
+      const uploaderHeader = page.locator('.catalog-uploader-header')
+      await expect(carouselControls.locator('.material-icons')).toHaveCount(0)
+      await expect(uploaderHeader.locator('.material-icons')).toHaveCount(0)
 
       if (variant === 'terminal') {
         expect.soft(await computed(page, '[data-test="qds-editor"]', 'font-family'), 'terminal editor uses monospace family').toContain('ui-monospace')
@@ -153,5 +177,27 @@ test.describe('QDS catalog complex media gate', () => {
 
     await editor.locator('.q-btn-dropdown').first().click()
     await expect(page.locator('.q-menu').first()).toBeVisible()
+  })
+
+  test('complex and media fixtures preserve Fluent, Ink, and One proof in light and dark', async ({ page }) => {
+    await page.goto('/#catalog')
+    for (const mode of ['light', 'dark'] as const) {
+      for (const variant of MATRIX_VARIANTS) {
+        await applyTheme(page, mode, variant)
+        await expect(page.locator('[data-test="qds-stepper"]')).toBeVisible()
+        await expect(page.locator('[data-test="qds-carousel"]')).toBeVisible()
+        await expect(page.locator('[data-test="qds-editor"]')).toBeVisible()
+        await expect(page.locator('[data-test="qds-uploader"]')).toBeVisible()
+        expect.soft(await computed(page, '[data-test="qds-carousel"]', 'border-radius'), `${mode}/${variant} carousel geometry`).toBe(variant === 'mobile' ? '20px' : variant === 'ink' ? '16px' : '12px')
+        expect.soft(await computed(page, '[data-test="qds-uploader"]', 'border-top-color'), `${mode}/${variant} uploader surface boundary`).not.toBe('rgba(0, 0, 0, 0)')
+        expect.soft(await computed(page, '[data-test="qds-stepper"] .q-stepper__tab--error', 'background-color'), `${mode}/${variant} error state is painted`).not.toBe('rgba(0, 0, 0, 0)')
+        if (variant === 'ink') {
+          expect.soft(await computed(page, '[data-test="qds-editor"]', 'box-shadow'), `${mode}/Ink editor is matte`).toBe('none')
+        }
+        if (variant === 'mobile') {
+          expect.soft(await computed(page, '[data-test="qds-editor"]', 'background-color'), `${mode}/One editor is grouped on a visible surface`).not.toBe('rgba(0, 0, 0, 0)')
+        }
+      }
+    }
   })
 })

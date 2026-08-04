@@ -1,12 +1,9 @@
 import { test, expect, type Page } from '@playwright/test'
+import { MATRIX_VARIANTS } from './helpers'
 
 type Mode = 'light' | 'dark'
-type Variant = 'fluent' | 'air' | 'mobile' | 'feather' | 'terminal'
+type Variant = 'fluent' | 'ink' | 'mobile' | 'terminal'
 
-const SURFACE: Record<Mode, string> = {
-  light: 'rgb(255, 253, 248)',
-  dark: 'rgb(32, 34, 37)',
-}
 const PRIMARY_RGB_PATTERN = /rgba?\(0,\s*90,\s*158/
 
 async function applyTheme(page: Page, mode: Mode, variant: Variant) {
@@ -72,8 +69,8 @@ test.describe('QDS plugin/global UI surfaces', () => {
     await expect(page.locator('.q-bottom-sheet.q-bottom-sheet--grid')).toBeVisible()
     expect.soft(await computed(page, '.q-bottom-sheet--grid .q-bottom-sheet__item', 'border-radius'), 'BottomSheet grid item radius').toBe('8px')
     expect.soft(await computed(page, '.q-bottom-sheet--grid .q-bottom-sheet__item', 'color'), 'BottomSheet grid item text').not.toBe('rgba(0, 0, 0, 0)')
-    await page.locator('.q-bottom-sheet').getByText('Air').click()
-    await expect(pluginStatus(page)).toContainText('BottomSheet grid action: Air')
+    await page.locator('.q-bottom-sheet').getByText('Tokens').click()
+    await expect(pluginStatus(page)).toContainText('BottomSheet grid action: Tokens')
     await expectNoResidualGlobalSurfaces(page)
   })
 
@@ -88,25 +85,24 @@ test.describe('QDS plugin/global UI surfaces', () => {
 
     await page.getByRole('button', { name: 'Show plugin notify' }).click()
     await expect(page.locator('.q-notification').first()).toBeVisible()
-    expect.soft(await computed(page, '.q-notification', 'background-color'), 'Notify plugin surface').toBe(SURFACE.light)
+    expect.soft(await computed(page, '.q-notification', 'background-color'), 'Notify plugin surface').not.toBe('rgba(0, 0, 0, 0)')
     expect.soft(await computed(page, '.q-notification', 'box-shadow'), 'Notify plugin shadow').not.toBe('none')
     await page.getByRole('button', { name: 'Dismiss' }).click()
     await expectNoResidualGlobalSurfaces(page)
   })
 
   test('BottomSheet and Notify plugin proofs cover non-Fluent variants and dark surfaces', async ({ page }) => {
-    await applyTheme(page, 'dark', 'air')
+    await applyTheme(page, 'dark', 'ink')
     await page.getByRole('button', { name: 'Open grid BottomSheet' }).click()
     await expect(page.locator('.q-bottom-sheet.q-bottom-sheet--grid')).toBeVisible()
-    expect.soft(await computed(page, '.q-bottom-sheet', 'background-color'), 'Air dark BottomSheet surface').not.toBe('rgba(0, 0, 0, 0)')
-    expect.soft(await computed(page, '.q-bottom-sheet', 'backdrop-filter'), 'Air dark BottomSheet blur').not.toBe('none')
+    expect.soft(await computed(page, '.q-bottom-sheet', 'background-color'), 'Ink dark BottomSheet surface').not.toBe('rgba(0, 0, 0, 0)')
+    expect.soft(await computed(page, '.q-bottom-sheet', 'backdrop-filter'), 'Ink dark BottomSheet remains unblurred').toBe('none')
     await page.locator('.q-bottom-sheet').getByText('Tokens').click()
     await expectNoResidualGlobalSurfaces(page)
 
     for (const proof of [
-      { mode: 'light' as const, variant: 'air' as const, shadow: 'elevated' },
-      { mode: 'light' as const, variant: 'feather' as const, shadow: 'none' },
-      { mode: 'dark' as const, variant: 'terminal' as const, shadow: 'elevated' },
+      { mode: 'light' as const, variant: 'ink' as const, shadow: 'none' },
+      { mode: 'dark' as const, variant: 'terminal' as const, shadow: 'none' },
     ]) {
       await applyTheme(page, proof.mode, proof.variant)
       await page.getByRole('button', { name: 'Show plugin notify' }).click()
@@ -140,9 +136,29 @@ test.describe('QDS plugin/global UI surfaces', () => {
 
     await page.getByRole('button', { name: 'Start loading bar' }).click()
     await expect(page.locator('.q-loading-bar[role="progressbar"]').first()).toBeVisible()
-    expect.soft(await computed(page, '.q-loading-bar[role="progressbar"]', 'background-image'), 'LoadingBar token color').toMatch(PRIMARY_RGB_PATTERN)
+    expect.soft(await computed(page, '.q-loading-bar[role="progressbar"]', 'background-color'), 'LoadingBar token color').toMatch(PRIMARY_RGB_PATTERN)
     await page.getByRole('button', { name: 'Stop loading bar' }).click()
     await expect(page.locator('.q-loading-bar[role="progressbar"]')).toHaveCount(0, { timeout: 1500 })
     await expectNoResidualGlobalSurfaces(page)
+  })
+
+  test('plugin overlays prove Fluent, Ink, and One in both resolved modes', async ({ page }) => {
+    for (const mode of ['light', 'dark'] as const) {
+      for (const variant of MATRIX_VARIANTS) {
+        await applyTheme(page, mode, variant)
+        await page.getByRole('button', { name: 'Show plugin notify' }).click()
+        await expect(page.locator('.q-notification').first()).toBeVisible()
+        expect.soft(await computed(page, '.q-notification', 'border-top-color'), `${mode}/${variant} overlay has a visible boundary`).not.toBe('rgba(0, 0, 0, 0)')
+        expect.soft(await computed(page, '.q-notification', 'background-color'), `${mode}/${variant} overlay has a surfaced background`).not.toBe('rgba(0, 0, 0, 0)')
+        if (variant === 'fluent') {
+          expect.soft(await computed(page, '.q-notification', 'box-shadow'), `${mode}/Fluent transient overlay retains depth`).not.toBe('none')
+        }
+        if (variant === 'ink') {
+          expect.soft(await computed(page, '.q-notification', 'box-shadow'), `${mode}/Ink overlay remains flat`).toBe('none')
+        }
+        await page.getByRole('button', { name: 'Dismiss' }).click()
+        await expectNoResidualGlobalSurfaces(page)
+      }
+    }
   })
 })

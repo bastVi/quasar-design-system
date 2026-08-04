@@ -111,6 +111,7 @@ export const DEFAULT_DESIGN_SYSTEM_OPTIONS: Required<
 
 const THEME_MODES: DesignSystemMode[] = ['light', 'dark', 'system']
 const DESIGN_SYSTEM_SCOPE_CLASS = 'qds-ui'
+const LEGACY_VARIANT_CLASSES = ['qds-variant-air', 'qds-variant-glass', 'qds-variant-feather']
 let fallbackController: DesignSystemController | null = null
 
 export function configureDesignSystem(app: App, options: DesignSystemOptions = {}): DesignSystemController {
@@ -205,6 +206,7 @@ export function createDesignSystemController(
       target.classList.toggle(state.rootClass, state.enabled)
     }
 
+    LEGACY_VARIANT_CLASSES.forEach((cssClass) => target.classList.remove(cssClass))
     Object.values(variantRegistry).forEach((variant) => {
       target.classList.toggle(variant.cssClass, variant.name === state.variant)
     })
@@ -296,6 +298,7 @@ export function createDesignSystemController(
     detachSystemListener()
     if (target) {
       target.classList.remove(DESIGN_SYSTEM_SCOPE_CLASS, state.rootClass, 'qds-theme-light', 'qds-theme-dark')
+      target.classList.remove(...LEGACY_VARIANT_CLASSES)
       Object.values(variantRegistry).forEach((variant) => target.classList.remove(variant.cssClass))
       delete target.dataset.qdsMode
       delete target.dataset.qdsResolved
@@ -326,12 +329,12 @@ function normalizeMode(value: unknown): DesignSystemMode {
 }
 
 function normalizeVariant(value: unknown): DesignSystemVariantName {
-  if (value === 'studio') {
+  if (value === 'studio' || value === 'air' || value === 'glass') {
     return 'fluent'
   }
 
-  if (value === 'glass') {
-    return 'air'
+  if (value === 'feather') {
+    return 'ink'
   }
 
   return isDesignSystemVariantName(value) ? value : DEFAULT_DESIGN_SYSTEM_OPTIONS.variant

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Ink paper-neutral wallpaper">
+  <defs>
+    <linearGradient id="paper-base" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#faf6ea"/>
+      <stop offset="0.55" stop-color="#f3ecdc"/>
+      <stop offset="1" stop-color="#e8dfc9"/>
+    </linearGradient>
+    <pattern id="paper-fiber" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M0 14 C10 10 20 18 40 12 M6 30 C16 24 26 34 40 26" fill="none" stroke="#5f6f52" stroke-opacity="0.07" stroke-width="1"/>
+    </pattern>
+    <radialGradient id="pastel-wash-1" cx="0.22" cy="0.28" r="0.38">
+      <stop offset="0" stop-color="#c7b8e3" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#c7b8e3" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="pastel-wash-2" cx="0.78" cy="0.68" r="0.34">
+      <stop offset="0" stop-color="#b8d4c7" stop-opacity="0.38"/>
+      <stop offset="1" stop-color="#b8d4c7" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="pastel-wash-3" cx="0.62" cy="0.22" r="0.28">
+      <stop offset="0" stop-color="#e3c7a8" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#e3c7a8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#paper-base)"/>
+  <rect width="1200" height="800" fill="url(#paper-fiber)"/>
+  <rect width="1200" height="800" fill="url(#pastel-wash-1)"/>
+  <rect width="1200" height="800" fill="url(#pastel-wash-2)"/>
+  <rect width="1200" height="800" fill="url(#pastel-wash-3)"/>
+  <path d="M110 640 C320 540 480 620 680 520 C860 430 980 440 1140 360" fill="none" stroke="#3a3a3a" stroke-opacity="0.18" stroke-width="38" stroke-linecap="round"/>
+  <path d="M135 632 C345 545 505 605 695 520 C870 445 985 450 1120 375" fill="none" stroke="#faf6ea" stroke-opacity="0.48" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="260" cy="180" r="110" fill="#6366f1" opacity="0.08"/>
+  <circle cx="940" cy="160" r="84" fill="#10b981" opacity="0.07"/>
+</svg>

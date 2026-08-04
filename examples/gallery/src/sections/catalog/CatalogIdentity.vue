@@ -12,7 +12,7 @@ const tab = ref('overview')
         <div class="catalog-label">QAvatar</div>
         <div class="row items-center q-gutter-sm">
           <q-avatar color="primary" text-color="white">QD</q-avatar>
-          <q-avatar rounded color="accent" text-color="white">Air</q-avatar>
+          <q-avatar rounded color="accent" text-color="white">Ink</q-avatar>
           <q-avatar square color="secondary" text-color="white">UI</q-avatar>
         </div>
       </div>

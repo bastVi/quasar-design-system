@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
 
-type VariantName = 'fluent' | 'air' | 'mobile' | 'feather' | 'terminal'
+type VariantName = 'fluent' | 'ink' | 'mobile' | 'terminal'
 
 type VariantSample = {
   name: VariantName
@@ -14,26 +14,20 @@ const variants: VariantSample[] = [
   {
     name: 'fluent',
     label: 'Fluent',
-    intent: 'Windows-style baseline: subtle acrylic, tonal cards, soft separators.',
+    intent: 'Solid mica surfaces, low-border content, and selective transient material over cool geometry.',
     sample: 'Settings surface 01',
   },
   {
-    name: 'air',
-    label: 'Air',
-    intent: 'Apple-like material: clean system palette, broad shape, quiet resting chrome.',
-    sample: 'Material sheet A',
+    name: 'ink',
+    label: 'Ink',
+    intent: 'Paper-neutral editorial surfaces with charcoal type and coordinated pastel role washes.',
+    sample: 'Editorial spread 07',
   },
   {
     name: 'mobile',
     label: 'One',
-    intent: 'One UI-inspired rhythm: larger controls, rounder groups, touch-first spacing.',
+    intent: 'One UI-inspired focus blocks, rounder groups, and touch-first control rhythm.',
     sample: 'Touch panel 04',
-  },
-  {
-    name: 'feather',
-    label: 'Feather',
-    intent: 'Paper mood: warm surfaces, low acrylic, comfortable reading contrast.',
-    sample: 'Reading card 12',
   },
   {
     name: 'terminal',
@@ -45,9 +39,8 @@ const variants: VariantSample[] = [
 
 const pages = reactive<Record<VariantName, number>>({
   fluent: 3,
-  air: 3,
+  ink: 3,
   mobile: 3,
-  feather: 3,
   terminal: 3,
 })
 </script>
@@ -59,7 +52,7 @@ const pages = reactive<Record<VariantName, number>>({
       <h1 id="qds-variants-title" class="qds-display">Same anatomy, different visual systems</h1>
       <p class="qds-text-muted">
         This view keeps component anatomy identical so variant-specific typography, density, borders,
-        material, and state rules are visible side by side.
+        material, and state rules are visible side by side. Four canonical variants share one token system.
       </p>
     </div>
 
@@ -80,11 +73,20 @@ const pages = reactive<Record<VariantName, number>>({
         <q-separator />
 
         <q-card-section class="variant-card__controls">
-        <q-input model-value="Variant token" name="variant-outlined-field" label="Outlined field" outlined dense readonly />
+          <q-input model-value="Variant token" name="variant-outlined-field" label="Outlined field" outlined dense readonly />
+
+          <div class="variant-card__roles" :data-test="`qds-variant-roles-${variant.name}`">
+            <span class="variant-role variant-role--info">Info surface</span>
+            <span class="variant-role variant-role--positive">Ready</span>
+            <span class="variant-role variant-role--warning">Review</span>
+            <span class="variant-role variant-role--negative">Alert</span>
+          </div>
+
           <div class="qds-button-row qds-button-row--tight">
             <q-btn unelevated color="primary" label="Apply" no-caps />
             <q-btn outline color="primary" label="Inspect" no-caps />
           </div>
+
           <q-list bordered separator>
             <q-item clickable active>
               <q-item-section>
@@ -99,12 +101,14 @@ const pages = reactive<Record<VariantName, number>>({
               </q-item-section>
             </q-item>
           </q-list>
+
           <q-card flat bordered class="variant-card__nested" :data-test="`qds-variant-nested-${variant.name}`">
             <q-card-section>
               <div class="variant-card__eyebrow">Nested chrome</div>
               <p class="variant-card__copy">Secondary card material, separators, and variant-specific shadow rules.</p>
             </q-card-section>
           </q-card>
+
           <q-markup-table dense flat bordered :data-test="`qds-variant-table-${variant.name}`">
             <thead>
               <tr>
@@ -119,6 +123,12 @@ const pages = reactive<Record<VariantName, number>>({
               </tr>
             </tbody>
           </q-markup-table>
+
+          <div class="variant-card__progress" :data-test="`qds-variant-progress-${variant.name}`">
+            <q-linear-progress rounded size="8px" :value="0.62" color="primary" />
+            <q-linear-progress rounded size="8px" :value="0.38" color="positive" />
+          </div>
+
           <q-pagination
             v-model="pages[variant.name]"
             :max="128"
@@ -197,13 +207,57 @@ const pages = reactive<Record<VariantName, number>>({
   color: var(--qds-text-muted);
 }
 
+.variant-card__controls {
+  display: grid;
+  gap: var(--qds-space-md);
+}
+
+.variant-card__roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--qds-space-xs);
+}
+
+.variant-role {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.5rem;
+  padding: 0 0.625rem;
+  border-radius: var(--qds-radius-full);
+  font-size: 0.78rem;
+  font-weight: var(--qds-font-weight-medium);
+  background: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-bg-opacity));
+  color: var(--qds-text-strong);
+  border: 1px solid rgba(var(--qds-color-primary-rgb), var(--qds-tonal-border-opacity));
+}
+
+.variant-role--info {
+  background: rgba(var(--qds-color-info-rgb, 59 130 246), var(--qds-tonal-bg-opacity));
+  border-color: rgba(var(--qds-color-info-rgb, 59 130 246), var(--qds-tonal-border-opacity));
+}
+
+.variant-role--positive {
+  background: rgba(var(--qds-color-positive-rgb, 16 185 129), var(--qds-tonal-bg-opacity));
+  border-color: rgba(var(--qds-color-positive-rgb, 16 185 129), var(--qds-tonal-border-opacity));
+}
+
+.variant-role--warning {
+  background: rgba(var(--qds-color-warning-rgb, 245 158 11), var(--qds-tonal-bg-opacity));
+  border-color: rgba(var(--qds-color-warning-rgb, 245 158 11), var(--qds-tonal-border-opacity));
+}
+
+.variant-role--negative {
+  background: rgba(var(--qds-color-negative-rgb, 239 68 68), var(--qds-tonal-bg-opacity));
+  border-color: rgba(var(--qds-color-negative-rgb, 239 68 68), var(--qds-tonal-border-opacity));
+}
+
 .variant-card__nested {
   padding: var(--qds-space-xs);
 }
 
-.variant-card__controls {
+.variant-card__progress {
   display: grid;
-  gap: var(--qds-space-md);
+  gap: var(--qds-space-xs);
 }
 
 .variant-card :deep(.q-pagination) {

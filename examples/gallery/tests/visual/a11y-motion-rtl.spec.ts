@@ -147,6 +147,8 @@ test.describe('QDS accessibility, motion, and RTL evidence', () => {
     await page.evaluate(() => {
       document.documentElement.dir = 'rtl'
       document.body.dir = 'rtl'
+      document.documentElement.style.direction = 'rtl'
+      document.body.style.direction = 'rtl'
     })
     await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
 
@@ -154,6 +156,7 @@ test.describe('QDS accessibility, motion, and RTL evidence', () => {
       const rail = getComputedStyle(el as Element, '::after')
       return {
         inlineStart: rail.insetInlineStart,
+        physicalRight: rail.right,
         startEndRadius: rail.borderStartEndRadius,
         endEndRadius: rail.borderEndEndRadius,
       }
@@ -161,6 +164,7 @@ test.describe('QDS accessibility, motion, and RTL evidence', () => {
 
     expect(ltrRail.inlineStart, 'LTR selected QTree rail uses logical inline-start').toBe('0px')
     expect(rtlRail.inlineStart, 'RTL selected QTree rail remains logical inline-start').toBe('0px')
+    expect(rtlRail.physicalRight, 'RTL selected QTree rail renders on the physical right edge').toBe('0px')
     expect(rtlRail.startEndRadius, 'RTL selected QTree rail uses logical start/end radius').toBe('2px')
     expect(rtlRail.endEndRadius, 'RTL selected QTree rail uses logical end/end radius').toBe('2px')
 
@@ -169,6 +173,8 @@ test.describe('QDS accessibility, motion, and RTL evidence', () => {
     await page.evaluate(() => {
       document.documentElement.dir = 'rtl'
       document.body.dir = 'rtl'
+      document.documentElement.style.direction = 'rtl'
+      document.body.style.direction = 'rtl'
     })
 
     const toggleGeometry = await page.locator('.q-toggle', { hasText: 'Enable tonal surfaces' }).first().evaluate((el) => {
@@ -176,13 +182,47 @@ test.describe('QDS accessibility, motion, and RTL evidence', () => {
       const thumb = (el as Element).querySelector('.q-toggle__thumb')?.getBoundingClientRect()
       if (!track || !thumb) return null
       return {
-        thumbNearInlineEnd: Math.abs(thumb.right - track.right),
-        thumbFarFromInlineStart: thumb.left - track.left,
+        direction: getComputedStyle(el).direction,
+        thumbNearPhysicalLeft: Math.abs(thumb.left - track.left),
+        thumbFarFromPhysicalRight: track.right - thumb.right,
       }
     })
 
     expect(toggleGeometry, 'truthy toggle geometry is measurable').not.toBeNull()
-    expect(toggleGeometry!.thumbNearInlineEnd, 'truthy toggle thumb mirrors to RTL inline-end').toBeLessThan(8)
-    expect(toggleGeometry!.thumbFarFromInlineStart, 'truthy toggle thumb is not left-anchored in RTL').toBeGreaterThan(8)
+    expect(toggleGeometry!.direction, 'toggle inherits the actual RTL writing direction').toBe('rtl')
+    expect(toggleGeometry!.thumbNearPhysicalLeft, 'truthy toggle thumb mirrors to RTL inline-end').toBeLessThan(8)
+    expect(toggleGeometry!.thumbFarFromPhysicalRight, 'truthy toggle thumb is not right-anchored in RTL').toBeGreaterThan(8)
+  })
+
+  test('reduced-motion and logical RTL rails remain stable for Ink and One', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.goto('/#catalog')
+
+    for (const variant of ['ink', 'mobile'] as const) {
+      await page.evaluate((variant) => {
+        const ds = (window as unknown as { __qdsGallery: any }).__qdsGallery
+        ds.setMode('light')
+        ds.setVariant(variant)
+      }, variant)
+      await expect(page.locator('body')).toHaveClass(new RegExp(`qds-variant-${variant}`))
+      expect(
+        await maxDurationMs(page, '.q-skeleton', 'animation-duration', '::before'),
+        `${variant} QSkeleton honors reduced motion`,
+      ).toBeLessThanOrEqual(1)
+
+      await page.evaluate(() => {
+        document.documentElement.dir = 'rtl'
+        document.body.dir = 'rtl'
+        document.documentElement.style.direction = 'rtl'
+        document.body.style.direction = 'rtl'
+      })
+      const rail = await page.locator('[data-test="qds-tree-primary"] .q-tree__node-header.q-tree__node--selected').first().evaluate((el) => {
+        const style = getComputedStyle(el, '::after')
+        return { inlineStart: style.insetInlineStart, physicalRight: style.right, endRadius: style.borderEndEndRadius }
+      })
+      expect(rail.inlineStart, `${variant} selected rail keeps logical inline-start in RTL`).toBe('0px')
+      expect(rail.physicalRight, `${variant} selected rail renders on the physical right edge in RTL`).toBe('0px')
+      expect(rail.endRadius, `${variant} selected rail retains logical end radius in RTL`).toBe('2px')
+    }
   })
 })
