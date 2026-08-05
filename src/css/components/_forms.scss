@@ -324,7 +324,7 @@
   .qds-ui .q-date.q-date .q-date__calendar-item .q-btn.q-btn.bg-primary,
   .qds-ui .q-date.q-date .q-date__years-item .q-btn.q-btn.bg-primary,
   .qds-ui .q-date.q-date .q-date__months-item .q-btn.q-btn.bg-primary {
-    color: var(--qds-text-on-solid, var(--qds-text-strong)) !important;
+    color: var(--qds-text-on-primary, var(--qds-text-on-solid, var(--qds-text-strong))) !important;
     background: var(--qds-color-primary) !important;
     border-radius: var(--qds-radius-full);
     box-shadow: 0 0 0 3px rgba(var(--qds-color-primary-rgb), var(--qds-tonal-border-opacity));
@@ -333,7 +333,7 @@
   .qds-ui .q-date.q-date .q-date__calendar-item--selected .q-btn.q-btn,
   .qds-ui .q-date.q-date .q-date__years-item--selected .q-btn.q-btn,
   .qds-ui .q-date.q-date .q-date__months-item--selected .q-btn.q-btn {
-    color: var(--qds-text-on-solid, var(--qds-text-strong)) !important;
+    color: var(--qds-text-on-primary, var(--qds-text-on-solid, var(--qds-text-strong))) !important;
   }
 
   .qds-ui .q-date.q-date .q-date__event {
@@ -400,13 +400,13 @@
   }
 
   .qds-ui .q-time.q-time .q-time__clock-position--active {
-    color: var(--qds-text-on-solid, var(--qds-text-strong));
+    color: var(--qds-text-on-primary, var(--qds-text-on-solid, var(--qds-text-strong)));
     background: var(--qds-color-primary);
     box-shadow: 0 0 0 3px rgba(var(--qds-color-primary-rgb), var(--qds-tonal-border-opacity));
   }
 
   .qds-ui .q-time.q-time .q-time__now-button {
-    color: var(--qds-text-on-solid, var(--qds-text-strong));
+    color: var(--qds-text-on-primary, var(--qds-text-on-solid, var(--qds-text-strong)));
     background: var(--qds-color-primary);
     box-shadow: var(--qds-shadow-sm);
   }

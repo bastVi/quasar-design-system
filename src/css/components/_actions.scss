@@ -45,11 +45,6 @@
   .qds-ui .q-banner.q-banner.text-warning { --qds-banner-accent: var(--qds-color-warning); --qds-banner-accent-rgb: var(--qds-color-warning-rgb); background: var(--qds-surface-warning-soft) !important; }
   .qds-ui .q-banner.q-banner.bg-info,
   .qds-ui .q-banner.q-banner.text-info { --qds-banner-accent: var(--qds-color-info); --qds-banner-accent-rgb: var(--qds-color-info-rgb); background: var(--qds-surface-info-soft) !important; }
-  .qds-ui .q-bar.q-bar { min-height: 2rem; padding-inline: var(--qds-space-sm); color: var(--qds-text); background: var(--qds-surface-1); border: 0; border-radius: var(--qds-radius-md); box-shadow: none !important; }
-  .qds-ui .q-separator.q-separator { background: var(--qds-separator-color); opacity: 1; }
-  .qds-ui .q-separator.q-separator--horizontal { height: var(--qds-border-width-control); }
-  .qds-ui .q-separator.q-separator--vertical { width: var(--qds-border-width-control); }
-
   .qds-ui.qds-variant-ink .q-btn-group.q-btn-group,
   .qds-ui.qds-variant-feather .q-btn-group.q-btn-group,
   .qds-ui .qds-variant-ink .q-btn-group.q-btn-group,

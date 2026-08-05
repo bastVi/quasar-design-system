@@ -287,4 +287,28 @@
   .qds-ui .qds-variant-mobile .q-expansion-item.q-expansion-item .q-expansion-item__content {
     background: var(--qds-surface-transient);
   }
+
+  // Keep an explicit QTree `dark` prop dark on otherwise light pages. This is
+  // deliberately narrower than the variant rules above so normal trees retain
+  // their Ink and mobile surfaces.
+  .qds-ui.qds-theme-light.qds-variant-ink .q-tree.q-tree--dark,
+  .qds-ui.qds-theme-light.qds-variant-feather .q-tree.q-tree--dark,
+  .qds-ui.qds-theme-light.qds-variant-mobile .q-tree.q-tree--dark,
+  .qds-ui.qds-theme-light .qds-variant-ink .q-tree.q-tree--dark,
+  .qds-ui.qds-theme-light .qds-variant-feather .q-tree.q-tree--dark,
+  .qds-ui.qds-theme-light .qds-variant-mobile .q-tree.q-tree--dark {
+    background: var(--qds-text-strong);
+    color: var(--qds-surface-0);
+  }
+
+  .qds-ui.qds-theme-light .q-tree.q-tree--dark .q-tree__node-header.q-tree__node-header {
+    color: var(--qds-surface-0);
+    background: transparent;
+  }
+
+  .qds-ui.qds-theme-light .q-tree.q-tree--dark .q-tree__node-header.q-tree__node-header.q-tree__node--selected,
+  .qds-ui.qds-theme-light .q-tree.q-tree--dark .q-tree__node-header.q-tree__node-header[aria-selected='true'] {
+    color: var(--qds-surface-0);
+    background: color-mix(in srgb, var(--qds-color-primary) 48%, var(--qds-text-strong));
+  }
 }

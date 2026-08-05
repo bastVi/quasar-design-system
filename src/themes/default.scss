@@ -37,6 +37,7 @@
   --qds-text: #{qds-variant-token($variant, '#{$surface-prefix}text')};
   --qds-text-strong: #{qds-variant-token($variant, '#{$surface-prefix}text-strong')};
   --qds-text-muted: #{qds-variant-token($variant, '#{$surface-prefix}text-muted')};
+  @include fallbacks.qds-on-fill(qds-variant-token($variant, '#{$surface-prefix}on-fill'));
   --qds-border: #{qds-variant-token($variant, '#{$surface-prefix}border')};
   --qds-border-subtle: #{qds-variant-token($variant, '#{$surface-prefix}border-subtle')};
   --qds-shadow-sm: #{qds-variant-token($variant, '#{$component-prefix}shadow-sm')};
@@ -84,6 +85,11 @@
   --qds-space-md: #{qds-variant-token(mobile, space-md)};
   --qds-motion-fast: #{qds-variant-token(mobile, motion-fast)};
   --qds-button-min-height: #{qds-variant-token(mobile, button-min-height)};
+  --qds-button-padding-inline: #{qds-variant-token(mobile, button-padding-inline)};
+  --qds-button-dense-min-height: #{qds-variant-token(mobile, button-dense-min-height)};
+  --qds-button-dense-padding-inline: #{qds-variant-token(mobile, button-dense-padding-inline)};
+  --qds-button-round-size: #{qds-variant-token(mobile, button-round-size)};
+  --qds-field-label-size: #{qds-variant-token(mobile, field-label-size)};
   --qds-list-item-min-height-value: #{qds-variant-token(mobile, list-item-min-height)};
   --qds-menu-item-min-height-value: #{qds-variant-token(mobile, menu-item-min-height)};
   --qds-expansion-item-min-height-value: #{qds-variant-token(mobile, expansion-item-min-height)};
@@ -123,6 +129,7 @@
     --qds-text: #{map.get(tokens.$dark-text, default)};
     --qds-text-strong: #{map.get(tokens.$dark-text, strong)};
     --qds-text-muted: #{map.get(tokens.$dark-text, muted)};
+    @include fallbacks.qds-on-fill(tokens.$dark-on-fill);
     --qds-border: #{map.get(tokens.$borders, dark)};
     --qds-border-subtle: #{map.get(tokens.$borders, dark-subtle)};
     --qds-shadow-sm: #{map.get(tokens.$shadow, dark-sm)};

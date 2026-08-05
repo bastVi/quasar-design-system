@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue'
+import { PhFileArrowUp, PhFolderOpen } from '@phosphor-icons/vue'
 
 const optionSingle = ref('compact')
 const optionMultiple = ref(['motion', 'contrast'])
@@ -7,6 +8,18 @@ const checkbox = ref(true)
 const radio = ref('ink')
 const toggle = ref(true)
 const file = ref<File | null>(null)
+const affordanceFile = ref<File | null>(null)
+const selectedFile = ref<File | null>(new File(['QDS fixture'], 'brand-guidelines.pdf', { type: 'application/pdf' }))
+const selectedFiles = ref<File[]>([
+  new File(['QDS fixture'], 'component-inventory.csv', { type: 'text/csv' }),
+  new File(['QDS fixture'], 'theme-preview.png', { type: 'image/png' }),
+])
+const progressFiles = ref<File[]>([
+  new File(['QDS fixture'], 'token-audit.json', { type: 'application/json' }),
+  new File(['QDS fixture'], 'release-notes.md', { type: 'text/markdown' }),
+])
+const readonlyFile = ref<File | null>(new File(['QDS fixture'], 'approved-brief.pdf', { type: 'application/pdf' }))
+const disabledFile = ref<File | null>(new File(['QDS fixture'], 'archived-token.json', { type: 'application/json' }))
 const inputReadonly = ref('Tokenized readonly input')
 const inputError = ref('Needs attention')
 const inputDisabled = ref('Disabled input')
@@ -14,6 +27,10 @@ const selectReadonly = ref('Comfortable')
 const selectError = ref('Compact')
 const selectDisabled = ref('Touch')
 const selectMultiple = ref(['Compact', 'Touch'])
+const selectDialog = ref('Comfortable')
+const selectCover = ref('Compact')
+const selectNoOptions = ref<string | null>(null)
+const selectLimited = ref(['Compact'])
 const slider = ref(62)
 const range = ref({ min: 24, max: 78 })
 const color = ref('#6366f1')
@@ -27,6 +44,7 @@ const time = ref('10:30')
 const popupLabel = ref('Editable label')
 
 const selectOptions = ['Compact', 'Comfortable', 'Touch']
+const emptySelectOptions: string[] = []
 const timeHourOptions = [9, 10, 11]
 
 const isWideViewport = ref(typeof window !== 'undefined' ? window.innerWidth > 640 : true)
@@ -44,6 +62,10 @@ onUnmounted(() => {
 
 function dateSelectable(day: string) {
   return !day.endsWith('/16') && !day.endsWith('/22')
+}
+
+function removeProgressFile(index: number) {
+  progressFiles.value.splice(index, 1)
 }
 
 const optionChoices = [
@@ -94,6 +116,22 @@ const checkboxChoices = [
             <div data-test="qds-catalog-select-multiple">
               <q-select v-model="selectMultiple" name="catalog-select-multiple" :options="selectOptions" label="Multiple chips" outlined multiple use-chips behavior="menu" />
             </div>
+            <div data-test="qds-catalog-select-dialog">
+              <q-select v-model="selectDialog" name="catalog-select-dialog" :options="selectOptions" label="Dialog behavior" outlined behavior="dialog" />
+            </div>
+            <div data-test="qds-catalog-select-cover">
+              <q-select v-model="selectCover" name="catalog-select-cover" :options="selectOptions" label="Cover menu" outlined behavior="menu" options-cover />
+            </div>
+            <div data-test="qds-catalog-select-no-options">
+              <q-select v-model="selectNoOptions" name="catalog-select-no-options" :options="emptySelectOptions" label="No options" outlined behavior="menu">
+                <template #no-option>
+                  <q-item><q-item-section class="qds-text-muted">No options available</q-item-section></q-item>
+                </template>
+              </q-select>
+            </div>
+            <div data-test="qds-catalog-select-limited">
+              <q-select v-model="selectLimited" name="catalog-select-limited" :options="selectOptions" label="Maximum two values" outlined multiple use-chips counter :max-values="2" behavior="menu" />
+            </div>
           </div>
         </div>
 
@@ -118,9 +156,39 @@ const checkboxChoices = [
         </div>
 
         <div class="catalog-demo">
-          <div class="catalog-label">QFile</div>
-          <div data-test="qds-catalog-file">
-            <q-file v-model="file" name="catalog-file" label="Choose local file" outlined clearable counter display-value="token-proof.pdf" />
+          <div class="catalog-label">QFile states</div>
+          <div class="catalog-stack">
+            <div data-test="qds-catalog-file-empty">
+              <q-file v-model="file" name="catalog-file-empty" label="Empty file field" outlined clearable counter />
+            </div>
+            <div data-test="qds-catalog-file-selected">
+              <q-file v-model="selectedFile" name="catalog-file-selected" label="Selected file" outlined clearable counter />
+            </div>
+            <div data-test="qds-catalog-file-multiple">
+              <q-file v-model="selectedFiles" name="catalog-file-multiple" label="Multiple files" outlined clearable counter multiple append use-chips />
+            </div>
+            <div data-test="qds-catalog-file-progress">
+              <q-file v-model="progressFiles" name="catalog-file-progress" label="File slot progress" outlined counter multiple>
+                <template #file="{ file: progressFile, index }">
+                  <q-chip :key="progressFile.name" removable :remove-aria-label="`Remove ${progressFile.name}`" @remove="removeProgressFile(index)">
+                    <span class="ellipsis">{{ progressFile.name }}</span>
+                    <q-linear-progress class="full-width q-mt-xs" :value="index === 0 ? 0.72 : 1" :aria-label="`${progressFile.name} upload progress`" />
+                  </q-chip>
+                </template>
+              </q-file>
+            </div>
+            <div data-test="qds-catalog-file-readonly">
+              <q-file v-model="readonlyFile" name="catalog-file-readonly" label="Readonly file" outlined readonly />
+            </div>
+            <div data-test="qds-catalog-file-disabled">
+              <q-file v-model="disabledFile" name="catalog-file-disabled" label="Disabled file" outlined disable />
+            </div>
+            <div data-test="qds-catalog-file-affordances">
+              <q-file v-model="affordanceFile" name="catalog-file-affordances" label="File affordances" outlined>
+                <template #prepend><PhFolderOpen :size="18" weight="regular" /></template>
+                <template #append><PhFileArrowUp :size="18" weight="regular" /></template>
+              </q-file>
+            </div>
           </div>
         </div>
 

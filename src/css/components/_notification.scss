@@ -2,6 +2,7 @@
   .qds-ui .q-notification.bg-#{$name} {
     --qds-notify-accent: var(--qds-color-#{$token});
     --qds-notify-accent-rgb: var(--qds-color-#{$token}-rgb);
+    --qds-notify-on-accent: var(--qds-text-on-#{$token}, var(--qds-text-on-solid));
     --qds-notify-wash: var(--qds-surface-#{$soft}-soft);
   }
 }
@@ -10,6 +11,7 @@
   .qds-ui .q-notification {
     --qds-notify-accent: var(--qds-color-primary);
     --qds-notify-accent-rgb: var(--qds-color-primary-rgb);
+    --qds-notify-on-accent: var(--qds-text-on-primary, var(--qds-text-on-solid));
     --qds-notify-wash: var(--qds-surface-brand-soft);
 
     position: relative;
@@ -29,6 +31,17 @@
   .qds-ui .q-notification__actions { color: var(--qds-notify-accent) !important; }
   .qds-ui .q-notification__message,
   .qds-ui .q-notification__caption { color: var(--qds-text); }
+  .qds-ui .q-notification__progress { background: var(--qds-notify-accent); opacity: var(--qds-tonal-border-opacity); }
+  .qds-ui .q-notification__badge {
+    color: var(--qds-notify-on-accent);
+    background-color: var(--qds-notify-accent);
+    border: var(--qds-border-width-control) solid rgba(var(--qds-notify-accent-rgb), var(--qds-tonal-border-opacity));
+    box-shadow: none;
+  }
+  // Quasar positions grouped counters outside the notification corner.
+  .qds-ui .q-notification:has(.q-notification__badge) { overflow: visible; }
+  .qds-ui .q-notification__badge--top-left,
+  .qds-ui .q-notification__badge--top-right { top: var(--qds-space-xs); }
 
   @include qds-notify-state('positive', 'positive', 'positive');
   @include qds-notify-state('negative', 'negative', 'negative');

@@ -1,6 +1,12 @@
 @use 'sass:map';
 @use '../tokens/default' as tokens;
 
+@mixin qds-on-fill($foregrounds) {
+  @each $role, $foreground in $foregrounds {
+    --qds-text-on-#{$role}: #{$foreground};
+  }
+}
+
 @mixin qds-derived-tokens {
   --qds-elevation-1: var(--qds-shadow-sm);
   --qds-elevation-2: var(--qds-shadow-md);
@@ -122,6 +128,7 @@
     --qds-text-strong: #{map.get(tokens.$light-text, strong)};
     --qds-text-muted: #{map.get(tokens.$light-text, muted)};
     --qds-text-on-solid: #{map.get(tokens.$dark-text, strong)};
+    @include qds-on-fill(tokens.$light-on-fill);
     --qds-media-scrim: rgba(0, 0, 0, 0.58);
     --qds-media-scrim-strong: rgba(0, 0, 0, 0.86);
     --qds-border: #{map.get(tokens.$borders, light)};
@@ -171,6 +178,7 @@
     --qds-state-hover-opacity: #{map.get(tokens.$state-opacity, hover)};
     --qds-state-focus-opacity: #{map.get(tokens.$state-opacity, focus)};
     --qds-state-press-opacity: #{map.get(tokens.$state-opacity, press)};
+    --qds-disabled-opacity: #{map.get(tokens.$state-opacity, disabled)};
     --qds-tonal-bg-opacity: #{map.get(tokens.$state-opacity, tonal-bg)};
     --qds-tonal-hover-opacity: #{map.get(tokens.$state-opacity, tonal-hover)};
     --qds-tonal-border-opacity: #{map.get(tokens.$state-opacity, tonal-border)};
@@ -181,6 +189,7 @@
     --qds-control-size-sm: #{map.get(tokens.$control, size-sm)};
     --qds-control-size-md: #{map.get(tokens.$control, size-md)};
     --qds-control-size-lg: #{map.get(tokens.$control, size-lg)};
+    --qds-control-font-size-sm: #{map.get(tokens.$control, font-size-sm)};
     --qds-control-icon-size-sm: #{map.get(tokens.$control, icon-size-sm)};
     --qds-control-icon-size-md: #{map.get(tokens.$control, icon-size-md)};
     --qds-control-icon-size-lg: #{map.get(tokens.$control, icon-size-lg)};

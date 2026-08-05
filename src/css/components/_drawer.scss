@@ -8,8 +8,17 @@
   .qds-ui .q-drawer.q-drawer {
     color: var(--qds-text);
     background: color-mix(in srgb, var(--qds-surface-1) 92%, transparent);
-    border-inline-end: var(--qds-border-width-control) solid var(--qds-border-subtle);
+    border: 0;
     box-shadow: none;
+  }
+
+  .qds-ui .q-drawer.q-drawer.q-drawer--bordered {
+    border-inline-end: var(--qds-border-width-control) solid var(--qds-border-subtle);
+  }
+
+  .qds-ui .q-drawer.q-drawer.q-drawer--right.q-drawer--bordered {
+    border-inline-start: var(--qds-border-width-control) solid var(--qds-border-subtle);
+    border-inline-end: 0;
   }
 
   .qds-ui .q-drawer.q-drawer .q-drawer__content {
@@ -36,12 +45,28 @@
     -webkit-backdrop-filter: none;
   }
 
+  .qds-ui.qds-variant-ink .q-drawer.q-drawer.q-drawer--bordered,
+  .qds-ui.qds-variant-feather .q-drawer.q-drawer.q-drawer--bordered,
+  .qds-ui .qds-variant-ink .q-drawer.q-drawer.q-drawer--bordered,
+  .qds-ui .qds-variant-feather .q-drawer.q-drawer.q-drawer--bordered { border-inline-end-color: var(--qds-separator-color); }
+
+  .qds-ui.qds-variant-ink .q-drawer.q-drawer.q-drawer--right.q-drawer--bordered,
+  .qds-ui.qds-variant-feather .q-drawer.q-drawer.q-drawer--right.q-drawer--bordered,
+  .qds-ui .qds-variant-ink .q-drawer.q-drawer.q-drawer--right.q-drawer--bordered,
+  .qds-ui .qds-variant-feather .q-drawer.q-drawer.q-drawer--right.q-drawer--bordered { border-inline-start-color: var(--qds-separator-color); }
+
   .qds-ui.qds-variant-mobile .q-drawer.q-drawer,
   .qds-ui .qds-variant-mobile .q-drawer.q-drawer {
     background: color-mix(in srgb, var(--qds-surface-1) 96%, transparent);
     border-inline-end-color: color-mix(in srgb, var(--qds-border-subtle) 74%, transparent);
     box-shadow: none;
   }
+
+  .qds-ui.qds-variant-mobile .q-drawer.q-drawer.q-drawer--bordered,
+  .qds-ui .qds-variant-mobile .q-drawer.q-drawer.q-drawer--bordered { border-inline-end-color: color-mix(in srgb, var(--qds-border-subtle) 74%, transparent); }
+
+  .qds-ui.qds-variant-mobile .q-drawer.q-drawer.q-drawer--right.q-drawer--bordered,
+  .qds-ui .qds-variant-mobile .q-drawer.q-drawer.q-drawer--right.q-drawer--bordered { border-inline-start-color: color-mix(in srgb, var(--qds-border-subtle) 74%, transparent); }
 
   .qds-ui.qds-variant-mobile .q-drawer.q-drawer .q-drawer__content,
   .qds-ui .qds-variant-mobile .q-drawer.q-drawer .q-drawer__content {

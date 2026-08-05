@@ -1,5 +1,6 @@
 import {
   ClosePopup,
+  Loading,
   Notify,
   QBadge,
   QBanner,
@@ -53,6 +54,7 @@ export function setupVue3({ app }: { app: App }) {
     },
     iconSet: qdsIconSet,
     plugins: {
+      Loading,
       Notify,
     },
   }

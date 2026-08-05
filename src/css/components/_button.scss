@@ -1,7 +1,7 @@
 @mixin qds-button-color($name, $token) {
   .qds-ui .q-btn.q-btn.qds-solid.bg-#{$name}:not(.q-btn--flat):not(.q-btn--outline) {
     background-color: var(--qds-color-#{$token}) !important;
-    color: #fff !important;
+    color: var(--qds-text-on-#{$token}, var(--qds-text-on-solid)) !important;
     border-color: transparent;
   }
 

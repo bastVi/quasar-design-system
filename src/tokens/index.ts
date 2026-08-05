@@ -52,6 +52,13 @@ export const QDS_TOKENS = [
   '--qds-text-strong',
   '--qds-text-muted',
   '--qds-text-on-solid',
+  '--qds-text-on-primary',
+  '--qds-text-on-secondary',
+  '--qds-text-on-accent',
+  '--qds-text-on-positive',
+  '--qds-text-on-negative',
+  '--qds-text-on-warning',
+  '--qds-text-on-info',
 
   // ── Media ───────────────────────────────────────────────────────────
   '--qds-media-scrim',
@@ -108,6 +115,7 @@ export const QDS_TOKENS = [
   '--qds-state-hover-opacity',
   '--qds-state-focus-opacity',
   '--qds-state-press-opacity',
+  '--qds-disabled-opacity',
 
   // ── Tonal opacities ─────────────────────────────────────────────────
   '--qds-tonal-bg-opacity',
@@ -119,9 +127,36 @@ export const QDS_TOKENS = [
   '--qds-border-width-control',
 
   // ── Control ─────────────────────────────────────────────────────────
+  '--qds-control-size-sm',
+  '--qds-control-size-md',
+  '--qds-control-size-lg',
+  '--qds-control-font-size-sm',
+  '--qds-control-icon-size-sm',
+  '--qds-control-icon-size-md',
+  '--qds-control-icon-size-lg',
+  '--qds-control-icon-opacity',
+  '--qds-control-icon-opacity-active',
   '--qds-control-letter-spacing',
   '--qds-control-text-transform',
   '--qds-control-content-line-height',
+
+  // ── Control size helpers (derived) ───────────────────────────────────
+  '--qds-button-size-sm',
+  '--qds-button-size-md',
+  '--qds-button-size-lg',
+  '--qds-field-size-sm',
+  '--qds-field-size-md',
+  '--qds-field-size-lg',
+  '--qds-icon-size-sm',
+  '--qds-icon-size-md',
+  '--qds-icon-size-lg',
+  '--qds-control-icon-color',
+  '--qds-button-icon-size',
+  '--qds-button-dense-icon-size',
+  '--qds-field-icon-size',
+  '--qds-field-dense-icon-size',
+  '--qds-chip-icon-size',
+  '--qds-chip-dense-icon-size',
 
   // ── Inline icons ────────────────────────────────────────────────────
   '--qds-inline-icon-gap',
@@ -142,6 +177,10 @@ export const QDS_TOKENS = [
   '--qds-card-acrylic-tint-rgb',
   '--qds-card-tonal-opacity',
   '--qds-card-fallback-tonal-opacity',
+  '--qds-card-readable-tonal-opacity',
+  '--qds-card-readable-surface-mix',
+  '--qds-card-header-tonal-opacity',
+  '--qds-card-header-surface-mix',
   '--qds-card-border-mix',
   '--qds-card-backdrop-blur',
   '--qds-card-backdrop-saturate',
@@ -208,7 +247,13 @@ export const QDS_TOKENS = [
   // ── Card (derived) ──────────────────────────────────────────────────
   '--qds-card-bg',
   '--qds-card-bg-fallback',
+  '--qds-card-bg-readable',
+  '--qds-card-bg-opaque',
   '--qds-card-border',
+  '--qds-card-border-strong',
+  '--qds-card-header-bg',
+  '--qds-card-header-bg-opaque',
+  '--qds-card-header-border',
   '--qds-card-radius',
   '--qds-card-shadow',
   '--qds-card-shadow-value',
@@ -261,7 +306,6 @@ export const QDS_TOKENS = [
   // ── Stepper (component) ─────────────────────────────────────────────
   '--qds-stepper-rail',
   '--qds-stepper-rail-active',
-  '--qds-stepper-state-bg',
 
   // ── List (derived) ──────────────────────────────────────────────────
   '--qds-list-item-min-height',
@@ -285,7 +329,6 @@ export const QDS_TOKENS = [
   '--qds-table-sort-icon',
 
   // ── Timeline (component) ────────────────────────────────────────────
-  '--qds-timeline-marker-bg',
   '--qds-timeline-rail',
 
   // ── Chat (component) ────────────────────────────────────────────────
@@ -297,6 +340,11 @@ export const QDS_TOKENS = [
 
   // ── Field (derived) ─────────────────────────────────────────────────
   '--qds-field-label-bg',
+
+  // ── Slider (derived) ────────────────────────────────────────────────
+  '--qds-slider-label-bg',
+  '--qds-slider-label-text',
+  '--qds-slider-label-border',
 
   // ── Tab (derived) ───────────────────────────────────────────────────
   '--qds-tab-radius',

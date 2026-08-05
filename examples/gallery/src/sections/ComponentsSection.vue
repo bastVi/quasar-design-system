@@ -23,7 +23,11 @@ const selectOptions = ['Fluent', 'Ink', 'One']
 const dialogOpen = ref(false)
 const tooltipOpen = ref(false)
 const drawerOpen = ref(true)
+const drawerSeamlessOpen = ref(true)
+const drawerMiniToOverlayOpen = ref(true)
+const drawerMini = ref(true)
 const page = ref(3)
+const inputPage = ref(3)
 const checkbox = ref(true)
 const radio = ref('comfortable')
 const toggle = ref(true)
@@ -45,6 +49,10 @@ const tableRows = [
   { surface: 'Data table', density: 'Dense', state: 'Audited' },
   { surface: 'Overlay menu', density: 'Compact', state: 'Tokenized' },
 ]
+
+const tableVisibleColumns = ref(['surface', 'density'])
+const tableFullscreen = ref(false)
+const tableVisibleColumnOptions = tableColumns.map(({ name, label }) => ({ label, value: name }))
 
 function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
   $q.notify({
@@ -210,16 +218,82 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
       <div class="text-h6 qds-display q-mb-md">QTable &amp; QPagination</div>
       <div>
         <q-table
-          title="Surface audit"
           :rows="tableRows"
           :columns="tableColumns"
           row-key="surface"
+          v-model:visible-columns="tableVisibleColumns"
+          v-model:fullscreen="tableFullscreen"
+          dark
           dense
           flat
           class="q-mb-md"
+          data-test="qds-table-official-modes"
+        >
+          <template #top="scope">
+            <div class="row items-center full-width q-col-gutter-sm">
+              <div class="col-grow">
+                <div class="text-subtitle1 qds-text-strong">Surface audit</div>
+                <div class="qds-text-muted">Explicit dark mode with selectable columns and custom table controls.</div>
+              </div>
+              <div class="col-auto">
+                <q-select
+                  v-model="tableVisibleColumns"
+                  :options="tableVisibleColumnOptions"
+                  option-label="label"
+                  option-value="value"
+                  emit-value
+                  map-options
+                  multiple
+                  dense
+                  outlined
+                  label="Visible columns"
+                  aria-label="Visible table columns"
+                  style="min-width: 11rem"
+                />
+              </div>
+              <div class="col-auto">
+                <q-btn
+                  flat
+                  color="primary"
+                  no-caps
+                  :label="scope.inFullscreen ? 'Exit fullscreen' : 'View fullscreen'"
+                  :aria-label="scope.inFullscreen ? 'Exit table fullscreen' : 'View table fullscreen'"
+                  @click="scope.toggleFullscreen"
+                />
+              </div>
+            </div>
+          </template>
+          <template #bottom="scope">
+            <div class="row items-center justify-between full-width q-col-gutter-sm">
+              <div class="col qds-text-muted">Showing {{ tableRows.length }} audited surfaces</div>
+              <div class="col-auto qds-text-muted">Page {{ scope.pagination.page }} of {{ scope.pagesNumber }}</div>
+            </div>
+          </template>
+        </q-table>
+        <q-table
+          :rows="tableRows"
+          :columns="tableColumns"
+          row-key="surface"
+          hide-header
+          hide-bottom
+          dense
+          flat
+          data-test="qds-table-no-chrome"
         />
       </div>
       <q-pagination v-model="page" data-test="qds-pagination" :max="7" direction-links boundary-links color="primary" />
+      <div class="q-mt-md" role="group" aria-label="Input mode pagination">
+        <q-pagination
+          v-model="inputPage"
+          input
+          data-test="qds-pagination-input"
+          :max="7"
+          direction-links
+          boundary-links
+          color="primary"
+        />
+        <div class="qds-text-muted q-mt-xs" data-test="qds-pagination-input-current-page">Current page: {{ inputPage }}</div>
+      </div>
     </q-card>
 
     <q-card data-test="qds-card-table-composition">
@@ -314,6 +388,68 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
           </q-toolbar>
         </q-footer>
       </q-layout>
+
+      <div class="row q-col-gutter-md q-mt-md">
+        <div class="col-12 col-md-6">
+          <div class="text-subtitle2 qds-text-muted q-mb-sm">Seamless drawer</div>
+          <q-layout view="hHh lpR fFf" container style="height: 190px; border-radius: var(--qds-card-radius); overflow: hidden">
+            <q-drawer v-model="drawerSeamlessOpen" data-test="qds-drawer-seamless" behavior="desktop" :width="164">
+              <q-list>
+                <q-item clickable active>
+                  <q-item-section avatar><PhSparkle :size="18" weight="duotone" /></q-item-section>
+                  <q-item-section>Overview</q-item-section>
+                </q-item>
+              </q-list>
+            </q-drawer>
+            <q-page-container>
+              <q-page class="q-pa-md">
+                <q-btn dense flat color="primary" no-caps :label="drawerSeamlessOpen ? 'Hide seamless drawer' : 'Show seamless drawer'" @click="drawerSeamlessOpen = !drawerSeamlessOpen" />
+                <div class="qds-text-muted q-mt-sm">The layout stays continuous when the drawer has no explicit border.</div>
+              </q-page>
+            </q-page-container>
+          </q-layout>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <div class="text-subtitle2 qds-text-muted q-mb-sm">Mini to overlay drawer</div>
+          <q-layout view="hHh lpR fFf" container style="height: 190px; border-radius: var(--qds-card-radius); overflow: hidden">
+            <q-drawer
+              v-model="drawerMiniToOverlayOpen"
+              :mini="drawerMini"
+              mini-to-overlay
+              behavior="desktop"
+              :mini-width="62"
+              :width="184"
+              bordered
+              data-test="qds-drawer-mini-overlay"
+            >
+              <template #mini>
+                <q-list>
+                  <q-item aria-label="Overview">
+                    <q-item-section avatar><PhSparkle :size="18" weight="duotone" /></q-item-section>
+                  </q-item>
+                </q-list>
+              </template>
+              <q-list>
+                <q-item clickable active>
+                  <q-item-section avatar><PhSparkle :size="18" weight="duotone" /></q-item-section>
+                  <q-item-section>Overview</q-item-section>
+                </q-item>
+                <q-item clickable>
+                  <q-item-section avatar><PhList :size="18" weight="regular" /></q-item-section>
+                  <q-item-section>Components</q-item-section>
+                </q-item>
+              </q-list>
+            </q-drawer>
+            <q-page-container>
+              <q-page class="q-pa-md">
+                <q-btn dense flat color="primary" no-caps :label="drawerMini ? 'Expand mini drawer' : 'Collapse mini drawer'" @click="drawerMini = !drawerMini" />
+                <div class="qds-text-muted q-mt-sm">The expanded drawer overlays this content instead of shifting it.</div>
+              </q-page>
+            </q-page-container>
+          </q-layout>
+        </div>
+      </div>
     </q-card>
 
     <!-- Form controls -->

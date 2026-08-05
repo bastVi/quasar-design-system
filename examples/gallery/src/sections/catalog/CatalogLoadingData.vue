@@ -10,6 +10,8 @@ const treeTicked = ref(['tokens'])
 const compactTreeExpanded = ref(['compact-root'])
 const compactTreeSelected = ref('compact-controls')
 const compactTreeTicked = ref(['compact-controls'])
+const darkTreeExpanded = ref(['dark-root'])
+const darkTreeSelected = ref('dark-audit')
 const ajaxBar = ref<{ start: () => void; stop: () => void } | null>(null)
 
 const treeNodes = [
@@ -32,6 +34,17 @@ const compactTreeNodes = [
     children: [
       { label: 'Controls', value: 'compact-controls' },
       { label: 'Disabled row', value: 'compact-disabled', disabled: true },
+    ],
+  },
+]
+
+const darkTreeNodes = [
+  {
+    label: 'Dark audit',
+    value: 'dark-root',
+    children: [
+      { label: 'Contrast checks', value: 'dark-audit' },
+      { label: 'Published surfaces', value: 'dark-surfaces' },
     ],
   },
 ]
@@ -175,6 +188,16 @@ function pulseAjaxBar(): void {
           dense
           no-connectors
           data-test="qds-tree-dense"
+        />
+        <q-separator class="q-my-md" />
+        <q-tree
+          v-model:expanded="darkTreeExpanded"
+          v-model:selected="darkTreeSelected"
+          :nodes="darkTreeNodes"
+          node-key="value"
+          dark
+          no-connectors
+          data-test="qds-tree-dark-no-connectors"
         />
       </div>
 

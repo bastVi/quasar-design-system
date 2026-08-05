@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { QDS_TOKENS } from '../../../../src/tokens'
 import { applyTheme, computed, customProperty, MATRIX_VARIANTS, resolvedColor, type Mode, type Variant } from './helpers'
 
 const EXPECTED: Record<Mode, Record<Variant, { surface: string; primary: string; controlRadius: string; cardRadius: string }>> = {
@@ -46,6 +47,11 @@ test.describe('QDS override gate', () => {
         }
         if (variant === 'mobile') {
           expect.soft(await customProperty(page, '--qds-surface-focus-block'), 'One focus-block token differs by mode').toBe(mode === 'light' ? '#d7e4ff' : '#3c4d75')
+          expect.soft(await customProperty(page, '--qds-button-padding-inline'), 'One button padding token is emitted').toBe('1rem')
+          expect.soft(await customProperty(page, '--qds-button-dense-min-height'), 'One dense button size token is emitted').toBe('2.5rem')
+          expect.soft(await customProperty(page, '--qds-button-dense-padding-inline'), 'One dense button padding token is emitted').toBe('.875rem')
+          expect.soft(await customProperty(page, '--qds-button-round-size'), 'One round button size token is emitted').toBe('2.75rem')
+          expect.soft(await customProperty(page, '--qds-field-label-size'), 'One field label token is emitted').toBe('.8125rem')
           expect.soft(await computed(page, `${panel} .q-btn--unelevated:not(.q-btn--dense)`, 'min-height'), 'One controls meet 44px touch target').toBe('44px')
           expect.soft(await computed(page, `${panel} .q-card`, 'background-color'), 'One groups content on a visible focus-block surface').not.toBe('rgba(0, 0, 0, 0)')
         }
@@ -61,6 +67,93 @@ test.describe('QDS override gate', () => {
     expect.soft(await computed(page, `${panel} .q-btn--unelevated:not(.q-btn--dense)`, 'text-transform'), 'Terminal controls uppercase').toBe('uppercase')
     expect.soft(await computed(page, `${panel} .q-btn--unelevated:not(.q-btn--dense)`, 'min-height'), 'Terminal controls remain compact').toBe('32px')
     expect.soft(await computed(page, `${panel} .q-card`, 'background-color'), 'Terminal card has visible contrast surface').not.toBe(await resolvedColor(page, '--qds-text-strong'))
+  })
+
+  test('semantic solid foregrounds resolve for every scheme and role', async ({ page }) => {
+    await page.goto('/#components')
+    const roles = ['primary', 'secondary', 'accent', 'positive', 'negative', 'warning', 'info'] as const
+
+    for (const mode of ['light', 'dark'] as const) {
+      for (const variant of ['fluent', 'ink', 'mobile', 'terminal'] as const) {
+        await applyTheme(page, mode, variant)
+        const roleStyles = await page.evaluate((roles) => {
+          const resolve = (property: string, declaration: 'backgroundColor' | 'color') => {
+            const probe = document.createElement('span')
+            probe.style[declaration] = `var(${property})`
+            document.body.append(probe)
+            const value = getComputedStyle(probe)[declaration]
+            probe.remove()
+            return value
+          }
+          const contrast = (fill: string, foreground: string) => {
+            const luminance = (color: string) => {
+              const channels = color.match(/[\d.]+/g)?.slice(0, 3).map(Number) ?? []
+              const [red, green, blue] = channels.map((channel) => {
+                const value = channel / 255
+                return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4
+              })
+              return 0.2126 * red + 0.7152 * green + 0.0722 * blue
+            }
+            const [lighter, darker] = [luminance(fill), luminance(foreground)].sort((a, b) => b - a)
+            return (lighter + 0.05) / (darker + 0.05)
+          }
+
+          return roles.map((role) => {
+            const action = document.createElement('button')
+            action.className = `q-btn qds-solid bg-${role}`
+            document.body.append(action)
+            const actionStyles = getComputedStyle(action)
+            const result = {
+              role,
+              fillToken: resolve(`--qds-color-${role}`, 'backgroundColor'),
+              foregroundToken: resolve(`--qds-text-on-${role}`, 'color'),
+              actionFill: actionStyles.backgroundColor,
+              actionForeground: actionStyles.color,
+            }
+            action.remove()
+            return { ...result, contrast: contrast(result.fillToken, result.foregroundToken) }
+          })
+        }, roles)
+
+        for (const role of roleStyles) {
+          expect.soft(role.fillToken, `${mode} ${variant} ${role.role} fill token resolves`).not.toBe('rgba(0, 0, 0, 0)')
+          expect.soft(role.foregroundToken, `${mode} ${variant} ${role.role} foreground token resolves`).not.toBe('rgba(0, 0, 0, 0)')
+          expect.soft(role.actionFill, `${mode} ${variant} ${role.role} solid action uses its fill`).toBe(role.fillToken)
+          expect.soft(role.actionForeground, `${mode} ${variant} ${role.role} solid action uses its foreground`).toBe(role.foregroundToken)
+          expect.soft(role.contrast, `${mode} ${variant} ${role.role} fill and foreground meet text contrast`).toBeGreaterThanOrEqual(4.5)
+        }
+      }
+    }
+  })
+
+  test('public token inventory covers every fallback/default layer emission', async ({ page }) => {
+    await page.goto('/')
+    const emittedTokens = await page.evaluate(() => {
+      const tokens = new Set<string>()
+      const visit = (rules: CSSRuleList, withinTokenLayer = false) => {
+        for (const rule of rules) {
+          const groupingRule = rule as CSSRule & { cssRules?: CSSRuleList; name?: string }
+          const inTokenLayer = withinTokenLayer || groupingRule.name === 'qds.tokens'
+          if (inTokenLayer && rule instanceof CSSStyleRule) {
+            for (const property of rule.style) {
+              if (property.startsWith('--qds-')) tokens.add(property)
+            }
+          }
+          if (groupingRule.cssRules) visit(groupingRule.cssRules, inTokenLayer)
+        }
+      }
+      for (const stylesheet of document.styleSheets) {
+        try {
+          visit(stylesheet.cssRules)
+        } catch {
+          // Ignore inaccessible third-party stylesheets; package styles are same-origin.
+        }
+      }
+      return [...tokens].sort()
+    })
+
+    expect(new Set(QDS_TOKENS).size, 'QDS_TOKENS has no duplicate public names').toBe(QDS_TOKENS.length)
+    expect(QDS_TOKENS, 'QDS_TOKENS includes each fallback/default layer emission').toEqual(expect.arrayContaining(emittedTokens))
   })
 
   test('legacy aliases normalize to canonical state, classes, and four switcher entries', async ({ page }) => {

@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { nextTick, onMounted, ref } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
+import { useQuasar } from 'quasar'
 import {
   ppPlus,
   ppTrash,
   ppCloudArrowUp,
   ppArrowsOut,
   ppPlay,
-  ppPause,
+  ppArrowLeft,
+  ppArrowRight,
   ppPalette,
   ppSliders,
   ppWarning,
@@ -22,13 +24,17 @@ type UploaderProbe = {
 }
 
 const step = ref(2)
+const horizontalStep = ref(2)
+const compactStep = ref(1)
 const carouselSlide = ref('ink')
-const carouselAutoplay = ref(false)
+const verticalCarouselSlide = ref('first')
 const carouselFullscreen = ref(false)
 const splitter = ref(42)
 const knob = ref(64)
 const editor = ref('<p><strong>Token notes</strong> stay local to the gallery.</p>')
+const readonlyEditor = ref('<p>Read-only content remains tokenized.</p>')
 const uploader = ref<UploaderProbe | null>(null)
+const $q = useQuasar()
 
 const virtualItems = Array.from({ length: 18 }, (_, index) => `Virtual row ${index + 1}`)
 const infiniteItems = ['Loaded block 1', 'Loaded block 2', 'Loaded block 3']
@@ -121,6 +127,8 @@ function avatarSvg(initials: string, from: string, to: string): string {
 }
 
 const visualImage = mediaSvg('QDS Gallery', 'Static media surface', '#6366f1', '#06b6d4', '#f59e0b')
+const loadingImageSrc = '/qds-media-loading.svg'
+const errorImageSrc = '/qds-media-error.svg'
 const carouselSlides = [
   {
     name: 'ink',
@@ -161,6 +169,36 @@ const videoSrc = `data:text/html;charset=utf-8,${encodeURIComponent(`
 function refresh(done: () => void): void {
   window.setTimeout(done, 250)
 }
+
+function selectCarouselSlide(name: string): void {
+  carouselSlide.value = name
+}
+
+function moveCarousel(direction: -1 | 1): void {
+  const index = carouselSlides.findIndex(slide => slide.name === carouselSlide.value)
+  carouselSlide.value = carouselSlides[(index + direction + carouselSlides.length) % carouselSlides.length].name
+}
+
+type ComplexMediaTestHook = {
+  getRtl: () => boolean
+  setRtl: (rtl: boolean) => boolean
+}
+
+const complexMediaTestHook: ComplexMediaTestHook = {
+  getRtl: () => $q.lang.rtl,
+  setRtl: (rtl) => {
+    $q.lang.set({ ...$q.lang, rtl })
+    return $q.lang.rtl
+  },
+}
+
+onMounted(() => {
+  ;(window as Window & { __qdsComplexMedia?: ComplexMediaTestHook }).__qdsComplexMedia = complexMediaTestHook
+})
+
+onBeforeUnmount(() => {
+  delete (window as Window & { __qdsComplexMedia?: ComplexMediaTestHook }).__qdsComplexMedia
+})
 </script>
 
 <template>
@@ -205,10 +243,61 @@ function refresh(done: () => void): void {
 
       <div class="catalog-demo">
         <div class="catalog-label">QTimeline</div>
-        <q-timeline color="primary" layout="dense" data-test="qds-timeline">
-          <q-timeline-entry title="Baseline" subtitle="Tokens">Theme variables are loaded.</q-timeline-entry>
-          <q-timeline-entry title="Catalog" subtitle="Components">Remaining Quasar widgets are visible.</q-timeline-entry>
+        <q-timeline color="primary" layout="comfortable" data-test="qds-timeline">
+          <q-timeline-entry title="Baseline" subtitle="Left alignment" side="left" :icon="ppPalette">
+            Theme variables are loaded.
+          </q-timeline-entry>
+          <q-timeline-entry title="Catalog" subtitle="Right alignment" side="right" color="positive" :icon="ppCheckCircle">
+            Comfortable entries retain readable rails and content.
+          </q-timeline-entry>
         </q-timeline>
+        <q-timeline color="primary" layout="dense" class="q-mt-md" data-test="qds-timeline-dense">
+          <q-timeline-entry title="Dense proof" subtitle="Compact alignment" side="right" :icon="ppSliders">
+            Dense timeline content remains locally deterministic.
+          </q-timeline-entry>
+        </q-timeline>
+      </div>
+
+      <div class="catalog-demo catalog-demo--wide">
+        <div class="catalog-label">QStepper horizontal</div>
+        <q-stepper
+          v-model="horizontalStep"
+          flat
+          bordered
+          header-nav
+          color="primary"
+          done-color="positive"
+          error-color="negative"
+          data-test="qds-stepper-horizontal"
+        >
+          <q-step :name="1" title="Queued" caption="Inactive" :icon="ppPalette">
+            This marker remains neutral until the flow advances.
+          </q-step>
+
+          <q-step :name="2" title="Review" caption="Active" :icon="ppSliders">
+            Horizontal rails expose the same role treatment as the vertical flow.
+            <q-stepper-navigation data-test="qds-stepper-horizontal-nav">
+              <q-btn color="primary" unelevated no-caps label="Approve" />
+            </q-stepper-navigation>
+          </q-step>
+
+          <q-step :name="3" title="Published" caption="Done" :icon="ppCheckCircle" done>
+            The finished marker retains its positive treatment.
+          </q-step>
+
+          <q-step :name="4" title="Resolve" caption="Error" :icon="ppWarning" error>
+            Error state remains visible without changing the active step.
+          </q-step>
+        </q-stepper>
+      </div>
+
+      <div class="catalog-demo catalog-demo--wide">
+        <div class="catalog-label">QStepper contracted dark prefix proof</div>
+        <q-stepper v-model="compactStep" dark contracted header-nav active-icon="none" done-icon="none" error-icon="none" data-test="qds-stepper-compact">
+          <q-step :name="1" prefix="1" title="Draft">Compact active prefix.</q-step>
+          <q-step :name="2" prefix="2" title="Review" done>Compact done prefix.</q-step>
+          <q-step :name="3" prefix="3" title="Resolve" error>Compact error prefix.</q-step>
+        </q-stepper>
       </div>
 
       <div class="catalog-demo catalog-demo--wide">
@@ -237,19 +326,29 @@ function refresh(done: () => void): void {
     <div class="catalog-grid catalog-grid--two">
       <div class="catalog-demo">
         <div class="catalog-label">QCarousel + QImg</div>
-        <q-img :src="visualImage" ratio="16/9" class="catalog-image q-mb-md">
+        <q-img :src="visualImage" alt="QDS gallery static media surface" ratio="16/9" class="catalog-image q-mb-md">
           <div class="absolute-bottom catalog-media-caption">Standalone image surface</div>
         </q-img>
+        <div class="catalog-label q-mt-md">QImg state proof</div>
+        <div class="catalog-grid catalog-grid--two">
+          <div class="catalog-img-proof">
+            <q-img :src="loadingImageSrc" alt="Loading media preview" loading="eager" :ratio="16 / 9" class="catalog-image" data-test="qds-img-loading">
+              <template #loading><div class="column flex-center q-gutter-xs" data-test="qds-img-loading-state"><q-spinner color="primary" size="1.5rem" /><span>Loading preview</span></div></template>
+            </q-img>
+          </div>
+          <div class="catalog-img-proof">
+            <q-img :src="errorImageSrc" alt="Unavailable media preview" loading="eager" :ratio="16 / 9" class="catalog-image" data-test="qds-img-error">
+              <template #error><div class="column flex-center q-gutter-xs" data-test="qds-img-error-state"><q-icon :name="ppWarning" size="1.5rem" /><span>Preview unavailable</span></div></template>
+            </q-img>
+          </div>
+        </div>
         <q-carousel
           v-model="carouselSlide"
           animated
-          arrows
-          navigation
-          thumbnails
           swipeable
           infinite
           v-model:fullscreen="carouselFullscreen"
-          :autoplay="carouselAutoplay ? 3500 : false"
+          padding
           height="280px"
           class="catalog-media"
           data-test="qds-carousel"
@@ -257,19 +356,9 @@ function refresh(done: () => void): void {
           <template #control>
             <q-carousel-control position="top-right" :offset="[12, 12]">
               <div class="catalog-carousel-controls" data-test="qds-carousel-controls">
-                <q-btn
-                  dense
-                  round
-                  unelevated
-                  :color="carouselAutoplay ? 'primary' : 'white'"
-                  :text-color="carouselAutoplay ? 'white' : 'primary'"
-                  :aria-pressed="carouselAutoplay"
-                  aria-label="Toggle local autoplay"
-                  data-test="qds-carousel-autoplay"
-                  @click="carouselAutoplay = !carouselAutoplay"
-                >
-                  <q-icon :name="carouselAutoplay ? ppPause : ppPlay" />
-                </q-btn>
+                <q-btn dense round unelevated aria-label="Previous carousel slide" data-test="qds-carousel-previous" @click="moveCarousel(-1)"><q-icon :name="ppArrowLeft" /></q-btn>
+                <q-btn v-for="slide in carouselSlides" :key="slide.name" dense round unelevated :aria-label="`Show ${slide.title}`" :aria-current="carouselSlide === slide.name ? 'true' : undefined" :aria-pressed="carouselSlide === slide.name" :data-test="`qds-carousel-nav-${slide.name}`" @click="selectCarouselSlide(slide.name)"><q-icon :name="ppPlay" /></q-btn>
+                <q-btn dense round unelevated aria-label="Next carousel slide" data-test="qds-carousel-next" @click="moveCarousel(1)"><q-icon :name="ppArrowRight" /></q-btn>
                 <q-btn
                   dense
                   round
@@ -293,13 +382,21 @@ function refresh(done: () => void): void {
             :img-src="slide.src"
             class="catalog-carousel-slide q-pa-none"
           >
-            <q-img :src="slide.src" class="catalog-carousel-image" fit="cover" no-spinner>
+            <q-img :src="slide.src" :alt="`${slide.title}: ${slide.caption}`" class="catalog-carousel-image" fit="cover" no-spinner>
               <div class="absolute-bottom catalog-media-caption">
                 <div class="text-subtitle2 text-weight-bold">{{ slide.title }}</div>
                 <div class="text-caption">{{ slide.caption }}</div>
               </div>
             </q-img>
           </q-carousel-slide>
+        </q-carousel>
+        <div class="catalog-label q-mt-md">QCarousel vertical control proof</div>
+        <q-carousel v-model="verticalCarouselSlide" vertical padding control-type="outline" height="180px" class="catalog-media" data-test="qds-carousel-vertical">
+          <q-carousel-slide name="first" class="q-pa-md">Vertical first panel</q-carousel-slide>
+          <q-carousel-slide name="second" class="q-pa-md">Vertical second panel</q-carousel-slide>
+          <template #control>
+            <q-carousel-control position="left" :offset="[8, 8]"><div class="catalog-carousel-controls"><q-btn dense round outline aria-label="Show first vertical panel" :aria-current="verticalCarouselSlide === 'first' ? 'true' : undefined" @click="verticalCarouselSlide = 'first'"><q-icon :name="ppArrowLeft" /></q-btn><q-btn dense round outline aria-label="Show second vertical panel" :aria-current="verticalCarouselSlide === 'second' ? 'true' : undefined" @click="verticalCarouselSlide = 'second'"><q-icon :name="ppArrowRight" /></q-btn></div></q-carousel-control>
+          </template>
         </q-carousel>
       </div>
 
@@ -391,6 +488,14 @@ function refresh(done: () => void): void {
           :toolbar="editorToolbar"
           data-test="qds-editor"
         />
+        <div class="catalog-label q-mt-md">QEditor read-only</div>
+        <q-editor
+          v-model="readonlyEditor"
+          readonly
+          min-height="5rem"
+          :toolbar="[]"
+          data-test="qds-editor-readonly"
+        />
       </div>
 
       <div class="catalog-demo">
@@ -479,4 +584,10 @@ function refresh(done: () => void): void {
   background: color-mix(in srgb, var(--qds-surface-1) 86%, var(--qds-color-primary) 6%);
   border-bottom: var(--qds-border-width-control) solid var(--qds-separator-color);
 }
+
+.catalog-img-proof {
+  position: relative;
+  width: min(100%, 32rem);
+}
+
 </style>
