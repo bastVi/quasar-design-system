@@ -6,14 +6,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [0.6.3] — 2026-08-06
+
+### Added
+
+- Expanded gallery and Histoire proof coverage across canonical variants, official Quasar states, stable public modes, responsive layouts, accessibility, RTL, and reduced motion.
+- Added deterministic browser contracts for Fluent foundations, control geometry, low-chrome composition, semantic dark contrast, public token parity, and the optional QWindow extension.
+
 ### Changed
 
-- **Breaking visual redesign — variant convergence.** The visible variant set is now `fluent`, `ink`, `mobile` (One), and `terminal`. The Air visual system is removed; its low-border/selective-material behavior is absorbed by Fluent. Feather is renamed to Ink and is now a colored, flat, paper-neutral editorial surface with charcoal anchors and coordinated pastel role washes (no longer monochrome).
+- **Variant convergence.** The visible variant set is now `fluent`, `ink`, `mobile` (One), and `terminal`. The Air visual system is removed; its low-border/selective-material behavior is absorbed by Fluent. Feather is renamed to Ink and is now a colored, flat, paper-neutral editorial surface with charcoal anchors and coordinated pastel role washes (no longer monochrome).
 - Fluent inherits the legacy Air translucency behavior without the iOS palette or oversized geometry.
 - Ink replaces Feather as the paper-neutral variant, now with deliberate pastel role surfaces across cards, tables, progress, badges, and selection.
 - One (mobile) gains its own focus blocks and touch rhythm treatment distinct from Fluent.
 - Gallery and Histoire variant switchers, scenes, and story controls enumerate the four canonical variants only. The Air showcase and Feather showcase are removed as public surfaces.
 - Gallery mobile header layout repaired at 390px: single accessible horizontally scrollable tab strip with visible but non-obstructive overflow; compact control layout avoids competing clipped scrollers.
+- Reworked Fluent buttons, fields, chips, icons, lists, ratings, cards, and QWindow chrome around a shared control scale, explicit framing, and measurable optical alignment.
+- Separated normal chips, dense chips, and badges into a 30px / 26px / 22px hierarchy, and tuned Fluent dark semantic fills and soft surfaces independently from light mode.
+- Replaced QWindow text glyph actions with Phosphor SVG icons while preserving the optional module and native QWindow behavior.
+
+### Fixed
+
+- Kept outlined labels, values, marginal icons, multiple chips, and validation messages aligned and contained across normal, dense, standalone, and mobile fields.
+- Removed redundant card frames and separators while retaining explicit readable, bordered, transient, One, and Terminal boundaries.
+- Prevented mobile tab arrows from covering neighboring labels and kept deep-linked active tabs inside dedicated arrow lanes.
+- Removed fixture-created scene/comparison overflow, raw icon ligatures, undersized QWindow glyphs, and an extraneous QWindow attribute warning.
+- Reconciled all 251 public token names with exact fallback/default token-layer emissions without narrowing the existing TypeScript token union.
 
 ### Compatibility
 
