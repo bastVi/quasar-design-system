@@ -4,6 +4,10 @@
     color: var(--qds-text);
   }
 
+  // Quasar's 56px field geometry relies on a 28px line-height plus vertical
+  // padding. At the QDS control scale that overflows the control. Keep its
+  // structural elements, but let the control height centre the value and
+  // marginal content rather than reproducing a full-height text line.
   .qds-ui .q-field.q-field:not(.q-textarea) .q-field__control,
   .qds-ui .q-field.q-field:not(.q-textarea) .q-field__marginal {
     min-height: var(--qds-field-min-height);
@@ -16,40 +20,35 @@
     height: var(--qds-field-dense-min-height);
   }
 
+  .qds-ui .q-field.q-field:not(.q-textarea) .q-field__control-container {
+    min-height: 0;
+    height: 100%;
+    padding-top: 0;
+  }
+
   .qds-ui .q-field.q-field:not(.q-textarea) .q-field__native,
   .qds-ui .q-field.q-field:not(.q-textarea) .q-field__input,
   .qds-ui .q-field.q-field:not(.q-textarea) .q-field__prefix,
   .qds-ui .q-field.q-field:not(.q-textarea) .q-field__suffix {
-    min-height: calc(var(--qds-field-min-height) - 2px);
-    line-height: calc(var(--qds-field-min-height) - 2px);
+    min-height: 0;
+    height: 100%;
     padding: 0;
+    line-height: normal;
     color: var(--qds-text);
   }
 
-  .qds-ui .q-field.q-field--dense:not(.q-textarea) .q-field__native,
-  .qds-ui .q-field.q-field--dense:not(.q-textarea) .q-field__input,
-  .qds-ui .q-field.q-field--dense:not(.q-textarea) .q-field__prefix,
-  .qds-ui .q-field.q-field--dense:not(.q-textarea) .q-field__suffix {
-    min-height: calc(var(--qds-field-dense-min-height) - 2px);
-    line-height: calc(var(--qds-field-dense-min-height) - 2px);
-  }
-
-  .qds-ui .q-field.q-field:not(.q-textarea) .q-field__control-container {
-    min-height: calc(var(--qds-field-min-height) - 2px);
-    padding-top: 1.125rem;
-  }
-
-  .qds-ui .q-field.q-field--dense:not(.q-textarea) .q-field__control-container {
-    min-height: calc(var(--qds-field-dense-min-height) - 2px);
-    padding-top: 0.875rem;
+  .qds-ui .q-field.q-field--labeled:not(.q-textarea) .q-field__native,
+  .qds-ui .q-field.q-field--labeled:not(.q-textarea) .q-field__prefix,
+  .qds-ui .q-field.q-field--labeled:not(.q-textarea) .q-field__suffix {
+    padding-block: calc(var(--qds-field-label-size) + var(--qds-space-xs)) 0;
   }
 
   .qds-ui .q-field.q-field .q-field__label {
-    top: 0.375rem;
+    top: var(--qds-space-xs);
     color: var(--qds-text-muted);
-    font-size: 0.75rem;
+    font-size: var(--qds-field-label-size);
     transform: none;
-    line-height: 1.2;
+    line-height: 1;
   }
 
   .qds-ui .q-field.q-field--float .q-field__label,
@@ -94,16 +93,9 @@
     max-width: calc(100% - 1.5rem);
     padding: 0 var(--qds-space-xs);
     margin-inline-start: calc(-1 * var(--qds-space-xs));
-    background: transparent;
+    background: var(--qds-field-label-bg);
     border-radius: var(--qds-radius-xs);
     line-height: 1.2;
-  }
-
-  .qds-ui .q-card .q-field--outlined.q-field--float .q-field__label,
-  .qds-ui .q-card .q-field--outlined.q-field--focused .q-field__label,
-  .qds-ui .q-menu .q-field--outlined.q-field--float .q-field__label,
-  .qds-ui .q-menu .q-field--outlined.q-field--focused .q-field__label {
-    background: var(--qds-field-label-bg);
   }
 
   .qds-ui .q-field--outlined .q-field__control,
@@ -199,33 +191,28 @@
     border-width: var(--qds-field-focus-border-width);
   }
 
-  .qds-ui .q-select.q-select--multiple.q-field--auto-height.q-field--labeled.q-field--float .q-field__control,
-  .qds-ui .q-select.q-select--multiple.q-field--auto-height.q-field--labeled.q-field--focused .q-field__control {
-    min-height: 3rem;
+  .qds-ui .q-select.q-select--multiple.q-field--auto-height .q-field__control {
+    min-height: var(--qds-field-min-height);
     height: auto;
-    align-items: flex-start;
   }
 
-  .qds-ui .q-select.q-select--multiple.q-field--auto-height.q-field--labeled.q-field--float .q-field__marginal,
-  .qds-ui .q-select.q-select--multiple.q-field--auto-height.q-field--labeled.q-field--focused .q-field__marginal {
-    min-height: 3rem;
-    height: 3rem;
+  .qds-ui .q-select.q-select--multiple.q-field--auto-height .q-field__marginal {
+    min-height: var(--qds-field-min-height);
+    height: auto;
+    align-self: stretch;
   }
 
-  .qds-ui .q-select.q-select--multiple.q-field--auto-height.q-field--labeled.q-field--float .q-field__control-container,
-  .qds-ui .q-select.q-select--multiple.q-field--auto-height.q-field--labeled.q-field--focused .q-field__control-container {
-    min-height: calc(3rem - 2px);
-    padding-top: 0.875rem;
-  }
-
-  .qds-ui .q-select.q-select--multiple.q-field--auto-height.q-field--labeled.q-field--float .q-field__native,
-  .qds-ui .q-select.q-select--multiple.q-field--auto-height.q-field--labeled.q-field--focused .q-field__native {
-    min-height: 1.75rem;
-    line-height: 1.4;
+  .qds-ui .q-select.q-select--multiple .q-field__native {
+    min-height: calc(var(--qds-chip-min-height) - var(--qds-space-sm));
+    height: auto;
+    align-content: center;
+    flex-wrap: wrap;
+    gap: var(--qds-space-xs);
+    padding-block: calc(var(--qds-field-label-size) + var(--qds-space-xs)) var(--qds-space-xs);
   }
 
   .qds-ui .q-select.q-select--multiple .q-chip.q-chip {
-    margin-block: 0.125rem;
+    margin: 0;
     color: var(--qds-text);
     background: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-bg-opacity));
     border: var(--qds-border-width-control) solid rgba(var(--qds-color-primary-rgb), var(--qds-tonal-border-opacity));
@@ -273,25 +260,8 @@
   .qds-ui.qds-variant-mobile .q-field.q-field:not(.q-field--dense):not(.q-textarea) .q-field__marginal,
   .qds-ui .qds-variant-mobile .q-field.q-field:not(.q-field--dense):not(.q-textarea) .q-field__control,
   .qds-ui .qds-variant-mobile .q-field.q-field:not(.q-field--dense):not(.q-textarea) .q-field__marginal {
-    min-height: 2.75rem;
-    height: 2.75rem;
-  }
-
-  .qds-ui.qds-variant-mobile .q-field.q-field:not(.q-field--dense):not(.q-textarea) .q-field__native,
-  .qds-ui.qds-variant-mobile .q-field.q-field:not(.q-field--dense):not(.q-textarea) .q-field__input,
-  .qds-ui.qds-variant-mobile .q-field.q-field:not(.q-field--dense):not(.q-textarea) .q-field__prefix,
-  .qds-ui.qds-variant-mobile .q-field.q-field:not(.q-field--dense):not(.q-textarea) .q-field__suffix,
-  .qds-ui .qds-variant-mobile .q-field.q-field:not(.q-field--dense):not(.q-textarea) .q-field__native,
-  .qds-ui .qds-variant-mobile .q-field.q-field:not(.q-field--dense):not(.q-textarea) .q-field__input,
-  .qds-ui .qds-variant-mobile .q-field.q-field:not(.q-field--dense):not(.q-textarea) .q-field__prefix,
-  .qds-ui .qds-variant-mobile .q-field.q-field:not(.q-field--dense):not(.q-textarea) .q-field__suffix {
-    min-height: calc(2.75rem - 2px);
-    line-height: calc(2.75rem - 2px);
-  }
-
-  .qds-ui.qds-variant-mobile .q-field.q-field:not(.q-field--dense):not(.q-textarea) .q-field__control-container,
-  .qds-ui .qds-variant-mobile .q-field.q-field:not(.q-field--dense):not(.q-textarea) .q-field__control-container {
-    min-height: calc(2.75rem - 2px);
+    min-height: var(--qds-field-min-height);
+    height: var(--qds-field-min-height);
   }
 
   .qds-ui.qds-variant-mobile .q-field--outlined .q-field__control::before,

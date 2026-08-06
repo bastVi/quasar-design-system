@@ -61,16 +61,12 @@ const scenes: Scene[] = [
         :style="{ '--scene-wallpaper': `url(${scene.wallpaper})` }"
         :data-test="`qds-scene-${scene.variant}`"
       >
-        <div class="scene-wallpaper" aria-hidden="true" />
-
         <q-card class="scene-panel qds-card--readable" :data-test="`qds-scene-card-${scene.variant}`">
-          <q-card-section class="qds-card__header qds-card__header--opaque">
+          <q-card-section class="scene-panel__header">
             <div class="scene-panel__eyebrow">{{ scene.tagline }}</div>
             <h2 class="scene-panel__title qds-display">{{ scene.label }}</h2>
             <p class="scene-panel__copy">{{ scene.detail }}</p>
           </q-card-section>
-
-          <q-separator />
 
           <q-card-section class="scene-metrics">
             <span>blur <strong>var(--qds-card-backdrop-blur)</strong></span>
@@ -83,7 +79,7 @@ const scenes: Scene[] = [
           </q-card-actions>
         </q-card>
 
-        <div class="scene-dock qds-card qds-card--readable" aria-hidden="true">
+        <div class="scene-dock qds-card" aria-hidden="true">
           <span />
           <span />
           <span />
@@ -133,26 +129,15 @@ const scenes: Scene[] = [
 
 .scene-frame {
   position: relative;
-  min-height: 28rem;
+  display: grid;
+  align-content: space-between;
+  gap: clamp(2rem, 7vw, 5rem);
   isolation: isolate;
-  overflow: hidden;
   padding: clamp(1rem, 3vw, 1.5rem);
-  border: var(--qds-border-width-control) solid color-mix(in srgb, var(--qds-border) 54%, transparent);
   border-radius: calc(var(--qds-card-radius) + 0.75rem);
   background-image: var(--scene-wallpaper);
   background-position: center;
   background-size: cover;
-  box-shadow: var(--qds-shadow-md);
-}
-
-.scene-wallpaper {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  background-image: var(--scene-wallpaper);
-  background-position: center;
-  background-size: cover;
-  transform: scale(1.02);
 }
 
 .scene-frame::before {
@@ -167,7 +152,10 @@ const scenes: Scene[] = [
 
 .scene-panel {
   max-width: 26rem;
-  margin-top: clamp(2rem, 7vw, 5rem);
+}
+
+.scene-panel__header {
+  padding-bottom: var(--qds-space-sm);
 }
 
 .scene-panel__eyebrow {
@@ -203,9 +191,7 @@ const scenes: Scene[] = [
 }
 
 .scene-dock {
-  position: absolute;
-  right: clamp(1rem, 3vw, 1.5rem);
-  bottom: clamp(1rem, 3vw, 1.5rem);
+  justify-self: end;
   display: flex;
   gap: 0.4rem;
   padding: 0.55rem;

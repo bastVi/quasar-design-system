@@ -151,7 +151,15 @@ watch(tab, (value) => {
         </div>
       </q-toolbar>
 
-      <q-tabs v-model="tab" align="left" no-caps inline-label class="gallery-tabs">
+      <q-tabs
+        v-model="tab"
+        align="left"
+        no-caps
+        inline-label
+        mobile-arrows
+        outside-arrows
+        class="gallery-tabs"
+      >
         <q-tab name="tokens" label="Tokens" />
         <q-tab name="typography" label="Typography" />
         <q-tab name="components" label="Components" />

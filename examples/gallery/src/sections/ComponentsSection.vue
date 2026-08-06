@@ -77,12 +77,12 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
       <div class="text-subtitle2 qds-text-muted q-mb-xs">Explicit solid CTA</div>
       <div class="qds-button-row q-mb-md">
         <q-btn class="qds-solid" unelevated color="primary" label="Save" no-caps />
-        <q-btn color="primary" label="Elevated" no-caps />
+        <q-btn data-test="qds-control-standard-button" color="primary" label="Elevated" no-caps />
       </div>
 
       <div class="text-subtitle2 qds-text-muted q-mb-xs">Outline</div>
       <div class="qds-button-row q-mb-md">
-        <q-btn v-for="c in colors" :key="`o-${c}`" outline :color="c" :label="c" no-caps />
+        <q-btn v-for="c in colors" :key="`o-${c}`" :data-test="c === 'primary' ? 'qds-control-outline-button' : undefined" outline :color="c" :label="c" no-caps />
       </div>
 
       <div class="text-subtitle2 qds-text-muted q-mb-xs">Flat &amp; Tonal</div>
@@ -148,30 +148,49 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
       <div class="text-h6 qds-display q-mb-md">QInput / QSelect</div>
       <div class="row q-col-gutter-md">
         <div class="col-12 col-sm-6">
-          <q-input v-model="text" name="components-outlined" label="Outlined" outlined clearable class="q-mb-md" />
+          <div data-test="qds-control-input">
+            <q-input v-model="text" name="components-outlined" label="Outlined" outlined clearable class="q-mb-md" />
+          </div>
           <q-input model-value="Search" name="components-search" label="With icon" outlined class="q-mb-md">
             <template #prepend><PhMagnifyingGlass :size="18" weight="regular" /></template>
           </q-input>
-          <q-input model-value="" name="components-filled" label="Filled" filled class="q-mb-md" />
-          <q-input model-value="" name="components-error" label="With error" outlined error error-message="Required field" />
+          <div data-test="qds-control-input-filled">
+            <q-input model-value="" name="components-filled" label="Filled" filled class="q-mb-md" />
+          </div>
+          <div data-test="qds-control-input-error">
+            <q-input model-value="" name="components-error" label="With error" outlined error error-message="Required field" />
+          </div>
         </div>
         <div class="col-12 col-sm-6">
-          <q-select v-model="select" name="components-select" :options="selectOptions" label="Outlined select" outlined class="q-mb-md" />
-          <q-select
-            v-model="selectMultiple"
-            name="components-select-multiple"
-            :options="selectOptions"
-            label="Multiple select"
-            filled
-            multiple
-            use-chips
-            class="q-mb-md"
-          />
-          <q-select v-model="select" name="components-select-dense" :options="selectOptions" label="Dense select" outlined dense class="q-mb-md" />
-          <q-input model-value="" name="components-disabled" label="Disabled" outlined disable />
+          <div data-test="qds-control-select">
+            <q-select v-model="select" name="components-select" :options="selectOptions" label="Outlined select" outlined class="q-mb-md" />
+          </div>
+          <div data-test="qds-control-select-multiple">
+            <q-select
+              v-model="selectMultiple"
+              name="components-select-multiple"
+              :options="selectOptions"
+              label="Multiple select"
+              filled
+              multiple
+              use-chips
+              class="q-mb-md"
+            />
+          </div>
+          <div data-test="qds-control-select-dense">
+            <q-select v-model="select" name="components-select-dense" :options="selectOptions" label="Dense select" outlined dense class="q-mb-md" />
+          </div>
+          <div data-test="qds-control-input-disabled">
+            <q-input model-value="" name="components-disabled" label="Disabled" outlined disable />
+          </div>
         </div>
       </div>
     </q-card>
+
+    <!-- Standalone outlined field (no card ancestor) for label-bg regression -->
+    <div data-test="qds-control-input-standalone" class="q-pa-md" style="max-width: 20rem">
+      <q-input model-value="value" name="components-standalone" label="Standalone outlined" outlined />
+    </div>
 
     <!-- QDialog / overlays -->
     <q-card class="q-pa-lg">

@@ -157,6 +157,8 @@ export const QDS_TOKENS = [
   '--qds-field-dense-icon-size',
   '--qds-chip-icon-size',
   '--qds-chip-dense-icon-size',
+  '--qds-compact-action-size',
+  '--qds-compact-action-icon-size',
 
   // ── Inline icons ────────────────────────────────────────────────────
   '--qds-inline-icon-gap',
@@ -197,6 +199,12 @@ export const QDS_TOKENS = [
   // ── Badge ───────────────────────────────────────────────────────────
   '--qds-badge-min-height',
   '--qds-badge-padding',
+
+  // ── Chip ────────────────────────────────────────────────────────────
+  '--qds-chip-min-height',
+  '--qds-chip-padding',
+  '--qds-chip-dense-min-height',
+  '--qds-chip-dense-padding',
 
   // ── Field ───────────────────────────────────────────────────────────
   '--qds-field-min-height',

@@ -216,6 +216,7 @@ test.describe('QDS accessibility, motion, and RTL evidence', () => {
         document.documentElement.style.direction = 'rtl'
         document.body.style.direction = 'rtl'
       })
+      await page.evaluate(() => new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))))
       const rail = await page.locator('[data-test="qds-tree-primary"] .q-tree__node-header.q-tree__node--selected').first().evaluate((el) => {
         const style = getComputedStyle(el, '::after')
         return { inlineStart: style.insetInlineStart, physicalRight: style.right, endRadius: style.borderEndEndRadius }

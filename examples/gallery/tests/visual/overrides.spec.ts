@@ -10,7 +10,7 @@ const EXPECTED: Record<Mode, Record<Variant, { surface: string; primary: string;
     terminal: { surface: '#f5f3ef', primary: 'rgb(252, 196, 13)', controlRadius: '6px', cardRadius: '10px' },
   },
   dark: {
-    fluent: { surface: '#1d2024', primary: 'rgb(0, 90, 158)', controlRadius: '8px', cardRadius: '12px' },
+    fluent: { surface: '#1d2024', primary: 'rgb(94, 169, 246)', controlRadius: '8px', cardRadius: '12px' },
     ink: { surface: '#25231f', primary: 'rgb(240, 233, 219)', controlRadius: '10px', cardRadius: '16px' },
     mobile: { surface: '#20212a', primary: 'rgb(173, 198, 255)', controlRadius: '14px', cardRadius: '20px' },
     terminal: { surface: '#0d0f12', primary: 'rgb(252, 196, 13)', controlRadius: '6px', cardRadius: '10px' },
@@ -32,7 +32,14 @@ test.describe('QDS override gate', () => {
         expect.soft(await computed(page, `${panel} .q-card`, 'border-radius'), 'QCard consumes the resolved card radius').toBe(expected.cardRadius)
         expect.soft(await computed(page, `${panel} .q-field--outlined .q-field__control`, 'border-radius'), 'QField consumes the resolved control geometry').toBe(variant === 'mobile' ? '18px' : expected.controlRadius)
         expect.soft(await computed(page, `${panel} .q-card`, 'background-color'), 'QCard has a rendered surface').not.toBe('rgba(0, 0, 0, 0)')
-        expect.soft(await computed(page, `${panel} .q-card`, 'border-top-color'), 'QCard maintains a visible low-border boundary').not.toBe('rgba(0, 0, 0, 0)')
+        const cardBorderStyle = await computed(page, `${panel} .q-card`, 'border-top-style')
+        if (variant === 'fluent' || variant === 'ink') {
+          expect.soft(cardBorderStyle, `${variant} default card is borderless`).toBe('none')
+        } else {
+          expect.soft(cardBorderStyle, `${variant} card renders a solid boundary`).toBe('solid')
+          expect.soft(await computed(page, `${panel} .q-card`, 'border-top-width'), `${variant} card boundary is 1px`).toBe('1px')
+          expect.soft(await computed(page, `${panel} .q-card`, 'border-top-color'), `${variant} card boundary has a non-transparent color`).not.toBe('rgba(0, 0, 0, 0)')
+        }
 
         if (variant === 'fluent') {
           expect.soft(await computed(page, `${panel} .q-card`, 'backdrop-filter'), 'Fluent content has no blur').toBe('none')
@@ -126,7 +133,7 @@ test.describe('QDS override gate', () => {
     }
   })
 
-  test('public token inventory covers every fallback/default layer emission', async ({ page }) => {
+  test('public token inventory is exactly the set of fallback/default layer emissions', async ({ page }) => {
     await page.goto('/')
     const emittedTokens = await page.evaluate(() => {
       const tokens = new Set<string>()
@@ -153,7 +160,9 @@ test.describe('QDS override gate', () => {
     })
 
     expect(new Set(QDS_TOKENS).size, 'QDS_TOKENS has no duplicate public names').toBe(QDS_TOKENS.length)
-    expect(QDS_TOKENS, 'QDS_TOKENS includes each fallback/default layer emission').toEqual(expect.arrayContaining(emittedTokens))
+
+    const sortedInventory = [...QDS_TOKENS].sort()
+    expect(sortedInventory, 'QDS_TOKENS matches fallback/default layer emission exactly').toEqual(emittedTokens)
   })
 
   test('legacy aliases normalize to canonical state, classes, and four switcher entries', async ({ page }) => {

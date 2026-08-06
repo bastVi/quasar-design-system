@@ -87,7 +87,7 @@ import { QdsWindow } from '@bastvi/quasar-design-system/qwindow'
 
 For layered Quasar setups, use `@bastvi/quasar-design-system/css/extensions/qwindow/layered` instead. Do not import either QWindow stylesheet unless the native QWindow peer is installed and used.
 
-> **Native QWindow minimize caveat:** `@quasar/quasar-ui-qwindow@3.0.0` exposes a `minimize` action/method, but that native action currently throws in its internal state guard. `QdsWindow` therefore treats `minimized` as a consumer-controlled visual state and filters `minimize` out of the native action list. Use your app/state layer (for example quasar-core's taskbar/window store) to hide/restore minimized windows until the peer fixes this action.
+> **Native QWindow minimize caveat:** `@quasar/quasar-ui-qwindow@3.0.0` exposes a `minimize` action/method, but that native action currently throws in its internal state guard. `QdsWindow` therefore treats `minimized` as a consumer-controlled visual state and filters `minimize` out of the native action list. Use your application state layer, such as a taskbar/window store, to hide and restore minimized windows until the peer fixes this action.
 
 ## Buttons
 

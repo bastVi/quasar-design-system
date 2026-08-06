@@ -347,6 +347,7 @@ test.describe('QDS catalog form picker gate', () => {
 
     const activeTabBox = await page.getByRole('tab', { name: 'Catalog' }).boundingBox()
     const tabsBox = await page.locator('.gallery-tabs').boundingBox()
+    const tabContentBox = await page.locator('.gallery-tabs .q-tabs__content').boundingBox()
     const leftArrow = page.locator('.gallery-tabs .q-tabs__arrow--left')
     const rightArrow = page.locator('.gallery-tabs .q-tabs__arrow--right')
     const leftArrowBox = await leftArrow.isVisible() ? await leftArrow.boundingBox() : null
@@ -354,6 +355,10 @@ test.describe('QDS catalog form picker gate', () => {
     if (activeTabBox && tabsBox) {
       const visibleLeft = leftArrowBox ? leftArrowBox.x + leftArrowBox.width : tabsBox.x
       const visibleRight = rightArrowBox ? rightArrowBox.x : tabsBox.x + tabsBox.width
+      if (tabContentBox) {
+        expect.soft(tabContentBox.x, 'mobile tab content reserves the left scroll-arrow lane').toBeGreaterThanOrEqual(visibleLeft - 1)
+        expect.soft(tabContentBox.x + tabContentBox.width, 'mobile tab content reserves the right scroll-arrow lane').toBeLessThanOrEqual(visibleRight + 1)
+      }
       expect.soft(activeTabBox.x, 'deep-linked active tab clears the left scroll arrow').toBeGreaterThanOrEqual(visibleLeft - 1)
       expect.soft(activeTabBox.x + activeTabBox.width, 'deep-linked active tab clears the right scroll arrow').toBeLessThanOrEqual(visibleRight + 1)
     }

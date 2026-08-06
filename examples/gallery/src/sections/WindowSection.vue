@@ -16,7 +16,7 @@ const maximized = ref(false)
       </p>
     </div>
 
-    <div class="catalog-window__stage">
+    <div class="catalog-window__stage" data-test="qds-window-stage">
       <QdsWindow
         v-model="visible"
         v-model:maximized="maximized"
@@ -26,7 +26,6 @@ const maximized = ref(false)
         no-resize
         :actions="['close']"
         aria-label="QDS gallery window proof"
-        data-test="qds-window-embedded"
       >
         <div class="catalog-window__content">
           <div>
@@ -68,9 +67,7 @@ const maximized = ref(false)
 }
 
 .catalog-window__stage {
-  min-height: 23rem;
   padding: var(--qds-space-md);
-  border: var(--qds-border-width-control) solid var(--qds-border-subtle);
   border-radius: var(--qds-radius-xl);
   background:
     radial-gradient(circle at top right, rgba(var(--qds-color-primary-rgb), 0.13), transparent 24rem),
@@ -90,9 +87,8 @@ const maximized = ref(false)
 
 .catalog-window__tile {
   padding: var(--qds-space-md);
-  border: var(--qds-border-width-control) solid var(--qds-border-subtle);
   border-radius: var(--qds-radius-md);
-  background: var(--qds-surface-0);
+  background: var(--qds-surface-1);
 }
 
 .catalog-window__tile span,

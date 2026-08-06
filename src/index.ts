@@ -20,8 +20,10 @@ export {
   isBuiltInDesignSystemVariantName,
   isDesignSystemVariantName,
   type BuiltInDesignSystemVariantName,
+  type CanonicalDesignSystemVariantName,
   type DesignSystemVariant,
   type DesignSystemVariantName,
+  type LegacyDesignSystemVariantName,
   type QuasarDesignTheme,
 } from './themes/index.js'
 

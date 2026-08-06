@@ -9,6 +9,14 @@ import type {
   QWindowResponsiveProps,
   QWindowResponsivePropsOptions,
 } from '@quasar/quasar-ui-qwindow'
+import {
+  ppX,
+  ppCornersIn,
+  ppCornersOut,
+  ppArrowsOut,
+  ppMinus,
+  ppPushPin,
+} from 'quasar-extras-svg-icons/phosphor-icons-v2'
 
 type NativeActionItem = QWindowActionMenuItem | 'separator'
 
@@ -27,13 +35,13 @@ export interface QdsWindowDefaultSlotScope {
   zIndex: number
 }
 
-const actionGlyphs: Record<string, string> = {
-  close: '×',
-  embedded: '⇲',
-  fullscreen: '⛶',
-  maximize: '□',
-  minimize: '–',
-  pinned: '⌖',
+const actionIcons: Record<string, string> = {
+  close: ppX,
+  embedded: ppCornersIn,
+  fullscreen: ppArrowsOut,
+  maximize: ppCornersOut,
+  minimize: ppMinus,
+  pinned: ppPushPin,
 }
 
 // @quasar/quasar-ui-qwindow@3.0.0 exposes a `minimized` prop/action/method,
@@ -55,6 +63,18 @@ function callListener(listener: unknown, ...args: unknown[]) {
 
 function actionLabel(item: QWindowActionMenuItem) {
   return item.state === true ? item.off.label : item.on.label
+}
+
+function actionIcon(item: QWindowActionMenuItem): string | undefined {
+  const key = item.key
+  // Stateful actions: swap the icon to reflect the resulting state where meaningful.
+  if (key === 'embedded') {
+    return item.state === true ? ppCornersOut : ppCornersIn
+  }
+  if (key === 'maximize') {
+    return item.state === true ? ppCornersIn : ppCornersOut
+  }
+  return actionIcons[key]
 }
 
 function runAction(item: QWindowActionMenuItem) {
@@ -158,7 +178,7 @@ export const QdsWindow = defineComponent({
       }
 
       const label = actionLabel(item)
-      const glyph = actionGlyphs[item.key] ?? label.slice(0, 1)
+      const icon = actionIcon(item)
 
       return h(QBtn, {
         key: item.key,
@@ -169,17 +189,18 @@ export const QdsWindow = defineComponent({
         round: true,
         size: props.dense ? 'sm' : 'md',
         title: label,
+        icon: icon,
         onClick: (evt: Event) => {
           evt.stopPropagation()
           runAction(item)
         },
         onMousedown: stopPointer,
         onTouchstart: stopPointer,
-      }, () => glyph)
+      })
     }
 
     function renderFallbackAction(key: string, label: string, handler: () => boolean | undefined) {
-      const glyph = actionGlyphs[key] ?? label.slice(0, 1)
+      const icon = actionIcons[key]
 
       return h(QBtn, {
         key: `fallback-${key}`,
@@ -190,13 +211,14 @@ export const QdsWindow = defineComponent({
         round: true,
         size: props.dense ? 'sm' : 'md',
         title: label,
+        icon: icon,
         onClick: (evt: Event) => {
           evt.stopPropagation()
           handler()
         },
         onMousedown: stopPointer,
         onTouchstart: stopPointer,
-      }, () => glyph)
+      }, icon ? undefined : () => label.slice(0, 1))
     }
 
     function renderTitlebar(scope: QdsWindowTitlebarSlotScope) {

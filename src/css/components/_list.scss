@@ -62,6 +62,7 @@
   .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item {
     min-height: var(--qds-expansion-item-min-height);
     padding-block: var(--qds-space-xs);
+    align-items: center;
     color: var(--qds-text);
     transition:
       background-color var(--qds-motion-fast),
@@ -114,11 +115,29 @@
   }
 
   .qds-ui .q-expansion-item.q-expansion-item .q-expansion-item__toggle-icon {
+    width: var(--qds-control-icon-size-md);
+    min-width: var(--qds-control-icon-size-md);
+    height: var(--qds-control-icon-size-md);
+    font-size: var(--qds-control-icon-size-md);
     color: var(--qds-text-muted);
+    opacity: var(--qds-control-icon-opacity);
+  }
+
+  .qds-ui .q-expansion-item.q-expansion-item .q-item__section--side {
+    align-self: stretch;
+    align-items: center;
   }
 
   .qds-ui .q-expansion-item.q-expansion-item--expanded .q-expansion-item__toggle-icon {
     color: var(--qds-color-primary);
+    opacity: var(--qds-control-icon-opacity-active);
+  }
+
+  .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item.q-item--dense .q-expansion-item__toggle-icon {
+    width: var(--qds-control-icon-size-sm);
+    min-width: var(--qds-control-icon-size-sm);
+    height: var(--qds-control-icon-size-sm);
+    font-size: var(--qds-control-icon-size-sm);
   }
 
   .qds-ui .q-expansion-item.q-expansion-item .q-expansion-item__content {

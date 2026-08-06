@@ -11,7 +11,9 @@
     border-radius: var(--qds-chip-radius);
     font-weight: var(--qds-font-weight-medium);
     letter-spacing: var(--qds-control-letter-spacing);
-    min-height: var(--qds-badge-min-height);
+    min-height: var(--qds-chip-min-height);
+    height: auto;
+    padding: var(--qds-chip-padding);
     box-shadow: none;
     transition:
       background-color var(--qds-motion-fast),
@@ -36,6 +38,12 @@
   .qds-ui .q-chip.q-chip.q-chip--dense .q-chip__content,
   .qds-ui .q-field--dense .q-chip.q-chip .q-chip__content {
     gap: var(--qds-chip-dense-icon-gap);
+  }
+
+  .qds-ui .q-chip.q-chip.q-chip--dense,
+  .qds-ui .q-field--dense .q-chip.q-chip {
+    min-height: var(--qds-chip-dense-min-height);
+    padding: var(--qds-chip-dense-padding);
   }
 
   .qds-ui .q-chip.q-chip .q-chip__icon,

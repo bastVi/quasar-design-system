@@ -7,6 +7,17 @@
   }
 }
 
+@mixin qds-soft-surfaces($surfaces) {
+  --qds-surface-brand-soft: #{map.get($surfaces, brand)};
+  --qds-surface-accent-soft: #{map.get($surfaces, accent)};
+  --qds-surface-positive-soft: #{map.get($surfaces, positive)};
+  --qds-surface-warning-soft: #{map.get($surfaces, warning)};
+  --qds-surface-negative-soft: #{map.get($surfaces, negative)};
+  --qds-surface-info-soft: #{map.get($surfaces, info)};
+  --qds-surface-focus-block: #{map.get($surfaces, focus-block)};
+  --qds-surface-transient: #{map.get($surfaces, transient)};
+}
+
 @mixin qds-derived-tokens {
   --qds-elevation-1: var(--qds-shadow-sm);
   --qds-elevation-2: var(--qds-shadow-md);
@@ -18,8 +29,8 @@
   --qds-interactive-border-strong: var(--qds-border);
   --qds-interactive-text: var(--qds-text);
   --qds-interactive-text-muted: var(--qds-text-muted);
-  // Semantic washes are public so components can keep role color consistent
-  // without carrying variant-specific palette values.
+  // This is the generic fallback for variants without explicit role washes.
+  // Fluent light/dark and the editorial variants replace it with tuned values.
   --qds-surface-brand-soft: rgba(var(--qds-color-primary-rgb), 0.12);
   --qds-surface-accent-soft: rgba(var(--qds-color-accent-rgb), 0.14);
   --qds-surface-positive-soft: rgba(var(--qds-color-positive-rgb), 0.14);
@@ -31,9 +42,16 @@
   --qds-button-size-sm: var(--qds-control-size-sm);
   --qds-button-size-md: var(--qds-control-size-md);
   --qds-button-size-lg: var(--qds-control-size-lg);
-  --qds-field-size-sm: calc(var(--qds-control-size-sm) + 0.125rem);
-  --qds-field-size-md: calc(var(--qds-control-size-md) + 0.125rem);
-  --qds-field-size-lg: calc(var(--qds-control-size-lg) + 0.125rem);
+  --qds-field-size-sm: var(--qds-control-size-sm);
+  --qds-field-size-md: var(--qds-control-size-md);
+  --qds-field-size-lg: var(--qds-control-size-lg);
+  --qds-button-min-height: var(--qds-control-size-md);
+  --qds-button-dense-min-height: var(--qds-control-size-sm);
+  --qds-button-round-size: var(--qds-control-size-md);
+  --qds-field-min-height: var(--qds-control-size-md);
+  --qds-field-dense-min-height: var(--qds-control-size-sm);
+  --qds-compact-action-size: var(--qds-control-size-md);
+  --qds-compact-action-icon-size: var(--qds-control-icon-size-md);
   --qds-icon-size-sm: var(--qds-control-icon-size-sm);
   --qds-icon-size-md: var(--qds-control-icon-size-md);
   --qds-icon-size-lg: var(--qds-control-icon-size-lg);
@@ -93,6 +111,47 @@
   --qds-tab-active-bg: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-bg-opacity));
   --qds-tab-active-text: color-mix(in srgb, var(--qds-color-primary) var(--qds-tonal-text-mix), var(--qds-text-strong));
   --qds-tab-active-rail: var(--qds-color-primary);
+}
+
+// Neutral root fallbacks for component-scoped tokens so inventory parity holds.
+// Component overrides in src/css/components/* re-assign these at element scope;
+// these values are the generic :root defaults only.
+@mixin qds-component-fallbacks {
+  // Banner
+  --qds-banner-accent: var(--qds-color-primary);
+  --qds-banner-accent-rgb: var(--qds-color-primary-rgb);
+  --qds-banner-text: var(--qds-text);
+  // Notification
+  --qds-notify-accent: var(--qds-color-primary);
+  --qds-notify-accent-rgb: var(--qds-color-primary-rgb);
+  --qds-notify-bg: var(--qds-surface-transient);
+  --qds-notify-text: var(--qds-text);
+  // Pagination
+  --qds-pagination-active-bg: var(--qds-surface-brand-soft);
+  --qds-pagination-active-border: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-border-opacity));
+  --qds-pagination-active-text: var(--qds-text-strong);
+  // Scrollbar
+  --qds-scrollbar-size: 0.625rem;
+  --qds-scrollbar-thumb: var(--qds-handle-color);
+  --qds-scrollbar-thumb-hover: color-mix(in srgb, var(--qds-handle-color) 72%, var(--qds-text-muted));
+  // Selection controls
+  --qds-selection-inner-size: 2rem;
+  --qds-selection-mark-size: 1.25rem;
+  --qds-selection-mark-offset: calc((var(--qds-selection-inner-size) - var(--qds-selection-mark-size)) / 2);
+  // Stepper
+  --qds-stepper-rail: var(--qds-separator-color);
+  --qds-stepper-rail-active: var(--qds-color-primary);
+  // Table
+  --qds-table-header-bg: var(--qds-surface-1);
+  --qds-table-header-text: var(--qds-text-muted);
+  --qds-table-row-hover-bg: var(--qds-surface-brand-soft);
+  --qds-table-selected-bg: var(--qds-surface-focus-block);
+  --qds-table-sort-icon: var(--qds-color-primary);
+  // Timeline
+  --qds-timeline-rail: var(--qds-separator-color);
+  // Chat
+  --qds-chat-bubble-bg: var(--qds-surface-1);
+  --qds-chat-bubble-fg: var(--qds-text);
 }
 
 // Guaranteed base-token layer for swapped/missing themes and Quasar deltas.
@@ -202,13 +261,10 @@
     --qds-inline-icon-gap: #{map.get(tokens.$inline, icon-gap)};
     --qds-inline-icon-dense-gap: #{map.get(tokens.$inline, dense-icon-gap)};
 
-    --qds-button-min-height: #{map.get(map.get(tokens.$components, button), min-height)};
     --qds-button-padding-inline: #{map.get(map.get(tokens.$components, button), padding-inline)};
-    --qds-button-dense-min-height: #{map.get(map.get(tokens.$components, button), dense-min-height)};
     --qds-button-dense-padding-inline: #{map.get(map.get(tokens.$components, button), dense-padding-inline)};
     --qds-button-dense-radius: #{map.get(map.get(tokens.$components, button), dense-radius)};
     --qds-button-dense-font-size: #{map.get(map.get(tokens.$components, button), dense-font-size)};
-    --qds-button-round-size: #{map.get(map.get(tokens.$components, button), round-size)};
     --qds-button-elevated-shadow: #{map.get(map.get(tokens.$components, button), elevated-shadow)};
     --qds-button-elevated-shadow-hover: #{map.get(map.get(tokens.$components, button), elevated-shadow-hover)};
 
@@ -222,6 +278,8 @@
     --qds-card-border-mix: #{map.get(map.get(tokens.$components, card), border-mix)};
     --qds-card-backdrop-blur: #{map.get(map.get(tokens.$components, card), backdrop-blur)};
     --qds-card-backdrop-saturate: #{map.get(map.get(tokens.$components, card), backdrop-saturate)};
+    --qds-card-shadow-value: var(--qds-shadow-sm);
+    --qds-chrome-shadow-value: none;
     --qds-chrome-border-mix: #{map.get(tokens.$chrome, border-mix)};
     --qds-chrome-border-soft-mix: #{map.get(tokens.$chrome, border-soft-mix)};
     --qds-chrome-surface-mix: #{map.get(tokens.$chrome, surface-mix)};
@@ -229,12 +287,15 @@
     --qds-separator-mix: #{map.get(tokens.$chrome, separator-mix)};
     --qds-handle-border-mix: #{map.get(tokens.$chrome, handle-border-mix)};
     --qds-handle-primary-mix: #{map.get(tokens.$chrome, handle-primary-mix)};
+    --qds-media-frame-shadow-value: var(--qds-card-shadow);
 
     --qds-badge-min-height: #{map.get(map.get(tokens.$components, badge), min-height)};
     --qds-badge-padding: #{map.get(map.get(tokens.$components, badge), padding)};
+    --qds-chip-min-height: #{map.get(map.get(tokens.$components, chip), min-height)};
+    --qds-chip-padding: #{map.get(map.get(tokens.$components, chip), padding)};
+    --qds-chip-dense-min-height: #{map.get(map.get(tokens.$components, chip), dense-min-height)};
+    --qds-chip-dense-padding: #{map.get(map.get(tokens.$components, chip), dense-padding)};
 
-    --qds-field-min-height: #{map.get(map.get(tokens.$components, field), min-height)};
-    --qds-field-dense-min-height: #{map.get(map.get(tokens.$components, field), dense-min-height)};
     --qds-field-padding-inline: #{map.get(map.get(tokens.$components, field), padding-inline)};
     --qds-field-label-size: #{map.get(map.get(tokens.$components, field), label-size)};
     --qds-field-focus-border-width: #{map.get(map.get(tokens.$components, field), focus-border-width)};
@@ -244,5 +305,7 @@
     --qds-glass-border-mix: #{map.get(map.get(tokens.$effects, glass), border-mix)};
 
     @include qds-derived-tokens;
+    @include qds-soft-surfaces(tokens.$light-soft-surfaces);
+    @include qds-component-fallbacks;
   }
 }

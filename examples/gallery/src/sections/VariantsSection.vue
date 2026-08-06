@@ -70,8 +70,6 @@ const pages = reactive<Record<VariantName, number>>({
           <p class="variant-card__copy">{{ variant.intent }}</p>
         </q-card-section>
 
-        <q-separator />
-
         <q-card-section class="variant-card__controls">
           <q-input model-value="Variant token" name="variant-outlined-field" label="Outlined field" outlined dense readonly />
 
@@ -87,7 +85,7 @@ const pages = reactive<Record<VariantName, number>>({
             <q-btn outline color="primary" label="Inspect" no-caps />
           </div>
 
-          <q-list bordered separator>
+          <q-list separator>
             <q-item clickable active>
               <q-item-section>
                 <q-item-label>Active row</q-item-label>
@@ -102,7 +100,7 @@ const pages = reactive<Record<VariantName, number>>({
             </q-item>
           </q-list>
 
-          <q-card flat bordered class="variant-card__nested" :data-test="`qds-variant-nested-${variant.name}`">
+          <q-card flat class="variant-card__nested" :data-test="`qds-variant-nested-${variant.name}`">
             <q-card-section>
               <div class="variant-card__eyebrow">Nested chrome</div>
               <p class="variant-card__copy">Secondary card material, separators, and variant-specific shadow rules.</p>
@@ -182,10 +180,6 @@ const pages = reactive<Record<VariantName, number>>({
   gap: var(--qds-space-lg);
 }
 
-.variant-card {
-  overflow: hidden;
-}
-
 .variant-card__eyebrow {
   color: var(--qds-color-primary);
   font-family: var(--qds-font-family);
@@ -228,27 +222,22 @@ const pages = reactive<Record<VariantName, number>>({
   font-weight: var(--qds-font-weight-medium);
   background: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-bg-opacity));
   color: var(--qds-text-strong);
-  border: 1px solid rgba(var(--qds-color-primary-rgb), var(--qds-tonal-border-opacity));
 }
 
 .variant-role--info {
   background: rgba(var(--qds-color-info-rgb, 59 130 246), var(--qds-tonal-bg-opacity));
-  border-color: rgba(var(--qds-color-info-rgb, 59 130 246), var(--qds-tonal-border-opacity));
 }
 
 .variant-role--positive {
   background: rgba(var(--qds-color-positive-rgb, 16 185 129), var(--qds-tonal-bg-opacity));
-  border-color: rgba(var(--qds-color-positive-rgb, 16 185 129), var(--qds-tonal-border-opacity));
 }
 
 .variant-role--warning {
   background: rgba(var(--qds-color-warning-rgb, 245 158 11), var(--qds-tonal-bg-opacity));
-  border-color: rgba(var(--qds-color-warning-rgb, 245 158 11), var(--qds-tonal-border-opacity));
 }
 
 .variant-role--negative {
   background: rgba(var(--qds-color-negative-rgb, 239 68 68), var(--qds-tonal-bg-opacity));
-  border-color: rgba(var(--qds-color-negative-rgb, 239 68 68), var(--qds-tonal-border-opacity));
 }
 
 .variant-card__nested {

@@ -27,21 +27,23 @@ const duotone = [
         These glyphs come from the Quasar icon-set wired via <code>app.use(Quasar, { iconSet: qdsIconSet })</code>.
       </p>
       <div class="row q-col-gutter-md items-center">
-        <div class="col-auto"><q-btn-dropdown flat dense label="Button menu" /></div>
-        <div class="col-auto"><q-chip removable color="primary" text-color="white" label="chip.remove" /></div>
-        <div class="col-auto" style="min-width: 220px">
+        <div data-test="qds-icon-dropdown" class="col-auto"><q-btn-dropdown flat dense label="Button menu" /></div>
+        <div data-test="qds-icon-removable-chip" class="col-auto"><q-chip removable color="primary" text-color="white" label="Remove tag" /></div>
+        <div data-test="qds-icon-select" class="col-auto" style="min-width: 220px">
           <q-select class="icons-dense-select" model-value="" name="icons-select-arrow" :options="['One', 'Two']" outlined dense label="Select arrow" />
         </div>
-        <div class="col-auto"><q-rating :model-value="3" /></div>
+        <div data-test="qds-icon-rating" class="col-auto"><q-rating :model-value="3" /></div>
       </div>
-      <div class="row q-col-gutter-sm items-center q-mt-md">
+      <div data-test="qds-icon-button-sizes" class="row q-col-gutter-sm items-center q-mt-md">
         <div class="col-auto"><q-btn dense outline color="primary" label="sm" /></div>
         <div class="col-auto"><q-btn outline color="primary" label="md" /></div>
         <div class="col-auto"><q-btn class="icons-lg-control" outline color="primary" label="lg" /></div>
       </div>
-      <q-expansion-item label="Expansion item (chevron)" class="q-mt-md qds-card" style="border-radius: var(--qds-radius-md)">
-        <q-card-section class="qds-text-muted">Uses the icon-set caret.</q-card-section>
-      </q-expansion-item>
+      <div data-test="qds-icon-expansion">
+        <q-expansion-item label="Expansion item (chevron)" class="q-mt-md qds-card" style="border-radius: var(--qds-radius-md)">
+          <q-card-section class="qds-text-muted">Uses the icon-set caret.</q-card-section>
+        </q-expansion-item>
+      </div>
     </q-card>
 
     <q-card class="q-pa-lg">

@@ -13,8 +13,10 @@
   .qds-ui .q-card.q-card.q-card--bordered,
   .qds-ui .q-card.q-card.qds-card--readable,
   .qds-ui .q-card.q-card.qds-card--contrast,
+  .qds-ui .q-card.q-card.qds-card--transient,
   .qds-ui .qds-card.qds-card--readable,
-  .qds-ui .qds-card.qds-card--contrast {
+  .qds-ui .qds-card.qds-card--contrast,
+  .qds-ui .qds-card.qds-card--transient {
     border: var(--qds-border-width-control) solid var(--qds-card-border-strong);
   }
 
@@ -23,6 +25,12 @@
   .qds-ui .qds-card.qds-card--readable,
   .qds-ui .qds-card.qds-card--contrast {
     background: var(--qds-card-bg-readable);
+  }
+
+  .qds-ui .q-card.q-card.qds-card--transient,
+  .qds-ui .qds-card.qds-card--transient {
+    background: var(--qds-surface-transient);
+    box-shadow: var(--qds-shadow-sm);
   }
 
   .qds-ui .q-card.q-card.qds-card--opaque,
@@ -36,7 +44,6 @@
   .qds-ui .q-card.q-card > .q-card__section.qds-card__header,
   .qds-ui .q-card.q-card > .q-card__section.qds-card-header {
     background: var(--qds-surface-1);
-    border-block-end: var(--qds-border-width-control) solid var(--qds-separator-color);
     border-start-start-radius: inherit;
     border-start-end-radius: inherit;
   }
@@ -45,7 +52,6 @@
   .qds-ui .q-card.q-card > .q-card__section.qds-card-header--accent {
     color: var(--qds-text-strong);
     background: var(--qds-surface-brand-soft);
-    border-block-end-color: color-mix(in srgb, var(--qds-color-primary) 30%, var(--qds-separator-color));
   }
 
   .qds-ui .q-card.q-card .q-card.q-card,

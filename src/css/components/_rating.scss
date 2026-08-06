@@ -1,6 +1,16 @@
 @mixin styles {
   .qds-ui .q-rating.q-rating {
+    display: inline-flex;
+    align-items: center;
     color: color-mix(in srgb, var(--qds-color-accent) 82%, var(--qds-text-muted));
+    line-height: 1;
+    vertical-align: middle;
+  }
+
+  .qds-ui .q-rating.q-rating .q-rating__icon-container {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .qds-ui .q-rating.q-rating .q-rating__icon {

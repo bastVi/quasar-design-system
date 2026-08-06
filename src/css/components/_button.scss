@@ -23,7 +23,7 @@
   .qds-ui .q-btn.q-btn.bg-#{$name}:not(.q-btn--flat):not(.q-btn--outline):not(.qds-solid) {
     color: color-mix(in srgb, var(--qds-color-#{$token}) var(--qds-tonal-text-mix), var(--qds-text-strong)) !important;
     background-color: rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-bg-opacity)) !important;
-    border: var(--qds-border-width-control) solid transparent;
+    border: 0;
   }
 
   .qds-ui .q-btn.q-btn.bg-#{$name}:not(.q-btn--flat):not(.q-btn--outline):not(.qds-solid):hover {
@@ -106,30 +106,19 @@
     font-size: var(--qds-button-dense-font-size);
   }
 
+  .qds-ui .q-btn-dropdown.q-btn-dropdown .q-btn-dropdown__arrow,
+  .qds-ui .q-btn-dropdown.q-btn-dropdown .q-btn-dropdown__arrow svg {
+    width: var(--qds-button-icon-size);
+    min-width: var(--qds-button-icon-size);
+    height: var(--qds-button-icon-size);
+    font-size: var(--qds-button-icon-size);
+  }
+
   .qds-ui .q-btn.q-btn.q-btn--round,
   .qds-ui .q-btn.q-btn.q-btn--fab,
   .qds-ui .q-btn.q-btn.q-btn--fab-mini {
     min-width: var(--qds-button-round-size);
     min-height: var(--qds-button-round-size);
-  }
-
-  .qds-ui .q-expansion-item.q-expansion-item .q-expansion-item__toggle-icon {
-    width: var(--qds-control-icon-size-md);
-    min-width: var(--qds-control-icon-size-md);
-    height: var(--qds-control-icon-size-md);
-    font-size: var(--qds-control-icon-size-md);
-    opacity: var(--qds-control-icon-opacity);
-  }
-
-  .qds-ui .q-expansion-item.q-expansion-item--expanded .q-expansion-item__toggle-icon {
-    opacity: var(--qds-control-icon-opacity-active);
-  }
-
-  .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item.q-item--dense .q-expansion-item__toggle-icon {
-    width: var(--qds-control-icon-size-sm);
-    min-width: var(--qds-control-icon-size-sm);
-    height: var(--qds-control-icon-size-sm);
-    font-size: var(--qds-control-icon-size-sm);
   }
 
   .qds-ui .q-btn.q-btn.q-btn--flat,
@@ -146,8 +135,7 @@
     border: 0;
   }
 
-  .qds-ui .q-btn.q-btn.q-btn--unelevated:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent):not(.qds-solid),
-  .qds-ui .q-btn.q-btn.q-btn--standard:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent):not(.qds-solid) {
+  .qds-ui .q-btn.q-btn.q-btn--unelevated:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent):not(.qds-solid) {
     background-color: var(--qds-interactive-bg);
     color: var(--qds-interactive-text);
     border: var(--qds-border-width-control) solid var(--qds-interactive-border);
@@ -155,7 +143,7 @@
 
   .qds-ui .q-btn.q-btn.q-btn--standard:not(.q-btn--flat):not(.q-btn--outline) {
     background-color: color-mix(in srgb, var(--qds-surface-0) 92%, var(--qds-color-primary) 8%);
-    border: var(--qds-border-width-control) solid var(--qds-interactive-border);
+    border: 0;
     box-shadow: var(--qds-button-elevated-shadow) !important;
   }
 
@@ -213,13 +201,9 @@
   }
 
   .qds-ui.qds-variant-ink .q-btn.q-btn.q-btn--unelevated:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent):not(.qds-solid),
-  .qds-ui.qds-variant-ink .q-btn.q-btn.q-btn--standard:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent):not(.qds-solid),
   .qds-ui.qds-variant-feather .q-btn.q-btn.q-btn--unelevated:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent):not(.qds-solid),
-  .qds-ui.qds-variant-feather .q-btn.q-btn.q-btn--standard:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent):not(.qds-solid),
   .qds-ui .qds-variant-ink .q-btn.q-btn.q-btn--unelevated:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent):not(.qds-solid),
-  .qds-ui .qds-variant-ink .q-btn.q-btn.q-btn--standard:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent):not(.qds-solid),
-  .qds-ui .qds-variant-feather .q-btn.q-btn.q-btn--unelevated:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent):not(.qds-solid),
-  .qds-ui .qds-variant-feather .q-btn.q-btn.q-btn--standard:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent):not(.qds-solid) {
+  .qds-ui .qds-variant-feather .q-btn.q-btn.q-btn--unelevated:not(.bg-primary):not(.bg-secondary):not(.bg-positive):not(.bg-negative):not(.bg-warning):not(.bg-info):not(.bg-accent):not(.qds-solid) {
     background-color: var(--qds-surface-transient);
     border-color: var(--qds-separator-color);
     box-shadow: none !important;
@@ -277,5 +261,9 @@
   .qds-ui.qds-variant-mobile .q-btn.q-btn.q-btn--standard:not(.q-btn--flat):not(.q-btn--outline):hover,
   .qds-ui .qds-variant-mobile .q-btn.q-btn.q-btn--standard:not(.q-btn--flat):not(.q-btn--outline):hover {
     transform: none;
+  }
+
+  .qds-ui .q-btn.q-btn.q-btn--standard:not(.q-btn--flat):not(.q-btn--outline) {
+    border: 0;
   }
 }

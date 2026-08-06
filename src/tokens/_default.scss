@@ -17,13 +17,33 @@ $palette-rgb: (
   negative: '196, 43, 28', warning: '247, 99, 12', info: '85, 124, 153',
 ) !default;
 
-$light-surfaces: (0: #fffdf9, 1: #faf8f5, 2: #f3f0eb, 3: #eae5de, glass: #fffdf9) !default;
-$dark-surfaces: (0: #1d2024, 1: #171a1e, 2: #272b30, 3: #343940, glass: #1d2024) !default;
+$dark-palette: (
+  primary: #5ea9f6,
+  primary-light: #8bc2ff,
+  primary-dark: #378ad9,
+  secondary: #56c7c7,
+  accent: #f6cf65,
+  positive: #8fc987,
+  negative: #f07f72,
+  warning: #ff9d4d,
+  info: #83b7dd,
+) !default;
+
+$dark-palette-rgb: (
+  primary: '94, 169, 246', primary-light: '139, 194, 255', primary-dark: '55, 138, 217',
+  secondary: '86, 199, 199', accent: '246, 207, 101', positive: '143, 201, 135',
+  negative: '240, 127, 114', warning: '255, 157, 77', info: '131, 183, 221',
+) !default;
+
+$light-surfaces: (0: #fffdf9, 1: #f8f7f5, 2: #f3f2f0, 3: #edebe9, glass: #fffdf9) !default;
+$dark-surfaces: (0: #1d2024, 1: #191c20, 2: #262a2f, 3: #32373e, glass: #1d2024) !default;
 $light-text: (default: #1f2937, strong: #0f172a, muted: #64748b) !default;
 $dark-text: (default: #f4f4f5, strong: #ffffff, muted: #c4c7cf) !default;
 $light-on-fill: (primary: #ffffff, secondary: #ffffff, accent: #0f172a, positive: #0f172a, negative: #ffffff, warning: #0f172a, info: #000000) !default;
-$dark-on-fill: (primary: #ffffff, secondary: #ffffff, accent: #0f172a, positive: #0f172a, negative: #ffffff, warning: #0f172a, info: #000000) !default;
-$borders: (light: #d3d0cc, subtle: #e8e4df, dark: #4b5057, dark-subtle: #30353b) !default;
+$dark-on-fill: (primary: #102a43, secondary: #102525, accent: #26210f, positive: #15291a, negative: #351614, warning: #38200f, info: #12283a) !default;
+$light-soft-surfaces: (brand: #e8f2fc, accent: #fff4d6, positive: #e9f4e7, warning: #fff0e4, negative: #fce9e7, info: #eaf1f7, focus-block: #dceeff, transient: #f7fbff) !default;
+$dark-soft-surfaces: (brand: #173b5c, accent: #493d19, positive: #23473a, warning: #503313, negative: #512a28, info: #243f54, focus-block: #214d78, transient: #202b34) !default;
+$borders: (light: #d1cfcd, subtle: #e9e7e4, dark: #555b64, dark-subtle: #343940) !default;
 
 $space: (xs: 0.25rem, sm: 0.5rem, md: 1rem, lg: 1.5rem, xl: 2rem) !default;
 $radius: (xs: 2px, sm: 4px, md: 8px, lg: 12px, xl: 16px, full: 9999px, control: 8px) !default;
@@ -50,12 +70,13 @@ $control: (size-sm: 2rem, size-md: 2.25rem, size-lg: 2.75rem, font-size-sm: 0.87
 $inline: (icon-gap: 0.375rem, dense-icon-gap: 0.25rem) !default;
 $focus-ring: (width: 2px, offset: 2px, opacity: 0.22) !default;
 $components: (
-  button: (min-height: 2.25rem, padding-inline: 0.875rem, dense-min-height: 2rem, dense-padding-inline: 0.75rem, dense-radius: 0.625rem, dense-font-size: 0.78rem, round-size: 2.25rem, elevated-shadow: none, elevated-shadow-hover: 0 4px 12px rgba(31, 41, 55, 0.08), dark-elevated-shadow: none, dark-elevated-shadow-hover: 0 5px 14px rgba(0, 0, 0, 0.22)),
-  card: (acrylic-tint-rgb: '255, 253, 249', dark-acrylic-tint-rgb: '29, 32, 36', tonal-opacity: 0.022, fallback-tonal-opacity: 0.018, readable-tonal-opacity: 0.045, readable-surface-mix: 100%, header-tonal-opacity: 0.04, header-surface-mix: 100%, dark-tonal-opacity: 0.025, dark-fallback-tonal-opacity: 0.02, dark-readable-tonal-opacity: 0.045, dark-readable-surface-mix: 100%, dark-header-tonal-opacity: 0.04, dark-header-surface-mix: 100%, border-mix: 22%, backdrop-blur: 0, backdrop-saturate: 1),
-  badge: (min-height: 1.625rem, padding: 0.25rem 0.625rem),
-  field: (min-height: 2.25rem, dense-min-height: 2rem, padding-inline: 0.875rem, label-size: 0.8125rem, focus-border-width: 1px),
+  button: (padding-inline: 0.875rem, dense-padding-inline: 0.75rem, dense-radius: 0.625rem, dense-font-size: 0.78rem, elevated-shadow: none, elevated-shadow-hover: 0 4px 12px rgba(31, 41, 55, 0.08), dark-elevated-shadow: none, dark-elevated-shadow-hover: 0 5px 14px rgba(0, 0, 0, 0.22)),
+  card: (acrylic-tint-rgb: '255, 253, 249', dark-acrylic-tint-rgb: '94, 169, 246', tonal-opacity: 0.016, fallback-tonal-opacity: 0.012, readable-tonal-opacity: 0.032, readable-surface-mix: 100%, header-tonal-opacity: 0.026, header-surface-mix: 100%, dark-tonal-opacity: 0.018, dark-fallback-tonal-opacity: 0.014, dark-readable-tonal-opacity: 0.032, dark-readable-surface-mix: 100%, dark-header-tonal-opacity: 0.028, dark-header-surface-mix: 100%, border-mix: 22%, backdrop-blur: 0, backdrop-saturate: 1),
+  badge: (min-height: 1.375rem, padding: 0.125rem 0.5rem),
+  chip: (min-height: 1.875rem, padding: 0.25rem 0.625rem, dense-min-height: 1.625rem, dense-padding: 0.125rem 0.5rem),
+  field: (padding-inline: 0.875rem, label-size: 0.8125rem, focus-border-width: 1px),
 ) !default;
-$chrome: (border-mix: 24%, border-soft-mix: 12%, surface-mix: 100%, surface-strong-mix: 100%, separator-mix: 20%, handle-border-mix: 46%, handle-primary-mix: 12%) !default;
+$chrome: (border-mix: 18%, border-soft-mix: 8%, surface-mix: 100%, surface-strong-mix: 100%, separator-mix: 14%, handle-border-mix: 42%, handle-primary-mix: 12%) !default;
 $effects: (glass: (blur: 0, saturate: 1, border-mix: 24%)) !default;
 
 // Variant maps contain values only; theme selectors consume them in default.scss.
@@ -75,7 +96,7 @@ $variants: (
     primary: #2e5fb8, primary-light: #6f9cf2, primary-dark: #183b7c, secondary: #65558f, accent: #a65e2e, positive: #24765a, negative: #ba384e, warning: #9a6400, info: #246c9c,
     primary-rgb: '46, 95, 184', primary-light-rgb: '111, 156, 242', primary-dark-rgb: '24, 59, 124', secondary-rgb: '101, 85, 143', accent-rgb: '166, 94, 46', positive-rgb: '36, 118, 90', negative-rgb: '186, 56, 78', warning-rgb: '154, 100, 0', info-rgb: '36, 108, 156',
     light-surface-0: #f9f9ff, light-surface-1: #f1f3fb, light-surface-2: #e8ebf5, light-surface-3: #dce1ee, light-text: #1b1b21, light-text-strong: #111117, light-text-muted: #5e5e69, light-border: #c7c8d2, light-border-subtle: #e1e2eb, light-on-fill: (primary: #ffffff, secondary: #ffffff, accent: #ffffff, positive: #ffffff, negative: #ffffff, warning: #ffffff, info: #ffffff), shadow-sm: none, shadow-md: 0 7px 18px rgba(42, 50, 78, 0.09), shadow-lg: 0 14px 28px rgba(42, 50, 78, 0.13),
-    radius-control: 14px, radius-lg: 20px, space-md: 1.125rem, motion-fast: 0.18s cubic-bezier(0.2, 0, 0, 1), tonal-bg-opacity: 0.14, card-acrylic-tint-rgb: '46, 95, 184', card-tonal-opacity: 0.045, card-fallback-tonal-opacity: 0.035, card-readable-tonal-opacity: 0.07, card-readable-surface-mix: 100%, card-header-tonal-opacity: 0.08, card-header-surface-mix: 100%, card-border-mix: 18%, card-backdrop-blur: 0, card-backdrop-saturate: 1, chrome-border-mix: 18%, chrome-border-soft-mix: 10%, chrome-surface-mix: 100%, chrome-surface-strong-mix: 100%, separator-mix: 18%, handle-border-mix: 42%, handle-primary-mix: 18%, soft-brand: #e1ebff, soft-accent: #f9e3d2, soft-positive: #d8f1e6, soft-warning: #fae9ba, soft-negative: #f9dce1, soft-info: #d9ecfb, soft-focus-block: #d7e4ff, soft-transient: #eff3ff, button-min-height: 2.75rem, button-padding-inline: 1rem, button-dense-min-height: 2.5rem, button-dense-padding-inline: 0.875rem, button-round-size: 2.75rem, field-label-size: 0.8125rem, list-item-min-height: 3.5rem, menu-item-min-height: 3rem, expansion-item-min-height: 3.25rem,
+    radius-control: 14px, radius-lg: 20px, space-md: 1.125rem, motion-fast: 0.18s cubic-bezier(0.2, 0, 0, 1), control-size-sm: 2.5rem, control-size-md: 2.75rem, control-size-lg: 3rem, tonal-bg-opacity: 0.14, card-acrylic-tint-rgb: '46, 95, 184', card-tonal-opacity: 0.045, card-fallback-tonal-opacity: 0.035, card-readable-tonal-opacity: 0.07, card-readable-surface-mix: 100%, card-header-tonal-opacity: 0.08, card-header-surface-mix: 100%, card-border-mix: 18%, card-backdrop-blur: 0, card-backdrop-saturate: 1, chrome-border-mix: 18%, chrome-border-soft-mix: 10%, chrome-surface-mix: 100%, chrome-surface-strong-mix: 100%, separator-mix: 18%, handle-border-mix: 42%, handle-primary-mix: 18%, soft-brand: #e1ebff, soft-accent: #f9e3d2, soft-positive: #d8f1e6, soft-warning: #fae9ba, soft-negative: #f9dce1, soft-info: #d9ecfb, soft-focus-block: #d7e4ff, soft-transient: #eff3ff, button-padding-inline: 1rem, button-dense-padding-inline: 0.875rem, field-label-size: 0.8125rem, list-item-min-height: 3.5rem, menu-item-min-height: 3rem, expansion-item-min-height: 3.25rem,
     dark-primary: #adc6ff, dark-primary-light: #d7e2ff, dark-primary-dark: #7ba6ef, dark-secondary: #d0bcff, dark-accent: #ffb787, dark-positive: #82d7b4, dark-negative: #ffb1be, dark-warning: #f4c56b, dark-info: #9dcaff,
     dark-primary-rgb: '173, 198, 255', dark-primary-light-rgb: '215, 226, 255', dark-primary-dark-rgb: '123, 166, 239', dark-secondary-rgb: '208, 188, 255', dark-accent-rgb: '255, 183, 135', dark-positive-rgb: '130, 215, 180', dark-negative-rgb: '255, 177, 190', dark-warning-rgb: '244, 197, 107', dark-info-rgb: '157, 202, 255',
     dark-surface-0: #20212a, dark-surface-1: #191a22, dark-surface-2: #2a2c37, dark-surface-3: #363945, dark-text: #e4e2eb, dark-text-strong: #fdfbff, dark-text-muted: #c5c3ce, dark-border: #555966, dark-border-subtle: #363943, dark-on-fill: (primary: #20212a, secondary: #20212a, accent: #20212a, positive: #20212a, negative: #20212a, warning: #20212a, info: #20212a), dark-shadow-sm: none, dark-shadow-md: 0 10px 24px rgba(0, 0, 0, 0.24), dark-shadow-lg: 0 18px 36px rgba(0, 0, 0, 0.32), dark-card-acrylic-tint-rgb: '173, 198, 255', dark-card-tonal-opacity: 0.06, dark-card-fallback-tonal-opacity: 0.045, dark-card-readable-tonal-opacity: 0.08, dark-card-readable-surface-mix: 100%, dark-card-header-tonal-opacity: 0.08, dark-card-header-surface-mix: 100%, dark-soft-brand: #303b58, dark-soft-accent: #4f3b32, dark-soft-positive: #2e4b40, dark-soft-warning: #504329, dark-soft-negative: #513640, dark-soft-info: #294658, dark-soft-focus-block: #3c4d75, dark-soft-transient: #293043,
