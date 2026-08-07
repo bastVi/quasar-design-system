@@ -415,6 +415,15 @@ test.describe('QDS catalog complex media gate', () => {
         const primaryMarker = '[data-test="qds-timeline"] .q-timeline__entry--left .q-timeline__dot'
         const positiveMarker = '[data-test="qds-timeline"] .q-timeline__entry--right .q-timeline__dot'
         const surface = await tokenColor(page, '[data-test="qds-timeline"]', '--qds-surface-0')
+        await expect
+          .poll(async () => {
+            const [primaryTimelineBg, positiveTimelineBg] = await Promise.all([
+              computed(page, primaryMarker, 'background-color', '::before'),
+              computed(page, positiveMarker, 'background-color', '::before'),
+            ])
+            return [primaryTimelineBg, positiveTimelineBg]
+          }, { timeout: 3000 })
+          .toEqual([surface, surface])
         const primaryBackground = await computed(page, primaryMarker, 'background-color', '::before')
         const primaryBorder = await computed(page, primaryMarker, 'border-top-color', '::before')
         const primaryIcon = await computed(page, `${primaryMarker} > .q-icon`, 'color')
