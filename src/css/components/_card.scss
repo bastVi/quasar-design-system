@@ -43,6 +43,7 @@
 
   .qds-ui .q-card.q-card > .q-card__section.qds-card__header,
   .qds-ui .q-card.q-card > .q-card__section.qds-card-header {
+    padding: var(--qds-space-md);
     background: var(--qds-surface-1);
     border-start-start-radius: inherit;
     border-start-end-radius: inherit;

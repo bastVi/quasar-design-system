@@ -124,10 +124,13 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
       <div class="text-h6 qds-display q-mb-md">QCard</div>
       <div class="row q-col-gutter-md">
         <div class="col-12 col-sm-6 col-md-4">
-          <q-card>
-            <q-card-section>
-              <div class="text-subtitle1 qds-text-strong">Default card</div>
-              <div class="qds-text-muted">Surface, border, radius, shadow from tokens.</div>
+          <q-card data-test="qds-card-header-action">
+            <q-card-section horizontal class="qds-card__header items-center">
+              <div class="col">
+                <div class="text-subtitle1 qds-text-strong">Card header action</div>
+                <div class="qds-text-muted">Round actions keep the card-header inset.</div>
+              </div>
+              <q-btn flat round aria-label="Card options"><PhDotsThreeVertical :size="18" weight="regular" /></q-btn>
             </q-card-section>
             <q-card-actions align="right">
               <q-btn flat color="primary" label="Action" no-caps />

@@ -165,6 +165,27 @@ test.describe('QDS override gate', () => {
     expect(sortedInventory, 'QDS_TOKENS matches fallback/default layer emission exactly').toEqual(emittedTokens)
   })
 
+  test('horizontal card header round action retains its tokenized end inset', async ({ page }) => {
+    await page.goto('/#components')
+    const header = page.locator('[data-test="qds-card-header-action"] .qds-card__header')
+    const action = header.locator('.q-btn--round')
+
+    for (const mode of ['light', 'dark'] as const) {
+      for (const variant of ['fluent', 'ink', 'mobile', 'terminal'] as const) {
+        await applyTheme(page, mode, variant)
+        const [headerBox, actionBox, paddingEnd] = await Promise.all([
+          header.boundingBox(),
+          action.boundingBox(),
+          header.evaluate((element) => getComputedStyle(element).paddingInlineEnd),
+        ])
+
+        expect(headerBox, `${mode}/${variant} card header fixture is rendered`).not.toBeNull()
+        expect(actionBox, `${mode}/${variant} round action fixture is rendered`).not.toBeNull()
+        expect(headerBox!.x + headerBox!.width - (actionBox!.x + actionBox!.width), `${mode}/${variant} round action stays inset from the header edge`).toBeGreaterThanOrEqual(parseFloat(paddingEnd) - 0.1)
+      }
+    }
+  })
+
   test('legacy aliases normalize to canonical state, classes, and four switcher entries', async ({ page }) => {
     await page.goto('/')
     const aliases = [
