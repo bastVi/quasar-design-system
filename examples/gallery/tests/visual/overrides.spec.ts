@@ -2,6 +2,55 @@ import { expect, test } from '@playwright/test'
 import { QDS_TOKENS } from '../../../../src/tokens'
 import { applyTheme, computed, customProperty, MATRIX_VARIANTS, resolvedColor, type Mode, type Variant } from './helpers'
 
+type Rgba = readonly [number, number, number, number]
+
+function contrast(first: Rgba, second: Rgba) {
+  const luminance = ([red, green, blue]: Rgba) => {
+    const channel = (value: number) => {
+      const normalized = value / 255
+      return normalized <= 0.04045 ? normalized / 12.92 : ((normalized + 0.055) / 1.055) ** 2.4
+    }
+    return 0.2126 * channel(red) + 0.7152 * channel(green) + 0.0722 * channel(blue)
+  }
+  const [lighter, darker] = [luminance(first), luminance(second)].sort((a, b) => b - a)
+  return (lighter + 0.05) / (darker + 0.05)
+}
+
+function parseColor(value: string): Rgba {
+  const channels = value.match(/[\d.]+/g)?.map(Number)
+  if (!channels || channels.length < 3) throw new Error(`Expected an RGB color, received ${value}`)
+  const scale = value.startsWith('color(srgb') ? 255 : 1
+  return [channels[0] * scale, channels[1] * scale, channels[2] * scale, channels[3] ?? 1]
+}
+
+function composite(foreground: Rgba, backdrop: Rgba): Rgba {
+  const alpha = foreground[3] + backdrop[3] * (1 - foreground[3])
+  return [
+    (foreground[0] * foreground[3] + backdrop[0] * backdrop[3] * (1 - foreground[3])) / alpha,
+    (foreground[1] * foreground[3] + backdrop[1] * backdrop[3] * (1 - foreground[3])) / alpha,
+    (foreground[2] * foreground[3] + backdrop[2] * backdrop[3] * (1 - foreground[3])) / alpha,
+    alpha,
+  ]
+}
+
+async function renderedContrast(page: Parameters<typeof computed>[0], selector: string, backdropSelector: string) {
+  const [foreground, background, backdrop] = await Promise.all([
+    computed(page, selector, 'color'),
+    computed(page, selector, 'background-color'),
+    computed(page, backdropSelector, 'background-color'),
+  ])
+  return contrast(parseColor(foreground), composite(parseColor(background), parseColor(backdrop)))
+}
+
+async function renderedBoundaryContrast(page: Parameters<typeof computed>[0], selector: string, backdropSelector: string) {
+  const [border, backdrop] = await Promise.all([
+    computed(page, selector, 'border-top-color'),
+    computed(page, backdropSelector, 'background-color'),
+  ])
+  const parsedBackdrop = parseColor(backdrop)
+  return contrast(composite(parseColor(border), parsedBackdrop), parsedBackdrop)
+}
+
 const EXPECTED: Record<Mode, Record<Variant, { surface: string; primary: string; controlRadius: string; cardRadius: string }>> = {
   light: {
     fluent: { surface: '#fffdf9', primary: 'rgb(0, 90, 158)', controlRadius: '8px', cardRadius: '12px' },
@@ -129,6 +178,88 @@ test.describe('QDS override gate', () => {
           expect.soft(role.actionForeground, `${mode} ${variant} ${role.role} solid action uses its foreground`).toBe(role.foregroundToken)
           expect.soft(role.contrast, `${mode} ${variant} ${role.role} fill and foreground meet text contrast`).toBeGreaterThanOrEqual(4.5)
         }
+      }
+    }
+  })
+
+  test('semantic foreground utilities match their on-fill tokens in terminal and ink modes', async ({ page }) => {
+    await page.goto('/#tokens')
+    const roles = ['solid', 'primary', 'secondary', 'accent', 'positive', 'negative', 'warning', 'info'] as const
+
+    for (const mode of ['light', 'dark'] as const) {
+      for (const variant of ['terminal', 'ink'] as const) {
+        await applyTheme(page, mode, variant)
+        await expect(page.locator('[data-test="qds-semantic-foreground-utilities"]')).toBeVisible()
+
+        for (const role of roles) {
+          const fixture = page.locator(`[data-test="qds-semantic-foreground-${role}"]`)
+          await expect(fixture, `${mode}/${variant} ${role} utility fixture is visible`).toBeVisible()
+          await expect(fixture, `${mode}/${variant} ${role} utility class is public`).toHaveClass(new RegExp(`qds-text-on-${role}`))
+          expect.soft(
+            await computed(page, `[data-test="qds-semantic-foreground-${role}"]`, 'color'),
+            `${mode}/${variant} ${role} utility uses its semantic foreground`,
+          ).toBe(await resolvedColor(page, `--qds-text-on-${role}`))
+        }
+      }
+    }
+  })
+
+  test('semantic text, muted text, tonal badges, active items, and primary button variants retain AA contrast across the mode and variant matrix', async ({ page }) => {
+    await page.goto('/#tokens')
+    const roles = ['primary', 'secondary', 'accent', 'positive', 'negative', 'warning', 'info'] as const
+    const buttonVariants = ['outline', 'flat', 'standard', 'tonal', 'solid'] as const
+    const neutralBadgeVariants = ['tonal', 'outline'] as const
+
+    for (const mode of ['light', 'dark'] as const) {
+      for (const variant of ['fluent', 'ink', 'mobile', 'terminal'] as const) {
+        await applyTheme(page, mode, variant)
+        await page.waitForTimeout(250)
+        await expect(page.locator('[data-test="qds-semantic-contrast-fixtures"]')).toBeVisible()
+
+        for (const role of roles) {
+          expect.soft(
+            await renderedContrast(page, `[data-test="qds-semantic-text-${role}"]`, `[data-test="qds-semantic-text-surface-${role}"]`),
+            `${mode}/${variant} ${role} semantic text reaches AA contrast`,
+          ).toBeGreaterThanOrEqual(4.5)
+          expect.soft(
+            await renderedContrast(page, `[data-test="qds-tonal-badge-${role}"]`, '[data-test="qds-tonal-badge-surface"]'),
+            `${mode}/${variant} ${role} tonal badge reaches AA contrast`,
+          ).toBeGreaterThanOrEqual(4.5)
+        }
+
+        for (const badge of neutralBadgeVariants) {
+          expect.soft(
+            await renderedContrast(page, `[data-test="qds-neutral-badge-${badge}"]`, '[data-test="qds-neutral-badge-surface"]'),
+            `${mode}/${variant} neutral ${badge} badge reaches AA contrast`,
+          ).toBeGreaterThanOrEqual(4.5)
+          expect.soft(
+            await renderedBoundaryContrast(page, `[data-test="qds-neutral-badge-${badge}"]`, '[data-test="qds-neutral-badge-surface"]'),
+            `${mode}/${variant} neutral ${badge} badge boundary reaches contrast guidance`,
+          ).toBeGreaterThanOrEqual(3)
+        }
+
+        for (const surface of [0, 1, 2, 3] as const) {
+          expect.soft(
+            await renderedContrast(page, `[data-test="qds-muted-text-${surface}"]`, `[data-test="qds-muted-text-surface-${surface}"]`),
+            `${mode}/${variant} muted text on surface ${surface} reaches AA contrast`,
+          ).toBeGreaterThanOrEqual(4.5)
+        }
+
+        for (const button of buttonVariants) {
+          expect.soft(
+            await renderedContrast(page, `[data-test="qds-button-${button}-primary"]`, '[data-test="qds-button-contrast-surface"]'),
+            `${mode}/${variant} primary ${button} button reaches AA contrast`,
+          ).toBeGreaterThanOrEqual(4.5)
+        }
+        expect.soft(
+          await computed(page, '[data-test="qds-button-solid-primary"]', 'color'),
+          `${mode}/${variant} primary solid button retains its on-fill foreground`,
+        ).toBe(await resolvedColor(page, '--qds-text-on-primary'))
+
+        expect.soft(
+          await renderedContrast(page, '[data-test="qds-active-item"]', '[data-test="qds-active-item-surface"]'),
+          `${mode}/${variant} active item reaches AA contrast`,
+        ).toBeGreaterThanOrEqual(4.5)
       }
     }
   })

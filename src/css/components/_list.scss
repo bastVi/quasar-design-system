@@ -29,7 +29,7 @@
 
   .qds-ui .q-item.q-item.q-item--active,
   .qds-ui .q-item.q-item[aria-selected='true'] {
-    color: var(--qds-tab-active-text);
+    color: var(--qds-text-strong);
     background-color: var(--qds-tab-active-bg);
   }
 
@@ -86,7 +86,7 @@
   }
 
   .qds-ui .q-expansion-item.q-expansion-item--expanded > .q-expansion-item__container > .q-item {
-    color: var(--qds-tab-active-text);
+    color: var(--qds-text-strong);
     background-color: color-mix(in srgb, var(--qds-tab-active-bg) 72%, var(--qds-surface-1) 28%);
     box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--qds-color-primary) 10%, transparent);
   }
@@ -265,7 +265,7 @@
   .qds-ui .qds-variant-ink .q-item.q-item[aria-selected='true'],
   .qds-ui .qds-variant-feather .q-item.q-item.q-item--active,
   .qds-ui .qds-variant-feather .q-item.q-item[aria-selected='true'] {
-    color: color-mix(in srgb, var(--qds-color-primary) var(--qds-tonal-text-mix), var(--qds-text-strong));
+    color: var(--qds-text-strong);
     background-color: var(--qds-surface-brand-soft);
   }
 

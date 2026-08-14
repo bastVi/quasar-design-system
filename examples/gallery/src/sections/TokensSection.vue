@@ -7,7 +7,9 @@ const colorTokens = QDS_TOKENS.filter(
   (t) => t.startsWith('--qds-color-') && !t.endsWith('-rgb'),
 )
 const surfaceTokens = QDS_TOKENS.filter(
-  (t) => t.startsWith('--qds-surface-') || t.startsWith('--qds-text') || t.startsWith('--qds-border'),
+  (t) => t.startsWith('--qds-surface-')
+    || t.startsWith('--qds-text')
+    || (t.startsWith('--qds-border') && !t.startsWith('--qds-border-width-')),
 )
 const spaceTokens = QDS_TOKENS.filter((t) => t.startsWith('--qds-space-'))
 const radiusTokens = QDS_TOKENS.filter((t) => t.startsWith('--qds-radius-'))
@@ -15,6 +17,13 @@ const shadowTokens = QDS_TOKENS.filter(
   (t) => t.startsWith('--qds-shadow-') || t.startsWith('--qds-elevation-'),
 )
 const motionTokens = QDS_TOKENS.filter((t) => t.startsWith('--qds-motion-'))
+const semanticForegroundRoles = ['solid', 'primary', 'secondary', 'accent', 'positive', 'negative', 'warning', 'info'] as const
+const semanticRoles = ['primary', 'secondary', 'accent', 'positive', 'negative', 'warning', 'info'] as const
+const mutedSurfaces = [0, 1, 2, 3] as const
+
+function semanticForegroundFill(role: typeof semanticForegroundRoles[number]) {
+  return role === 'solid' ? '--qds-media-scrim-strong' : `--qds-color-${role}`
+}
 </script>
 
 <template>
@@ -30,6 +39,79 @@ const motionTokens = QDS_TOKENS.filter((t) => t.startsWith('--qds-motion-'))
       <div class="text-h6 qds-display q-mb-sm">Surface &amp; Text</div>
       <div class="grid">
         <TokenSwatch v-for="t in surfaceTokens" :key="t" :token="t" kind="color" />
+      </div>
+    </q-card>
+
+    <q-card class="q-pa-lg">
+      <div class="text-h6 qds-display q-mb-sm">Semantic foreground utilities</div>
+      <div class="grid" data-test="qds-semantic-foreground-utilities">
+        <div
+          v-for="role in semanticForegroundRoles"
+          :key="role"
+          class="q-pa-sm rounded-borders"
+          :class="`qds-text-on-${role}`"
+          :data-test="`qds-semantic-foreground-${role}`"
+          :style="{ backgroundColor: `var(${semanticForegroundFill(role)})` }"
+        >
+          <div class="text-weight-medium">{{ role }}</div>
+          <code>.qds-text-on-{{ role }}</code>
+        </div>
+      </div>
+    </q-card>
+
+    <q-card class="q-pa-lg" data-test="qds-semantic-contrast-fixtures">
+      <div class="text-h6 qds-display q-mb-sm">Semantic contrast</div>
+      <div class="grid q-mb-md">
+        <div
+          v-for="role in semanticRoles"
+          :key="`text-${role}`"
+          class="qds-surface q-pa-sm rounded-borders"
+          :data-test="`qds-semantic-text-surface-${role}`"
+        >
+          <span :class="`text-${role}`" :data-test="`qds-semantic-text-${role}`">{{ role }} text</span>
+        </div>
+      </div>
+      <div class="qds-surface q-pa-sm rounded-borders q-mb-md" data-test="qds-tonal-badge-surface">
+        <q-badge
+          v-for="role in semanticRoles"
+          :key="`badge-${role}`"
+          class="q-mr-sm q-mb-xs"
+          :color="role"
+          :data-test="`qds-tonal-badge-${role}`"
+          :label="role"
+        />
+      </div>
+      <div class="qds-surface q-pa-sm rounded-borders q-mb-md" data-test="qds-neutral-badge-surface">
+        <q-badge color="grey" label="Neutral tonal" data-test="qds-neutral-badge-tonal" />
+        <q-badge outline color="grey" class="q-ml-sm" label="Neutral outline" data-test="qds-neutral-badge-outline" />
+      </div>
+      <q-list class="qds-surface rounded-borders" data-test="qds-active-item-surface">
+        <q-item active clickable data-test="qds-active-item">
+          <q-item-section>
+            <q-item-label>Active semantic item</q-item-label>
+            <q-item-label caption>Role remains visible through its active rail and surface.</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
+      <div class="grid q-mt-md" data-test="qds-muted-text-fixtures">
+        <div
+          v-for="surface in mutedSurfaces"
+          :key="surface"
+          class="q-pa-sm rounded-borders"
+          :data-test="`qds-muted-text-surface-${surface}`"
+          :style="{ backgroundColor: `var(--qds-surface-${surface})` }"
+        >
+          <span class="qds-text-muted" :data-test="`qds-muted-text-${surface}`">Muted text on surface {{ surface }}</span>
+        </div>
+      </div>
+      <div class="qds-surface q-pa-sm rounded-borders q-mt-md" data-test="qds-button-contrast-surface">
+        <div class="qds-button-row">
+          <q-btn outline color="primary" label="Outline" no-caps data-test="qds-button-outline-primary" />
+          <q-btn flat color="primary" label="Flat" no-caps data-test="qds-button-flat-primary" />
+          <q-btn color="primary" label="Standard" no-caps data-test="qds-button-standard-primary" />
+          <q-btn unelevated color="primary" label="Tonal" no-caps data-test="qds-button-tonal-primary" />
+          <q-btn class="qds-solid" unelevated color="primary" label="Solid" no-caps data-test="qds-button-solid-primary" />
+        </div>
       </div>
     </q-card>
 
