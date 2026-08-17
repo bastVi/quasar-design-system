@@ -29,41 +29,61 @@
     min-height: 0;
     height: 100%;
     padding: 0;
+    box-sizing: border-box;
     line-height: normal;
     color: var(--qds-fg-default);
   }
 
-  // Always push input text below the label — the label sits at the top
-  // of the control and the value text starts below it, matching Fluent 2's
-  // field pattern where the label is always above the value.
-  .qds-ui .q-field.q-field--labeled:not(.q-textarea) .q-field__native,
-  .qds-ui .q-field.q-field--labeled:not(.q-textarea) .q-field__prefix,
-  .qds-ui .q-field.q-field--labeled:not(.q-textarea) .q-field__suffix {
-    padding-block: calc(var(--qds-field-label-size) + 0.5rem) 0;
+  // When the label is floated (focused or has a value), push input text below it.
+  .qds-ui .q-field.q-field--labeled.q-field--float:not(.q-textarea) .q-field__native,
+  .qds-ui .q-field.q-field--labeled.q-field--focused:not(.q-textarea) .q-field__native,
+  .qds-ui .q-field.q-field--labeled.q-field--float:not(.q-textarea) .q-field__prefix,
+  .qds-ui .q-field.q-field--labeled.q-field--focused:not(.q-textarea) .q-field__prefix,
+  .qds-ui .q-field.q-field--labeled.q-field--float:not(.q-textarea) .q-field__suffix,
+  .qds-ui .q-field.q-field--labeled.q-field--focused:not(.q-textarea) .q-field__suffix {
+    padding-block: 1.25rem 0.5rem;
   }
 
-  .qds-ui .q-field.q-field--dense.q-field--labeled:not(.q-textarea) .q-field__native,
-  .qds-ui .q-field.q-field--dense.q-field--labeled:not(.q-textarea) .q-field__prefix,
-  .qds-ui .q-field.q-field--dense.q-field--labeled:not(.q-textarea) .q-field__suffix {
-    padding-block: calc(var(--qds-field-label-size) + var(--qds-space-xs)) 0;
+  .qds-ui .q-field.q-field--dense.q-field--labeled.q-field--float:not(.q-textarea) .q-field__native,
+  .qds-ui .q-field.q-field--dense.q-field--labeled.q-field--focused:not(.q-textarea) .q-field__native,
+  .qds-ui .q-field.q-field--dense.q-field--labeled.q-field--float:not(.q-textarea) .q-field__prefix,
+  .qds-ui .q-field.q-field--dense.q-field--labeled.q-field--focused:not(.q-textarea) .q-field__prefix,
+  .qds-ui .q-field.q-field--dense.q-field--labeled.q-field--float:not(.q-textarea) .q-field__suffix,
+  .qds-ui .q-field.q-field--dense.q-field--labeled.q-field--focused:not(.q-textarea) .q-field__suffix {
+    padding-block: 1rem 0.375rem;
   }
 
+  // Label at rest: centered vertically in the control (Quasar's floating label).
   .qds-ui .q-field.q-field .q-field__label {
-    top: var(--qds-space-xs);
+    top: 50%;
+    transform: translateY(-50%);
     color: var(--qds-fg-muted);
     font-size: var(--qds-field-label-size);
-    transform: none;
     line-height: 1;
   }
 
-  .qds-ui .q-field.q-field--dense .q-field__label {
-    top: 0.125rem;
-  }
-
+  // Label floated: sits on the top border of the control.
   .qds-ui .q-field.q-field--float .q-field__label,
   .qds-ui .q-field.q-field--focused .q-field__label {
-    transform: none;
+    top: 0;
+    transform: translateY(-50%);
+    font-size: var(--qds-field-label-size);
     color: var(--qds-stroke-focus);
+  }
+
+  .qds-ui .q-field--filled.q-field--float .q-field__label,
+  .qds-ui .q-field--filled.q-field--focused .q-field__label {
+    top: var(--qds-space-xs);
+    transform: none;
+  }
+
+  .qds-ui .q-field.q-field--dense .q-field__label {
+    top: 50%;
+  }
+
+  .qds-ui .q-field.q-field--dense.q-field--float .q-field__label,
+  .qds-ui .q-field.q-field--dense.q-field--focused .q-field__label {
+    top: 0;
   }
 
   .qds-ui .q-field.q-field .q-field__marginal .q-icon,
@@ -266,7 +286,7 @@
   .qds-ui.qds-variant-mobile .q-field--filled .q-field__control,
   .qds-ui .qds-variant-mobile .q-field--outlined .q-field__control,
   .qds-ui .qds-variant-mobile .q-field--filled .q-field__control {
-    border-radius: calc(var(--qds-radius-control) + 4px);
+    border-radius: calc(var(--qds-radius-control) + 0.25rem);
     padding-inline: max(var(--qds-field-padding-inline), var(--qds-space-md));
   }
 
@@ -282,7 +302,7 @@
   .qds-ui.qds-variant-mobile .q-field--outlined .q-field__control::after,
   .qds-ui .qds-variant-mobile .q-field--outlined .q-field__control::before,
   .qds-ui .qds-variant-mobile .q-field--outlined .q-field__control::after {
-    border-radius: calc(var(--qds-radius-control) + 4px);
+    border-radius: calc(var(--qds-radius-control) + 0.25rem);
   }
 
   .qds-ui.qds-variant-mobile .q-field--filled .q-field__control,
@@ -297,7 +317,7 @@
 
   .qds-ui.qds-variant-mobile .q-field--filled .q-field__control::after,
   .qds-ui .qds-variant-mobile .q-field--filled .q-field__control::after {
-    border-radius: calc(var(--qds-radius-control) + 4px);
+    border-radius: calc(var(--qds-radius-control) + 0.25rem);
     border: var(--qds-field-focus-border-width) solid var(--qds-color-primary);
     transform: scale3d(0.98, 0.9, 1);
     opacity: 0;

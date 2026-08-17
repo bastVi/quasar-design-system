@@ -334,7 +334,7 @@ test.describe('QDS catalog form picker gate', () => {
           expect.soft(await page.locator('body').evaluate((el) => getComputedStyle(el).getPropertyValue('--qds-surface-positive-soft').trim()), `${mode}/ink has a pastel semantic role surface`).toBe(mode === 'light' ? '#d9f1e4' : '#30493e')
         }
         if (variant === 'mobile') {
-          expect.soft(await computed(page, '[data-test="qds-catalog-input-error"] .q-field__control', 'min-height'), `${mode}/One fields retain 44px touch controls`).toBe('44px')
+          expect.soft(await computed(page, '[data-test="qds-catalog-input-error"] .q-field__control', 'min-height'), `${mode}/One fields retain the label-safe 48px field height`).toBe('48px')
         }
       }
     }

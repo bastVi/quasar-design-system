@@ -30,12 +30,23 @@ async function expectFieldGeometry(page: Page, hook: string) {
   expectContained(await bounds(label), controlBounds, `${hook} label stays in its control`)
   expectContained(await bounds(native), controlBounds, `${hook} value stays in its control`)
 
-  // Label/value separation: the floated label must not overlap the value's text region.
-  // The native element starts at the control top, but its text is pushed down by padding-top.
   const labelBounds = await bounds(label)
   const nativeBounds = await bounds(native)
   const nativePaddingTop = await native.evaluate((el) => Number.parseFloat(getComputedStyle(el).paddingTop))
-  expect.soft(labelBounds.bottom, `${hook} label bottom stays above value text top`).toBeLessThanOrEqual(nativeBounds.top + nativePaddingTop + 0.5)
+  const floated = await field.evaluate((element) => (
+    element.classList.contains('q-field--float') || element.classList.contains('q-field--focused')
+  ))
+
+  if (floated) {
+    // Floated labels reserve the upper band; values begin below that band.
+    expect.soft(labelBounds.bottom, `${hook} floated label stays above value text`).toBeLessThanOrEqual(nativeBounds.top + nativePaddingTop + 0.5)
+  } else {
+    // Empty fields use the Fluent/Quasar floating-label rest state: the label
+    // is centered in the control because there is no value text to separate.
+    const controlCenter = controlBounds.top + controlBounds.height / 2
+    const labelCenter = labelBounds.top + labelBounds.height / 2
+    expect.soft(Math.abs(labelCenter - controlCenter), `${hook} empty label is vertically centered`).toBeLessThanOrEqual(1)
+  }
 
   return { fixture, field, control, native, controlBounds }
 }
@@ -81,11 +92,11 @@ test.describe('Fluent control geometry and Phosphor icon contract', () => {
       const disabled = await expectFieldGeometry(page, 'qds-control-input-disabled')
       const error = await expectFieldGeometry(page, 'qds-control-input-error')
 
-      expect.soft(input.controlBounds.height, 'normal input follows the medium control height').toBeCloseTo(36, 0)
-      expect.soft(filled.controlBounds.height, 'filled input follows the medium control height').toBeCloseTo(36, 0)
-      expect.soft(select.controlBounds.height, 'single select does not grow to chip height').toBeCloseTo(36, 0)
-      expect.soft(dense.controlBounds.height, 'dense select follows the small control height').toBeCloseTo(32, 0)
-      expect.soft(disabled.controlBounds.height, 'disabled input keeps the normal control height').toBeCloseTo(36, 0)
+      expect.soft(input.controlBounds.height, 'normal input reserves a label and value band').toBeCloseTo(48, 0)
+      expect.soft(filled.controlBounds.height, 'filled input reserves a label and value band').toBeCloseTo(48, 0)
+      expect.soft(select.controlBounds.height, 'single select does not grow to chip height').toBeCloseTo(48, 0)
+      expect.soft(dense.controlBounds.height, 'dense select follows the compact field height').toBeCloseTo(40, 0)
+      expect.soft(disabled.controlBounds.height, 'disabled input keeps the normal field height').toBeCloseTo(48, 0)
       await expect(error.field.locator('.q-field__messages')).toContainText('Required field')
       await expect(error.field.locator('.q-field__append .q-icon svg')).toBeVisible()
 

@@ -108,14 +108,16 @@
   --qds-button-size-sm: var(--qds-control-size-sm);
   --qds-button-size-md: var(--qds-control-size-md);
   --qds-button-size-lg: var(--qds-control-size-lg);
-  --qds-field-size-sm: var(--qds-control-size-sm);
-  --qds-field-size-md: var(--qds-control-size-md);
-  --qds-field-size-lg: var(--qds-control-size-lg);
+  // Fields reserve a separate label band; they are intentionally taller than
+  // icon-only controls so values do not collapse against the bottom edge.
+  --qds-field-size-sm: 2.5rem;
+  --qds-field-size-md: 3rem;
+  --qds-field-size-lg: 3.5rem;
   --qds-button-min-height: var(--qds-control-size-md);
   --qds-button-dense-min-height: var(--qds-control-size-sm);
   --qds-button-round-size: var(--qds-control-size-md);
-  --qds-field-min-height: var(--qds-control-size-md);
-  --qds-field-dense-min-height: var(--qds-control-size-sm);
+  --qds-field-min-height: var(--qds-field-size-md);
+  --qds-field-dense-min-height: var(--qds-field-size-sm);
   --qds-compact-action-size: var(--qds-control-size-md);
   --qds-compact-action-icon-size: var(--qds-control-icon-size-md);
   --qds-icon-size-sm: var(--qds-control-icon-size-sm);

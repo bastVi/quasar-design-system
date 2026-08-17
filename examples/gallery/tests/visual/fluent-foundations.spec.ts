@@ -29,15 +29,15 @@ async function tokenColor(page: Parameters<typeof customProperty>[0], token: str
 }
 
 test.describe('Fluent foundation contract', () => {
-  test('derives field, button, chip, and compact-action geometry from the shared control scale', async ({ page }) => {
+  test('keeps fields tall enough for a label band and centered value band', async ({ page }) => {
     await page.goto('/#components')
     await applyTheme(page, 'light', 'fluent')
 
     const panel = '.q-tab-panel'
     expect(await computed(page, `${panel} .q-btn.q-btn--unelevated:not(.q-btn--dense)`, 'min-height')).toBe('36px')
-    expect(await computed(page, `${panel} .q-field--outlined .q-field__control`, 'min-height')).toBe('36px')
+    expect(await computed(page, `${panel} .q-field--outlined .q-field__control`, 'min-height')).toBe('48px')
     expect(await customProperty(page, '--qds-button-dense-min-height')).toBe('2rem')
-    expect(await customProperty(page, '--qds-field-dense-min-height')).toBe('2rem')
+    expect(await customProperty(page, '--qds-field-dense-min-height')).toBe('2.5rem')
     expect(await customProperty(page, '--qds-chip-min-height')).toBe('1.875rem')
     expect(await customProperty(page, '--qds-chip-padding')).toBe('.25rem .625rem')
     expect(await customProperty(page, '--qds-chip-dense-min-height')).toBe('1.625rem')
@@ -48,7 +48,7 @@ test.describe('Fluent foundation contract', () => {
 
     await applyTheme(page, 'light', 'mobile')
     expect(await computed(page, `${panel} .q-btn.q-btn--unelevated:not(.q-btn--dense)`, 'min-height')).toBe('44px')
-    expect(await computed(page, `${panel} .q-field--outlined .q-field__control`, 'min-height')).toBe('44px')
+    expect(await computed(page, `${panel} .q-field--outlined .q-field__control`, 'min-height')).toBe('48px')
     expect(await customProperty(page, '--qds-button-dense-min-height')).toBe('2.5rem')
     expect(await customProperty(page, '--qds-control-size-sm')).toBe('2.5rem')
   })
