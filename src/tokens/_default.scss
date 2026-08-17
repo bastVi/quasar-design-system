@@ -45,6 +45,41 @@ $light-soft-surfaces: (brand: #e8f2fc, accent: #fff4d6, positive: #e9f4e7, warni
 $dark-soft-surfaces: (brand: #173b5c, accent: #493d19, positive: #23473a, warning: #503313, negative: #512a28, info: #243f54, focus-block: #214d78, transient: #202b34) !default;
 $borders: (light: #d1cfcd, subtle: #e9e7e4, dark: #555b64, dark-subtle: #343940) !default;
 
+// ── Semantic alias maps ─────────────────────────────────────────────
+// These are consumed by the fallbacks/default emission to produce
+// --qds-fg-*, --qds-bg-*, --qds-stroke-*, --qds-state-*, --qds-control-*
+// CSS custom properties. Components consume these semantic aliases
+// instead of raw color-mix/rgba calculations.
+$light-semantic: (
+  fg-default: #1f2937, fg-strong: #0f172a, fg-muted: #64748b, fg-disabled: #9ca3af,
+  fg-on-brand: #ffffff,
+  bg-canvas: #fffdf9, bg-surface-1: #f8f7f5, bg-surface-2: #f3f2f0, bg-layer: #edebe9,
+  bg-flyout: #fffdf9, bg-overlay: rgba(0, 0, 0, 0.32),
+  bg-card: #fffdf9, bg-card-hover: #f8f7f5,
+  stroke-default: #d1cfcd, stroke-subtle: #e9e7e4, stroke-strong: #555b64,
+  stroke-focus: #005a9e, stroke-error: #c42b1c, stroke-divider: #e9e7e4,
+  state-hover: rgba(0, 0, 0, 0.04), state-pressed: rgba(0, 0, 0, 0.08),
+  state-selected: rgba(0, 90, 158, 0.08), state-disabled: rgba(0, 0, 0, 0.04),
+  state-focus-indicator: #005a9e,
+  control-fill-default: #fffdf9, control-fill-hover: #f3f2f0,
+  control-fill-pressed: #edebe9, control-fill-disabled: #f3f2f0,
+) !default;
+
+$dark-semantic: (
+  fg-default: #f4f4f5, fg-strong: #ffffff, fg-muted: #c4c7cf, fg-disabled: #6b7280,
+  fg-on-brand: #102a43,
+  bg-canvas: #1d2024, bg-surface-1: #191c20, bg-surface-2: #262a2f, bg-layer: #32373e,
+  bg-flyout: #262a2f, bg-overlay: rgba(0, 0, 0, 0.52),
+  bg-card: #1d2024, bg-card-hover: #262a2f,
+  stroke-default: #343940, stroke-subtle: #404652, stroke-strong: #555b64,
+  stroke-focus: #5ea9f6, stroke-error: #f07f72, stroke-divider: #343940,
+  state-hover: rgba(255, 255, 255, 0.06), state-pressed: rgba(255, 255, 255, 0.10),
+  state-selected: rgba(94, 169, 246, 0.12), state-disabled: rgba(255, 255, 255, 0.04),
+  state-focus-indicator: #5ea9f6,
+  control-fill-default: #1d2024, control-fill-hover: #262a2f,
+  control-fill-pressed: #32373e, control-fill-disabled: #1d2024,
+) !default;
+
 $space: (xs: 0.25rem, sm: 0.5rem, md: 1rem, lg: 1.5rem, xl: 2rem) !default;
 $radius: (xs: 2px, sm: 4px, md: 8px, lg: 12px, xl: 16px, full: 9999px, control: 8px) !default;
 $shadow: (
@@ -61,6 +96,16 @@ $font: (
   display: ('Selawik', 'Segoe UI Variable Display', 'Segoe UI', 'Inter Display', 'Inter Variable', Inter, 'SF Pro Display', 'Avenir Next', 'Noto Sans', 'Helvetica Neue', Arial, sans-serif),
   accent: null,
   weight: (regular: 400, medium: 500, semibold: 600, bold: 700),
+) !default;
+
+$typography: (
+  caption: (size: 0.75rem, line-height: 1.33, weight: regular),
+  body: (size: 0.875rem, line-height: 1.43, weight: regular),
+  body-strong: (size: 0.875rem, line-height: 1.43, weight: medium),
+  subtitle: (size: 1rem, line-height: 1.375, weight: semibold),
+  title: (size: 1.25rem, line-height: 1.3, weight: semibold),
+  title-large: (size: 1.5rem, line-height: 1.33, weight: semibold),
+  display: (size: 2rem, line-height: 1.25, weight: bold),
 ) !default;
 
 $motion: (duration-fast: 100ms, duration-base: 200ms, ease-out: cubic-bezier(0, 0, 0, 1), ease-in-out: cubic-bezier(0.33, 0, 0.67, 1), fast: 100ms cubic-bezier(0, 0, 0, 1), base: 200ms cubic-bezier(0.33, 0, 0.67, 1)) !default;

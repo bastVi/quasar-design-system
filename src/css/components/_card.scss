@@ -1,13 +1,16 @@
 @mixin styles {
-  // Cards are content containers by default. Framing is opt-in so nested content
-  // reads as a single surface rather than a stack of material slabs.
   .qds-ui .q-card.q-card,
   .qds-ui .qds-card {
-    background: var(--qds-surface-0);
-    border: 0;
+    background: var(--qds-bg-card);
+    border: var(--qds-border-width-control) solid var(--qds-stroke-subtle);
     border-radius: var(--qds-card-radius);
     box-shadow: none;
-    color: var(--qds-text);
+    color: var(--qds-fg-default);
+  }
+
+  .qds-ui .q-card.q-card:hover,
+  .qds-ui .qds-card:hover {
+    background: var(--qds-bg-card-hover);
   }
 
   .qds-ui .q-card.q-card.q-card--bordered,
@@ -17,7 +20,7 @@
   .qds-ui .qds-card.qds-card--readable,
   .qds-ui .qds-card.qds-card--contrast,
   .qds-ui .qds-card.qds-card--transient {
-    border: var(--qds-border-width-control) solid var(--qds-card-border-strong);
+    border: var(--qds-border-width-control) solid var(--qds-stroke-default);
   }
 
   .qds-ui .q-card.q-card.qds-card--readable,
@@ -44,50 +47,41 @@
   .qds-ui .q-card.q-card > .q-card__section.qds-card__header,
   .qds-ui .q-card.q-card > .q-card__section.qds-card-header {
     padding: var(--qds-space-md);
-    background: var(--qds-surface-1);
+    background: var(--qds-bg-surface-1);
     border-start-start-radius: inherit;
     border-start-end-radius: inherit;
   }
 
   .qds-ui .q-card.q-card > .q-card__section.qds-card__header--accent,
   .qds-ui .q-card.q-card > .q-card__section.qds-card-header--accent {
-    color: var(--qds-text-strong);
+    color: var(--qds-fg-strong);
     background: var(--qds-surface-brand-soft);
   }
 
   .qds-ui .q-card.q-card .q-card.q-card,
   .qds-ui .q-card.q-card .qds-card {
-    background: var(--qds-surface-1);
+    background: var(--qds-bg-surface-1);
+    border: 0;
     box-shadow: none;
   }
 
   .qds-ui.qds-variant-ink .q-card.q-card,
-  .qds-ui.qds-variant-feather .q-card.q-card,
   .qds-ui .qds-variant-ink .q-card.q-card,
-  .qds-ui .qds-variant-feather .q-card.q-card,
   .qds-ui.qds-variant-ink .qds-card,
-  .qds-ui.qds-variant-feather .qds-card,
-  .qds-ui .qds-variant-ink .qds-card,
-  .qds-ui .qds-variant-feather .qds-card {
+  .qds-ui .qds-variant-ink .qds-card {
     background: var(--qds-surface-brand-soft);
     color: var(--qds-text);
   }
 
   .qds-ui.qds-variant-ink .q-card.q-card.q-card--bordered,
-  .qds-ui.qds-variant-feather .q-card.q-card.q-card--bordered,
-  .qds-ui .qds-variant-ink .q-card.q-card.q-card--bordered,
-  .qds-ui .qds-variant-feather .q-card.q-card.q-card--bordered {
+  .qds-ui .qds-variant-ink .q-card.q-card.q-card--bordered {
     border-color: color-mix(in srgb, var(--qds-color-primary) 28%, var(--qds-border));
   }
 
   .qds-ui.qds-variant-ink .q-card.q-card > .q-card__section.qds-card__header,
-  .qds-ui.qds-variant-feather .q-card.q-card > .q-card__section.qds-card__header,
   .qds-ui .qds-variant-ink .q-card.q-card > .q-card__section.qds-card__header,
-  .qds-ui .qds-variant-feather .q-card.q-card > .q-card__section.qds-card__header,
   .qds-ui.qds-variant-ink .q-card.q-card > .q-card__section.qds-card-header,
-  .qds-ui.qds-variant-feather .q-card.q-card > .q-card__section.qds-card-header,
-  .qds-ui .qds-variant-ink .q-card.q-card > .q-card__section.qds-card-header,
-  .qds-ui .qds-variant-feather .q-card.q-card > .q-card__section.qds-card-header {
+  .qds-ui .qds-variant-ink .q-card.q-card > .q-card__section.qds-card-header {
     background: var(--qds-surface-accent-soft);
   }
 

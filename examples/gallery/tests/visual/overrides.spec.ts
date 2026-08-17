@@ -83,7 +83,8 @@ test.describe('QDS override gate', () => {
         expect.soft(await computed(page, `${panel} .q-card`, 'background-color'), 'QCard has a rendered surface').not.toBe('rgba(0, 0, 0, 0)')
         const cardBorderStyle = await computed(page, `${panel} .q-card`, 'border-top-style')
         if (variant === 'fluent' || variant === 'ink') {
-          expect.soft(cardBorderStyle, `${variant} default card is borderless`).toBe('none')
+          expect.soft(cardBorderStyle, `${variant} default card has a quiet hairline border`).toBe('solid')
+          expect.soft(await computed(page, `${panel} .q-card`, 'border-top-width'), `${variant} card hairline is 1px`).toBe('1px')
         } else {
           expect.soft(cardBorderStyle, `${variant} card renders a solid boundary`).toBe('solid')
           expect.soft(await computed(page, `${panel} .q-card`, 'border-top-width'), `${variant} card boundary is 1px`).toBe('1px')
@@ -93,7 +94,6 @@ test.describe('QDS override gate', () => {
         if (variant === 'fluent') {
           expect.soft(await computed(page, `${panel} .q-card`, 'backdrop-filter'), 'Fluent content has no blur').toBe('none')
           expect.soft(await computed(page, `${panel} .q-card`, 'box-shadow'), 'Fluent resting content has no small shadow').toBe('none')
-          expect.soft(await customProperty(page, '--qds-card-border-mix'), 'Fluent low-border content mix').toBe('22%')
         }
         if (variant === 'ink') {
           expect.soft(await customProperty(page, '--qds-surface-negative-soft'), 'Ink negative pastel wash token').toBe(mode === 'light' ? '#f8dce3' : '#563842')

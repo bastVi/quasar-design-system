@@ -24,7 +24,7 @@ test.describe('Fluent composition', () => {
       }
     })
 
-    expect(composition.cardBorders, 'Fluent comparison cards use surface hierarchy instead of a default frame').toEqual(['0px', '0px', '0px', '0px'])
+    expect(composition.cardBorders, 'Fluent comparison cards use a quiet hairline border').toEqual(['1px', '1px', '1px', '1px'])
     expect(composition.cardShadow, 'Fluent comparison cards stay low elevation').toBe('none')
     expect(composition.nestedBorders, 'Nested Fluent cards do not create a second wireframe').toEqual(['0px', '0px', '0px', '0px'])
     expect(composition.directSeparators, 'Comparison cards do not add a redundant header separator').toBe(0)

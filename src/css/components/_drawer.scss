@@ -2,22 +2,22 @@
   .qds-ui .q-layout.q-layout,
   .qds-ui .q-page-container.q-page-container {
     background: transparent;
-    color: var(--qds-text);
+    color: var(--qds-fg-default);
   }
 
   .qds-ui .q-drawer.q-drawer {
-    color: var(--qds-text);
-    background: color-mix(in srgb, var(--qds-surface-1) 92%, transparent);
+    color: var(--qds-fg-default);
+    background: var(--qds-bg-surface-1);
     border: 0;
     box-shadow: none;
   }
 
   .qds-ui .q-drawer.q-drawer.q-drawer--bordered {
-    border-inline-end: var(--qds-border-width-control) solid var(--qds-border-subtle);
+    border-inline-end: var(--qds-border-width-control) solid var(--qds-stroke-subtle);
   }
 
   .qds-ui .q-drawer.q-drawer.q-drawer--right.q-drawer--bordered {
-    border-inline-start: var(--qds-border-width-control) solid var(--qds-border-subtle);
+    border-inline-start: var(--qds-border-width-control) solid var(--qds-stroke-subtle);
     border-inline-end: 0;
   }
 
@@ -35,9 +35,7 @@
   }
 
   .qds-ui.qds-variant-ink .q-drawer.q-drawer,
-  .qds-ui.qds-variant-feather .q-drawer.q-drawer,
-  .qds-ui .qds-variant-ink .q-drawer.q-drawer,
-  .qds-ui .qds-variant-feather .q-drawer.q-drawer {
+  .qds-ui .qds-variant-ink .q-drawer.q-drawer {
     background: var(--qds-surface-0);
     border-inline-end-color: var(--qds-separator-color);
     box-shadow: none;
@@ -46,14 +44,10 @@
   }
 
   .qds-ui.qds-variant-ink .q-drawer.q-drawer.q-drawer--bordered,
-  .qds-ui.qds-variant-feather .q-drawer.q-drawer.q-drawer--bordered,
   .qds-ui .qds-variant-ink .q-drawer.q-drawer.q-drawer--bordered,
-  .qds-ui .qds-variant-feather .q-drawer.q-drawer.q-drawer--bordered { border-inline-end-color: var(--qds-separator-color); }
 
   .qds-ui.qds-variant-ink .q-drawer.q-drawer.q-drawer--right.q-drawer--bordered,
-  .qds-ui.qds-variant-feather .q-drawer.q-drawer.q-drawer--right.q-drawer--bordered,
   .qds-ui .qds-variant-ink .q-drawer.q-drawer.q-drawer--right.q-drawer--bordered,
-  .qds-ui .qds-variant-feather .q-drawer.q-drawer.q-drawer--right.q-drawer--bordered { border-inline-start-color: var(--qds-separator-color); }
 
   .qds-ui.qds-variant-mobile .q-drawer.q-drawer,
   .qds-ui .qds-variant-mobile .q-drawer.q-drawer {

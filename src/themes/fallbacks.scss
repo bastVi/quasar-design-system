@@ -18,6 +18,72 @@
   --qds-surface-transient: #{map.get($surfaces, transient)};
 }
 
+@mixin qds-semantic-tokens($scheme) {
+  // Foreground aliases — track --qds-text-* which variants override
+  --qds-fg-default: var(--qds-text);
+  --qds-fg-strong: var(--qds-text-strong);
+  --qds-fg-muted: var(--qds-text-muted);
+  --qds-fg-disabled: #{map.get($scheme, fg-disabled)};
+  --qds-fg-on-brand: #{map.get($scheme, fg-on-brand)};
+  // Background aliases — track --qds-surface-* which variants override
+  --qds-bg-canvas: var(--qds-surface-0);
+  --qds-bg-surface-1: var(--qds-surface-1);
+  --qds-bg-surface-2: var(--qds-surface-2);
+  --qds-bg-layer: var(--qds-surface-3);
+  --qds-bg-flyout: var(--qds-surface-0);
+  --qds-bg-overlay: #{map.get($scheme, bg-overlay)};
+  --qds-bg-card: var(--qds-surface-0);
+  --qds-bg-card-hover: var(--qds-surface-1);
+  // Stroke aliases — track --qds-border-* which variants override
+  --qds-stroke-default: var(--qds-border);
+  --qds-stroke-subtle: var(--qds-border-subtle);
+  --qds-stroke-strong: #{map.get($scheme, stroke-strong)};
+  --qds-stroke-focus: var(--qds-color-primary);
+  --qds-stroke-error: var(--qds-color-negative);
+  --qds-stroke-divider: var(--qds-border-subtle);
+  // State layers — these are new, not aliased
+  --qds-state-hover: #{map.get($scheme, state-hover)};
+  --qds-state-pressed: #{map.get($scheme, state-pressed)};
+  --qds-state-selected: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-bg-opacity));
+  --qds-state-disabled: #{map.get($scheme, state-disabled)};
+  --qds-state-focus-indicator: var(--qds-color-primary);
+  // Control fill aliases
+  --qds-control-fill-default: var(--qds-surface-0);
+  --qds-control-fill-hover: var(--qds-surface-1);
+  --qds-control-fill-pressed: var(--qds-surface-2);
+  --qds-control-fill-disabled: var(--qds-surface-2);
+}
+
+@mixin qds-typography-tokens {
+  --qds-font-size-caption: #{map.get(map.get(tokens.$typography, caption), size)};
+  --qds-line-height-caption: #{map.get(map.get(tokens.$typography, caption), line-height)};
+  --qds-font-weight-caption: #{map.get(map.get(tokens.$font, weight), map.get(map.get(tokens.$typography, caption), weight))};
+  --qds-font-size-body: #{map.get(map.get(tokens.$typography, body), size)};
+  --qds-line-height-body: #{map.get(map.get(tokens.$typography, body), line-height)};
+  --qds-font-weight-body: #{map.get(map.get(tokens.$font, weight), map.get(map.get(tokens.$typography, body), weight))};
+  --qds-font-size-body-strong: #{map.get(map.get(tokens.$typography, body-strong), size)};
+  --qds-line-height-body-strong: #{map.get(map.get(tokens.$typography, body-strong), line-height)};
+  --qds-font-weight-body-strong: #{map.get(map.get(tokens.$font, weight), map.get(map.get(tokens.$typography, body-strong), weight))};
+  --qds-font-size-subtitle: #{map.get(map.get(tokens.$typography, subtitle), size)};
+  --qds-line-height-subtitle: #{map.get(map.get(tokens.$typography, subtitle), line-height)};
+  --qds-font-weight-subtitle: #{map.get(map.get(tokens.$font, weight), map.get(map.get(tokens.$typography, subtitle), weight))};
+  --qds-font-size-title: #{map.get(map.get(tokens.$typography, title), size)};
+  --qds-line-height-title: #{map.get(map.get(tokens.$typography, title), line-height)};
+  --qds-font-weight-title: #{map.get(map.get(tokens.$font, weight), map.get(map.get(tokens.$typography, title), weight))};
+  --qds-font-size-title-large: #{map.get(map.get(tokens.$typography, title-large), size)};
+  --qds-line-height-title-large: #{map.get(map.get(tokens.$typography, title-large), line-height)};
+  --qds-font-weight-title-large: #{map.get(map.get(tokens.$font, weight), map.get(map.get(tokens.$typography, title-large), weight))};
+  --qds-font-size-display: #{map.get(map.get(tokens.$typography, display), size)};
+  --qds-line-height-display: #{map.get(map.get(tokens.$typography, display), line-height)};
+  --qds-font-weight-display: #{map.get(map.get(tokens.$font, weight), map.get(map.get(tokens.$typography, display), weight))};
+}
+
+@mixin qds-elevation-tokens {
+  --qds-elevation-card: var(--qds-shadow-sm);
+  --qds-elevation-flyout: var(--qds-shadow-md);
+  --qds-elevation-dialog: var(--qds-shadow-lg);
+}
+
 @mixin qds-derived-tokens {
   --qds-elevation-1: var(--qds-shadow-sm);
   --qds-elevation-2: var(--qds-shadow-md);
@@ -102,7 +168,7 @@
   --qds-table-header-height: var(--qds-table-header-height-value, 2.75rem);
   --qds-table-row-height: var(--qds-table-row-height-value, 3rem);
   --qds-toolbar-bg: var(--qds-surface-1);
-  --qds-field-label-bg: var(--qds-surface-0);
+  --qds-field-label-bg: var(--qds-bg-canvas);
   --qds-slider-label-bg: color-mix(in srgb, var(--qds-surface-0) 88%, var(--qds-color-primary) 12%);
   --qds-slider-label-text: color-mix(in srgb, var(--qds-color-primary) 74%, var(--qds-text-strong));
   --qds-slider-label-border: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-border-opacity));
@@ -306,6 +372,9 @@
 
     @include qds-derived-tokens;
     @include qds-soft-surfaces(tokens.$light-soft-surfaces);
+    @include qds-semantic-tokens(tokens.$light-semantic);
+    @include qds-typography-tokens;
+    @include qds-elevation-tokens;
     @include qds-component-fallbacks;
   }
 }

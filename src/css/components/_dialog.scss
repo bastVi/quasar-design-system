@@ -1,14 +1,14 @@
 @mixin styles {
   .qds-ui .q-dialog__backdrop {
-    background: color-mix(in srgb, var(--qds-text-strong) 34%, transparent);
+    background: var(--qds-bg-overlay);
     backdrop-filter: blur(10px) saturate(1.1);
     -webkit-backdrop-filter: blur(10px) saturate(1.1);
   }
 
   .qds-ui .q-dialog__inner > .q-card.q-card {
     width: min(32rem, calc(100vw - 2rem));
-    background: var(--qds-surface-transient);
-    border: var(--qds-border-width-control) solid var(--qds-chrome-border);
+    background: var(--qds-bg-flyout);
+    border: var(--qds-border-width-control) solid var(--qds-stroke-default);
     border-radius: var(--qds-radius-xl);
     box-shadow: var(--qds-shadow-lg);
     backdrop-filter: blur(var(--qds-card-backdrop-blur)) saturate(var(--qds-card-backdrop-saturate));
@@ -19,19 +19,15 @@
   .qds-ui .q-dialog__inner > .q-card.q-card .q-card__actions {
     gap: var(--qds-space-sm);
     padding: var(--qds-space-md) var(--qds-space-lg) var(--qds-space-lg);
-    border-block-start: var(--qds-border-width-control) solid var(--qds-separator-color);
+    border-block-start: var(--qds-border-width-control) solid var(--qds-stroke-divider);
   }
   .qds-ui .q-dialog__inner--minimized { padding: var(--qds-space-md); }
 
   .qds-ui.qds-variant-ink .q-dialog__backdrop,
-  .qds-ui.qds-variant-feather .q-dialog__backdrop,
   .qds-ui .qds-variant-ink .q-dialog__backdrop,
-  .qds-ui .qds-variant-feather .q-dialog__backdrop { background: color-mix(in srgb, var(--qds-text-strong) 24%, transparent); backdrop-filter: none; -webkit-backdrop-filter: none; }
 
   .qds-ui.qds-variant-ink .q-dialog__inner > .q-card.q-card,
-  .qds-ui.qds-variant-feather .q-dialog__inner > .q-card.q-card,
-  .qds-ui .qds-variant-ink .q-dialog__inner > .q-card.q-card,
-  .qds-ui .qds-variant-feather .q-dialog__inner > .q-card.q-card {
+  .qds-ui .qds-variant-ink .q-dialog__inner > .q-card.q-card {
     background: var(--qds-surface-brand-soft);
     border-color: color-mix(in srgb, var(--qds-color-primary) 30%, var(--qds-border));
     box-shadow: none;

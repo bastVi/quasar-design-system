@@ -360,6 +360,72 @@ export const QDS_TOKENS = [
   '--qds-tab-active-bg',
   '--qds-tab-active-text',
   '--qds-tab-active-rail',
+
+  // ── Semantic foreground ─────────────────────────────────────────────
+  '--qds-fg-default',
+  '--qds-fg-strong',
+  '--qds-fg-muted',
+  '--qds-fg-disabled',
+  '--qds-fg-on-brand',
+
+  // ── Semantic background ──────────────────────────────────────────────
+  '--qds-bg-canvas',
+  '--qds-bg-surface-1',
+  '--qds-bg-surface-2',
+  '--qds-bg-layer',
+  '--qds-bg-flyout',
+  '--qds-bg-overlay',
+  '--qds-bg-card',
+  '--qds-bg-card-hover',
+
+  // ── Semantic stroke ─────────────────────────────────────────────────
+  '--qds-stroke-default',
+  '--qds-stroke-subtle',
+  '--qds-stroke-strong',
+  '--qds-stroke-focus',
+  '--qds-stroke-error',
+  '--qds-stroke-divider',
+
+  // ── Semantic state layers ───────────────────────────────────────────
+  '--qds-state-hover',
+  '--qds-state-pressed',
+  '--qds-state-selected',
+  '--qds-state-disabled',
+  '--qds-state-focus-indicator',
+
+  // ── Semantic control fill ───────────────────────────────────────────
+  '--qds-control-fill-default',
+  '--qds-control-fill-hover',
+  '--qds-control-fill-pressed',
+  '--qds-control-fill-disabled',
+
+  // ── Typography ramp ──────────────────────────────────────────────────
+  '--qds-font-size-caption',
+  '--qds-line-height-caption',
+  '--qds-font-weight-caption',
+  '--qds-font-size-body',
+  '--qds-line-height-body',
+  '--qds-font-weight-body',
+  '--qds-font-size-body-strong',
+  '--qds-line-height-body-strong',
+  '--qds-font-weight-body-strong',
+  '--qds-font-size-subtitle',
+  '--qds-line-height-subtitle',
+  '--qds-font-weight-subtitle',
+  '--qds-font-size-title',
+  '--qds-line-height-title',
+  '--qds-font-weight-title',
+  '--qds-font-size-title-large',
+  '--qds-line-height-title-large',
+  '--qds-font-weight-title-large',
+  '--qds-font-size-display',
+  '--qds-line-height-display',
+  '--qds-font-weight-display',
+
+  // ── Elevation roles ─────────────────────────────────────────────────
+  '--qds-elevation-card',
+  '--qds-elevation-flyout',
+  '--qds-elevation-dialog',
 ] as const
 
 /** A public CSS custom-property name in the `--qds-*` contract. */

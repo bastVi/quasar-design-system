@@ -16,7 +16,7 @@
 
     position: relative;
     overflow: hidden;
-    color: var(--qds-text) !important;
+    color: var(--qds-fg-default) !important;
     background: var(--qds-surface-transient) !important;
     border: var(--qds-border-width-control) solid rgba(var(--qds-notify-accent-rgb), var(--qds-tonal-border-opacity));
     border-radius: var(--qds-notification-radius) !important;
@@ -30,7 +30,7 @@
   .qds-ui .q-notification__spinner,
   .qds-ui .q-notification__actions { color: var(--qds-notify-accent) !important; }
   .qds-ui .q-notification__message,
-  .qds-ui .q-notification__caption { color: var(--qds-text); }
+  .qds-ui .q-notification__caption { color: var(--qds-fg-default); }
   .qds-ui .q-notification__progress { background: var(--qds-notify-accent); opacity: var(--qds-tonal-border-opacity); }
   .qds-ui .q-notification__badge {
     color: var(--qds-notify-on-accent);
@@ -49,9 +49,7 @@
   @include qds-notify-state('info', 'info', 'info');
 
   .qds-ui.qds-variant-ink .q-notification,
-  .qds-ui.qds-variant-feather .q-notification,
-  .qds-ui .qds-variant-ink .q-notification,
-  .qds-ui .qds-variant-feather .q-notification {
+  .qds-ui .qds-variant-ink .q-notification {
     background: var(--qds-notify-wash) !important;
     box-shadow: none !important;
     backdrop-filter: none;

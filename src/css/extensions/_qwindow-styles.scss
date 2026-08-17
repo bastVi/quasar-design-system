@@ -38,13 +38,9 @@
   .qds-ui .qds-window--headless .qds-window__titlebar { display: none; }
 
   .qds-ui.qds-variant-ink .qds-window,
-  .qds-ui.qds-variant-feather .qds-window,
   .qds-ui .qds-variant-ink .qds-window,
-  .qds-ui .qds-variant-feather .qds-window { background: var(--qds-surface-brand-soft); border-color: color-mix(in srgb, var(--qds-color-primary) 28%, var(--qds-border)); box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
   .qds-ui.qds-variant-ink .qds-window__titlebar,
-  .qds-ui.qds-variant-feather .qds-window__titlebar,
   .qds-ui .qds-variant-ink .qds-window__titlebar,
-  .qds-ui .qds-variant-feather .qds-window__titlebar { background: var(--qds-surface-accent-soft); }
   .qds-ui.qds-variant-mobile .qds-window,
   .qds-ui .qds-variant-mobile .qds-window { background: var(--qds-surface-focus-block); }
   .qds-ui.qds-variant-mobile .qds-window__titlebar,

@@ -1,7 +1,7 @@
 @mixin styles {
   .qds-ui .q-tabs.q-tabs {
     background: transparent;
-    color: var(--qds-text-muted);
+    color: var(--qds-fg-muted);
   }
 
   .qds-ui .q-tabs.q-tabs .q-tabs__content {
@@ -11,10 +11,10 @@
 
   .qds-ui .q-tab.q-tab {
     position: relative;
-    min-height: 3rem;
+    min-height: 2.75rem;
     padding-inline: var(--qds-space-md);
     border-radius: var(--qds-tab-radius);
-    color: var(--qds-text-muted);
+    color: var(--qds-fg-muted);
     background: transparent;
     box-shadow: none;
     transition:
@@ -30,7 +30,7 @@
     bottom: 0.3125rem;
     height: 0.1875rem;
     content: '';
-    background: var(--qds-tab-active-rail);
+    background: var(--qds-stroke-focus);
     border-radius: var(--qds-radius-full);
     opacity: 0;
     transform: scaleX(0.45);
@@ -47,13 +47,13 @@
   }
 
   .qds-ui .q-tab.q-tab:hover {
-    background-color: var(--qds-tab-hover-bg);
-    color: var(--qds-text);
+    background-color: var(--qds-state-hover);
+    color: var(--qds-fg-default);
   }
 
   .qds-ui .q-tab.q-tab.q-tab--active {
     background-color: transparent;
-    color: var(--qds-tab-active-text);
+    color: var(--qds-fg-strong);
     box-shadow: none;
   }
 
@@ -63,7 +63,7 @@
   }
 
   .qds-ui .q-tab.q-tab:focus-visible {
-    outline: var(--qds-focus-ring-width) solid var(--qds-color-primary);
+    outline: var(--qds-focus-ring-width) solid var(--qds-stroke-focus);
     outline-offset: -4px;
   }
 
@@ -98,25 +98,23 @@
   }
 
   .qds-ui .q-tabs.q-tabs .q-tabs__arrow:hover {
-    color: var(--qds-text);
+    color: var(--qds-fg-default);
     background: var(--qds-tab-hover-bg);
   }
 
   .qds-ui .q-tab-panels.q-tab-panels.q-tab-panels {
     overflow: hidden;
-    color: var(--qds-text);
-    background: var(--qds-card-bg);
-    border: var(--qds-border-width-control) solid color-mix(in srgb, var(--qds-card-border) 72%, transparent);
+    color: var(--qds-fg-default);
+    background: transparent;
+    border: 0;
     border-radius: var(--qds-card-radius);
-    box-shadow: var(--qds-shadow-sm);
+    box-shadow: none;
   }
 
   .qds-ui.qds-variant-ink .q-tab-panels.q-tab-panels.q-tab-panels,
-  .qds-ui.qds-variant-feather .q-tab-panels.q-tab-panels.q-tab-panels,
-  .qds-ui .qds-variant-ink .q-tab-panels.q-tab-panels.q-tab-panels,
-  .qds-ui .qds-variant-feather .q-tab-panels.q-tab-panels.q-tab-panels {
-    background: var(--qds-surface-0);
-    border-color: var(--qds-separator-color);
+  .qds-ui .qds-variant-ink .q-tab-panels.q-tab-panels.q-tab-panels {
+    background: transparent;
+    border: 0;
     box-shadow: none;
   }
 
@@ -130,7 +128,7 @@
   }
 
   .qds-ui .q-tab-panel.q-tab-panel {
-    color: var(--qds-text);
+    color: var(--qds-fg-default);
     background: transparent;
   }
 

@@ -47,19 +47,19 @@
   .qds-ui .q-circular-progress.q-circular-progress.text-info .q-circular-progress__circle,
   .qds-ui .q-spinner.q-spinner.text-info { color: var(--qds-color-info) !important; }
 
-  .qds-ui .q-inner-loading.q-inner-loading { color: var(--qds-text); background: color-mix(in srgb, var(--qds-surface-transient) 84%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-  .qds-ui .q-inner-loading.q-inner-loading.qds-plugin-inner-loading { color: var(--qds-text); background: color-mix(in srgb, var(--qds-surface-transient) 84%, transparent); border-radius: inherit; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+  .qds-ui .q-inner-loading.q-inner-loading { color: var(--qds-fg-default); background: color-mix(in srgb, var(--qds-surface-transient) 84%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+  .qds-ui .q-inner-loading.q-inner-loading.qds-plugin-inner-loading { color: var(--qds-fg-default); background: color-mix(in srgb, var(--qds-surface-transient) 84%, transparent); border-radius: inherit; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
   .qds-ui .q-skeleton.q-skeleton { overflow: hidden; background: var(--qds-surface-brand-soft); border-radius: var(--qds-radius-control); }
-  .qds-ui .q-skeleton.q-skeleton::before { background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--qds-surface-0) 72%, var(--qds-color-primary) 14%), transparent); }
+  .qds-ui .q-skeleton.q-skeleton::before { background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--qds-bg-canvas) 72%, var(--qds-color-primary) 14%), transparent); }
   .qds-ui .q-skeleton.q-skeleton--type-circle,
   .qds-ui .q-skeleton.q-skeleton--type-QAvatar,
   .qds-ui .q-skeleton.q-skeleton--type-QBtn.q-skeleton--bordered { border-radius: var(--qds-radius-full); }
-  .qds-ui .q-skeleton.q-skeleton--bordered { border: var(--qds-border-width-control) solid var(--qds-chrome-border-soft); }
+  .qds-ui .q-skeleton.q-skeleton--bordered { border: var(--qds-border-width-control) solid var(--qds-stroke-subtle); }
 
   .qds-ui .q-tree.q-tree,
-  .qds-ui .q-virtual-scroll.q-virtual-scroll { color: var(--qds-text); }
-  .qds-ui .q-tree.q-tree .q-tree__node-header { position: relative; min-height: 2.375rem; padding-inline: var(--qds-space-xs) var(--qds-space-sm); color: var(--qds-text); border-radius: calc(var(--qds-radius-control) - 2px); }
-  .qds-ui .q-tree.q-tree .q-tree__node-header:hover { background: var(--qds-surface-brand-soft); color: var(--qds-text-strong); }
+  .qds-ui .q-virtual-scroll.q-virtual-scroll { color: var(--qds-fg-default); }
+  .qds-ui .q-tree.q-tree .q-tree__node-header { position: relative; min-height: 2.375rem; padding-inline: var(--qds-space-xs) var(--qds-space-sm); color: var(--qds-fg-default); border-radius: calc(var(--qds-radius-control) - 2px); }
+  .qds-ui .q-tree.q-tree .q-tree__node-header:hover { background: var(--qds-surface-brand-soft); color: var(--qds-fg-strong); }
   .qds-ui .q-tree.q-tree .q-tree__node-header:focus-visible { outline: var(--qds-focus-ring-width) solid var(--qds-color-primary); outline-offset: -2px; }
   .qds-ui .q-tree.q-tree .q-tree__node-header.q-tree__node--selected,
   .qds-ui .q-tree.q-tree .q-tree__node-header[aria-selected='true'] { color: var(--qds-tab-active-text); background: var(--qds-tab-active-bg); }
@@ -67,47 +67,35 @@
   .qds-ui .q-tree.q-tree .q-tree__node-header[aria-selected='true']::after { content: ''; position: absolute; inset-inline-start: 0; inset-block: 0; width: 3px; background: var(--qds-tab-active-rail); border-start-end-radius: 2px; border-end-end-radius: 2px; }
   .qds-ui .q-tree.q-tree .q-tree__arrow,
   .qds-ui .q-tree.q-tree .q-tree__icon,
-  .qds-ui .q-tree.q-tree .q-tree__spinner { color: var(--qds-text-muted); }
+  .qds-ui .q-tree.q-tree .q-tree__spinner { color: var(--qds-fg-muted); }
   .qds-ui .q-tree.q-tree .q-tree__node-header.q-tree__node--disabled { cursor: not-allowed; }
   .qds-ui .q-tree.q-tree .q-tree__children { padding-inline-start: var(--qds-space-lg); }
   .qds-ui .q-tree.q-tree .q-tree__node + .q-tree__node { margin-block-start: 0.125rem; }
   .qds-ui .q-tree.q-tree .q-tree__node:after,
   .qds-ui .q-tree.q-tree .q-tree__node-header:before,
   .qds-ui .q-virtual-scroll.q-virtual-scroll .q-virtual-scroll__padding,
-  .qds-ui .q-virtual-scroll.q-virtual-scroll .q-virtual-scroll__slice { border-color: var(--qds-separator-color); }
+  .qds-ui .q-virtual-scroll.q-virtual-scroll .q-virtual-scroll__slice { border-color: var(--qds-stroke-divider); }
 
-  .qds-ui .q-markup-table.q-markup-table { overflow: hidden; color: var(--qds-text); background: var(--qds-surface-0); border-radius: var(--qds-card-radius); box-shadow: none; }
+  .qds-ui .q-markup-table.q-markup-table { overflow: hidden; color: var(--qds-fg-default); background: var(--qds-bg-canvas); border-radius: var(--qds-card-radius); box-shadow: none; }
   .qds-ui .q-markup-table.q-markup-table.qds-table--bordered { border: var(--qds-border-width-control) solid var(--qds-card-border-strong); }
-  .qds-ui .q-markup-table.q-markup-table table { color: var(--qds-text); background: transparent; }
-  .qds-ui .q-markup-table.q-markup-table thead tr { background: var(--qds-surface-1); }
-  .qds-ui .q-markup-table.q-markup-table th { height: 2.75rem; color: var(--qds-text-muted); font-size: 0.8125rem; font-weight: var(--qds-font-weight-semibold); text-transform: none; border-color: var(--qds-separator-color); }
-  .qds-ui .q-markup-table.q-markup-table td { height: 3rem; color: var(--qds-text); border-color: var(--qds-separator-color); }
+  .qds-ui .q-markup-table.q-markup-table table { color: var(--qds-fg-default); background: transparent; }
+  .qds-ui .q-markup-table.q-markup-table thead tr { background: var(--qds-bg-surface-1); }
+  .qds-ui .q-markup-table.q-markup-table th { height: 2.75rem; color: var(--qds-fg-muted); font-size: 0.8125rem; font-weight: var(--qds-font-weight-semibold); text-transform: none; border-color: var(--qds-stroke-divider); }
+  .qds-ui .q-markup-table.q-markup-table td { height: 3rem; color: var(--qds-fg-default); border-color: var(--qds-stroke-divider); }
   .qds-ui .q-markup-table.q-markup-table tbody tr:hover { background: var(--qds-surface-brand-soft); }
 
   .qds-ui.qds-variant-ink .q-linear-progress.q-linear-progress,
-  .qds-ui.qds-variant-feather .q-linear-progress.q-linear-progress,
   .qds-ui .qds-variant-ink .q-linear-progress.q-linear-progress,
-  .qds-ui .qds-variant-feather .q-linear-progress.q-linear-progress { background: var(--qds-surface-brand-soft); }
   .qds-ui.qds-variant-ink .q-skeleton.q-skeleton,
-  .qds-ui.qds-variant-feather .q-skeleton.q-skeleton,
   .qds-ui .qds-variant-ink .q-skeleton.q-skeleton,
-  .qds-ui .qds-variant-feather .q-skeleton.q-skeleton { background: var(--qds-surface-accent-soft); }
   .qds-ui.qds-variant-ink .q-inner-loading.q-inner-loading,
-  .qds-ui.qds-variant-feather .q-inner-loading.q-inner-loading,
   .qds-ui .qds-variant-ink .q-inner-loading.q-inner-loading,
-  .qds-ui .qds-variant-feather .q-inner-loading.q-inner-loading { background: var(--qds-surface-brand-soft); box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
   .qds-ui.qds-variant-ink .q-inner-loading.q-inner-loading.qds-plugin-inner-loading,
-  .qds-ui.qds-variant-feather .q-inner-loading.q-inner-loading.qds-plugin-inner-loading,
   .qds-ui .qds-variant-ink .q-inner-loading.q-inner-loading.qds-plugin-inner-loading,
-  .qds-ui .qds-variant-feather .q-inner-loading.q-inner-loading.qds-plugin-inner-loading { background: var(--qds-surface-accent-soft); }
   .qds-ui.qds-variant-ink .q-markup-table.q-markup-table,
-  .qds-ui.qds-variant-feather .q-markup-table.q-markup-table,
   .qds-ui .qds-variant-ink .q-markup-table.q-markup-table,
-  .qds-ui .qds-variant-feather .q-markup-table.q-markup-table { background: var(--qds-surface-brand-soft); }
   .qds-ui.qds-variant-ink .q-markup-table.q-markup-table thead tr,
-  .qds-ui.qds-variant-feather .q-markup-table.q-markup-table thead tr,
   .qds-ui .qds-variant-ink .q-markup-table.q-markup-table thead tr,
-  .qds-ui .qds-variant-feather .q-markup-table.q-markup-table thead tr { background: var(--qds-surface-accent-soft); }
 
   .qds-ui.qds-variant-mobile .q-tree.q-tree .q-tree__node-header,
   .qds-ui .qds-variant-mobile .q-tree.q-tree .q-tree__node-header { min-height: 2.75rem; background: var(--qds-surface-focus-block); }

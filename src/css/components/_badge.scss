@@ -1,6 +1,6 @@
 @mixin qds-tonal-badge($name, $token) {
   .qds-ui .q-badge.q-badge.bg-#{$name}:not(.qds-solid) {
-    color: var(--qds-text-strong) !important;
+    color: var(--qds-fg-strong) !important;
     background-color: rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-bg-opacity)) !important;
     border: var(--qds-border-width-control) solid rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-border-opacity)) !important;
   }
@@ -38,61 +38,49 @@
   // text. Keep tonal neutral badges surfaced, and their outlined counterpart
   // transparent, while both use QDS semantic foreground and boundary tokens.
   .qds-ui .q-badge.q-badge.bg-grey:not(.qds-solid) {
-    color: var(--qds-text-strong) !important;
-    background-color: var(--qds-surface-2) !important;
-    border: var(--qds-border-width-control) solid var(--qds-text-muted) !important;
+    color: var(--qds-fg-strong) !important;
+    background-color: var(--qds-bg-surface-2) !important;
+    border: var(--qds-border-width-control) solid var(--qds-fg-muted) !important;
   }
 
   .qds-ui .q-badge.q-badge.q-badge--outline.text-grey:not(.qds-solid) {
-    color: color-mix(in srgb, var(--qds-text-muted) 75%, var(--qds-text-strong)) !important;
+    color: color-mix(in srgb, var(--qds-fg-muted) 75%, var(--qds-fg-strong)) !important;
     background-color: transparent !important;
-    border: var(--qds-border-width-control) solid var(--qds-text-muted) !important;
+    border: var(--qds-border-width-control) solid var(--qds-fg-muted) !important;
   }
 
   .qds-ui.qds-variant-ink .q-badge.q-badge.bg-primary:not(.qds-solid),
-  .qds-ui.qds-variant-feather .q-badge.q-badge.bg-primary:not(.qds-solid),
-  .qds-ui .qds-variant-ink .q-badge.q-badge.bg-primary:not(.qds-solid),
-  .qds-ui .qds-variant-feather .q-badge.q-badge.bg-primary:not(.qds-solid) {
+  .qds-ui .qds-variant-ink .q-badge.q-badge.bg-primary:not(.qds-solid) {
     background-color: var(--qds-surface-brand-soft) !important;
     border-color: transparent !important;
   }
 
   .qds-ui.qds-variant-ink .q-badge.q-badge.bg-positive:not(.qds-solid),
-  .qds-ui.qds-variant-feather .q-badge.q-badge.bg-positive:not(.qds-solid),
-  .qds-ui .qds-variant-ink .q-badge.q-badge.bg-positive:not(.qds-solid),
-  .qds-ui .qds-variant-feather .q-badge.q-badge.bg-positive:not(.qds-solid) {
+  .qds-ui .qds-variant-ink .q-badge.q-badge.bg-positive:not(.qds-solid) {
     background-color: var(--qds-surface-positive-soft) !important;
     border-color: transparent !important;
   }
 
   .qds-ui.qds-variant-ink .q-badge.q-badge.bg-negative:not(.qds-solid),
-  .qds-ui.qds-variant-feather .q-badge.q-badge.bg-negative:not(.qds-solid),
-  .qds-ui .qds-variant-ink .q-badge.q-badge.bg-negative:not(.qds-solid),
-  .qds-ui .qds-variant-feather .q-badge.q-badge.bg-negative:not(.qds-solid) {
+  .qds-ui .qds-variant-ink .q-badge.q-badge.bg-negative:not(.qds-solid) {
     background-color: var(--qds-surface-negative-soft) !important;
     border-color: transparent !important;
   }
 
   .qds-ui.qds-variant-ink .q-badge.q-badge.bg-warning:not(.qds-solid),
-  .qds-ui.qds-variant-feather .q-badge.q-badge.bg-warning:not(.qds-solid),
-  .qds-ui .qds-variant-ink .q-badge.q-badge.bg-warning:not(.qds-solid),
-  .qds-ui .qds-variant-feather .q-badge.q-badge.bg-warning:not(.qds-solid) {
+  .qds-ui .qds-variant-ink .q-badge.q-badge.bg-warning:not(.qds-solid) {
     background-color: var(--qds-surface-warning-soft) !important;
     border-color: transparent !important;
   }
 
   .qds-ui.qds-variant-ink .q-badge.q-badge.bg-info:not(.qds-solid),
-  .qds-ui.qds-variant-feather .q-badge.q-badge.bg-info:not(.qds-solid),
-  .qds-ui .qds-variant-ink .q-badge.q-badge.bg-info:not(.qds-solid),
-  .qds-ui .qds-variant-feather .q-badge.q-badge.bg-info:not(.qds-solid) {
+  .qds-ui .qds-variant-ink .q-badge.q-badge.bg-info:not(.qds-solid) {
     background-color: var(--qds-surface-info-soft) !important;
     border-color: transparent !important;
   }
 
   .qds-ui.qds-variant-ink .q-badge.q-badge.bg-accent:not(.qds-solid),
-  .qds-ui.qds-variant-feather .q-badge.q-badge.bg-accent:not(.qds-solid),
-  .qds-ui .qds-variant-ink .q-badge.q-badge.bg-accent:not(.qds-solid),
-  .qds-ui .qds-variant-feather .q-badge.q-badge.bg-accent:not(.qds-solid) {
+  .qds-ui .qds-variant-ink .q-badge.q-badge.bg-accent:not(.qds-solid) {
     background-color: var(--qds-surface-accent-soft) !important;
     border-color: transparent !important;
   }

@@ -114,7 +114,7 @@ test.describe('QDS catalog lightweight primitives gate', () => {
 
     const surface1 = await resolvedColor(page, '--qds-surface-1')
     const radius = await customProperty(page, '--qds-radius-control')
-    const separatorColor = await resolvedColor(page, '--qds-separator-color')
+    const separatorColor = await resolvedColor(page, '--qds-stroke-divider')
     const toolbar = page.locator('[data-test="qds-toolbar-surface"]')
     const denseToolbar = page.locator('[data-test="qds-toolbar-dense"]')
     const wrapToolbar = page.locator('[data-test="qds-toolbar-wrap"]')

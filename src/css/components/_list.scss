@@ -1,13 +1,13 @@
 @mixin styles {
   .qds-ui .q-list.q-list {
-    color: var(--qds-text);
+    color: var(--qds-fg-default);
   }
 
   .qds-ui .q-item.q-item {
     position: relative;
     min-height: var(--qds-list-item-min-height);
     border-radius: calc(var(--qds-radius-control) - 2px);
-    color: var(--qds-text);
+    color: var(--qds-fg-default);
     transition:
       background-color var(--qds-motion-fast),
       color var(--qds-motion-fast),
@@ -19,18 +19,18 @@
   }
 
   .qds-ui .q-item.q-item:hover {
-    background-color: var(--qds-tab-hover-bg);
+    background-color: var(--qds-state-hover);
   }
 
   .qds-ui .q-item.q-item:focus-visible {
-    outline: var(--qds-focus-ring-width) solid var(--qds-color-primary);
+    outline: var(--qds-focus-ring-width) solid var(--qds-stroke-focus);
     outline-offset: -2px;
   }
 
   .qds-ui .q-item.q-item.q-item--active,
   .qds-ui .q-item.q-item[aria-selected='true'] {
-    color: var(--qds-text-strong);
-    background-color: var(--qds-tab-active-bg);
+    color: var(--qds-fg-strong);
+    background-color: var(--qds-state-selected);
   }
 
   .qds-ui .q-item.q-item.q-item--active::before,
@@ -46,7 +46,7 @@
   }
 
   .qds-ui .q-expansion-item.q-expansion-item {
-    color: var(--qds-text);
+    color: var(--qds-fg-default);
     border-radius: var(--qds-radius-control);
     transition:
       background-color var(--qds-motion-fast),
@@ -63,7 +63,7 @@
     min-height: var(--qds-expansion-item-min-height);
     padding-block: var(--qds-space-xs);
     align-items: center;
-    color: var(--qds-text);
+    color: var(--qds-fg-default);
     transition:
       background-color var(--qds-motion-fast),
       color var(--qds-motion-fast),
@@ -141,7 +141,7 @@
   }
 
   .qds-ui .q-expansion-item.q-expansion-item .q-expansion-item__content {
-    color: var(--qds-text);
+    color: var(--qds-fg-default);
     background: color-mix(in srgb, var(--qds-surface-1) 72%, transparent);
     border-top: var(--qds-border-width-control) solid color-mix(in srgb, var(--qds-border-subtle) 68%, transparent);
   }
@@ -259,31 +259,21 @@
 
   .qds-ui.qds-variant-ink .q-item.q-item.q-item--active,
   .qds-ui.qds-variant-ink .q-item.q-item[aria-selected='true'],
-  .qds-ui.qds-variant-feather .q-item.q-item.q-item--active,
-  .qds-ui.qds-variant-feather .q-item.q-item[aria-selected='true'],
   .qds-ui .qds-variant-ink .q-item.q-item.q-item--active,
-  .qds-ui .qds-variant-ink .q-item.q-item[aria-selected='true'],
-  .qds-ui .qds-variant-feather .q-item.q-item.q-item--active,
-  .qds-ui .qds-variant-feather .q-item.q-item[aria-selected='true'] {
+  .qds-ui .qds-variant-ink .q-item.q-item[aria-selected='true'] {
     color: var(--qds-text-strong);
     background-color: var(--qds-surface-brand-soft);
   }
 
   .qds-ui.qds-variant-ink .q-item.q-item.q-item--active::before,
   .qds-ui.qds-variant-ink .q-item.q-item[aria-selected='true']::before,
-  .qds-ui.qds-variant-feather .q-item.q-item.q-item--active::before,
-  .qds-ui.qds-variant-feather .q-item.q-item[aria-selected='true']::before,
   .qds-ui .qds-variant-ink .q-item.q-item.q-item--active::before,
-  .qds-ui .qds-variant-ink .q-item.q-item[aria-selected='true']::before,
-  .qds-ui .qds-variant-feather .q-item.q-item.q-item--active::before,
-  .qds-ui .qds-variant-feather .q-item.q-item[aria-selected='true']::before {
+  .qds-ui .qds-variant-ink .q-item.q-item[aria-selected='true']::before {
     background: var(--qds-color-primary);
   }
 
   .qds-ui.qds-variant-ink .q-expansion-item.q-expansion-item--expanded > .q-expansion-item__container > .q-item,
-  .qds-ui.qds-variant-feather .q-expansion-item.q-expansion-item--expanded > .q-expansion-item__container > .q-item,
-  .qds-ui .qds-variant-ink .q-expansion-item.q-expansion-item--expanded > .q-expansion-item__container > .q-item,
-  .qds-ui .qds-variant-feather .q-expansion-item.q-expansion-item--expanded > .q-expansion-item__container > .q-item {
+  .qds-ui .qds-variant-ink .q-expansion-item.q-expansion-item--expanded > .q-expansion-item__container > .q-item {
     background-color: var(--qds-surface-brand-soft);
     box-shadow: none;
   }
@@ -311,10 +301,8 @@
   // deliberately narrower than the variant rules above so normal trees retain
   // their Ink and mobile surfaces.
   .qds-ui.qds-theme-light.qds-variant-ink .q-tree.q-tree--dark,
-  .qds-ui.qds-theme-light.qds-variant-feather .q-tree.q-tree--dark,
   .qds-ui.qds-theme-light.qds-variant-mobile .q-tree.q-tree--dark,
   .qds-ui.qds-theme-light .qds-variant-ink .q-tree.q-tree--dark,
-  .qds-ui.qds-theme-light .qds-variant-feather .q-tree.q-tree--dark,
   .qds-ui.qds-theme-light .qds-variant-mobile .q-tree.q-tree--dark {
     background: var(--qds-text-strong);
     color: var(--qds-surface-0);

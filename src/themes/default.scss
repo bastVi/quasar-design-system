@@ -70,6 +70,7 @@
   // Palette, geometry, and chrome overrides must settle before aliases are
   // re-emitted; this keeps a nested variant from retaining a prior scheme.
   @include qds-derived-tokens;
+  @include fallbacks.qds-semantic-tokens(if($dark, tokens.$dark-semantic, tokens.$light-semantic));
 
   @if map.has-key(map.get(tokens.$variants, $variant), '#{$component-prefix}soft-brand') {
     @include fallbacks.qds-soft-surfaces((
@@ -120,6 +121,7 @@
   :root {
     color-scheme: light;
     @include qds-derived-tokens;
+    @include fallbacks.qds-semantic-tokens(tokens.$light-semantic);
   }
 
   .qds-theme-dark,
@@ -168,23 +170,19 @@
     --qds-card-header-surface-mix: #{map.get(map.get(tokens.$components, card), dark-header-surface-mix)};
     @include qds-derived-tokens;
     @include fallbacks.qds-soft-surfaces(tokens.$dark-soft-surfaces);
+    @include fallbacks.qds-semantic-tokens(tokens.$dark-semantic);
   }
 
-  .qds-variant-ink,
-  .qds-variant-feather {
+  .qds-variant-ink {
     --qds-font-family: #{qds-variant-token(ink, font-family)};
     --qds-font-family-display: #{qds-variant-token(ink, font-family-display)};
     @include qds-variant-scheme(ink);
   }
 
   .qds-theme-dark.qds-variant-ink,
-  .qds-theme-dark.qds-variant-feather,
   .qds-theme-dark .qds-variant-ink,
-  .qds-theme-dark .qds-variant-feather,
   body.qds-ui.body--dark.qds-variant-ink,
-  body.qds-ui.body--dark.qds-variant-feather,
-  body.qds-ui.body--dark .qds-variant-ink,
-  body.qds-ui.body--dark .qds-variant-feather {
+  body.qds-ui.body--dark .qds-variant-ink {
     @include qds-variant-scheme(ink, true);
   }
 

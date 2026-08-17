@@ -6,7 +6,7 @@
   // Base footer surface — mirrors the shared marginal background/text tokens.
   .qds-ui .q-footer.q-footer {
     background: var(--qds-toolbar-bg);
-    color: var(--qds-text);
+    color: var(--qds-fg-default);
     box-shadow: none !important;
   }
 
@@ -15,7 +15,7 @@
   // over the toolbar's blanket border-bottom on .q-layout__section--marginal.
   .qds-ui .q-layout__section--marginal.q-footer {
     border-bottom: 0;
-    border-top: var(--qds-border-width-control) solid var(--qds-border-subtle);
+    border-top: var(--qds-border-width-control) solid var(--qds-stroke-subtle);
   }
 
   // QPageSticky / QPageScroller: keep wrappers transparent so they don't occlude
@@ -47,9 +47,7 @@
   }
 
   .qds-ui.qds-variant-ink .q-footer.q-footer,
-  .qds-ui.qds-variant-feather .q-footer.q-footer,
-  .qds-ui .qds-variant-ink .q-footer.q-footer,
-  .qds-ui .qds-variant-feather .q-footer.q-footer {
+  .qds-ui .qds-variant-ink .q-footer.q-footer {
     background: var(--qds-surface-0);
     border-top-color: var(--qds-separator-color);
   }

@@ -2,7 +2,7 @@
   .qds-ui .q-rating.q-rating {
     display: inline-flex;
     align-items: center;
-    color: color-mix(in srgb, var(--qds-color-accent) 82%, var(--qds-text-muted));
+    color: color-mix(in srgb, var(--qds-color-accent) 82%, var(--qds-fg-muted));
     line-height: 1;
     vertical-align: middle;
   }
@@ -81,23 +81,17 @@
   }
 
   .qds-ui.qds-variant-ink .q-rating.q-rating,
-  .qds-ui.qds-variant-feather .q-rating.q-rating,
-  .qds-ui .qds-variant-ink .q-rating.q-rating,
-  .qds-ui .qds-variant-feather .q-rating.q-rating {
+  .qds-ui .qds-variant-ink .q-rating.q-rating {
     color: var(--qds-color-accent);
   }
 
   .qds-ui.qds-variant-ink .q-rating.q-rating:not(.q-rating--no-dimming):not(.disabled) .q-rating__icon:not(.q-rating__icon--active):not(.q-rating__icon--exselected):not(.q-rating__icon--hovered),
-  .qds-ui.qds-variant-feather .q-rating.q-rating:not(.q-rating--no-dimming):not(.disabled) .q-rating__icon:not(.q-rating__icon--active):not(.q-rating__icon--exselected):not(.q-rating__icon--hovered),
-  .qds-ui .qds-variant-ink .q-rating.q-rating:not(.q-rating--no-dimming):not(.disabled) .q-rating__icon:not(.q-rating__icon--active):not(.q-rating__icon--exselected):not(.q-rating__icon--hovered),
-  .qds-ui .qds-variant-feather .q-rating.q-rating:not(.q-rating--no-dimming):not(.disabled) .q-rating__icon:not(.q-rating__icon--active):not(.q-rating__icon--exselected):not(.q-rating__icon--hovered) {
+  .qds-ui .qds-variant-ink .q-rating.q-rating:not(.q-rating--no-dimming):not(.disabled) .q-rating__icon:not(.q-rating__icon--active):not(.q-rating__icon--exselected):not(.q-rating__icon--hovered) {
     opacity: 0.28;
   }
 
   .qds-ui.qds-variant-ink .q-rating.q-rating.disabled .q-rating__icon,
-  .qds-ui.qds-variant-feather .q-rating.q-rating.disabled .q-rating__icon,
-  .qds-ui .qds-variant-ink .q-rating.q-rating.disabled .q-rating__icon,
-  .qds-ui .qds-variant-feather .q-rating.q-rating.disabled .q-rating__icon {
+  .qds-ui .qds-variant-ink .q-rating.q-rating.disabled .q-rating__icon {
     opacity: 0.2;
   }
 }

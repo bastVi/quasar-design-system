@@ -1,33 +1,33 @@
 @mixin styles {
   .qds-ui .q-table__container.q-table__container {
-    --qds-table-header-bg: var(--qds-surface-1);
-    --qds-table-header-text: var(--qds-text-muted);
+    --qds-table-header-bg: var(--qds-bg-surface-1);
+    --qds-table-header-text: var(--qds-fg-muted);
     --qds-table-row-hover-bg: var(--qds-surface-brand-soft);
     --qds-table-selected-bg: var(--qds-surface-focus-block);
     --qds-table-sort-icon: var(--qds-color-primary);
 
     overflow: hidden;
-    background: var(--qds-surface-0);
+    background: var(--qds-bg-canvas);
     border-radius: var(--qds-card-radius);
-    color: var(--qds-text);
+    color: var(--qds-fg-default);
   }
 
   .qds-ui .q-table__container.q-table--bordered,
   .qds-ui .q-table__container.qds-table--bordered {
-    border: var(--qds-border-width-control) solid var(--qds-card-border-strong);
+    border: var(--qds-border-width-control) solid var(--qds-stroke-default);
   }
 
   .qds-ui .q-table__top,
   .qds-ui .q-table__bottom {
     min-height: 3rem;
     padding: var(--qds-space-sm) var(--qds-space-md);
-    color: var(--qds-text-muted);
-    background: var(--qds-surface-1);
+    color: var(--qds-fg-muted);
+    background: var(--qds-bg-surface-1);
   }
 
-  .qds-ui .q-table__top { border-block-end: var(--qds-border-width-control) solid var(--qds-separator-color); }
-  .qds-ui .q-table__bottom { border-block-start: var(--qds-border-width-control) solid var(--qds-separator-color); }
-  .qds-ui .q-table.q-table { background: transparent; color: var(--qds-text); }
+  .qds-ui .q-table__top { border-block-end: var(--qds-border-width-control) solid var(--qds-stroke-divider); }
+  .qds-ui .q-table__bottom { border-block-start: var(--qds-border-width-control) solid var(--qds-stroke-divider); }
+  .qds-ui .q-table.q-table { background: transparent; color: var(--qds-fg-default); }
   .qds-ui .q-table.q-table thead tr { background: var(--qds-table-header-bg); }
 
   .qds-ui .q-table.q-table th {
@@ -37,13 +37,13 @@
     font-weight: var(--qds-font-weight-semibold);
     letter-spacing: 0.005em;
     text-transform: none;
-    border-color: var(--qds-separator-color);
+    border-color: var(--qds-stroke-divider);
   }
 
   .qds-ui .q-table.q-table td {
     height: var(--qds-table-row-height);
-    color: var(--qds-text);
-    border-color: var(--qds-separator-color);
+    color: var(--qds-fg-default);
+    border-color: var(--qds-stroke-divider);
   }
 
   .qds-ui .q-table.q-table tbody tr { transition: background-color var(--qds-motion-fast); }
@@ -51,7 +51,7 @@
   .qds-ui .q-table.q-table tbody tr.selected { background: var(--qds-table-selected-bg); }
   .qds-ui .q-table.q-table tbody tr.selected:hover { background: color-mix(in srgb, var(--qds-table-selected-bg) 84%, var(--qds-color-primary)); }
   .qds-ui .q-table.q-table th.sortable:hover,
-  .qds-ui .q-table.q-table th.sorted { color: var(--qds-text-strong); }
+  .qds-ui .q-table.q-table th.sorted { color: var(--qds-fg-strong); }
   .qds-ui .q-table.q-table th .q-table__sort-icon { color: var(--qds-table-sort-icon); }
   .qds-ui .q-table--dense.q-table th,
   .qds-ui .q-table--dense.q-table td { height: max(2rem, calc(var(--qds-table-row-height) - 0.75rem)); }
@@ -61,7 +61,7 @@
   // retain the card clipping or rounded corners from its in-page presentation.
   .qds-ui .q-table__container.q-table__container.fullscreen {
     overflow: auto;
-    background: var(--qds-surface-0);
+    background: var(--qds-bg-canvas);
     border-radius: 0;
   }
 
@@ -71,59 +71,57 @@
   // The component-level `dark` prop is independent from the QDS document mode.
   // Keep that explicit Quasar branch dark when it appears inside a light QDS page.
   .qds-ui.qds-theme-light .q-table__container.q-table--dark {
-    --qds-table-header-bg: color-mix(in srgb, var(--qds-text-strong) 94%, var(--qds-surface-0));
-    --qds-table-header-text: var(--qds-surface-0);
-    --qds-table-row-hover-bg: color-mix(in srgb, var(--qds-surface-0) 9%, var(--qds-text-strong));
-    --qds-table-selected-bg: color-mix(in srgb, var(--qds-color-primary) 48%, var(--qds-text-strong));
-    background: var(--qds-text-strong);
-    color: var(--qds-surface-0);
+    --qds-table-header-bg: color-mix(in srgb, var(--qds-fg-strong) 94%, var(--qds-bg-canvas));
+    --qds-table-header-text: var(--qds-bg-canvas);
+    --qds-table-row-hover-bg: color-mix(in srgb, var(--qds-bg-canvas) 9%, var(--qds-fg-strong));
+    --qds-table-selected-bg: color-mix(in srgb, var(--qds-color-primary) 48%, var(--qds-fg-strong));
+    background: var(--qds-fg-strong);
+    color: var(--qds-bg-canvas);
   }
 
   .qds-ui.qds-theme-light .q-table__container.q-table--dark .q-table__top,
   .qds-ui.qds-theme-light .q-table__container.q-table--dark .q-table__bottom {
-    color: color-mix(in srgb, var(--qds-surface-0) 72%, var(--qds-text-muted));
-    background: color-mix(in srgb, var(--qds-text-strong) 96%, var(--qds-surface-0));
-    border-color: color-mix(in srgb, var(--qds-surface-0) 14%, transparent);
+    color: color-mix(in srgb, var(--qds-bg-canvas) 72%, var(--qds-fg-muted));
+    background: color-mix(in srgb, var(--qds-fg-strong) 96%, var(--qds-bg-canvas));
+    border-color: color-mix(in srgb, var(--qds-bg-canvas) 14%, transparent);
   }
 
   .qds-ui.qds-theme-light .q-table__container.q-table--dark .q-table.q-table td {
-    color: var(--qds-surface-0);
-    border-color: color-mix(in srgb, var(--qds-surface-0) 12%, transparent);
+    color: var(--qds-bg-canvas);
+    border-color: color-mix(in srgb, var(--qds-bg-canvas) 12%, transparent);
   }
 
   .qds-ui.qds-theme-light .q-table__container.q-table--dark .q-table.q-table th {
     color: var(--qds-table-header-text);
-    border-color: color-mix(in srgb, var(--qds-surface-0) 12%, transparent);
+    border-color: color-mix(in srgb, var(--qds-bg-canvas) 12%, transparent);
   }
 
   .qds-ui.qds-theme-light .q-table__container.q-table--dark .qds-text-strong,
   .qds-ui.qds-theme-light .q-table__container.q-table--dark .q-field.q-field,
   .qds-ui.qds-theme-light .q-table__container.q-table--dark .q-field.q-field .q-field__native,
   .qds-ui.qds-theme-light .q-table__container.q-table--dark .q-field.q-field .q-field__input {
-    color: var(--qds-surface-0);
+    color: var(--qds-bg-canvas);
   }
 
   .qds-ui.qds-theme-light .q-table__container.q-table--dark .qds-text-muted,
   .qds-ui.qds-theme-light .q-table__container.q-table--dark .q-field.q-field .q-field__label {
-    color: color-mix(in srgb, var(--qds-surface-0) 70%, var(--qds-text-muted));
+    color: color-mix(in srgb, var(--qds-bg-canvas) 70%, var(--qds-fg-muted));
   }
 
   .qds-ui.qds-theme-light .q-table__container.q-table--dark .q-field--outlined .q-field__control::before {
-    border-color: color-mix(in srgb, var(--qds-surface-0) 56%, transparent);
+    border-color: color-mix(in srgb, var(--qds-bg-canvas) 56%, transparent);
   }
 
   // A table composed inside a card shares its parent's edge and only keeps row rhythm.
   .qds-ui .q-card.q-card > .q-card__section + .q-table__container.q-table__container {
     background: transparent;
     border: 0;
-    border-block-start: var(--qds-border-width-control) solid var(--qds-separator-color);
+    border-block-start: var(--qds-border-width-control) solid var(--qds-stroke-divider);
     border-radius: 0;
   }
 
   .qds-ui.qds-variant-ink .q-table__container.q-table__container,
-  .qds-ui.qds-variant-feather .q-table__container.q-table__container,
-  .qds-ui .qds-variant-ink .q-table__container.q-table__container,
-  .qds-ui .qds-variant-feather .q-table__container.q-table__container {
+  .qds-ui .qds-variant-ink .q-table__container.q-table__container {
     --qds-table-header-bg: var(--qds-surface-accent-soft);
     --qds-table-row-hover-bg: var(--qds-surface-brand-soft);
     --qds-table-selected-bg: var(--qds-surface-focus-block);
@@ -131,9 +129,7 @@
   }
 
   .qds-ui.qds-variant-ink .q-table.q-table tbody tr.selected,
-  .qds-ui.qds-variant-feather .q-table.q-table tbody tr.selected,
-  .qds-ui .qds-variant-ink .q-table.q-table tbody tr.selected,
-  .qds-ui .qds-variant-feather .q-table.q-table tbody tr.selected {
+  .qds-ui .qds-variant-ink .q-table.q-table tbody tr.selected {
     box-shadow: inset 0.1875rem 0 0 var(--qds-color-primary);
   }
 
@@ -161,16 +157,14 @@
   // prop keeps its component-level contrast when a light Ink or mobile page
   // applies its later variant surface.
   .qds-ui.qds-theme-light.qds-variant-ink .q-table__container.q-table--dark,
-  .qds-ui.qds-theme-light.qds-variant-feather .q-table__container.q-table--dark,
   .qds-ui.qds-theme-light.qds-variant-mobile .q-table__container.q-table--dark,
   .qds-ui.qds-theme-light .qds-variant-ink .q-table__container.q-table--dark,
-  .qds-ui.qds-theme-light .qds-variant-feather .q-table__container.q-table--dark,
   .qds-ui.qds-theme-light .qds-variant-mobile .q-table__container.q-table--dark {
-    --qds-table-header-bg: color-mix(in srgb, var(--qds-text-strong) 94%, var(--qds-surface-0));
-    --qds-table-header-text: var(--qds-surface-0);
-    --qds-table-row-hover-bg: color-mix(in srgb, var(--qds-surface-0) 9%, var(--qds-text-strong));
-    --qds-table-selected-bg: color-mix(in srgb, var(--qds-color-primary) 48%, var(--qds-text-strong));
-    background: var(--qds-text-strong);
-    color: var(--qds-surface-0);
+    --qds-table-header-bg: color-mix(in srgb, var(--qds-fg-strong) 94%, var(--qds-bg-canvas));
+    --qds-table-header-text: var(--qds-bg-canvas);
+    --qds-table-row-hover-bg: color-mix(in srgb, var(--qds-bg-canvas) 9%, var(--qds-fg-strong));
+    --qds-table-selected-bg: color-mix(in srgb, var(--qds-color-primary) 48%, var(--qds-fg-strong));
+    background: var(--qds-fg-strong);
+    color: var(--qds-bg-canvas);
   }
 }

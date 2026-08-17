@@ -47,9 +47,7 @@
   .qds-button-row--tight { gap: var(--qds-space-xs); }
 
   .qds-ui.qds-variant-ink .qds-card,
-  .qds-ui.qds-variant-feather .qds-card,
   .qds-ui .qds-variant-ink .qds-card,
-  .qds-ui .qds-variant-feather .qds-card { background: var(--qds-surface-brand-soft); }
   .qds-ui.qds-variant-mobile .qds-card,
   .qds-ui .qds-variant-mobile .qds-card { background: var(--qds-surface-focus-block); border: var(--qds-border-width-control) solid var(--qds-separator-color); }
 }
