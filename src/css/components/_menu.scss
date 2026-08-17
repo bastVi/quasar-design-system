@@ -14,8 +14,8 @@
 
   .qds-ui .q-menu.q-menu .q-item.q-item {
     min-height: var(--qds-menu-item-min-height);
-    margin: 2px 0;
-    border-radius: calc(var(--qds-radius-control) - 2px);
+    margin-block: var(--qds-row-gap);
+    border-radius: var(--qds-row-radius);
     color: var(--qds-fg-default);
     transition:
       background-color var(--qds-motion-fast),

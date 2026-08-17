@@ -27,7 +27,7 @@
 
   .qds-ui .q-drawer.q-drawer .q-item.q-item {
     min-height: 2.75rem;
-    margin-block: 2px;
+    margin-block: var(--qds-row-gap);
   }
 
   .qds-ui .q-layout__shadow::after {

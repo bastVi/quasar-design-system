@@ -113,6 +113,18 @@
   --qds-field-size-sm: 2.5rem;
   --qds-field-size-md: 3rem;
   --qds-field-size-lg: 3.5rem;
+  --qds-field-label-size-rest: 0.875rem;
+  --qds-field-label-size-float: 0.75rem;
+  --qds-field-label-gap: 0.5rem;
+  --qds-field-label-column: 8rem;
+  --qds-field-value-inset-block-start: 1.25rem;
+  --qds-field-value-inset-block-end: 0.5rem;
+  --qds-field-value-inset-block-start-dense: 1rem;
+  --qds-field-value-inset-block-end-dense: 0.375rem;
+  --qds-field-transition: var(--qds-motion-fast);
+  --qds-row-gap: 0.125rem;
+  --qds-row-radius: var(--qds-radius-sm);
+  --qds-row-inset: var(--qds-space-sm);
   --qds-button-min-height: var(--qds-control-size-md);
   --qds-button-dense-min-height: var(--qds-control-size-sm);
   --qds-button-round-size: var(--qds-control-size-md);

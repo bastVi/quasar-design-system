@@ -34,6 +34,10 @@
     color: var(--qds-fg-default);
   }
 
+  .qds-ui .q-field.q-field--labeled:not(.q-textarea) .q-field__control-container {
+    position: relative;
+  }
+
   // When the label is floated (focused or has a value), push input text below it.
   .qds-ui .q-field.q-field--labeled.q-field--float:not(.q-textarea) .q-field__native,
   .qds-ui .q-field.q-field--labeled.q-field--focused:not(.q-textarea) .q-field__native,
@@ -41,7 +45,7 @@
   .qds-ui .q-field.q-field--labeled.q-field--focused:not(.q-textarea) .q-field__prefix,
   .qds-ui .q-field.q-field--labeled.q-field--float:not(.q-textarea) .q-field__suffix,
   .qds-ui .q-field.q-field--labeled.q-field--focused:not(.q-textarea) .q-field__suffix {
-    padding-block: 1.25rem 0.5rem;
+    padding-block: var(--qds-field-value-inset-block-start) var(--qds-field-value-inset-block-end);
   }
 
   .qds-ui .q-field.q-field--dense.q-field--labeled.q-field--float:not(.q-textarea) .q-field__native,
@@ -50,7 +54,7 @@
   .qds-ui .q-field.q-field--dense.q-field--labeled.q-field--focused:not(.q-textarea) .q-field__prefix,
   .qds-ui .q-field.q-field--dense.q-field--labeled.q-field--float:not(.q-textarea) .q-field__suffix,
   .qds-ui .q-field.q-field--dense.q-field--labeled.q-field--focused:not(.q-textarea) .q-field__suffix {
-    padding-block: 1rem 0.375rem;
+    padding-block: var(--qds-field-value-inset-block-start-dense) var(--qds-field-value-inset-block-end-dense);
   }
 
   // Label at rest: centered vertically in the control (Quasar's floating label).
@@ -58,8 +62,15 @@
     top: 50%;
     transform: translateY(-50%);
     color: var(--qds-fg-muted);
-    font-size: var(--qds-field-label-size);
+    font-size: var(--qds-field-label-size-rest);
     line-height: 1;
+    transition:
+      top var(--qds-field-transition),
+      transform var(--qds-field-transition),
+      font-size var(--qds-field-transition),
+      color var(--qds-field-transition),
+      background-color var(--qds-field-transition),
+      padding var(--qds-field-transition);
   }
 
   // Label floated: sits on the top border of the control.
@@ -67,7 +78,7 @@
   .qds-ui .q-field.q-field--focused .q-field__label {
     top: 0;
     transform: translateY(-50%);
-    font-size: var(--qds-field-label-size);
+    font-size: var(--qds-field-label-size-float);
     color: var(--qds-stroke-focus);
   }
 
@@ -75,6 +86,97 @@
   .qds-ui .q-field--filled.q-field--focused .q-field__label {
     top: var(--qds-space-xs);
     transform: none;
+  }
+
+  // Explicit default alias. Keeping the class in the contract makes the
+  // intended Fluent behavior inspectable while unclassed QFields remain
+  // compatible with the same animated treatment.
+  .qds-ui .q-field.qds-field--float .q-field__label {
+    transition-duration: var(--qds-field-transition);
+  }
+
+  // Stacked labels keep the label inside the control's upper band. This avoids
+  // changing Quasar's accessible label/input relationship while providing the
+  // predictable top-label form anatomy.
+  .qds-ui .q-field.qds-field--stacked .q-field__control-container,
+  .qds-ui .q-field.qds-field--stacked-animated .q-field__control-container {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    align-content: center;
+    row-gap: var(--qds-field-label-gap);
+  }
+
+  .qds-ui .q-field.qds-field--stacked .q-field__label,
+  .qds-ui .q-field.qds-field--stacked-animated .q-field__label {
+    position: static;
+    grid-row: 1;
+    width: auto;
+    max-width: none;
+    padding: 0;
+    margin: 0;
+    transform: none;
+    background: transparent;
+    font-size: var(--qds-field-label-size-rest);
+    line-height: 1.25;
+  }
+
+  .qds-ui .q-field.qds-field--stacked .q-field__native,
+  .qds-ui .q-field.qds-field--stacked .q-field__input {
+    grid-row: 2;
+    align-self: center;
+    padding-block: 0;
+  }
+
+  .qds-ui .q-field.qds-field--stacked-animated.q-field--float .q-field__native,
+  .qds-ui .q-field.qds-field--stacked-animated.q-field--focused .q-field__native,
+  .qds-ui .q-field.qds-field--stacked-animated.q-field--float .q-field__input,
+  .qds-ui .q-field.qds-field--stacked-animated.q-field--focused .q-field__input {
+    grid-row: 2;
+    align-self: center;
+    padding-block: var(--qds-field-value-inset-block-start) var(--qds-field-value-inset-block-end);
+  }
+
+  .qds-ui .q-field.qds-field--stacked-animated.q-field--float .q-field__label,
+  .qds-ui .q-field.qds-field--stacked-animated.q-field--focused .q-field__label {
+    position: absolute;
+    inset-block-start: var(--qds-space-xs);
+    inset-inline-start: 0;
+    grid-row: auto;
+    font-size: var(--qds-field-label-size-float);
+    color: var(--qds-stroke-focus);
+  }
+
+  // Start labels are aligned against a shared inherited column. The label is
+  // taken out of the control flow only for this explicit form layout.
+  .qds-ui .q-field.qds-field--start {
+    display: block;
+    position: relative;
+  }
+
+  .qds-ui .q-field.qds-field--start .q-field__control-container {
+    position: static;
+  }
+
+  .qds-ui .q-field.qds-field--start .q-field__inner {
+    margin-inline-start: calc(var(--qds-field-label-column) + var(--qds-field-label-gap));
+  }
+
+  .qds-ui .q-field.qds-field--start .q-field__label {
+    position: absolute;
+    inset-inline-start: calc(-1 * (var(--qds-field-label-column) + var(--qds-field-label-gap) + var(--qds-field-padding-inline)));
+    top: 50%;
+    width: var(--qds-field-label-column);
+    max-width: var(--qds-field-label-column);
+    transform: translateY(-50%);
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    line-height: 1.25;
+  }
+
+  .qds-ui .q-field.qds-field--start .q-field__bottom {
+    margin-inline-start: calc(-1 * (var(--qds-field-label-column) + var(--qds-field-label-gap)));
+    padding-inline-start: calc(var(--qds-field-label-column) + var(--qds-field-label-gap));
   }
 
   .qds-ui .q-field.q-field--dense .q-field__label {
@@ -123,7 +225,7 @@
     max-width: calc(100% - 1.5rem);
     padding: 0 var(--qds-space-xs);
     margin-inline-start: calc(-1 * var(--qds-space-xs));
-    background: var(--qds-bg-canvas);
+    background: var(--qds-field-label-bg) !important;
     border-radius: var(--qds-radius-xs);
     line-height: 1.2;
   }

@@ -152,21 +152,21 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
       <div class="row q-col-gutter-md">
         <div class="col-12 col-sm-6">
           <div data-test="qds-control-input">
-            <q-input v-model="text" name="components-outlined" label="Outlined" outlined clearable class="q-mb-md" />
+            <q-input v-model="text" name="components-outlined" label="Outlined" outlined clearable class="qds-field--float q-mb-md" />
           </div>
-          <q-input model-value="Search" name="components-search" label="With icon" outlined class="q-mb-md">
+          <q-input model-value="Search" name="components-search" label="With icon" outlined class="qds-field--float q-mb-md">
             <template #prepend><PhMagnifyingGlass :size="18" weight="regular" /></template>
           </q-input>
           <div data-test="qds-control-input-filled">
-            <q-input model-value="" name="components-filled" label="Filled" filled class="q-mb-md" />
+            <q-input model-value="" name="components-filled" label="Filled" filled class="qds-field--float q-mb-md" />
           </div>
           <div data-test="qds-control-input-error">
-            <q-input model-value="" name="components-error" label="With error" outlined error error-message="Required field" />
+            <q-input model-value="" name="components-error" label="With error" outlined error error-message="Required field" class="qds-field--float" />
           </div>
         </div>
         <div class="col-12 col-sm-6">
           <div data-test="qds-control-select">
-            <q-select v-model="select" name="components-select" :options="selectOptions" label="Outlined select" outlined class="q-mb-md" />
+            <q-select v-model="select" name="components-select" :options="selectOptions" label="Outlined select" outlined class="qds-field--float q-mb-md" />
           </div>
           <div data-test="qds-control-select-multiple">
             <q-select
@@ -177,15 +177,32 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
               filled
               multiple
               use-chips
-              class="q-mb-md"
+              class="qds-field--float q-mb-md"
             />
           </div>
           <div data-test="qds-control-select-dense">
-            <q-select v-model="select" name="components-select-dense" :options="selectOptions" label="Dense select" outlined dense class="q-mb-md" />
+            <q-select v-model="select" name="components-select-dense" :options="selectOptions" label="Dense select" outlined dense class="qds-field--float q-mb-md" />
           </div>
           <div data-test="qds-control-input-disabled">
-            <q-input model-value="" name="components-disabled" label="Disabled" outlined disable />
+            <q-input model-value="" name="components-disabled" label="Disabled" outlined disable class="qds-field--float" />
           </div>
+        </div>
+
+        <div class="col-12 qds-field-demo-grid q-mt-md">
+          <div data-test="qds-field-stacked-animated">
+            <div class="qds-text-muted q-mb-xs">Animated top label</div>
+            <q-input model-value="Filled value" name="components-stacked-animated" label="Animated top" outlined class="qds-field--stacked-animated" />
+          </div>
+          <div data-test="qds-field-stacked">
+            <div class="qds-text-muted q-mb-xs">Static stacked label</div>
+            <q-input model-value="" name="components-stacked" label="Stacked label" outlined class="qds-field--stacked" />
+          </div>
+        </div>
+
+        <div class="col-12 qds-form--label-start qds-form--label-start-md" data-test="qds-field-start-form">
+          <div class="qds-text-muted">Aligned start labels</div>
+          <q-input model-value="" name="components-start-first" label="First name" outlined class="qds-field--start" />
+          <q-input model-value="" name="components-start-last" label="Last name" outlined class="qds-field--start" />
         </div>
       </div>
     </q-card>

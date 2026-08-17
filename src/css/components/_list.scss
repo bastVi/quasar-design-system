@@ -6,7 +6,7 @@
   .qds-ui .q-item.q-item {
     position: relative;
     min-height: var(--qds-list-item-min-height);
-    border-radius: calc(var(--qds-radius-control) - 2px);
+    border-radius: var(--qds-row-radius);
     color: var(--qds-fg-default);
     transition:
       background-color var(--qds-motion-fast),

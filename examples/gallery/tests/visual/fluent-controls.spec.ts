@@ -121,10 +121,75 @@ test.describe('Fluent control geometry and Phosphor icon contract', () => {
     })
   }
 
+  test('supports animated float, animated stacked, static stacked, and aligned start-label variants', async ({ page }) => {
+    await page.goto('/#components')
+    await page.setViewportSize({ width: 1280, height: 900 })
+    await applyTheme(page, 'light', 'fluent')
+
+    const floatField = page.locator('[data-test="qds-control-input"] > .q-field')
+    await expect(floatField).toHaveClass(/qds-field--float/)
+
+    const restMetrics = await floatField.evaluate((field) => {
+      const control = field.querySelector('.q-field__control')!.getBoundingClientRect()
+      const label = field.querySelector('.q-field__label')!.getBoundingClientRect()
+      return Math.abs((label.top + label.height / 2) - (control.top + control.height / 2))
+    })
+    expect(restMetrics, 'default empty label is centered in the field').toBeLessThanOrEqual(1)
+
+    const animatedStacked = page.locator('[data-test="qds-field-stacked-animated"] > .q-field')
+    const staticStacked = page.locator('[data-test="qds-field-stacked"] > .q-field')
+    await expect(animatedStacked).toHaveClass(/qds-field--stacked-animated/)
+    await expect(staticStacked).toHaveClass(/qds-field--stacked/)
+
+    const stackedMetrics = await staticStacked.evaluate((field) => {
+      const control = field.querySelector('.q-field__control')!.getBoundingClientRect()
+      const label = field.querySelector('.q-field__label')!.getBoundingClientRect()
+      const native = field.querySelector('.q-field__native')!.getBoundingClientRect()
+      return {
+        labelBeforeValue: label.bottom <= native.top + 1,
+        controlHeight: control.height,
+      }
+    })
+    expect(stackedMetrics.labelBeforeValue, 'static stacked label precedes the value').toBe(true)
+    expect(stackedMetrics.controlHeight, 'static stacked control keeps a deliberate field height').toBeGreaterThanOrEqual(48)
+
+    const startFields = page.locator('[data-test="qds-field-start-form"] .qds-field--start')
+    const startMetrics = await startFields.evaluateAll((fields) => fields.map((field) => {
+      const label = field.querySelector('.q-field__label')!.getBoundingClientRect()
+      const control = field.querySelector('.q-field__control')!.getBoundingClientRect()
+      return { labelRight: label.right, controlLeft: control.left, labelTop: label.top }
+    }))
+    expect(startMetrics).toHaveLength(2)
+    expect(Math.abs(startMetrics[0].labelRight - startMetrics[1].labelRight), 'start labels share one column').toBeLessThanOrEqual(1)
+    expect(Math.abs(startMetrics[0].controlLeft - startMetrics[1].controlLeft), 'start controls share one column').toBeLessThanOrEqual(1)
+  })
+
+  test('keeps field variants responsive across supported widths', async ({ page }) => {
+    for (const width of [320, 375, 390, 768, 1280, 1920]) {
+      await page.setViewportSize({ width, height: width < 768 ? 844 : 900 })
+      await page.goto('/#components')
+      await applyTheme(page, 'light', 'fluent')
+
+      const layout = await page.evaluate(() => ({
+        viewport: window.innerWidth,
+        documentWidth: document.documentElement.scrollWidth,
+        startLabelPosition: getComputedStyle(document.querySelector('[data-test="qds-field-start-form"] .qds-field--start .q-field__label')!).position,
+      }))
+
+      expect(layout.documentWidth, `${width}px field gallery has no horizontal overflow`).toBeLessThanOrEqual(layout.viewport + 1)
+      if (width < 720) {
+        expect(layout.startLabelPosition, `${width}px start labels collapse into the field flow`).toBe('static')
+      } else {
+        expect(layout.startLabelPosition, `${width}px start labels use the shared side column`).toBe('absolute')
+      }
+    }
+  })
+
   for (const mode of ['light', 'dark'] as const satisfies readonly Mode[]) {
     test(`${mode} standalone outlined field label masks the outline with the public label-bg token`, async ({ page }) => {
       await page.goto('/#components')
       await applyTheme(page, mode, 'fluent')
+      await page.waitForTimeout(150)
 
       const fixture = page.locator('[data-test="qds-control-input-standalone"]')
       const label = fixture.locator('.q-field__label')

@@ -2,8 +2,8 @@
   .qds-ui .q-table__container.q-table__container {
     --qds-table-header-bg: var(--qds-bg-surface-1);
     --qds-table-header-text: var(--qds-fg-muted);
-    --qds-table-row-hover-bg: var(--qds-surface-brand-soft);
-    --qds-table-selected-bg: var(--qds-surface-focus-block);
+    --qds-table-row-hover-bg: var(--qds-state-hover);
+    --qds-table-selected-bg: var(--qds-state-selected);
     --qds-table-sort-icon: var(--qds-color-primary);
 
     overflow: hidden;
@@ -49,7 +49,7 @@
   .qds-ui .q-table.q-table tbody tr { transition: background-color var(--qds-motion-fast); }
   .qds-ui .q-table.q-table tbody tr:hover { background: var(--qds-table-row-hover-bg); }
   .qds-ui .q-table.q-table tbody tr.selected { background: var(--qds-table-selected-bg); }
-  .qds-ui .q-table.q-table tbody tr.selected:hover { background: color-mix(in srgb, var(--qds-table-selected-bg) 84%, var(--qds-color-primary)); }
+  .qds-ui .q-table.q-table tbody tr.selected:hover { background: var(--qds-table-selected-bg); }
   .qds-ui .q-table.q-table th.sortable:hover,
   .qds-ui .q-table.q-table th.sorted { color: var(--qds-fg-strong); }
   .qds-ui .q-table.q-table th .q-table__sort-icon { color: var(--qds-table-sort-icon); }
