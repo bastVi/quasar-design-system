@@ -34,7 +34,7 @@
   .qds-ui .q-option-group.q-option-group .q-checkbox,
   .qds-ui .q-option-group.q-option-group .q-radio,
   .qds-ui .q-option-group.q-option-group .q-toggle {
-    min-height: 2.5rem;
+    min-height: var(--qds-list-item-min-height);
     padding: 0 var(--qds-space-xs);
     border-radius: var(--qds-radius-control);
     transition: background-color var(--qds-motion-fast);

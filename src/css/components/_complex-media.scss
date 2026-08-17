@@ -105,7 +105,7 @@
   .qds-ui .q-editor.q-editor.q-editor--focused,
   .qds-ui .q-editor.q-editor:focus-within { border-color: var(--qds-color-primary); box-shadow: 0 0 0 3px rgba(var(--qds-color-primary-rgb), var(--qds-focus-ring-opacity)); }
   .qds-ui .q-editor.q-editor .q-editor__toolbar { gap: var(--qds-space-xs); padding: var(--qds-space-sm); background: var(--qds-bg-surface-1); border-color: var(--qds-stroke-divider); }
-  .qds-ui .q-editor.q-editor .q-editor__toolbar-group { display: inline-flex; gap: var(--qds-space-2xs, 0.125rem); min-height: 2rem; padding-inline: var(--qds-space-xs); background: var(--qds-bg-canvas); border: var(--qds-border-width-control) solid var(--qds-stroke-divider); border-radius: var(--qds-radius-control); }
+  .qds-ui .q-editor.q-editor .q-editor__toolbar-group { display: inline-flex; gap: var(--qds-space-2xs, 0.125rem); min-height: var(--qds-control-size-sm); padding-inline: var(--qds-space-xs); background: var(--qds-bg-canvas); border: var(--qds-border-width-control) solid var(--qds-stroke-divider); border-radius: var(--qds-radius-control); }
   .qds-ui .q-editor.q-editor .q-editor__toolbar .q-btn.q-btn { color: var(--qds-fg-muted); border-radius: var(--qds-radius-control); }
   .qds-ui .q-editor.q-editor .q-editor__toolbar .q-btn.q-btn:hover,
   .qds-ui .q-editor.q-editor .q-editor__toolbar .q-btn.q-btn.q-btn--active { color: var(--qds-color-primary); background: var(--qds-surface-brand-soft); }
