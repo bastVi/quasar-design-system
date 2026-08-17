@@ -14,15 +14,15 @@
 
   .qds-ui .q-checkbox.q-checkbox,
   .qds-ui .q-radio.q-radio {
-    --qds-selection-inner-size: 2rem;
-    --qds-selection-mark-size: 1.25rem;
+    --qds-selection-inner-size: 1.5rem;
+    --qds-selection-mark-size: 1rem;
     --qds-selection-mark-offset: calc((var(--qds-selection-inner-size) - var(--qds-selection-mark-size)) / 2);
   }
 
   .qds-ui .q-checkbox.q-checkbox--dense,
   .qds-ui .q-radio.q-radio--dense {
     --qds-selection-inner-size: 1.25rem;
-    --qds-selection-mark-size: 1rem;
+    --qds-selection-mark-size: 0.875rem;
   }
 
   .qds-ui .q-checkbox.q-checkbox:not(.q-checkbox--dense) .q-checkbox__inner,
@@ -130,9 +130,9 @@
   }
 
   .qds-ui .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__inner {
-    width: 3.25rem;
-    min-width: 3.25rem;
-    height: 2rem;
+    width: 2.5rem;
+    min-width: 2.5rem;
+    height: 1.5rem;
     padding: 0;
     color: var(--qds-stroke-default);
     transform: none;
@@ -158,8 +158,8 @@
   .qds-ui .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__track {
     top: 0.25rem;
     inset-inline-start: 0.25rem;
-    width: 2.75rem;
-    height: 1.5rem;
+    width: 2rem;
+    height: 1rem;
     color: var(--qds-stroke-default);
     background: var(--qds-bg-surface-2);
     border: var(--qds-border-width-control) solid var(--qds-stroke-default);
@@ -228,7 +228,7 @@
   }
 
   .qds-ui .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__inner--truthy .q-toggle__thumb {
-    inset-inline-start: 1.5rem;
+    inset-inline-start: 0.75rem;
     color: var(--qds-stroke-focus);
   }
 
@@ -348,5 +348,25 @@
   .qds-ui .qds-variant-mobile .q-radio.q-radio:not(.q-radio--dense),
   .qds-ui .qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense) {
     min-height: 2.75rem;
+  }
+
+  // One UI keeps the larger touch target while Fluent desktop controls stay
+  // visually compact.
+  .qds-ui.qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__inner,
+  .qds-ui .qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__inner {
+    width: 3.25rem;
+    min-width: 3.25rem;
+    height: 2rem;
+  }
+
+  .qds-ui.qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__track,
+  .qds-ui .qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__track {
+    width: 2.75rem;
+    height: 1.5rem;
+  }
+
+  .qds-ui.qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__inner--truthy .q-toggle__thumb,
+  .qds-ui .qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__inner--truthy .q-toggle__thumb {
+    inset-inline-start: 1.5rem;
   }
 }

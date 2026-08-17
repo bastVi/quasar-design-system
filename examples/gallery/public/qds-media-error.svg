@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Unavailable media preview</title>
+  <desc id="desc">A neutral placeholder for media that could not be loaded.</desc>
+  <rect width="960" height="540" fill="#27272a"/>
+  <rect x="96" y="96" width="768" height="348" rx="24" fill="#3f3f46"/>
+  <path d="M432 210 528 330M528 210 432 330" fill="none" stroke="#fda4af" stroke-width="16" stroke-linecap="round"/>
+</svg>

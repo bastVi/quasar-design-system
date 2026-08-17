@@ -19,10 +19,10 @@
     color: var(--qds-fg-default) !important;
     background: var(--qds-surface-transient) !important;
     border: var(--qds-border-width-control) solid rgba(var(--qds-notify-accent-rgb), var(--qds-tonal-border-opacity));
-    border-radius: var(--qds-notification-radius) !important;
-    box-shadow: var(--qds-notification-shadow) !important;
-    backdrop-filter: blur(var(--qds-card-backdrop-blur)) saturate(var(--qds-card-backdrop-saturate));
-    -webkit-backdrop-filter: blur(var(--qds-card-backdrop-blur)) saturate(var(--qds-card-backdrop-saturate));
+    border-radius: var(--qds-radius-md) !important;
+    box-shadow: var(--qds-shadow-md) !important;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   .qds-ui .q-notification::before { content: ''; position: absolute; inset-block: 0; inset-inline-start: 0; width: 0.25rem; background: var(--qds-notify-accent); }

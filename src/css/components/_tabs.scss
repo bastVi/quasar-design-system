@@ -1,7 +1,7 @@
 @mixin styles {
   .qds-ui .q-tabs.q-tabs {
     background: transparent;
-    color: var(--qds-fg-muted);
+    color: var(--qds-fg-default);
   }
 
   .qds-ui .q-tabs.q-tabs .q-tabs__content {
@@ -14,7 +14,7 @@
     min-height: 2.75rem;
     padding-inline: var(--qds-space-md);
     border-radius: var(--qds-tab-radius);
-    color: var(--qds-fg-muted);
+    color: var(--qds-fg-default);
     background: transparent;
     box-shadow: none;
     transition:

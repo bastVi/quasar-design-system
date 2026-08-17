@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Loading media preview</title>
+  <desc id="desc">A neutral placeholder for media that is loading.</desc>
+  <rect width="960" height="540" fill="#e5e7eb"/>
+  <rect x="96" y="96" width="768" height="348" rx="24" fill="#d1d5db"/>
+  <circle cx="480" cy="270" r="48" fill="none" stroke="#64748b" stroke-width="12" stroke-linecap="round" stroke-dasharray="120 180"/>
+</svg>

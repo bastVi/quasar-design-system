@@ -9,10 +9,10 @@
     background: var(--qds-surface-transient);
     border: var(--qds-border-width-control) solid var(--qds-stroke-default);
     border-block-end: 0;
-    border-radius: var(--qds-radius-xl) var(--qds-radius-xl) 0 0;
+    border-radius: var(--qds-radius-lg) var(--qds-radius-lg) 0 0;
     box-shadow: var(--qds-shadow-md);
-    backdrop-filter: blur(var(--qds-card-backdrop-blur)) saturate(var(--qds-card-backdrop-saturate));
-    -webkit-backdrop-filter: blur(var(--qds-card-backdrop-blur)) saturate(var(--qds-card-backdrop-saturate));
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   .qds-ui .q-bottom-sheet.q-bottom-sheet--grid { width: min(44rem, calc(100vw - var(--qds-space-md) - var(--qds-space-md))); }
@@ -33,10 +33,10 @@
     color: var(--qds-fg-default) !important;
     background: var(--qds-surface-transient) !important;
     border: var(--qds-border-width-control) solid var(--qds-stroke-default);
-    border-radius: var(--qds-radius-xl);
+    border-radius: var(--qds-radius-lg);
     box-shadow: var(--qds-shadow-md);
-    backdrop-filter: blur(var(--qds-card-backdrop-blur));
-    -webkit-backdrop-filter: blur(var(--qds-card-backdrop-blur));
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
   .qds-ui .q-loading .q-loading__spinner { color: var(--qds-color-primary); }
   .qds-ui .q-loading .q-loading__message { margin: var(--qds-space-md) var(--qds-space-sm) 0; color: var(--qds-fg-muted); font-weight: var(--qds-font-weight-medium); }
