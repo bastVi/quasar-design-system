@@ -6,6 +6,46 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [0.7.0-rc.1] — 2026-08-25
+
+First public prerelease of the Fluent 2 overhaul (an intentional visual break).
+Note: `0.6.4` was published to npm without a changelog entry; the committed `0.6.5`
+was never published and is folded into this release track.
+
+### Added
+
+- Field label variant class contract: `qds-field--float` (animated center-to-border,
+  the Fluent default), `qds-field--stacked-animated`, `qds-field--stacked`,
+  `qds-field--start`, plus the `qds-form--label-start|--sm|--md|--lg` parent
+  utilities. Start labels collapse to stacked below `45rem`.
+- Semantic field geometry tokens: `--qds-field-size-sm/md/lg`,
+  `--qds-field-label-size-rest/float`, `--qds-field-label-gap`,
+  `--qds-field-label-column`, `--qds-field-value-inset-block-start/end`,
+  `--qds-field-transition`.
+- Shared row tokens `--qds-row-gap`, `--qds-row-radius`, `--qds-row-inset`, now
+  consumed by menu, list, drawer, tree, option-group, markup-table, and editor
+  toolbar styling instead of duplicated raw geometry.
+
+### Changed
+
+- **Semantic token migration** across all component families (`--qds-text` →
+  `--qds-fg-default`, etc.). Old `--qds-text*` names remain defined as aliases in
+  `src/themes/fallbacks.scss`, so existing CSS consumers keep working.
+- Reworked field anatomy: 48px normal / 40px dense outlined and filled controls,
+  vertically centered rest labels, animated border-float labels when
+  focused/filled, protected value band, no label/value overlap.
+- Tightened Fluent surface hierarchy (quieter cards with intentional hairlines),
+  compact desktop selection-control geometry, lighter transient surfaces, and
+  semantic table hover/selected state layers.
+- Removed dead `.qds-variant-feather` selectors (~211 lines); the runtime already
+  normalized `feather` → `ink`.
+
+### Fixed
+
+- Fluent light muted text darkened `#64748b` → `#5a6a80`; token-name labels and
+  all small muted text now meet WCAG 4.5:1 on every light surface
+  (surface-1 5.15:1, surface-2 4.93:1, surface-3 4.64:1).
+
 ## [0.6.3] — 2026-08-06
 
 ### Added
