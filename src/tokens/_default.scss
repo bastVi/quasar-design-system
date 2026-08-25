@@ -37,7 +37,7 @@ $dark-palette-rgb: (
 
 $light-surfaces: (0: #fffdf9, 1: #f8f7f5, 2: #f3f2f0, 3: #edebe9, glass: #fffdf9) !default;
 $dark-surfaces: (0: #1d2024, 1: #191c20, 2: #262a2f, 3: #32373e, glass: #1d2024) !default;
-$light-text: (default: #1f2937, strong: #0f172a, muted: #5a6a80) !default;
+$light-text: (default: #1f2937, strong: #0f172a, muted: #556579) !default;
 $dark-text: (default: #f4f4f5, strong: #ffffff, muted: #c4c7cf) !default;
 $light-on-fill: (primary: #ffffff, secondary: #ffffff, accent: #0f172a, positive: #0f172a, negative: #ffffff, warning: #0f172a, info: #000000) !default;
 $dark-on-fill: (primary: #102a43, secondary: #102525, accent: #26210f, positive: #15291a, negative: #351614, warning: #38200f, info: #12283a) !default;
@@ -51,7 +51,7 @@ $borders: (light: #d1cfcd, subtle: #e9e7e4, dark: #555b64, dark-subtle: #343940)
 // CSS custom properties. Components consume these semantic aliases
 // instead of raw color-mix/rgba calculations.
 $light-semantic: (
-  fg-default: #1f2937, fg-strong: #0f172a, fg-muted: #5a6a80, fg-disabled: #9ca3af,
+  fg-default: #1f2937, fg-strong: #0f172a, fg-muted: #556579, fg-disabled: #9ca3af,
   fg-on-brand: #ffffff,
   bg-canvas: #fffdf9, bg-surface-1: #f8f7f5, bg-surface-2: #f3f2f0, bg-layer: #edebe9,
   bg-flyout: #fffdf9, bg-overlay: rgba(0, 0, 0, 0.32),

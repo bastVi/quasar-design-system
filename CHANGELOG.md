@@ -42,9 +42,10 @@ was never published and is folded into this release track.
 
 ### Fixed
 
-- Fluent light muted text darkened `#64748b` → `#5a6a80`; token-name labels and
-  all small muted text now meet WCAG 4.5:1 on every light surface
-  (surface-1 5.15:1, surface-2 4.93:1, surface-3 4.64:1).
+- Fluent light muted text darkened `#64748b` → `#556579`; token-name labels,
+  list captions/overlines, and all small muted text now meet WCAG 4.5:1 on
+  every light surface including soft role washes (≥ 4.8:1 on info-tinted
+  surfaces, 4.93–7.1:1 elsewhere).
 
 ## [0.6.3] — 2026-08-06
 
