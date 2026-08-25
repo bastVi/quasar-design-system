@@ -17,6 +17,8 @@ async function applyTheme(page: Page, mode: Mode, variant: Variant) {
   await expect(page.locator('body')).toHaveClass(
     new RegExp(mode === 'dark' ? 'qds-theme-dark' : 'qds-theme-light'),
   )
+  // Class flips are instant but token-driven color transitions need ~150ms to settle.
+  await page.waitForTimeout(150)
 }
 
 async function computed(page: Page, selector: string, prop: string): Promise<string> {

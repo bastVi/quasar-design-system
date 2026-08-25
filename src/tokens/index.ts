@@ -159,6 +159,7 @@ export const QDS_TOKENS = [
   '--qds-row-gap',
   '--qds-row-radius',
   '--qds-row-inset',
+  '--qds-progress-stripe',
   '--qds-icon-size-sm',
   '--qds-icon-size-md',
   '--qds-icon-size-lg',
