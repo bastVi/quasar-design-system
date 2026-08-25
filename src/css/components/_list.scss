@@ -14,6 +14,13 @@
       box-shadow var(--qds-motion-fast);
   }
 
+  // Quasar ships raw rgba(0,0,0,…) caption/overline labels that miss WCAG 4.5:1
+  // on tinted surfaces; route them through the muted foreground token instead.
+  .qds-ui .q-list.q-list .q-item__label--caption,
+  .qds-ui .q-list.q-list .q-item__label--overline {
+    color: var(--qds-fg-muted);
+  }
+
   .qds-ui .q-item.q-item .q-focus-helper {
     display: none;
   }
