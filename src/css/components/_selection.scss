@@ -121,6 +121,8 @@
   .qds-ui .q-radio.q-radio .q-radio__check {
     fill: var(--qds-stroke-focus);
     transform-origin: 50% 50%;
+    // Fluent 2 radio dot ~60% of the ring (Quasar default resolves to ~44%; 1.36x -> ~60%).
+    transform: scale(1.36);
   }
 
   .qds-ui .q-checkbox.q-checkbox .q-focus-helper,
@@ -129,10 +131,32 @@
     opacity: 0 !important;
   }
 
+  // Fluent 2 toggle anatomy (ratio-driven geometry; RTL mirrors via CSS custom properties).
+  // Inner box 40×24 (normal) / 36×20 (dense). Track 32×16 centered with 2px inset.
+  // Thumb 12px (normal) / 11px (dense), vertically centered in track. Travel is symmetric:
+  // 4px off → 4px on (normal), leaving thumb-center at 75% when on (close to Quasar's 87.5%).
+  // Dense keeps the same 32px track but the smaller 11px thumb shifts to ~79% on-center.
+  // The mobile variant overrides dimensions below for its larger touch-rhythm scale.
+  :root {
+    --qds-toggle-inner-w: 2.5rem;      // 40px
+    --qds-toggle-inner-h: 1.5rem;      // 24px
+    --qds-toggle-track-w: 2rem;        // 32px (Fluent 2 track half-width of inner box)
+    --qds-toggle-track-h: 1rem;        // 16px
+    --qds-toggle-track-inset: 0.125rem; // 2px inline IS LEFT margin inside the inner box
+    --qds-toggle-thumb-size: 0.75rem;  // 12px (below 16px so it fits within the 16px track)
+    --qds-toggle-thumb-top: calc((var(--qds-toggle-inner-h) - var(--qds-toggle-thumb-size)) / 2); // 6px -> thumb centered in the 24px inner
+    --qds-toggle-thumb-off: 0.5rem;    // 8px off travel from track start
+    --qds-toggle-thumb-on: 1.25rem;  // 20px on travel (symmetric 37.5% off -> 75% on)
+    --qds-toggle-dense-thumb-size: 0.6875rem;  // 11px
+    --qds-toggle-dense-thumb-top: 0.28125rem; // 4.5px = (20 - 11) / 2, thumb centered in the 20px dense inner
+    --qds-toggle-dense-thumb-off: 0.5rem;   // 8px off travel, center at 35.9%
+    --qds-toggle-dense-thumb-on: 1.375rem;  // 22px on travel, center at 79.7%
+  }
+
   .qds-ui .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__inner {
-    width: 2.5rem;
-    min-width: 2.5rem;
-    height: 1.5rem;
+    width: var(--qds-toggle-inner-w);
+    min-width: var(--qds-toggle-inner-w);
+    height: var(--qds-toggle-inner-h);
     padding: 0;
     color: var(--qds-stroke-default);
     transform: none;
@@ -156,10 +180,11 @@
   }
 
   .qds-ui .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__track {
-    top: 0.25rem;
-    inset-inline-start: 0.25rem;
-    width: 2rem;
-    height: 1rem;
+    position: absolute;
+    top: calc((var(--qds-toggle-inner-h) - var(--qds-toggle-track-h)) / 2);
+    inset-inline-start: var(--qds-toggle-track-inset);
+    width: var(--qds-toggle-track-w);
+    height: var(--qds-toggle-track-h);
     color: var(--qds-stroke-default);
     background: var(--qds-bg-surface-2);
     border: var(--qds-border-width-control) solid var(--qds-stroke-default);
@@ -173,10 +198,11 @@
   }
 
   .qds-ui .q-toggle.q-toggle--dense .q-toggle__track {
-    top: 0.125rem;
-    inset-inline-start: 0.125rem;
-    width: 2rem;
-    height: 1rem;
+    position: absolute;
+    top: calc((1.25rem - var(--qds-toggle-track-h)) / 2); // (20-16)/2 = 2px, centered in the 20px dense inner
+    inset-inline-start: var(--qds-toggle-track-inset);
+    width: var(--qds-toggle-track-w);
+    height: var(--qds-toggle-track-h);
     color: var(--qds-stroke-default);
     background: var(--qds-bg-surface-2);
     border: var(--qds-border-width-control) solid var(--qds-stroke-default);
@@ -190,10 +216,10 @@
   }
 
   .qds-ui .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__thumb {
-    top: 0.25rem;
-    inset-inline-start: 0.5rem;
-    width: 1rem;
-    height: 1rem;
+    top: var(--qds-toggle-thumb-top);
+    inset-inline-start: var(--qds-toggle-thumb-off);
+    width: var(--qds-toggle-thumb-size);
+    height: var(--qds-toggle-thumb-size);
     color: var(--qds-bg-canvas);
     border-radius: var(--qds-radius-full);
     transform: none;
@@ -201,10 +227,10 @@
   }
 
   .qds-ui .q-toggle.q-toggle--dense .q-toggle__thumb {
-    top: 0.125rem;
-    inset-inline-start: 0.25rem;
-    width: 0.75rem;
-    height: 0.75rem;
+    top: var(--qds-toggle-dense-thumb-top);
+    inset-inline-start: var(--qds-toggle-dense-thumb-off);
+    width: var(--qds-toggle-dense-thumb-size);
+    height: var(--qds-toggle-dense-thumb-size);
     color: var(--qds-bg-canvas);
     border-radius: var(--qds-radius-full);
     transform: none;
@@ -228,12 +254,12 @@
   }
 
   .qds-ui .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__inner--truthy .q-toggle__thumb {
-    inset-inline-start: 0.75rem;
+    inset-inline-start: var(--qds-toggle-thumb-on);
     color: var(--qds-stroke-focus);
   }
 
   .qds-ui .q-toggle.q-toggle--dense .q-toggle__inner--truthy .q-toggle__thumb {
-    inset-inline-start: 1.125rem;
+    inset-inline-start: var(--qds-toggle-dense-thumb-on);
     color: var(--qds-stroke-focus);
   }
 
@@ -361,12 +387,20 @@
 
   .qds-ui.qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__track,
   .qds-ui .qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__track {
+    top: calc((2rem - 1.5rem) / 2); // 4px, centered in the 32px mobile inner
+    inset-inline-start: 0.25rem;    // 4px inline margin, centered look on the 52px inner
     width: 2.75rem;
     height: 1.5rem;
   }
 
+  .qds-ui.qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__thumb,
+  .qds-ui .qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__thumb {
+    top: 0.625rem;                  // 10px = (32 - 12) / 2, vertically centered in the mobile inner
+    inset-inline-start: 0.5rem;     // 8px off travel inside the 44px track
+  }
+
   .qds-ui.qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__inner--truthy .q-toggle__thumb,
   .qds-ui .qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__inner--truthy .q-toggle__thumb {
-    inset-inline-start: 1.5rem;
+    inset-inline-start: 1.875rem;   // 30px: symmetric on travel, thumb-center flips at track middle
   }
 }

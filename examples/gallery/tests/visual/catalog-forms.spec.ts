@@ -105,12 +105,19 @@ test.describe('QDS catalog form picker gate', () => {
     expect.soft(await computed(page, '[data-test="qds-catalog-radio"] .q-radio__check', 'fill'), 'QRadio check uses primary').toBe(primary)
     expect.soft(await computed(page, '[data-test="qds-catalog-toggle"] .q-toggle__track', 'border-radius'), 'QToggle track is rounded').not.toBe('0px')
     expect.soft(await computedPseudo(page, '[data-test="qds-catalog-toggle"] .q-toggle__thumb', '::after', 'background-color'), 'QToggle thumb uses primary when on').toBe(primary)
-    const toggleInset = await page.locator('[data-test="qds-catalog-toggle"]').evaluate((el) => {
+    const toggleGeo = await page.locator('[data-test="qds-catalog-toggle"]').evaluate((el) => {
       const track = el.querySelector('.q-toggle__track')!.getBoundingClientRect()
       const thumb = el.querySelector('.q-toggle__thumb')!.getBoundingClientRect()
-      return Math.round((track.right - thumb.right) * 100) / 100
+      const inner = el.querySelector('.q-toggle__inner')!.getBoundingClientRect()
+      return {
+        insetRight: Math.round((track.right - thumb.right) * 100) / 100,
+        vertDelta: Math.abs((thumb.top + thumb.height / 2) - (track.top + track.height / 2)),
+        thumbCenterPos: (thumb.left + thumb.width / 2 - track.left) / track.width,
+      }
     })
-    expect.soft(toggleInset, 'QToggle truthy thumb keeps breathing room inside track').toBeGreaterThanOrEqual(3)
+    expect.soft(toggleGeo.insetRight, 'QToggle truthy thumb keeps breathing room inside track').toBeGreaterThanOrEqual(2)
+    expect.soft(toggleGeo.vertDelta, 'QToggle thumb is vertically centered in track').toBeLessThanOrEqual(1)
+    expect.soft(toggleGeo.thumbCenterPos, 'QToggle on-state thumb-center sits near the far end of the track (Fluent travel)').toBeGreaterThanOrEqual(0.68)
 
     await expect(page.locator('[data-test="qds-catalog-option-radio"]')).toBeVisible()
     await expect(page.locator('[data-test="qds-catalog-option-checkbox"]')).toBeVisible()
