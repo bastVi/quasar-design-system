@@ -11,19 +11,27 @@
   .qds-ui .q-btn-dropdown.q-btn-dropdown.q-btn-dropdown--showing .q-btn-dropdown__arrow { opacity: 1; transform: rotate(180deg); }
   .qds-ui .q-btn-dropdown.q-btn-dropdown.q-btn-dropdown--split .q-btn-dropdown__arrow-container { border-inline-start: var(--qds-border-width-control) solid color-mix(in srgb, currentColor 18%, transparent); }
 
+  // Fluent command surface: transparent group, no enclosing segmented shell, hairline
+  // separators between joints, quiet selected fill. (Material's bounded capsule was
+  // flagged as the #1 remaining Material-tell by the comparative reference reviews.)
   .qds-ui .q-btn-group.q-btn-group,
-  .qds-ui .q-btn-toggle.q-btn-toggle { display: inline-flex; align-items: center; gap: 0; padding: 0.125rem; background: var(--qds-bg-surface-1); border: var(--qds-border-width-control) solid var(--qds-stroke-subtle); border-radius: calc(var(--qds-button-radius) + 0.125rem); box-shadow: none !important; overflow: hidden; }
+  .qds-ui .q-btn-toggle.q-btn-toggle { display: inline-flex; align-items: center; gap: 0; padding: 0; background: transparent; border: none; box-shadow: none !important; overflow: visible; }
   .qds-ui .q-btn-group.q-btn-group > .q-btn.q-btn,
   .qds-ui .q-btn-toggle.q-btn-toggle > .q-btn.q-btn { position: relative; margin: 0 !important; color: var(--qds-fg-default); background: transparent !important; border-color: transparent; border-radius: 0 !important; box-shadow: none !important; }
   .qds-ui .q-btn-group.q-btn-group > .q-btn.q-btn:not(:first-child)::after,
-  .qds-ui .q-btn-toggle.q-btn-toggle > .q-btn.q-btn:not(:first-child)::after { position: absolute; inset-block: 22%; inset-inline-start: 0; width: var(--qds-border-width-control); content: ''; background: var(--qds-stroke-divider); opacity: 0.72; }
+  .qds-ui .q-btn-toggle.q-btn-toggle > .q-btn.q-btn:not(:first-child)::after { position: absolute; inset-block: 26%; inset-inline-start: 0; width: var(--qds-border-width-control); content: ''; background: var(--qds-stroke-divider); opacity: 0.55; }
   .qds-ui .q-btn-group.q-btn-group > .q-btn.q-btn:hover,
-  .qds-ui .q-btn-toggle.q-btn-toggle > .q-btn.q-btn:hover { color: var(--qds-fg-strong); background: var(--qds-surface-brand-soft) !important; }
+  .qds-ui .q-btn-toggle.q-btn-toggle > .q-btn.q-btn:hover { color: var(--qds-fg-strong); background: var(--qds-surface-brand-soft) !important; border-radius: var(--qds-button-radius) !important; }
+  .qds-ui .q-btn-group.q-btn-group > .q-btn.q-btn:hover::after,
+  .qds-ui .q-btn-toggle.q-btn-toggle > .q-btn.q-btn:hover::after { opacity: 0; }
   .qds-ui .q-btn-group.q-btn-group > .q-btn.q-btn:focus-visible,
-  .qds-ui .q-btn-toggle.q-btn-toggle > .q-btn.q-btn:focus-visible { z-index: 1; outline: var(--qds-focus-ring-width) solid rgba(var(--qds-color-primary-rgb), var(--qds-focus-ring-opacity)); outline-offset: calc(var(--qds-focus-ring-offset) * -1); }
+  .qds-ui .q-btn-toggle.q-btn-toggle > .q-btn.q-btn:focus-visible { z-index: 1; outline: var(--qds-focus-ring-width) solid rgba(var(--qds-color-primary-rgb), var(--qds-focus-ring-opacity)); outline-offset: calc(var(--qds-focus-ring-offset) * -1); border-radius: var(--qds-button-radius) !important; }
   .qds-ui .q-btn-toggle.q-btn-toggle .q-btn.q-btn.q-btn--active:not(.qds-solid),
   .qds-ui .q-btn-toggle.q-btn-toggle .q-btn.q-btn[aria-pressed='true']:not(.qds-solid),
-  .qds-ui .q-btn-toggle.q-btn-toggle .q-btn.q-btn.qds-active:not(.qds-solid) { z-index: 1; color: var(--qds-tab-active-text) !important; background: var(--qds-tab-active-bg) !important; border-color: rgba(var(--qds-color-primary-rgb), var(--qds-tonal-border-opacity)); box-shadow: inset 0 0 0 var(--qds-border-width-control) rgba(var(--qds-color-primary-rgb), var(--qds-tonal-border-opacity)) !important; }
+  .qds-ui .q-btn-toggle.q-btn-toggle .q-btn.q-btn.qds-active:not(.qds-solid) { z-index: 1; color: var(--qds-tab-active-text) !important; background: var(--qds-tab-active-bg) !important; border-color: transparent; border-radius: var(--qds-button-radius) !important; box-shadow: none !important; }
+  .qds-ui .q-btn-toggle.q-btn-toggle .q-btn.q-btn.q-btn--active:not(.qds-solid)::after,
+  .qds-ui .q-btn-toggle.q-btn-toggle .q-btn.q-btn[aria-pressed='true']:not(.qds-solid)::after,
+  .qds-ui .q-btn-toggle.q-btn-toggle .q-btn.q-btn.qds-active:not(.qds-solid)::after { opacity: 0; }
 
   .qds-ui .q-fab.q-fab .q-btn.q-btn.q-btn--fab,
   .qds-ui .q-fab.q-fab .q-btn.q-btn.q-btn--fab-mini { background: var(--qds-surface-transient); border: var(--qds-border-width-control) solid var(--qds-stroke-subtle); box-shadow: var(--qds-media-frame-shadow) !important; }
@@ -45,18 +53,10 @@
   .qds-ui .q-banner.q-banner.text-warning { --qds-banner-accent: var(--qds-color-warning); --qds-banner-accent-rgb: var(--qds-color-warning-rgb); background: var(--qds-surface-warning-soft) !important; }
   .qds-ui .q-banner.q-banner.bg-info,
   .qds-ui .q-banner.q-banner.text-info { --qds-banner-accent: var(--qds-color-info); --qds-banner-accent-rgb: var(--qds-color-info-rgb); background: var(--qds-surface-info-soft) !important; }
-  .qds-ui.qds-variant-ink .q-btn-group.q-btn-group,
-  .qds-ui .qds-variant-ink .q-btn-group.q-btn-group,
-  .qds-ui.qds-variant-ink .q-btn-toggle.q-btn-toggle,
-  .qds-ui .qds-variant-ink .q-btn-toggle.q-btn-toggle,
-
-  .qds-ui.qds-variant-ink .q-btn-toggle.q-btn-toggle .q-btn.q-btn.q-btn--active:not(.qds-solid),
-  .qds-ui .qds-variant-ink .q-btn-toggle.q-btn-toggle .q-btn.q-btn.q-btn--active:not(.qds-solid),
-
   .qds-ui.qds-variant-mobile .q-btn-group.q-btn-group,
   .qds-ui .qds-variant-mobile .q-btn-group.q-btn-group,
   .qds-ui.qds-variant-mobile .q-btn-toggle.q-btn-toggle,
-  .qds-ui .qds-variant-mobile .q-btn-toggle.q-btn-toggle { padding: 0.25rem; background: var(--qds-surface-focus-block); }
+  .qds-ui .qds-variant-mobile .q-btn-toggle.q-btn-toggle { padding: 0.25rem; background: var(--qds-surface-focus-block); border-radius: var(--qds-radius-lg); }
   .qds-ui.qds-variant-mobile .q-btn-group.q-btn-group > .q-btn.q-btn,
   .qds-ui .qds-variant-mobile .q-btn-group.q-btn-group > .q-btn.q-btn,
   .qds-ui.qds-variant-mobile .q-btn-toggle.q-btn-toggle > .q-btn.q-btn,

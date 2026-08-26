@@ -228,12 +228,11 @@ watch(tab, (value) => {
   display: inline-flex;
   flex-wrap: nowrap;
   align-items: center;
-  gap: 0.125rem;
-  padding: 0.125rem;
-  border: 1px solid var(--qds-border-subtle);
-  border-radius: var(--qds-radius-full);
-  background: color-mix(in srgb, var(--qds-surface-glass) 88%, transparent);
-  backdrop-filter: blur(var(--qds-glass-blur)) saturate(var(--qds-glass-saturate));
+  gap: 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--qds-radius-md);
+  background: transparent;
   overflow-x: auto;
   scrollbar-width: thin;
   max-width: 100%;
@@ -244,12 +243,37 @@ watch(tab, (value) => {
 }
 
 .gallery-switcher__button {
+  position: relative;
   min-height: 1.75rem;
-  padding: 0 0.5rem;
-  border-radius: var(--qds-radius-full);
+  padding: 0 0.6rem;
+  border-radius: var(--qds-radius-md);
   font-size: 0.78rem;
   white-space: nowrap;
   flex: 0 0 auto;
+  background: transparent;
+}
+
+.gallery-switcher__button:not(:first-child)::before {
+  content: '';
+  position: absolute;
+  inset-block: 26%;
+  inset-inline-start: 0;
+  width: var(--qds-border-width-control, 1px);
+  background: var(--qds-stroke-divider);
+  opacity: 0.55;
+}
+
+.gallery-switcher__button.qds-active {
+  background: var(--qds-surface-brand-soft);
+}
+
+.gallery-switcher__button.qds-active::before,
+.gallery-switcher__button.qds-active + .gallery-switcher__button::before {
+  opacity: 0;
+}
+
+.gallery-switcher__button:hover {
+  background: var(--qds-surface-brand-soft);
 }
 
 .gallery-switcher__button :deep(.q-btn__content) {

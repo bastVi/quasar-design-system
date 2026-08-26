@@ -112,7 +112,7 @@
   .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item.disabled {
     color: color-mix(in srgb, var(--qds-text-muted) 82%, transparent);
     cursor: not-allowed;
-    background: color-mix(in srgb, var(--qds-surface-1) 52%, transparent);
+    background: color-mix(in srgb, var(--qds-surface-1) 82%, transparent);
     opacity: 1;
   }
 
@@ -147,10 +147,12 @@
     font-size: var(--qds-control-icon-size-sm);
   }
 
+  // Nested panel lift: opaque raised surface + hairline (Fluent dark layers never
+  // alpha-blend structural panels — they lift above the canvas instead).
   .qds-ui .q-expansion-item.q-expansion-item .q-expansion-item__content {
     color: var(--qds-fg-default);
-    background: color-mix(in srgb, var(--qds-surface-1) 72%, transparent);
-    border-top: var(--qds-border-width-control) solid color-mix(in srgb, var(--qds-border-subtle) 68%, transparent);
+    background: var(--qds-surface-1);
+    border-top: var(--qds-border-width-control) solid var(--qds-border-subtle);
   }
 
   .qds-ui .q-expansion-item.q-expansion-item .q-expansion-item__border {

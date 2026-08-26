@@ -10,9 +10,7 @@ const EXPECTED_CARD_RADIUS: Record<Variant, string> = {
   mobile: '20px',
 }
 
-const EXPECTED_FLUENT_BUTTON_GROUP_RADIUS = '10px'
 const EXPECTED_FLUENT_ACTIVE_TOGGLE_BG = 'rgba(0, 90, 158, 0.12)'
-const EXPECTED_FLUENT_ACTIVE_TOGGLE_BORDER = 'rgba(0, 90, 158, 0.2)'
 const EXPECTED_FLUENT_PRIMARY = 'rgb(0, 90, 158)'
 
 /** Drive the runtime controller exactly as an external app would. */
@@ -84,14 +82,14 @@ test.describe('QDS catalog data display gate', () => {
     await expectVisible('.q-uploader')
 
     expect.soft(await computed(page, '.q-banner', 'border-top-width'), 'QBanner QDS border').toBe('1px')
-    expect.soft(await computed(page, '[data-test="qds-btn-group"]', 'border-top-width'), 'QBtnGroup QDS border').toBe('1px')
-    expect.soft(await computed(page, '[data-test="qds-btn-group"]', 'border-radius'), 'QBtnGroup QDS radius').toBe(EXPECTED_FLUENT_BUTTON_GROUP_RADIUS)
+    expect.soft(await computed(page, '[data-test="qds-btn-group"]', 'border-top-width'), 'QBtnGroup is a quiet Fluent command surface (no enclosing shell)').toBe('0px')
+    expect.soft(await computed(page, '[data-test="qds-btn-group"]', 'background-color'), 'QBtnGroup transparent').toBe('rgba(0, 0, 0, 0)')
     expect.soft(await computed(page, '[data-test="qds-btn-group"]', 'box-shadow'), 'QBtnGroup flat surface').toBe('none')
     expect.soft(await computed(page, '[data-test="qds-btn-dropdown"] .q-btn-dropdown__arrow', 'opacity'), 'QBtnDropdown arrow default opacity').toBe('0.72')
-    expect.soft(await computed(page, '[data-test="qds-btn-toggle"]', 'border-top-width'), 'QBtnToggle QDS border').toBe('1px')
-    expect.soft(await computed(page, '[data-test="qds-btn-toggle"]', 'border-radius'), 'QBtnToggle QDS radius').toBe(EXPECTED_FLUENT_BUTTON_GROUP_RADIUS)
+    expect.soft(await computed(page, '[data-test="qds-btn-toggle"]', 'border-top-width'), 'QBtnToggle is a quiet Fluent command surface (no enclosing shell)').toBe('0px')
+    expect.soft(await computed(page, '[data-test="qds-btn-toggle"]', 'background-color'), 'QBtnToggle transparent').toBe('rgba(0, 0, 0, 0)')
     expect.soft(await computed(page, '[data-test="qds-btn-toggle"] .q-btn[aria-pressed="true"]', 'background-color'), 'QBtnToggle active background').toBe(EXPECTED_FLUENT_ACTIVE_TOGGLE_BG)
-    expect.soft(await computed(page, '[data-test="qds-btn-toggle"] .q-btn[aria-pressed="true"]', 'border-top-color'), 'QBtnToggle active border').toBe(EXPECTED_FLUENT_ACTIVE_TOGGLE_BORDER)
+    expect.soft(await computed(page, '[data-test="qds-btn-toggle"] .q-btn[aria-pressed="true"]', 'border-top-color'), 'QBtnToggle active has no extra outline').toBe('rgba(0, 0, 0, 0)')
     expect.soft(await computed(page, '[data-test="qds-avatar"]', 'border-top-width'), 'QAvatar QDS border').toBe('1px')
     expect.soft(await computed(page, '[data-test="qds-avatar"]', 'border-radius'), 'QAvatar QDS radius').toBe('9999px')
     expect.soft(await computed(page, '[data-test="qds-avatar"]', 'background-color'), 'QAvatar tokenized bg').not.toBe('rgba(0, 0, 0, 0)')
@@ -162,7 +160,7 @@ test.describe('QDS catalog data display gate', () => {
         await expect(page.locator('[data-test="qds-linear-progress"]')).toBeVisible()
         await expect(page.locator('[data-test="qds-circular-progress"]')).toBeVisible()
         await expect(page.locator('[data-test="qds-expansion-expanded"]')).toBeVisible()
-        expect.soft(await computed(page, '[data-test="qds-btn-group"]', 'border-radius'), `${mode}/${variant} action group geometry`).toBe(variant === 'mobile' ? '16px' : variant === 'ink' ? '12px' : '10px')
+        expect.soft(await computed(page, '[data-test="qds-btn-group"]', 'border-radius'), `${mode}/${variant} action group geometry`).toBe(variant === 'mobile' ? '20px' : '3px')
         expect.soft(await computed(page, '[data-test="qds-linear-progress"] .q-linear-progress__model', 'background-color'), `${mode}/${variant} linear progress uses primary`).toBe(primary)
         expect.soft(await computed(page, '[data-test="qds-circular-progress"]', 'color'), `${mode}/${variant} circular progress retains contrast`).not.toBe('rgba(0, 0, 0, 0)')
         if (variant === 'fluent') {

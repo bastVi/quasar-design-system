@@ -36,7 +36,7 @@ $dark-palette-rgb: (
 ) !default;
 
 $light-surfaces: (0: #fffdf9, 1: #f8f7f5, 2: #f3f2f0, 3: #edebe9, glass: #fffdf9) !default;
-$dark-surfaces: (0: #1d2024, 1: #191c20, 2: #262a2f, 3: #32373e, glass: #1d2024) !default;
+$dark-surfaces: (0: #1a1d22, 1: #21252b, 2: #282d34, 3: #31373f, glass: #21252b) !default;
 $light-text: (default: #1f2937, strong: #0f172a, muted: #556579) !default;
 $dark-text: (default: #f4f4f5, strong: #ffffff, muted: #c4c7cf) !default;
 $light-on-fill: (primary: #ffffff, secondary: #ffffff, accent: #0f172a, positive: #0f172a, negative: #ffffff, warning: #0f172a, info: #000000) !default;
@@ -68,7 +68,7 @@ $light-semantic: (
 $dark-semantic: (
   fg-default: #f4f4f5, fg-strong: #ffffff, fg-muted: #c4c7cf, fg-disabled: #6b7280,
   fg-on-brand: #102a43,
-  bg-canvas: #1d2024, bg-surface-1: #191c20, bg-surface-2: #262a2f, bg-layer: #32373e,
+  bg-canvas: #1a1d22, bg-surface-1: #21252b, bg-surface-2: #282d34, bg-layer: #31373f,
   bg-flyout: #262a2f, bg-overlay: rgba(0, 0, 0, 0.52),
   bg-card: #1d2024, bg-card-hover: #262a2f,
   stroke-default: #343940, stroke-subtle: #404652, stroke-strong: #555b64,
