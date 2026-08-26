@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [0.7.0-rc.2] — 2026-08-25
+
+Alignment republish: the npm tarball now matches the production site exactly.
+
+### Changed
+
+- Fluent light muted text darkened a further step `#5a6a80` → `#556579`, clearing
+  WCAG 4.5:1 also on soft role washes (≥ 4.84:1 on info-tinted surfaces, ~5.0–7.1:1
+  on standard surfaces).
+- Linear-progress stripe gradient consumes the new `--qds-progress-stripe` token
+  (added to `QDS_TOKENS` and the public token inventory test).
+- List item caption/overline labels are themed via `--qds-fg-muted` instead of
+  Quasar's raw `rgba(0, 0, 0, …)` defaults.
+- Gallery shell: added meta description; `favicon.ico` shipped alongside
+  `favicon.svg`. Test stabilization: 150ms settle after theme/variant switches in
+  the catalog forms suite.
+
 ## [0.7.0-rc.1] — 2026-08-25
 
 First public prerelease of the Fluent 2 overhaul (an intentional visual break).
