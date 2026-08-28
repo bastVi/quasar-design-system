@@ -123,8 +123,8 @@ const pages = reactive<Record<VariantName, number>>({
           </q-markup-table>
 
           <div class="variant-card__progress" :data-test="`qds-variant-progress-${variant.name}`">
-            <q-linear-progress rounded size="8px" :value="0.62" color="primary" />
-            <q-linear-progress rounded size="8px" :value="0.38" color="positive" />
+            <q-linear-progress rounded size="8px" :value="0.62" color="primary" aria-label="Primary coverage" />
+            <q-linear-progress rounded size="8px" :value="0.38" color="positive" aria-label="Positive coverage" />
           </div>
 
           <q-pagination
