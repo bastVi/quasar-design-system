@@ -375,7 +375,7 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
           <div class="qds-card q-pa-md" style="border-radius: var(--qds-radius-md)">
             <div class="text-subtitle1 qds-text-strong">Short rounded rail</div>
             <div class="qds-text-muted">
-              Active tabs use a tokenized 3px accent rail that respects padding and avoids boxed fills.
+              Active tabs use a tokenized 2px accent underline that respects padding and avoids boxed fills.
             </div>
           </div>
         </div>
