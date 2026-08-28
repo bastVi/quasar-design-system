@@ -8,7 +8,7 @@ type ComplexMediaTestHook = {
 }
 
 const EXPECTED_MEDIA_RADIUS: Record<Extract<Variant, 'fluent' | 'mobile' | 'terminal'>, string> = {
-  fluent: '12px',
+  fluent: '8px',
   mobile: '20px',
   terminal: '10px',
 }
@@ -213,7 +213,7 @@ test.describe('QDS catalog complex media gate', () => {
       'carousel image uses owned SVG data',
     ).toHaveAttribute('src', /^data:image\/svg\+xml/)
     await expect(carousel.locator('.q-carousel__slide:not(.q-carousel__slide--hidden) .catalog-carousel-image img').first()).toHaveAttribute('alt', 'Editorial surface: Paper-neutral surface with pastel role washes and charcoal type.')
-    expect.soft(await computed(page, '[data-test="qds-carousel"]', 'border-radius'), 'carousel QDS radius').toBe('12px')
+    expect.soft(await computed(page, '[data-test="qds-carousel"]', 'border-radius'), 'carousel QDS radius').toBe('8px')
     await expect(page.locator('[data-test="qds-carousel-controls"]')).toBeVisible()
     await expect(page.getByLabel('Previous carousel slide')).toBeVisible()
     await expect(page.getByLabel('Next carousel slide')).toBeVisible()
@@ -409,7 +409,7 @@ test.describe('QDS catalog complex media gate', () => {
         await expect(page.locator('[data-test="qds-carousel"]')).toBeVisible()
         await expect(page.locator('[data-test="qds-editor"]')).toBeVisible()
         await expect(page.locator('[data-test="qds-uploader"]')).toBeVisible()
-        expect.soft(await computed(page, '[data-test="qds-carousel"]', 'border-radius'), `${mode}/${variant} carousel geometry`).toBe(variant === 'mobile' ? '20px' : variant === 'ink' ? '16px' : variant === 'terminal' ? '10px' : '12px')
+        expect.soft(await computed(page, '[data-test="qds-carousel"]', 'border-radius'), `${mode}/${variant} carousel geometry`).toBe(variant === 'mobile' ? '20px' : variant === 'ink' ? '16px' : variant === 'terminal' ? '10px' : '8px')
         expect.soft(await computed(page, '[data-test="qds-timeline"] .q-timeline__subtitle', 'color'), `${mode}/${variant} timeline subtitle foreground`).toBe(await tokenColor(page, '[data-test="qds-timeline"]', '--qds-text-muted'))
         expect.soft(await computed(page, '[data-test="qds-timeline-dense"] .q-timeline__dot', 'background-color', '::after'), `${mode}/${variant} dense timeline rail`).toBe(await tokenColor(page, '[data-test="qds-timeline-dense"]', '--qds-timeline-rail'))
         const primaryMarker = '[data-test="qds-timeline"] .q-timeline__entry--left .q-timeline__dot'

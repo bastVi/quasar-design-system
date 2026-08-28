@@ -167,7 +167,7 @@ test.describe('QDS plugin/global UI surfaces', () => {
 
     await page.getByRole('button', { name: 'Open grid BottomSheet' }).click()
     await expect(page.locator('.q-bottom-sheet.q-bottom-sheet--grid')).toBeVisible()
-    expect.soft(await computed(page, '.q-bottom-sheet--grid .q-bottom-sheet__item', 'border-radius'), 'BottomSheet grid item radius').toBe('8px')
+    expect.soft(await computed(page, '.q-bottom-sheet--grid .q-bottom-sheet__item', 'border-radius'), 'BottomSheet grid item radius').toBe('4px')
     expect.soft(await computed(page, '.q-bottom-sheet--grid .q-bottom-sheet__item', 'color'), 'BottomSheet grid item text').not.toBe('rgba(0, 0, 0, 0)')
     await page.locator('.q-bottom-sheet').getByText('Tokens').click()
     await expect(pluginStatus(page)).toContainText('BottomSheet grid action: Tokens')

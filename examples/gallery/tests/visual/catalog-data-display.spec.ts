@@ -5,7 +5,7 @@ type Mode = 'light' | 'dark'
 type Variant = 'fluent' | 'ink' | 'mobile'
 
 const EXPECTED_CARD_RADIUS: Record<Variant, string> = {
-  fluent: '12px',
+  fluent: '8px',
   ink: '16px',
   mobile: '20px',
 }

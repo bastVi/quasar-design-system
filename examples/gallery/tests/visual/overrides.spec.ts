@@ -53,13 +53,13 @@ async function renderedBoundaryContrast(page: Parameters<typeof computed>[0], se
 
 const EXPECTED: Record<Mode, Record<Variant, { surface: string; primary: string; controlRadius: string; cardRadius: string }>> = {
   light: {
-    fluent: { surface: '#fffdf9', primary: 'rgb(0, 90, 158)', controlRadius: '8px', cardRadius: '12px' },
+    fluent: { surface: '#fffdf9', primary: 'rgb(0, 90, 158)', controlRadius: '4px', cardRadius: '8px' },
     ink: { surface: '#fdf9f1', primary: 'rgb(48, 48, 45)', controlRadius: '10px', cardRadius: '16px' },
     mobile: { surface: '#f9f9ff', primary: 'rgb(46, 95, 184)', controlRadius: '14px', cardRadius: '20px' },
     terminal: { surface: '#f5f3ef', primary: 'rgb(252, 196, 13)', controlRadius: '6px', cardRadius: '10px' },
   },
   dark: {
-    fluent: { surface: '#1a1d22', primary: 'rgb(94, 169, 246)', controlRadius: '8px', cardRadius: '12px' },
+    fluent: { surface: '#1a1d22', primary: 'rgb(94, 169, 246)', controlRadius: '4px', cardRadius: '8px' },
     ink: { surface: '#25231f', primary: 'rgb(240, 233, 219)', controlRadius: '10px', cardRadius: '16px' },
     mobile: { surface: '#20212a', primary: 'rgb(173, 198, 255)', controlRadius: '14px', cardRadius: '20px' },
     terminal: { surface: '#0d0f12', primary: 'rgb(252, 196, 13)', controlRadius: '6px', cardRadius: '10px' },

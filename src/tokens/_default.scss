@@ -81,7 +81,7 @@ $dark-semantic: (
 ) !default;
 
 $space: (xs: 0.25rem, sm: 0.5rem, md: 1rem, lg: 1.5rem, xl: 2rem) !default;
-$radius: (xs: 2px, sm: 4px, md: 8px, lg: 12px, xl: 16px, full: 9999px, control: 8px) !default;
+$radius: (xs: 2px, sm: 4px, md: 8px, lg: 8px, xl: 16px, full: 9999px, control: 4px) !default;
 $shadow: (
   sm: none,
   md: 0 8px 20px rgba(31, 41, 55, 0.06),

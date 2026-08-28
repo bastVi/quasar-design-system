@@ -28,7 +28,7 @@
     position: absolute;
     inset-inline: var(--qds-space-md);
     bottom: 0.3125rem;
-    height: 0.1875rem;
+    height: 0.125rem;
     content: '';
     background: var(--qds-stroke-focus);
     border-radius: var(--qds-radius-full);
@@ -82,7 +82,7 @@
     inset-inline: 0.25rem auto;
     top: var(--qds-space-sm);
     bottom: var(--qds-space-sm);
-    width: 0.1875rem;
+    width: 0.125rem;
     height: auto;
     transform: scaleY(0.45);
   }
