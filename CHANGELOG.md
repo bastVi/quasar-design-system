@@ -6,6 +6,39 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [0.7.0-rc.3] — 2026-08-27
+
+Fluent 2 anatomy alignment + Material-tell removal, validated by comparative
+vision-agent review against Fluent 2 official, Apple HIG, and Samsung One UI.
+
+### Changed
+
+- **Toggle/switch geometry rebuilt**: thumb 12px vertically centered in a 16px
+  track (was off by 2px hanging below), symmetric travel (37.5% off, 75% on —
+  was 20-62.5% with thumb buried in the track). Dense: 11px, 36%/80%. Mobile:
+  44×24 track with mirrored travel. Radio dot scaled ×1.36 → 59.5% of the ring
+  (was 44%). All offsets are `--qds-toggle-*` custom properties.
+- **Quiet command surfaces**: QBtnGroup/QBtnToggle and the gallery mode/variant
+  switcher no longer use a Material capsule shell (outer border + padding +
+  filled rail). Transparent group with 1px hairline separators and quiet tonal
+  selected/hover states — Fluent 2 command-surface anatomy.
+- **Dark surface hierarchy repaired**: `surface-1` was darker than `surface-0`
+  (inverted), causing nested panels to disappear. New order: canvas `#1a1d22`
+  → raised `#21252b` → `#282d34` → `#31373f`. Expansion content is now opaque
+  raised surface + hairline instead of an alpha-blended tint.
+- **Radius unification (Fluent 2)**: cards 8px (was 12), controls/menus 4px
+  (was 8/12). Ink/mobile/terminal keep their distinctive variant radii.
+- **Slider/range thinned**: track 2px (was 6), thumb 16px (was 18), 1px stroke
+  (was 3px), shadow removed.
+- **Tab indicator**: 2px underline (was 3px rail).
+- **One UI mobile**: list separators now inset-aligned with content (was
+  full-width). Added `.qds-safe-bottom` / `.qds-safe-top` utility classes for
+  `env(safe-area-inset-*)` rhythm.
+
+### Fixed
+
+- Stale gallery copy updated: "3px accent rail" → "2px accent underline".
+
 ## [0.7.0-rc.2] — 2026-08-25
 
 Alignment republish: the npm tarball now matches the production site exactly.
