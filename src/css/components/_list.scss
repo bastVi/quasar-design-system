@@ -184,9 +184,12 @@
     box-shadow: var(--qds-shadow-sm);
   }
 
+  // One UI inset separators: align with content rather than spanning full width.
   .qds-ui.qds-variant-mobile .q-list.q-list--separator > .q-item + .q-item,
   .qds-ui .qds-variant-mobile .q-list.q-list--separator > .q-item + .q-item {
-    border-top-color: color-mix(in srgb, var(--qds-border-subtle) 72%, transparent);
+    border-top: var(--qds-border-width-control) solid color-mix(in srgb, var(--qds-border-subtle) 72%, transparent);
+    margin-inline-start: var(--qds-space-md);
+    padding-inline-start: 0;
   }
 
   .qds-ui.qds-variant-mobile .q-item.q-item,

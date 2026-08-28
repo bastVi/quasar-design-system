@@ -91,4 +91,10 @@
   .qds-ui .qds-variant-ink .qds-card,
   .qds-ui.qds-variant-mobile .qds-card,
   .qds-ui .qds-variant-mobile .qds-card { background: var(--qds-surface-focus-block); border: var(--qds-border-width-control) solid var(--qds-separator-color); }
+
+  // One UI mobile safe-area rhythm: anchor bottom-spaced actions clear of the
+  // device's home indicator/gesture bar. Apply to scroll containers or sticky
+  // bottom bars in mobile-variant layouts.
+  .qds-ui .qds-safe-bottom { padding-block-end: env(safe-area-inset-bottom, 0px); }
+  .qds-ui .qds-safe-top { padding-block-start: env(safe-area-inset-top, 0px); }
 }
