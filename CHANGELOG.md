@@ -6,6 +6,45 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [0.7.0] — 2026-09-16
+
+Stable release of the Fluent 2 overhaul validated through the complete gallery,
+accessibility, package, live-browser, and comparative visual gates. This release
+contains all changes from `0.7.0-rc.1` through `0.7.0-rc.3` plus the final
+post-RC accessibility corrections.
+
+### Added
+
+- Public field-label variants and responsive form-label utilities.
+- Semantic geometry, row, state, typography, elevation, and progress tokens.
+- Safe-area utility classes for One/mobile layouts.
+
+### Changed
+
+- Rebuilt Fluent field anatomy, selection controls, command surfaces, cards,
+  lists, menus, tabs, sliders, and dark surface hierarchy around semantic tokens.
+- Canonical variants are Fluent, Ink, One (`mobile`), and Terminal; legacy Air,
+  Glass, Studio, and Feather inputs continue to normalize to supported variants.
+- Unified Fluent radii and reduced Material-style chrome while preserving One
+  touch geometry and the distinct Ink and Terminal systems.
+
+### Fixed
+
+- Ensured muted text meets WCAG 4.5:1 across Fluent and Ink light surfaces,
+  including tinted role washes.
+- Added accessible names to variant progress bars and retained clean axe and
+  Lighthouse evidence.
+- Corrected toggle thumb centering/travel, radio-dot scale, nested dark surfaces,
+  media assets, responsive tabs, RTL geometry, and theme-transition test races.
+
+### Verification
+
+- Typecheck and package build pass.
+- Playwright gallery gate: 168/168 desktop and mobile tests.
+- Production Lighthouse: Accessibility, Best Practices, SEO, and Agentic
+  Browsing all score 100 on desktop and mobile.
+- Independent browser and comparative visual review returned GO.
+
 ## [0.7.0-rc.3] — 2026-08-27
 
 Fluent 2 anatomy alignment + Material-tell removal, validated by comparative
