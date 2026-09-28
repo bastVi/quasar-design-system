@@ -20,8 +20,11 @@ const dialogOpen = ref(false)
 let applyTheme: (dark: boolean) => void = () => {}
 
 onMounted(async () => {
-  // Options must upgrade before listbox/dropdown read them.
-  await import('@fluentui/web-components/option/define.js')
+  // Children must upgrade before listbox/dropdown and radio-group read them.
+  await Promise.all([
+    import('@fluentui/web-components/option/define.js'),
+    import('@fluentui/web-components/radio/define.js'),
+  ])
   const [{ setTheme }, { webLightTheme, webDarkTheme }] = await Promise.all([
     import('@fluentui/web-components'),
     import('@fluentui/tokens'),
@@ -39,7 +42,6 @@ onMounted(async () => {
     import('@fluentui/web-components/menu-item/define.js'),
     import('@fluentui/web-components/menu-list/define.js'),
     import('@fluentui/web-components/progress-bar/define.js'),
-    import('@fluentui/web-components/radio/define.js'),
     import('@fluentui/web-components/radio-group/define.js'),
     import('@fluentui/web-components/slider/define.js'),
     import('@fluentui/web-components/switch/define.js'),
