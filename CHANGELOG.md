@@ -4,7 +4,62 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [Unreleased]
+## [0.8.0-rc.1] — 2026-09-28
+
+Reference-driven Fluent 2 rebuild. Default controls are neutral-first; colour is
+reserved for the primary action and status. The previous tonal look remains
+available through opt-in classes.
+
+### Breaking changes
+
+- **Palette and neutral grammar reset** from the Fluent 2 web tokens: neutral
+  grey surfaces, text, and strokes replace the warm cream neutrals and slate
+  text; secondary is a charcoal neutral, info a neutral grey, accent marigold.
+- **Control scale 36 → 32px**: buttons and fields use 24/32/40px
+  (`--qds-control-size-sm|md|lg`); `dense` uses the 24px step.
+- **Buttons are solid by default**: `color` + `unelevated` renders a solid role
+  fill (was a tonal wash). No `color` renders the neutral button (surface fill,
+  1px stroke). Badges with `color` are solid pills.
+- **Fields place the label above the control** by default (32px control, 24px
+  dense); the floating label moved to the opt-in `qds-field--float` (48px).
+- **Radii**: controls 6px, cards and dialogs 12px.
+- **Cards** lift with a layered shadow and no longer draw a stroke.
+- **Dialogs** use a plain scrim without backdrop blur.
+- **Lists and menus** use 32px desktop rows (36px comfortable) as rounded inset
+  rows.
+- **Removed** the `.qds-field--stacked` behaviour (label-above is now the
+  default) and the `.qds-plugin-inner-loading` hook.
+- **Selawik left the display stack**: `--qds-font-family-display` follows the
+  body stack (Inter) unless an app sets it.
+- `.qds-solid` is now meaningful only on chips; on buttons and badges it has no
+  effect because `color` is already solid.
+
+### Deprecated
+
+- No-op tokens kept for compatibility and slated for removal:
+  `--qds-tab-hover-bg`, `--qds-progress-stripe`, `--qds-media-frame-shadow`,
+  and `--qds-card-border-mix`.
+
+### Added
+
+- `.qds-tonal` opt-in for the previous tonal wash on buttons and badges.
+- Gallery Compare page placing Fluent 2 web components beside QDS defaults.
+
+### Migration notes
+
+- Keep the old tonal buttons or badges: add `class="qds-tonal"` next to `color`.
+- Remove `class="qds-solid"` from buttons; `unelevated color="…"` is already
+  solid. Keep it on chips that need a solid fill.
+- Keep floating labels: add `class="qds-field--float"` to the field. Remove
+  `qds-field--stacked`; the default already stacks the label above.
+- Layouts sized around 36px buttons or 48px fields: re-check toolbars, table
+  actions, and form rows against the 32px controls.
+- Replace `.qds-plugin-inner-loading` with your own class on `QInnerLoading`
+  if you relied on its blurred veil.
+- Want Selawik for headings: import `fonts/selawik.css` and set
+  `--qds-font-family-display: 'Selawik', var(--qds-font-family)` on `:root`.
+- Stop reading or setting the deprecated tokens above; they no longer change
+  the rendered output.
 
 ## [0.7.0] — 2026-09-16
 
