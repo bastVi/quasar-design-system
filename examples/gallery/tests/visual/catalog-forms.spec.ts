@@ -443,10 +443,7 @@ test.describe('QDS catalog form picker gate', () => {
     const terminalLightOnPrimary = await resolvedColor(page, '--qds-text-on-primary')
     const terminalLightSelectedDate = page.locator('[data-test="qds-catalog-date"]').getByRole('button', { name: '17', exact: true })
     await expect(terminalLightSelectedDate).toBeVisible()
-    expect.soft(
-      await terminalLightSelectedDate.evaluate((el) => getComputedStyle(el as Element).color),
-      'Terminal light selected date uses dark on-primary text, not white',
-    ).toBe(terminalLightOnPrimary)
+    await expect.poll(() => terminalLightSelectedDate.evaluate((el) => getComputedStyle(el as Element).color), { message: 'Terminal light selected date uses dark on-primary text, not white', timeout: 2000 }).toBe(terminalLightOnPrimary)
     expect.soft(
       await terminalLightSelectedDate.evaluate((el) => getComputedStyle(el as Element).color),
       'Terminal light selected date text is not white',
@@ -454,10 +451,7 @@ test.describe('QDS catalog form picker gate', () => {
 
     const terminalLightActiveTime = page.locator('[data-test="qds-catalog-time"] .q-time__clock-position--active').first()
     await expect(terminalLightActiveTime).toBeVisible()
-    expect.soft(
-      await terminalLightActiveTime.evaluate((el) => getComputedStyle(el as Element).color),
-      'Terminal light active time uses dark on-primary text, not white',
-    ).toBe(terminalLightOnPrimary)
+    await expect.poll(() => terminalLightActiveTime.evaluate((el) => getComputedStyle(el as Element).color), { message: 'Terminal light active time uses dark on-primary text, not white', timeout: 2000 }).toBe(terminalLightOnPrimary)
     expect.soft(
       await terminalLightActiveTime.evaluate((el) => getComputedStyle(el as Element).color),
       'Terminal light active time text is not white',
@@ -468,10 +462,7 @@ test.describe('QDS catalog form picker gate', () => {
     const terminalDarkOnPrimary = await resolvedColor(page, '--qds-text-on-primary')
     const terminalDarkSelectedDate = page.locator('[data-test="qds-catalog-date"]').getByRole('button', { name: '17', exact: true })
     await expect(terminalDarkSelectedDate).toBeVisible()
-    expect.soft(
-      await terminalDarkSelectedDate.evaluate((el) => getComputedStyle(el as Element).color),
-      'Terminal dark selected date uses dark on-primary text, not white',
-    ).toBe(terminalDarkOnPrimary)
+    await expect.poll(() => terminalDarkSelectedDate.evaluate((el) => getComputedStyle(el as Element).color), { message: 'Terminal dark selected date uses dark on-primary text, not white', timeout: 2000 }).toBe(terminalDarkOnPrimary)
     expect.soft(
       await terminalDarkSelectedDate.evaluate((el) => getComputedStyle(el as Element).color),
       'Terminal dark selected date text is not white',
@@ -479,10 +470,7 @@ test.describe('QDS catalog form picker gate', () => {
 
     const terminalDarkActiveTime = page.locator('[data-test="qds-catalog-time"] .q-time__clock-position--active').first()
     await expect(terminalDarkActiveTime).toBeVisible()
-    expect.soft(
-      await terminalDarkActiveTime.evaluate((el) => getComputedStyle(el as Element).color),
-      'Terminal dark active time uses dark on-primary text, not white',
-    ).toBe(terminalDarkOnPrimary)
+    await expect.poll(() => terminalDarkActiveTime.evaluate((el) => getComputedStyle(el as Element).color), { message: 'Terminal dark active time uses dark on-primary text, not white', timeout: 2000 }).toBe(terminalDarkOnPrimary)
     expect.soft(
       await terminalDarkActiveTime.evaluate((el) => getComputedStyle(el as Element).color),
       'Terminal dark active time text is not white',
@@ -493,10 +481,7 @@ test.describe('QDS catalog form picker gate', () => {
     const inkDarkOnPrimary = await resolvedColor(page, '--qds-text-on-primary')
     const inkDarkSelectedDate = page.locator('[data-test="qds-catalog-date"]').getByRole('button', { name: '17', exact: true })
     await expect(inkDarkSelectedDate).toBeVisible()
-    expect.soft(
-      await inkDarkSelectedDate.evaluate((el) => getComputedStyle(el as Element).color),
-      'Ink dark selected date uses dark on-primary text, not white',
-    ).toBe(inkDarkOnPrimary)
+    await expect.poll(() => inkDarkSelectedDate.evaluate((el) => getComputedStyle(el as Element).color), { message: 'Ink dark selected date uses dark on-primary text, not white', timeout: 2000 }).toBe(inkDarkOnPrimary)
     expect.soft(
       await inkDarkSelectedDate.evaluate((el) => getComputedStyle(el as Element).color),
       'Ink dark selected date text is not white',
@@ -504,10 +489,7 @@ test.describe('QDS catalog form picker gate', () => {
 
     const inkDarkActiveTime = page.locator('[data-test="qds-catalog-time"] .q-time__clock-position--active').first()
     await expect(inkDarkActiveTime).toBeVisible()
-    expect.soft(
-      await inkDarkActiveTime.evaluate((el) => getComputedStyle(el as Element).color),
-      'Ink dark active time uses dark on-primary text, not white',
-    ).toBe(inkDarkOnPrimary)
+    await expect.poll(() => inkDarkActiveTime.evaluate((el) => getComputedStyle(el as Element).color), { message: 'Ink dark active time uses dark on-primary text, not white', timeout: 2000 }).toBe(inkDarkOnPrimary)
     expect.soft(
       await inkDarkActiveTime.evaluate((el) => getComputedStyle(el as Element).color),
       'Ink dark active time text is not white',
