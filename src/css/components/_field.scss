@@ -225,6 +225,7 @@
 
   .qds-ui .q-field .q-field__messages { line-height: inherit; }
   .qds-ui .q-field--error .q-field__bottom { color: var(--qds-fg-negative); }
+  .qds-ui .q-field--error .q-field__label { animation: none; }
 
   // Opt-in floating label: centred at rest, floated onto the border (outlined) or into a top band.
   .qds-ui .qds-field--float,

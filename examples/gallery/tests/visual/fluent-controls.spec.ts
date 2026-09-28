@@ -222,8 +222,11 @@ test.describe('Fluent control geometry and Phosphor icon contract', () => {
 
       const floated = page.locator('[data-test="qds-field-float-value"] > .q-field--outlined.qds-field--float.q-field--float')
       await expect(floated).toBeVisible()
-      const floatedBg = await floated.locator('.q-field__label').evaluate((element) => getComputedStyle(element).backgroundColor)
-      expect.soft(floatedBg, `${mode} floated outlined label matches the resolved --qds-field-label-bg token`).toBe(await resolvedColor(page, '--qds-field-label-bg'))
+      const expectedBg = await resolvedColor(page, '--qds-field-label-bg')
+      await expect.poll(
+        () => floated.locator('.q-field__label').evaluate((element) => getComputedStyle(element).backgroundColor),
+        { message: `${mode} floated outlined label matches the resolved --qds-field-label-bg token`, timeout: 2000 },
+      ).toBe(expectedBg)
     })
   }
 
