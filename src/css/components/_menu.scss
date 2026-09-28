@@ -1,129 +1,63 @@
 @mixin styles {
-  .qds-ui .q-menu.q-menu {
-    background: var(--qds-bg-flyout);
-    border: var(--qds-border-width-control) solid var(--qds-stroke-default);
-    border-radius: var(--qds-menu-radius);
-    box-shadow: var(--qds-elevation-flyout);
+  // QMenu `fit` pins min-width to the anchor inline; the anchor gap is Quasar's `offset` prop.
+  .qds-ui .q-menu {
+    min-width: 8rem;
     color: var(--qds-fg-default);
-    overflow: hidden;
+    background: var(--qds-menu-bg);
+    border: var(--qds-border-width-control) solid transparent;
+    border-radius: var(--qds-menu-radius);
+    box-shadow: var(--qds-menu-shadow);
   }
 
-  .qds-ui .q-menu.q-menu .q-list {
+  .qds-ui .q-menu .q-list {
     padding: var(--qds-space-xs);
   }
 
-  .qds-ui .q-menu.q-menu .q-item.q-item {
+  .qds-ui .q-menu .q-item {
     min-height: var(--qds-menu-item-min-height);
-    margin-block: var(--qds-row-gap);
-    border-radius: var(--qds-row-radius);
-    color: var(--qds-fg-default);
-    transition:
-      background-color var(--qds-motion-fast),
-      color var(--qds-motion-fast);
+    padding: 0.25rem 0.625rem;
+    border-radius: calc(var(--qds-menu-radius) - var(--qds-space-xs));
   }
 
-  .qds-ui .q-menu.q-menu .q-item.q-item .q-focus-helper {
-    opacity: 0 !important;
+  .qds-ui .q-menu .q-item + .q-item {
+    margin-block-start: var(--qds-row-gap);
   }
 
-  .qds-ui .q-menu.q-menu .q-item.q-item:hover,
-  .qds-ui .q-menu.q-menu .q-item.q-item.q-hoverable:hover,
-  .qds-ui .q-menu.q-menu .q-item.q-item:focus-visible {
-    background-color: var(--qds-state-hover);
+  .qds-ui .q-menu .q-separator {
+    margin-block: var(--qds-space-xs);
+    margin-inline: calc(-1 * var(--qds-space-xs));
   }
 
-  .qds-ui .q-menu.q-menu .q-item.q-item:focus-visible {
-    outline: var(--qds-focus-ring-width) solid var(--qds-stroke-focus);
-    outline-offset: -2px;
-  }
-
-  .qds-ui .q-menu.q-menu .q-item.q-item.q-item--active,
-  .qds-ui .q-menu.q-menu .q-item.q-item[aria-selected='true'] {
-    color: var(--qds-tab-active-text);
-    background-color: var(--qds-state-selected);
-  }
-
-  .qds-ui .q-menu.q-menu .q-separator {
-    margin: var(--qds-space-xs) calc(-1 * var(--qds-space-xs));
-    background: var(--qds-stroke-divider);
-  }
-
-  .qds-ui.qds-variant-ink .q-menu.q-menu,
-  .qds-ui .qds-variant-ink .q-menu.q-menu {
-    background: var(--qds-surface-0);
+  .qds-ui.qds-variant-ink .q-menu,
+  .qds-ui .qds-variant-ink .q-menu {
     border-color: var(--qds-separator-color);
     box-shadow: none;
   }
 
-  .qds-ui.qds-variant-ink .q-menu.q-menu .q-item.q-item:hover,
-  .qds-ui.qds-variant-ink .q-menu.q-menu .q-item.q-item.q-hoverable:hover,
-  .qds-ui.qds-variant-ink .q-menu.q-menu .q-item.q-item:focus-visible,
-  .qds-ui .qds-variant-ink .q-menu.q-menu .q-item.q-item:hover,
-  .qds-ui .qds-variant-ink .q-menu.q-menu .q-item.q-item.q-hoverable:hover,
-  .qds-ui .qds-variant-ink .q-menu.q-menu .q-item.q-item:focus-visible {
-    background-color: var(--qds-surface-transient);
-  }
-
-  .qds-ui.qds-variant-terminal .q-menu.q-menu,
-  .qds-ui .qds-variant-terminal .q-menu.q-menu {
-    font-family: var(--qds-font-family);
+  .qds-ui.qds-variant-terminal .q-menu,
+  .qds-ui .qds-variant-terminal .q-menu {
     border-color: color-mix(in srgb, var(--qds-color-primary) 28%, var(--qds-border) 72%);
     border-radius: var(--qds-radius-sm);
   }
 
-  .qds-ui.qds-variant-terminal .q-menu.q-menu .q-item.q-item,
-  .qds-ui .qds-variant-terminal .q-menu.q-menu .q-item.q-item {
+  .qds-ui.qds-variant-terminal .q-menu .q-item,
+  .qds-ui .qds-variant-terminal .q-menu .q-item {
     border-radius: var(--qds-radius-xs);
   }
 
-  .qds-ui.qds-variant-mobile .q-menu.q-menu,
-  .qds-ui .qds-variant-mobile .q-menu.q-menu {
-    background: var(--qds-card-bg);
-    border-color: color-mix(in srgb, var(--qds-menu-border) 72%, transparent);
+  .qds-ui.qds-variant-mobile .q-menu,
+  .qds-ui .qds-variant-mobile .q-menu {
     border-radius: var(--qds-card-radius);
-    box-shadow: var(--qds-menu-shadow);
   }
 
-  .qds-ui.qds-variant-mobile .q-menu.q-menu .q-list,
-  .qds-ui .qds-variant-mobile .q-menu.q-menu .q-list {
+  .qds-ui.qds-variant-mobile .q-menu .q-list,
+  .qds-ui .qds-variant-mobile .q-menu .q-list {
     padding: var(--qds-space-sm);
   }
 
-  .qds-ui.qds-variant-mobile .q-menu.q-menu .q-item.q-item,
-  .qds-ui .qds-variant-mobile .q-menu.q-menu .q-item.q-item {
-    min-height: var(--qds-menu-item-min-height);
-    margin-block: 0.1875rem;
+  .qds-ui.qds-variant-mobile .q-menu .q-item,
+  .qds-ui .qds-variant-mobile .q-menu .q-item {
     padding-inline: var(--qds-space-md);
     border-radius: var(--qds-radius-control);
-  }
-
-  .qds-ui.qds-variant-mobile .q-menu.q-menu .q-item.q-item.q-item--dense,
-  .qds-ui .qds-variant-mobile .q-menu.q-menu .q-item.q-item.q-item--dense {
-    min-height: 2.5rem;
-    padding-inline: var(--qds-space-sm);
-    border-radius: calc(var(--qds-radius-control) - 4px);
-  }
-
-  .qds-ui.qds-variant-mobile .q-menu.q-menu .q-item.q-item:hover,
-  .qds-ui.qds-variant-mobile .q-menu.q-menu .q-item.q-item.q-hoverable:hover,
-  .qds-ui.qds-variant-mobile .q-menu.q-menu .q-item.q-item:focus-visible,
-  .qds-ui .qds-variant-mobile .q-menu.q-menu .q-item.q-item:hover,
-  .qds-ui .qds-variant-mobile .q-menu.q-menu .q-item.q-item.q-hoverable:hover,
-  .qds-ui .qds-variant-mobile .q-menu.q-menu .q-item.q-item:focus-visible {
-    background-color: color-mix(in srgb, var(--qds-tab-hover-bg) 80%, var(--qds-surface-2) 20%);
-  }
-
-  .qds-ui.qds-variant-mobile .q-menu.q-menu .q-item.q-item.q-item--active,
-  .qds-ui.qds-variant-mobile .q-menu.q-menu .q-item.q-item[aria-selected='true'],
-  .qds-ui .qds-variant-mobile .q-menu.q-menu .q-item.q-item.q-item--active,
-  .qds-ui .qds-variant-mobile .q-menu.q-menu .q-item.q-item[aria-selected='true'] {
-    background-color: var(--qds-surface-focus-block);
-    box-shadow: inset 0 0 0 1px rgba(var(--qds-color-primary-rgb), 0.08);
-  }
-
-  .qds-ui.qds-variant-mobile .q-menu.q-menu .q-separator,
-  .qds-ui .qds-variant-mobile .q-menu.q-menu .q-separator {
-    margin: var(--qds-space-xs) calc(-1 * var(--qds-space-sm));
-    background: color-mix(in srgb, var(--qds-border-subtle) 72%, transparent);
   }
 }

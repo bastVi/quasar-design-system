@@ -213,7 +213,7 @@ function pulseAjaxBar(): void {
 
       <div class="catalog-demo catalog-demo--wide">
         <div class="catalog-label">QMarkupTable</div>
-        <q-markup-table flat bordered dense>
+        <q-markup-table flat bordered dense tabindex="0" role="region" aria-label="Coverage summary">
           <thead>
             <tr>
               <th class="text-left">Component</th>

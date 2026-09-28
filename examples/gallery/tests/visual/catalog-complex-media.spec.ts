@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
+import { customProperty, resolvedColor } from './helpers'
 
 type Mode = 'light' | 'dark'
 type Variant = 'fluent' | 'ink' | 'mobile' | 'terminal'
@@ -8,7 +9,7 @@ type ComplexMediaTestHook = {
 }
 
 const EXPECTED_MEDIA_RADIUS: Record<Extract<Variant, 'fluent' | 'mobile' | 'terminal'>, string> = {
-  fluent: '8px',
+  fluent: '12px',
   mobile: '20px',
   terminal: '10px',
 }
@@ -94,6 +95,13 @@ async function getComplexMediaRtl(page: Page): Promise<boolean> {
 
 async function setComplexMediaRtl(page: Page, rtl: boolean): Promise<boolean> {
   return page.evaluate(rtl => (window as Window & { __qdsComplexMedia: ComplexMediaTestHook }).__qdsComplexMedia.setRtl(rtl), rtl)
+}
+
+async function expectStepperErrorHalo(page: Page, label: string) {
+  const tab = '[data-test="qds-stepper"] .q-stepper__tab--error'
+  expect.soft(await computed(page, tab, 'background-color'), `${label} stepper error tab keeps no rectangle wash`).toBe('rgba(0, 0, 0, 0)')
+  expect.soft(await computed(page, `${tab} .q-stepper__dot`, 'background-color'), `${label} stepper error dot is the negative fill`).toBe(await resolvedColor(page, '--qds-color-negative'))
+  expect.soft(await computed(page, `${tab} .q-stepper__dot`, 'box-shadow'), `${label} stepper error dot carries the 4px negative-soft halo`).toBe(`${await resolvedColor(page, '--qds-surface-negative-soft')} 0px 0px 0px 4px`)
 }
 
 test.describe('QDS catalog complex media gate', () => {
@@ -213,7 +221,7 @@ test.describe('QDS catalog complex media gate', () => {
       'carousel image uses owned SVG data',
     ).toHaveAttribute('src', /^data:image\/svg\+xml/)
     await expect(carousel.locator('.q-carousel__slide:not(.q-carousel__slide--hidden) .catalog-carousel-image img').first()).toHaveAttribute('alt', 'Editorial surface: Paper-neutral surface with pastel role washes and charcoal type.')
-    expect.soft(await computed(page, '[data-test="qds-carousel"]', 'border-radius'), 'carousel QDS radius').toBe('8px')
+    expect.soft(await computed(page, '[data-test="qds-carousel"]', 'border-radius'), 'carousel QDS radius').toBe(await customProperty(page, '--qds-card-radius'))
     await expect(page.locator('[data-test="qds-carousel-controls"]')).toBeVisible()
     await expect(page.getByLabel('Previous carousel slide')).toBeVisible()
     await expect(page.getByLabel('Next carousel slide')).toBeVisible()
@@ -237,12 +245,16 @@ test.describe('QDS catalog complex media gate', () => {
     await expect(page.getByLabel('Show second vertical panel')).toHaveAttribute('aria-current', 'true')
 
     await expect(page.locator('[data-test="qds-video"] iframe')).toHaveAttribute('src', /^data:text\/html/)
-    expect.soft(await computed(page, '[data-test="qds-video"]', 'border-top-width'), 'QVideo QDS frame').toBe('1px')
+    expect.soft(await computed(page, '[data-test="qds-video"]', 'border-top-width'), 'QVideo is unframed unless qds-media--framed is set').toBe('0px')
+    expect.soft(await computed(page, '[data-test="qds-video"]', 'border-top-left-radius'), 'QVideo clips to the card radius').toBe(await customProperty(page, '--qds-card-radius'))
+    expect.soft(await computed(page, '[data-test="qds-video"]', 'overflow'), 'QVideo clips the embed to its radius').toBe('hidden')
 
 
     expect.soft(await computed(page, '[data-test="qds-scroll-area"]', 'overflow'), 'QScrollArea frame clips scrollbar overlap').toBe('hidden')
     expect.soft(await computed(page, '[data-test="qds-splitter"]', 'overflow'), 'QSplitter frame clips separator hitbox').toBe('hidden')
-    expect.soft(await computed(page, '[data-test="qds-splitter"] > .q-splitter__separator', 'width'), 'QSplitter separator is softened beyond raw 1px seam').toBe('6px')
+    expect.soft(await computed(page, '[data-test="qds-splitter"] > .q-splitter__separator', 'width'), 'QSplitter separator is the native 1px divider').toBe('1px')
+    expect.soft(await computed(page, '[data-test="qds-splitter"] > .q-splitter__separator', 'background-color'), 'QSplitter separator uses the divider stroke').toBe(await resolvedColor(page, '--qds-stroke-divider'))
+    expect.soft(await computed(page, '[data-test="qds-splitter"] > .q-splitter__separator', 'opacity', '::before'), 'QSplitter handle stays hidden at rest').toBe('0')
 
     // No Material Icons ligature text in custom controls (carousel, uploader, Fab)
     await expect(page.locator('[data-test="qds-carousel-controls"] .material-icons')).toHaveCount(0)
@@ -279,7 +291,7 @@ test.describe('QDS catalog complex media gate', () => {
       await expect(page.locator('[data-test="qds-uploader-disabled"]')).toBeVisible()
 
       expect.soft(await computed(page, '[data-test="qds-carousel"]', 'border-radius'), `${variant} carousel radius`).toBe(EXPECTED_MEDIA_RADIUS[variant])
-      expect.soft(await computed(page, '[data-test="qds-stepper"] .q-stepper__tab--error', 'background-color'), `${variant} stepper error tab is themed`).not.toBe('rgba(0, 0, 0, 0)')
+      await expectStepperErrorHalo(page, variant)
       expect.soft(await computed(page, '[data-test="qds-editor"]', 'border-top-width'), `${variant} editor keeps framed chrome`).toBe('1px')
       expect.soft(await computed(page, '[data-test="qds-uploader"]', 'border-top-width'), `${variant} uploader keeps framed chrome`).toBe('1px')
       expect.soft(await computed(page, '[data-test="qds-uploader-disabled"]', 'opacity'), `${variant} disabled uploader state is softened`).toBe('0.6')
@@ -379,7 +391,7 @@ test.describe('QDS catalog complex media gate', () => {
 
     const editor = page.locator('[data-test="qds-editor"]')
     await page.focus('[data-test="qds-editor"] .q-editor__content')
-    expect.soft(await computed(page, '[data-test="qds-editor"]', 'border-top-color'), 'focused editor receives QDS focus border').toBe('rgb(0, 90, 158)')
+    expect.soft(await computed(page, '[data-test="qds-editor"]', 'border-top-color'), 'focused editor receives QDS focus border').toBe(await resolvedColor(page, '--qds-color-primary'))
     await expect(editor.locator('.q-btn-dropdown')).toHaveCount(2)
 
     await editor.locator('.q-btn-dropdown').first().click()
@@ -409,7 +421,7 @@ test.describe('QDS catalog complex media gate', () => {
         await expect(page.locator('[data-test="qds-carousel"]')).toBeVisible()
         await expect(page.locator('[data-test="qds-editor"]')).toBeVisible()
         await expect(page.locator('[data-test="qds-uploader"]')).toBeVisible()
-        expect.soft(await computed(page, '[data-test="qds-carousel"]', 'border-radius'), `${mode}/${variant} carousel geometry`).toBe(variant === 'mobile' ? '20px' : variant === 'ink' ? '16px' : variant === 'terminal' ? '10px' : '8px')
+        expect.soft(await computed(page, '[data-test="qds-carousel"]', 'border-radius'), `${mode}/${variant} carousel geometry`).toBe(variant === 'mobile' ? '20px' : variant === 'ink' ? '16px' : variant === 'terminal' ? '10px' : await customProperty(page, '--qds-card-radius'))
         expect.soft(await computed(page, '[data-test="qds-timeline"] .q-timeline__subtitle', 'color'), `${mode}/${variant} timeline subtitle foreground`).toBe(await tokenColor(page, '[data-test="qds-timeline"]', '--qds-text-muted'))
         expect.soft(await computed(page, '[data-test="qds-timeline-dense"] .q-timeline__dot', 'background-color', '::after'), `${mode}/${variant} dense timeline rail`).toBe(await tokenColor(page, '[data-test="qds-timeline-dense"]', '--qds-timeline-rail'))
         const primaryMarker = '[data-test="qds-timeline"] .q-timeline__entry--left .q-timeline__dot'
@@ -437,7 +449,7 @@ test.describe('QDS catalog complex media gate', () => {
         expect.soft(wcagContrast(positiveBorder, positiveBackground), `${mode}/${variant} positive marker border contrast`).toBeGreaterThanOrEqual(3)
         expect.soft(wcagContrast(positiveIcon, positiveBackground), `${mode}/${variant} positive marker icon contrast`).toBeGreaterThanOrEqual(3)
         expect.soft(await computed(page, '[data-test="qds-uploader"]', 'border-top-color'), `${mode}/${variant} uploader surface boundary`).not.toBe('rgba(0, 0, 0, 0)')
-        expect.soft(await computed(page, '[data-test="qds-stepper"] .q-stepper__tab--error', 'background-color'), `${mode}/${variant} error state is painted`).not.toBe('rgba(0, 0, 0, 0)')
+        await expectStepperErrorHalo(page, `${mode}/${variant}`)
         if (variant === 'ink') {
           expect.soft(await computed(page, '[data-test="qds-editor"]', 'box-shadow'), `${mode}/Ink editor is matte`).toBe('none')
         }

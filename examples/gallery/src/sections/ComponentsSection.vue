@@ -69,15 +69,43 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
     <q-card class="q-pa-lg">
       <div class="text-h6 qds-display q-mb-md">QBtn</div>
 
-      <div class="text-subtitle2 qds-text-muted q-mb-xs">Unelevated (semantic tonal default)</div>
+      <div class="text-subtitle2 qds-text-muted q-mb-xs">Neutral default</div>
       <div class="qds-button-row q-mb-md">
-        <q-btn v-for="c in colors" :key="`u-${c}`" unelevated :color="c" :label="c" no-caps />
+        <q-btn label="Default" no-caps />
+        <q-btn outline label="Outline" no-caps />
+        <q-btn flat label="Subtle" no-caps />
+        <q-btn label="Disabled" disable no-caps />
       </div>
 
-      <div class="text-subtitle2 qds-text-muted q-mb-xs">Explicit solid CTA</div>
+      <div class="text-subtitle2 qds-text-muted q-mb-xs">Primary action</div>
       <div class="qds-button-row q-mb-md">
-        <q-btn class="qds-solid" unelevated color="primary" label="Save" no-caps />
-        <q-btn data-test="qds-control-standard-button" color="primary" label="Elevated" no-caps />
+        <q-btn unelevated color="primary" label="Save" no-caps />
+        <q-btn data-test="qds-control-standard-button" color="primary" label="Standard" no-caps />
+        <q-btn label="Cancel" no-caps />
+      </div>
+
+      <div class="text-subtitle2 qds-text-muted q-mb-xs">Sizes (24 / 32 / 40)</div>
+      <div class="qds-button-row q-mb-md">
+        <q-btn size="sm" label="Small" no-caps />
+        <q-btn label="Medium" no-caps />
+        <q-btn size="lg" label="Large" no-caps />
+        <q-btn dense unelevated color="primary" label="Dense" no-caps />
+      </div>
+
+      <div class="text-subtitle2 qds-text-muted q-mb-xs">Round &amp; disabled</div>
+      <div class="qds-button-row q-mb-lg">
+        <q-btn round color="primary" aria-label="Add"><PhPlus :size="18" weight="regular" /></q-btn>
+        <q-btn round outline aria-label="Confirm"><PhCheck :size="18" weight="regular" /></q-btn>
+        <q-btn round flat aria-label="More"><PhDotsThreeVertical :size="18" weight="regular" /></q-btn>
+        <q-btn unelevated color="primary" label="Disabled" disable no-caps />
+      </div>
+
+      <div class="text-subtitle1 qds-text-strong q-mb-xs">Role colours</div>
+      <div class="qds-text-muted q-mb-md">Colour carries meaning (brand CTA and status); reach for it after the neutral set.</div>
+
+      <div class="text-subtitle2 qds-text-muted q-mb-xs">Solid (<code>color</code> + <code>unelevated</code>)</div>
+      <div class="qds-button-row q-mb-md">
+        <q-btn v-for="c in colors" :key="`u-${c}`" unelevated :color="c" :label="c" no-caps />
       </div>
 
       <div class="text-subtitle2 qds-text-muted q-mb-xs">Outline</div>
@@ -85,37 +113,40 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
         <q-btn v-for="c in colors" :key="`o-${c}`" :data-test="c === 'primary' ? 'qds-control-outline-button' : undefined" outline :color="c" :label="c" no-caps />
       </div>
 
-      <div class="text-subtitle2 qds-text-muted q-mb-xs">Flat &amp; Tonal</div>
+      <div class="text-subtitle2 qds-text-muted q-mb-xs">Flat</div>
       <div class="qds-button-row q-mb-md">
         <q-btn flat color="primary" label="Flat" no-caps />
         <q-btn flat color="negative" label="Flat" no-caps />
-        <q-btn color="primary" label="Tonal" text-color="primary" no-caps />
-        <q-btn color="accent" label="Tonal" text-color="accent" no-caps />
       </div>
 
-      <div class="text-subtitle2 qds-text-muted q-mb-xs">Round, Dense &amp; Disabled</div>
+      <div class="text-subtitle2 qds-text-muted q-mb-xs">Tonal (opt-in <code>qds-tonal</code>)</div>
       <div class="qds-button-row">
-        <q-btn round color="primary" aria-label="Add"><PhPlus :size="18" weight="regular" /></q-btn>
-        <q-btn round outline color="accent" aria-label="Confirm"><PhCheck :size="18" weight="regular" /></q-btn>
-        <q-btn dense unelevated color="primary" label="Dense" no-caps />
-        <q-btn unelevated color="primary" label="Disabled" disable no-caps />
+        <q-btn v-for="c in colors" :key="`t-${c}`" unelevated class="qds-tonal" :color="c" :label="c" no-caps />
       </div>
     </q-card>
 
     <!-- QBadge + QChip -->
     <q-card class="q-pa-lg">
       <div class="text-h6 qds-display q-mb-md">QBadge &amp; QChip</div>
-      <div class="qds-button-row q-mb-md">
+      <div class="text-subtitle2 qds-text-muted q-mb-xs">Badges: neutral tint, solid <code>color</code>, opt-in <code>qds-tonal</code></div>
+      <div class="qds-button-row q-mb-sm">
+        <q-badge label="Neutral" />
         <q-badge v-for="c in colors" :key="`b-${c}`" :color="c" :label="c" />
         <q-badge class="qds-demo-icon-badge" color="primary"><PhSparkle :size="14" weight="duotone" /> Status</q-badge>
       </div>
+      <div class="qds-button-row q-mb-md">
+        <q-badge v-for="c in colors" :key="`bt-${c}`" class="qds-tonal" :color="c" :label="c" />
+      </div>
+      <div class="text-subtitle2 qds-text-muted q-mb-xs">Chips: neutral default, <code>color</code> tint, opt-in <code>qds-solid</code></div>
       <div class="qds-button-row">
-        <q-chip color="primary" text-color="white" label="Primary" />
-        <q-chip color="positive" text-color="white"><PhCheck :size="16" weight="regular" /> Done</q-chip>
-        <q-chip color="warning" text-color="white" label="Removable" removable />
+        <q-chip label="Neutral" />
+        <q-chip color="primary" label="Primary" />
+        <q-chip color="positive"><PhCheck :size="16" weight="regular" /> Done</q-chip>
+        <q-chip color="warning" label="Removable" removable />
         <q-chip outline color="accent" label="Outline" />
-        <q-chip clickable color="info" text-color="white" label="Clickable" />
-        <q-chip dense color="info" text-color="white"><PhInfo :size="14" weight="regular" /> Dense</q-chip>
+        <q-chip clickable color="info" label="Clickable" />
+        <q-chip dense color="info"><PhInfo :size="14" weight="regular" /> Dense</q-chip>
+        <q-chip class="qds-solid" color="primary" label="Solid" />
       </div>
     </q-card>
 
@@ -149,24 +180,25 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
     <!-- QInput / field -->
     <q-card class="q-pa-lg">
       <div class="text-h6 qds-display q-mb-md">QInput / QSelect</div>
+      <div class="text-subtitle2 qds-text-muted q-mb-sm">Default: label above the control</div>
       <div class="row q-col-gutter-md">
-        <div class="col-12 col-sm-6">
+        <div class="col-12 col-sm-6 column" style="gap: var(--qds-space-md)">
           <div data-test="qds-control-input">
-            <q-input v-model="text" name="components-outlined" label="Outlined" outlined clearable class="qds-field--float q-mb-md" />
+            <q-input v-model="text" name="components-outlined" label="Outlined" outlined clearable />
           </div>
-          <q-input model-value="Search" name="components-search" label="With icon" outlined class="qds-field--float q-mb-md">
+          <q-input model-value="Search" name="components-search" label="With icon" outlined>
             <template #prepend><PhMagnifyingGlass :size="18" weight="regular" /></template>
           </q-input>
           <div data-test="qds-control-input-filled">
-            <q-input model-value="" name="components-filled" label="Filled" filled class="qds-field--float q-mb-md" />
+            <q-input model-value="" name="components-filled" label="Filled" filled />
           </div>
           <div data-test="qds-control-input-error">
-            <q-input model-value="" name="components-error" label="With error" outlined error error-message="Required field" class="qds-field--float" />
+            <q-input model-value="" name="components-error" label="With error" outlined error error-message="Required field" />
           </div>
         </div>
-        <div class="col-12 col-sm-6">
+        <div class="col-12 col-sm-6 column" style="gap: var(--qds-space-md)">
           <div data-test="qds-control-select">
-            <q-select v-model="select" name="components-select" :options="selectOptions" label="Outlined select" outlined class="qds-field--float q-mb-md" />
+            <q-select v-model="select" name="components-select" :options="selectOptions" label="Outlined select" outlined />
           </div>
           <div data-test="qds-control-select-multiple">
             <q-select
@@ -177,33 +209,38 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
               filled
               multiple
               use-chips
-              class="qds-field--float q-mb-md"
             />
           </div>
           <div data-test="qds-control-select-dense">
-            <q-select v-model="select" name="components-select-dense" :options="selectOptions" label="Dense select" outlined dense class="qds-field--float q-mb-md" />
+            <q-select v-model="select" name="components-select-dense" :options="selectOptions" label="Dense select" outlined dense />
           </div>
           <div data-test="qds-control-input-disabled">
-            <q-input model-value="" name="components-disabled" label="Disabled" outlined disable class="qds-field--float" />
+            <q-input model-value="" name="components-disabled" label="Disabled" outlined disable />
           </div>
         </div>
+      </div>
 
-        <div class="col-12 qds-field-demo-grid q-mt-md">
-          <div data-test="qds-field-stacked-animated">
-            <div class="qds-text-muted q-mb-xs">Animated top label</div>
-            <q-input model-value="Filled value" name="components-stacked-animated" label="Animated top" outlined class="qds-field--stacked-animated" />
-          </div>
-          <div data-test="qds-field-stacked">
-            <div class="qds-text-muted q-mb-xs">Static stacked label</div>
-            <q-input model-value="" name="components-stacked" label="Stacked label" outlined class="qds-field--stacked" />
-          </div>
+      <div class="text-subtitle1 qds-text-strong q-mt-lg q-mb-xs">Opt-in field variants</div>
+      <div class="qds-text-muted q-mb-md">Add a class per field when a form needs the older floating or side-label layouts.</div>
+      <div class="qds-field-demo-grid">
+        <div data-test="qds-field-float">
+          <div class="qds-text-muted q-mb-xs"><code>qds-field--float</code> (empty)</div>
+          <q-input model-value="" name="components-float" label="Floating label" outlined class="qds-field--float" />
         </div>
+        <div data-test="qds-field-float-value">
+          <div class="qds-text-muted q-mb-xs"><code>qds-field--float</code> (with value)</div>
+          <q-input model-value="Floated value" name="components-float-value" label="Floating label" outlined class="qds-field--float" />
+        </div>
+        <div data-test="qds-field-stacked-animated">
+          <div class="qds-text-muted q-mb-xs"><code>qds-field--stacked-animated</code></div>
+          <q-input model-value="Filled value" name="components-stacked-animated" label="Animated top" outlined class="qds-field--stacked-animated" />
+        </div>
+      </div>
 
-        <div class="col-12 qds-form--label-start qds-form--label-start-md" data-test="qds-field-start-form">
-          <div class="qds-text-muted">Aligned start labels</div>
-          <q-input model-value="" name="components-start-first" label="First name" outlined class="qds-field--start" />
-          <q-input model-value="" name="components-start-last" label="Last name" outlined class="qds-field--start" />
-        </div>
+      <div class="qds-form--label-start qds-form--label-start-md q-mt-md" data-test="qds-field-start-form">
+        <div class="qds-text-muted"><code>qds-form--label-start</code> + <code>qds-field--start</code></div>
+        <q-input model-value="" name="components-start-first" label="First name" outlined class="qds-field--start" />
+        <q-input model-value="" name="components-start-last" label="Last name" outlined class="qds-field--start" />
       </div>
     </q-card>
 
@@ -241,12 +278,12 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
           <q-card-section>
             <div class="text-h6 qds-display">Delete draft?</div>
             <div class="qds-text-muted q-mt-sm">
-              Dialogs use an acrylic scrim, large-radius card surface, and tokenized action rail.
+              Dialogs use a plain scrim, a 12px card radius, and a neutral secondary action.
             </div>
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn flat color="primary" label="Cancel" no-caps v-close-popup />
-            <q-btn class="qds-solid" unelevated color="negative" label="Delete" no-caps v-close-popup />
+            <q-btn flat label="Cancel" no-caps v-close-popup />
+            <q-btn unelevated color="negative" label="Delete" no-caps v-close-popup />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -524,7 +561,7 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
         <q-toolbar-title>Toolbar surface</q-toolbar-title>
         <q-btn flat round aria-label="More actions">
           <PhDotsThreeVertical :size="20" weight="regular" />
-          <q-menu>
+          <q-menu :offset="[0, 4]">
             <q-list style="min-width: 180px">
               <q-item v-close-popup clickable>
                 <q-item-section>Edit</q-item-section>
@@ -541,7 +578,7 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
         </q-btn>
       </q-toolbar>
       <q-btn unelevated color="primary" label="Open menu" no-caps>
-        <q-menu>
+        <q-menu :offset="[0, 4]">
           <q-list style="min-width: 160px">
             <q-item v-close-popup clickable><q-item-section>Fluent</q-item-section></q-item>
             <q-item v-close-popup clickable><q-item-section>Ink</q-item-section></q-item>

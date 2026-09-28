@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
 import { applyTheme, computed, customProperty, resolvedColor } from './helpers'
 
 function durationMs(value: string): number {
@@ -8,6 +8,20 @@ function durationMs(value: string): number {
       return duration.endsWith('ms') ? Number.parseFloat(duration) : Number.parseFloat(duration) * 1_000
     }),
   )
+}
+
+// Unfilled stars take the accessible neutral stroke; states differ by colour, never by opacity.
+async function expectRatingStates(page: Page) {
+  const star = (hook: string, active = false) => page.locator(`[data-test="${hook}"] .q-rating__icon${active ? '--active' : ''}`).first()
+  const accent = await resolvedColor(page, '--qds-color-accent')
+  await expect(star('qds-rating-inactive'), 'unfilled star uses the accessible stroke').toHaveCSS('color', await resolvedColor(page, '--qds-stroke-strong'))
+  await expect(star('qds-rating-inactive')).toHaveCSS('opacity', '1')
+  await expect(star('qds-rating-active', true), 'selected star uses the accent fill').toHaveCSS('color', accent)
+  await expect(star('qds-rating-active', true)).toHaveCSS('opacity', '1')
+  await expect(star('qds-rating-readonly', true), 'readonly selected star is not dimmed').toHaveCSS('color', accent)
+  await expect(star('qds-rating-readonly', true)).toHaveCSS('opacity', '1')
+  await expect(star('qds-rating-disabled'), 'disabled star uses the disabled foreground').toHaveCSS('color', await resolvedColor(page, '--qds-fg-disabled'))
+  await expect(star('qds-rating-disabled')).toHaveCSS('opacity', '1')
 }
 
 test.describe('QDS catalog lightweight primitives gate', () => {
@@ -45,10 +59,7 @@ test.describe('QDS catalog lightweight primitives gate', () => {
       'selected value uses the owned Phosphor filled-star glyph',
     ).not.toBe(await inactive.locator('.q-rating__icon').first().innerHTML())
 
-    await expect(inactive.locator('.q-rating__icon').first()).toHaveCSS('opacity', '0.34')
-    await expect(selected.locator('.q-rating__icon--active').first()).toHaveCSS('opacity', '1')
-    await expect(readonly.locator('.q-rating__icon--active').first()).toHaveCSS('opacity', '0.85')
-    await expect(disabled.locator('.q-rating__icon').first()).toHaveCSS('opacity', '0.24')
+    await expectRatingStates(page)
   })
 
   test('renders QRating hover preview, no-dimming, and keyboard focus states', async ({ page }) => {
@@ -78,18 +89,15 @@ test.describe('QDS catalog lightweight primitives gate', () => {
   test('keeps Ink rating state contrast instead of resetting active states', async ({ page }) => {
     await applyTheme(page, 'light', 'ink')
 
-    await expect(page.locator('[data-test="qds-rating-inactive"] .q-rating__icon').first()).toHaveCSS('opacity', '0.28')
-    await expect(page.locator('[data-test="qds-rating-active"] .q-rating__icon--active').first()).toHaveCSS('opacity', '1')
-    await expect(page.locator('[data-test="qds-rating-readonly"] .q-rating__icon--active').first()).toHaveCSS('opacity', '0.85')
-    await expect(page.locator('[data-test="qds-rating-disabled"] .q-rating__icon').first()).toHaveCSS('opacity', '0.2')
+    await expectRatingStates(page)
     await expect(page.locator('[data-test="qds-rating-no-dimming"] .q-rating__icon').first()).toHaveCSS('opacity', '1')
   })
 
   test('renders QRating semantic colors and sizes in Fluent dark, One, and Terminal', async ({ page }) => {
     await applyTheme(page, 'dark', 'fluent')
-    const positive = await resolvedColor(page, '--qds-color-positive')
-    const negative = await resolvedColor(page, '--qds-color-negative')
-    const primary = await resolvedColor(page, '--qds-color-primary')
+    const positive = await resolvedColor(page, '--qds-fg-positive')
+    const negative = await resolvedColor(page, '--qds-fg-negative')
+    const primary = await resolvedColor(page, '--qds-fg-primary')
 
     await expect(page.locator('[data-test="qds-rating-positive"] .q-rating__icon--active').first()).toHaveCSS('color', positive)
     await expect(page.locator('[data-test="qds-rating-negative"] .q-rating__icon--active').first()).toHaveCSS('color', negative)
@@ -153,10 +161,9 @@ test.describe('QDS catalog lightweight primitives gate', () => {
     expect(await computed(page, '[data-test="qds-separator-vertical"]', 'width')).toBe('1px')
 
     const darkSeparator = page.locator('[data-test="qds-separator-inset-dark"]')
-    const textOnSolid = await resolvedColor(page, '--qds-text-on-solid')
     await expect(darkSeparator).toHaveClass(/q-separator--dark/)
     await expect(darkSeparator).toHaveClass(/q-separator--horizontal-inset/)
-    expect(await computed(page, '[data-test="qds-separator-inset-dark"]', 'background-color')).toBe(textOnSolid)
+    expect(await computed(page, '[data-test="qds-separator-inset-dark"]', 'background-color'), 'dark separator uses the divider stroke, not on-solid white').toBe(separatorColor)
     const insetGeometry = await page.locator('[data-test="qds-separator-inset-host"]').evaluate((host) => {
       const separator = host.querySelector('[data-test="qds-separator-inset-dark"]')!.getBoundingClientRect()
       const container = host.getBoundingClientRect()
@@ -174,8 +181,8 @@ test.describe('QDS catalog lightweight primitives gate', () => {
   test('keeps lightweight primitives stable in dark, Ink, Terminal, RTL, and reduced motion', async ({ page }) => {
     await applyTheme(page, 'dark', 'fluent')
     await expect(page.locator('[data-test="qds-bar-standard"]')).toBeVisible()
-    expect(await computed(page, '[data-test="qds-bar-standard"]', 'background-color')).toBe(
-      await resolvedColor(page, '--qds-color-primary-dark'),
+    expect(await computed(page, '[data-test="qds-bar-standard"]', 'background-color'), 'dark standard bar sits on surface-1').toBe(
+      await resolvedColor(page, '--qds-bg-surface-1'),
     )
 
     await applyTheme(page, 'light', 'ink')
@@ -221,13 +228,14 @@ test.describe('QDS catalog lightweight primitives gate', () => {
 
     const darkBar = page.locator('[data-test="qds-bar-dark"]')
     await expect(darkBar).toHaveClass(/q-bar--dark/)
-    expect(await computed(page, '[data-test="qds-bar-dark"]', 'background-color')).toBe(
-      await resolvedColor(page, '--qds-color-primary-dark'),
-    )
-    expect(await computed(page, '[data-test="qds-bar-dark"]', 'color')).toBe(
-      await resolvedColor(page, '--qds-text-on-primary'),
-    )
-    await expect(darkBar.getByRole('button', { name: 'Close dark bar' })).toBeVisible()
+    const darkBarBg = await resolvedColor(page, '--qds-bar-dark-bg')
+    expect(darkBarBg, 'light dark-bar token is the neutral charcoal surface').toBe('rgb(41, 41, 41)')
+    expect(await resolvedColor(page, '--qds-bar-dark-fg')).toBe('rgb(255, 255, 255)')
+    expect(await computed(page, '[data-test="qds-bar-dark"]', 'background-color')).toBe(darkBarBg)
+    expect(await computed(page, '[data-test="qds-bar-dark"]', 'color')).toBe(await resolvedColor(page, '--qds-bar-dark-fg'))
+    const closeDarkBar = darkBar.getByRole('button', { name: 'Close dark bar' })
+    await expect(closeDarkBar).toBeVisible()
+    await expect(closeDarkBar.locator('svg'), 'dark bar action renders its Phosphor glyph').toBeVisible()
 
     for (const variant of ['ink', 'mobile'] as const) {
       await applyTheme(page, 'light', variant)
@@ -236,12 +244,14 @@ test.describe('QDS catalog lightweight primitives gate', () => {
         : await resolvedColor(page, '--qds-surface-1')
 
       expect(await computed(page, '[data-test="qds-bar-standard"]', 'background-color')).toBe(expectedStandardSurface)
-      expect(await computed(page, '[data-test="qds-bar-dark"]', 'background-color')).toBe(
-        await resolvedColor(page, '--qds-color-primary-dark'),
-      )
-      expect(await computed(page, '[data-test="qds-bar-dark"]', 'color')).toBe(
-        await resolvedColor(page, '--qds-text-on-primary'),
-      )
+      expect(await computed(page, '[data-test="qds-bar-dark"]', 'background-color')).toBe(await resolvedColor(page, '--qds-bar-dark-bg'))
+      expect(await computed(page, '[data-test="qds-bar-dark"]', 'color')).toBe(await resolvedColor(page, '--qds-bar-dark-fg'))
     }
+
+    await applyTheme(page, 'dark', 'fluent')
+    expect(await computed(page, '[data-test="qds-bar-dark"]', 'background-color'), 'in dark mode the dark bar matches the standard bar').toBe(
+      await computed(page, '[data-test="qds-bar-standard"]', 'background-color'),
+    )
+    expect(await computed(page, '[data-test="qds-bar-dark"]', 'color')).toBe(await resolvedColor(page, '--qds-fg-default'))
   })
 })

@@ -11,6 +11,37 @@ async function openCatalog(page: Page) {
   await page.getByRole('tab', { name: 'Catalog' }).click()
 }
 
+async function resolvedRadius(page: Page, token: string): Promise<string> {
+  return page.locator('body').evaluate((element, name) => {
+    const probe = document.createElement('span')
+    probe.style.borderTopLeftRadius = `var(${name})`
+    element.append(probe)
+    const radius = getComputedStyle(probe).borderTopLeftRadius
+    probe.remove()
+    return radius
+  }, token)
+}
+
+function srgbChannels(color: string): [number, number, number] {
+  const srgb = color.match(/color\(srgb ([\d.]+) ([\d.]+) ([\d.]+)/)
+  if (srgb) return [Number(srgb[1]) * 255, Number(srgb[2]) * 255, Number(srgb[3]) * 255]
+  const rgb = color.match(/rgba?\(([\d.]+), ([\d.]+), ([\d.]+)/)
+  if (!rgb) throw new Error(`Unparseable color: ${color}`)
+  return [Number(rgb[1]), Number(rgb[2]), Number(rgb[3])]
+}
+
+function contrastRatio(a: string, b: string): number {
+  const luminance = (color: string) => {
+    const [r, g, b] = srgbChannels(color).map((channel) => {
+      const value = channel / 255
+      return value <= 0.03928 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4
+    })
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b
+  }
+  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x)
+  return (hi + 0.05) / (lo + 0.05)
+}
+
 function durationInMs(value: string): number {
   const trimmed = value.trim()
   if (trimmed.endsWith('ms')) return Number.parseFloat(trimmed)
@@ -76,7 +107,19 @@ test.describe('QDS official stable data and layout modes', () => {
         return color
       })
       await expect(table.locator('thead tr')).toHaveCSS('background-color', darkHeaderBackground)
-      await expect(table.locator('th').first()).toHaveCSS('color', await resolvedColor(page, '--qds-surface-0'))
+      const darkHeaderText = await table.evaluate((element) => {
+        const sample = document.createElement('div')
+        sample.style.color = getComputedStyle(element).getPropertyValue('--qds-table-header-text')
+        element.append(sample)
+        const color = getComputedStyle(sample).color
+        sample.remove()
+        return color
+      })
+      await expect(table.locator('th').first()).toHaveCSS('color', darkHeaderText)
+      expect(
+        contrastRatio(await computed(page, '[data-test="qds-table-official-modes"] th', 'color'), darkHeaderBackground),
+        `light/${variant} explicit-dark muted header keeps AA text contrast`,
+      ).toBeGreaterThanOrEqual(4.5)
       await expect(table.locator('th').first()).toHaveCSS(
         'border-bottom-color',
         await table.locator('td').first().evaluate((element) => getComputedStyle(element).borderBottomColor),
@@ -103,9 +146,16 @@ test.describe('QDS official stable data and layout modes', () => {
     await input.press('Enter')
     await expect(page.locator('[data-test="qds-pagination-input-current-page"]')).toHaveText('Current page: 5')
     await expect(input).toHaveAttribute('placeholder', '5 / 7')
-    await expect(pagination).toHaveCSS('background-color', await resolvedColor(page, '--qds-surface-focus-block'))
-    expect(await computed(page, '[data-test="qds-pagination-input"]', 'border-top-left-radius')).not.toBe('0px')
+    await expect(pagination, 'QPagination has no track; buttons carry the geometry').toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+    await expect(pagination.locator('.q-btn').first(), 'One pagination buttons keep the 44px touch height').toHaveCSS('height', '44px')
+    await expect(pagination.locator('.q-btn').first(), 'One input-mode buttons use the button radius').toHaveCSS('border-top-left-radius', await resolvedRadius(page, '--qds-button-radius'))
     await expect(input).toHaveCSS('color', await resolvedColor(page, '--qds-text'))
+
+    await applyTheme(page, 'light', 'fluent')
+    for (const button of await pagination.locator('.q-btn').all()) {
+      await expect(button, 'Fluent input-mode buttons use the 6px control radius').toHaveCSS('border-top-left-radius', await resolvedRadius(page, '--qds-radius-control'))
+    }
+    await expect(page.locator('[data-test="qds-pagination"] .q-btn[aria-current="true"]'), 'Fluent selected page keeps the control radius').toHaveCSS('border-top-left-radius', await resolvedRadius(page, '--qds-radius-control'))
   })
 
   test('drawer containers preserve seamless and mini-to-overlay states without behavior automation', async ({ page }) => {

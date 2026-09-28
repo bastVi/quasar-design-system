@@ -1,54 +1,17 @@
-// QFooter: tokenized surface + border-top (reverses the inherited border-bottom
-// that .q-layout__section--marginal gets from _toolbar). Positioning helpers stay
-// visually neutral; their child controls provide the actual chrome.
-
 @mixin styles {
-  // Base footer surface — mirrors the shared marginal background/text tokens.
-  .qds-ui .q-footer.q-footer {
-    background: var(--qds-toolbar-bg);
-    color: var(--qds-fg-default);
-    box-shadow: none !important;
-  }
-
-  // Marginal-specific: flip the border direction from bottom to top.
-  // Uses the same specificity-doubling pattern as _toolbar so the rule wins
-  // over the toolbar's blanket border-bottom on .q-layout__section--marginal.
-  .qds-ui .q-layout__section--marginal.q-footer {
-    border-bottom: 0;
+  .qds-ui .q-footer {
     border-top: var(--qds-border-width-control) solid var(--qds-stroke-subtle);
   }
 
-  // QPageSticky / QPageScroller: keep wrappers transparent so they don't occlude
-  // the page surface beneath. Positioning and child controls are app-owned.
-  .qds-ui .q-page-sticky.q-page-sticky,
-  .qds-ui .q-page-scroller.q-page-scroller {
-    background: transparent;
-  }
-
-  .qds-ui.qds-variant-mobile .q-footer.q-footer,
-  .qds-ui .qds-variant-mobile .q-footer.q-footer {
-    background: var(--qds-toolbar-bg);
-    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.06) !important;
-  }
-
-  .qds-ui.qds-variant-mobile .q-layout__section--marginal.q-footer,
-  .qds-ui .qds-variant-mobile .q-layout__section--marginal.q-footer {
-    border-top-color: color-mix(in srgb, var(--qds-border-subtle) 70%, transparent);
+  .qds-ui.qds-variant-mobile .q-footer,
+  .qds-ui .qds-variant-mobile .q-footer {
     border-start-start-radius: var(--qds-card-radius);
     border-start-end-radius: var(--qds-card-radius);
-    overflow: hidden;
+    box-shadow: var(--qds-shadow-8);
   }
 
-  .qds-ui.qds-variant-mobile .q-footer.q-footer .q-tabs__content,
-  .qds-ui.qds-variant-mobile .q-footer.q-footer .q-tabs__content,
-  .qds-ui.qds-variant-mobile .q-footer.q-footer .q-toolbar,
-  .qds-ui .qds-variant-mobile .q-footer.q-footer .q-toolbar {
-    min-height: var(--qds-list-item-min-height);
-  }
-
-  .qds-ui.qds-variant-ink .q-footer.q-footer,
-  .qds-ui .qds-variant-ink .q-footer.q-footer {
-    background: var(--qds-surface-0);
+  .qds-ui.qds-variant-ink .q-footer,
+  .qds-ui .qds-variant-ink .q-footer {
     border-top-color: var(--qds-separator-color);
   }
 }

@@ -1,333 +1,189 @@
 @mixin styles {
-  .qds-ui .q-list.q-list {
+  .qds-ui .q-list {
     color: var(--qds-fg-default);
   }
 
-  .qds-ui .q-item.q-item {
+  .qds-ui .q-list--bordered {
+    padding: var(--qds-space-xs);
+    border: var(--qds-border-width-control) solid var(--qds-stroke-subtle);
+    border-radius: var(--qds-radius-lg);
+  }
+
+  .qds-ui .q-list--separator > .q-item-type + .q-item-type,
+  .qds-ui .q-list--separator > .q-virtual-scroll__content > .q-item-type + .q-item-type {
+    border-top-color: var(--qds-stroke-divider);
+  }
+
+  .qds-ui .q-list--separator > .q-item {
+    border-radius: 0;
+  }
+
+  .qds-ui .q-item {
     position: relative;
     min-height: var(--qds-list-item-min-height);
-    border-radius: var(--qds-row-radius);
+    padding: 0.375rem 0.75rem;
     color: var(--qds-fg-default);
-    transition:
-      background-color var(--qds-motion-fast),
-      color var(--qds-motion-fast),
-      box-shadow var(--qds-motion-fast);
+    border-radius: var(--qds-row-radius);
+    transition: background-color var(--qds-motion-fast);
   }
 
-  // Quasar ships raw rgba(0,0,0,…) caption/overline labels that miss WCAG 4.5:1
-  // on tinted surfaces; route them through the muted foreground token instead.
-  .qds-ui .q-list.q-list .q-item__label--caption,
-  .qds-ui .q-list.q-list .q-item__label--overline {
-    color: var(--qds-fg-muted);
+  .qds-ui .q-item.q-item--dense {
+    min-height: var(--qds-control-size-md);
+    padding-block: 0.125rem;
   }
 
-  .qds-ui .q-item.q-item .q-focus-helper {
+  .qds-ui .q-item > .q-focus-helper {
     display: none;
   }
 
-  .qds-ui .q-item.q-item:hover {
+  .qds-ui .q-item.q-hoverable:hover,
+  .qds-ui .q-item.q-manual-focusable--focused {
     background-color: var(--qds-state-hover);
   }
 
-  .qds-ui .q-item.q-item:focus-visible {
+  .qds-ui .q-item.q-hoverable:active {
+    background-color: var(--qds-state-pressed);
+  }
+
+  .qds-ui .q-item:focus-visible {
     outline: var(--qds-focus-ring-width) solid var(--qds-stroke-focus);
-    outline-offset: -2px;
+    outline-offset: calc(-1 * var(--qds-focus-ring-width));
   }
 
-  .qds-ui .q-item.q-item.q-item--active,
-  .qds-ui .q-item.q-item[aria-selected='true'] {
+  .qds-ui .q-item.q-item--active,
+  .qds-ui .q-item[aria-selected='true'] {
     color: var(--qds-fg-strong);
-    background-color: var(--qds-state-selected);
+    background-color: var(--qds-surface-brand-soft);
   }
 
-  .qds-ui .q-item.q-item.q-item--active::before,
-  .qds-ui .q-item.q-item[aria-selected='true']::before {
-    content: '';
+  .qds-ui .q-item.q-item--active::before,
+  .qds-ui .q-item[aria-selected='true']::before {
     position: absolute;
     inset-inline-start: 0;
-    inset-block: 0;
+    inset-block: max(0.5rem, calc(50% - 0.625rem));
     width: 3px;
-    background: var(--qds-tab-active-rail);
-    border-start-end-radius: 2px;
-    border-end-end-radius: 2px;
-  }
-
-  .qds-ui .q-expansion-item.q-expansion-item {
-    color: var(--qds-fg-default);
-    border-radius: var(--qds-radius-control);
-    transition:
-      background-color var(--qds-motion-fast),
-      box-shadow var(--qds-motion-fast),
-      opacity var(--qds-motion-fast);
-  }
-
-  .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container {
-    overflow: hidden;
-    border-radius: inherit;
-  }
-
-  .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item {
-    min-height: var(--qds-expansion-item-min-height);
-    padding-block: var(--qds-space-xs);
-    align-items: center;
-    color: var(--qds-fg-default);
-    transition:
-      background-color var(--qds-motion-fast),
-      color var(--qds-motion-fast),
-      box-shadow var(--qds-motion-fast);
-  }
-
-  .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item.q-item--dense {
-    min-height: 2.5rem;
-    padding-block: 0.25rem;
-  }
-
-  .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item:not(.disabled):hover {
-    background-color: color-mix(in srgb, var(--qds-tab-hover-bg) 78%, transparent);
-  }
-
-  .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item:focus-visible {
-    outline: var(--qds-focus-ring-width) solid color-mix(in srgb, var(--qds-color-primary) 82%, transparent);
-    outline-offset: -3px;
-    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--qds-color-primary) 18%, transparent);
-  }
-
-  .qds-ui .q-expansion-item.q-expansion-item--expanded > .q-expansion-item__container > .q-item {
-    color: var(--qds-text-strong);
-    background-color: color-mix(in srgb, var(--qds-tab-active-bg) 72%, var(--qds-surface-1) 28%);
-    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--qds-color-primary) 10%, transparent);
-  }
-
-  .qds-ui .q-expansion-item.q-expansion-item--expanded > .q-expansion-item__container > .q-item::before {
     content: '';
-    position: absolute;
-    inset-inline-start: 0;
-    inset-block: var(--qds-space-sm);
-    width: 2px;
     background: var(--qds-tab-active-rail);
     border-radius: var(--qds-radius-full);
-    opacity: 0.82;
   }
 
-  .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item.disabled {
-    color: color-mix(in srgb, var(--qds-text-muted) 82%, transparent);
+  .qds-ui .q-list .q-item__label--header {
+    padding: 0.75rem 0.75rem 0.25rem;
+    color: var(--qds-fg-muted);
+    font-size: var(--qds-font-size-caption);
+    font-weight: var(--qds-font-weight-semibold);
+  }
+
+  .qds-ui .q-list .q-item__label--caption,
+  .qds-ui .q-list .q-item__label--overline {
+    color: var(--qds-fg-muted);
+  }
+
+  .qds-ui .q-item .q-item__section--side {
+    color: var(--qds-fg-muted);
+    padding-inline-end: 0.75rem;
+  }
+
+  .qds-ui .q-item .q-item__section--main ~ .q-item__section--side {
+    padding-inline: 0.75rem 0;
+  }
+
+  .qds-ui .q-item .q-item__section--avatar {
+    min-width: 2rem;
+    color: inherit;
+  }
+
+  .qds-ui .q-item .q-item__section--side > .q-icon {
+    font-size: var(--qds-control-icon-size-lg);
+  }
+
+  .qds-ui .q-expansion-item {
+    color: var(--qds-fg-default);
+    border-radius: var(--qds-row-radius);
+  }
+
+  .qds-ui .q-expansion-item > .q-expansion-item__container > .q-item {
+    min-height: var(--qds-expansion-item-min-height);
+  }
+
+  .qds-ui .q-expansion-item > .q-expansion-item__container > .q-item.q-item--dense {
+    min-height: var(--qds-list-item-min-height);
+  }
+
+  .qds-ui .q-expansion-item--expanded > .q-expansion-item__container > .q-item {
+    color: var(--qds-fg-strong);
+    background-color: var(--qds-state-hover);
+  }
+
+  .qds-ui .q-expansion-item > .q-expansion-item__container > .q-item.disabled {
+    color: var(--qds-fg-disabled);
     cursor: not-allowed;
-    background: color-mix(in srgb, var(--qds-surface-1) 82%, transparent);
-    opacity: 1;
   }
 
-  .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item.disabled .q-item__label--caption,
-  .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item.disabled .q-expansion-item__toggle-icon {
-    opacity: 0.64;
-  }
-
-  .qds-ui .q-expansion-item.q-expansion-item .q-expansion-item__toggle-icon {
-    width: var(--qds-control-icon-size-md);
-    min-width: var(--qds-control-icon-size-md);
-    height: var(--qds-control-icon-size-md);
+  .qds-ui .q-expansion-item .q-expansion-item__toggle-icon {
     font-size: var(--qds-control-icon-size-md);
-    color: var(--qds-text-muted);
-    opacity: var(--qds-control-icon-opacity);
+    color: var(--qds-fg-muted);
   }
 
-  .qds-ui .q-expansion-item.q-expansion-item .q-item__section--side {
-    align-self: stretch;
-    align-items: center;
-  }
-
-  .qds-ui .q-expansion-item.q-expansion-item--expanded .q-expansion-item__toggle-icon {
-    color: var(--qds-color-primary);
-    opacity: var(--qds-control-icon-opacity-active);
-  }
-
-  .qds-ui .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item.q-item--dense .q-expansion-item__toggle-icon {
-    width: var(--qds-control-icon-size-sm);
-    min-width: var(--qds-control-icon-size-sm);
-    height: var(--qds-control-icon-size-sm);
+  .qds-ui .q-expansion-item > .q-expansion-item__container > .q-item.q-item--dense .q-expansion-item__toggle-icon {
     font-size: var(--qds-control-icon-size-sm);
   }
 
-  // Nested panel lift: opaque raised surface + hairline (Fluent dark layers never
-  // alpha-blend structural panels — they lift above the canvas instead).
-  .qds-ui .q-expansion-item.q-expansion-item .q-expansion-item__content {
+  .qds-ui .q-expansion-item .q-expansion-item__content {
     color: var(--qds-fg-default);
-    background: var(--qds-surface-1);
-    border-top: var(--qds-border-width-control) solid var(--qds-border-subtle);
   }
 
-  .qds-ui .q-expansion-item.q-expansion-item .q-expansion-item__border {
-    background: color-mix(in srgb, var(--qds-border-subtle) 62%, transparent);
+  .qds-ui .q-expansion-item .q-expansion-item__border {
+    background: var(--qds-stroke-divider);
   }
 
-  .qds-ui .q-expansion-item.q-expansion-item.qds-card {
+  .qds-ui .q-expansion-item.qds-card {
     overflow: hidden;
-    background: var(--qds-card-bg);
-    border: var(--qds-border-width-control) solid var(--qds-card-border);
+    background: var(--qds-bg-card);
     border-radius: var(--qds-card-radius);
     box-shadow: var(--qds-card-shadow);
   }
 
-  .qds-ui .q-expansion-item.q-expansion-item.qds-card > .q-expansion-item__container > .q-item {
+  .qds-ui .q-expansion-item.qds-card > .q-expansion-item__container > .q-item {
     margin: var(--qds-space-xs);
   }
 
-  .qds-ui.qds-variant-mobile .q-list.q-list,
-  .qds-ui .qds-variant-mobile .q-list.q-list {
+  .qds-ui.qds-variant-mobile .q-list--bordered,
+  .qds-ui .qds-variant-mobile .q-list--bordered {
+    background: var(--qds-surface-0);
     border-radius: var(--qds-card-radius);
   }
 
-  .qds-ui.qds-variant-mobile .q-list.q-list--bordered,
-  .qds-ui .qds-variant-mobile .q-list.q-list--bordered {
-    overflow: hidden;
-    background: var(--qds-card-bg);
-    border-color: color-mix(in srgb, var(--qds-card-border) 74%, transparent);
-    box-shadow: var(--qds-shadow-sm);
-  }
-
-  // One UI inset separators: align with content rather than spanning full width.
-  .qds-ui.qds-variant-mobile .q-list.q-list--separator > .q-item + .q-item,
-  .qds-ui .qds-variant-mobile .q-list.q-list--separator > .q-item + .q-item {
-    border-top: var(--qds-border-width-control) solid color-mix(in srgb, var(--qds-border-subtle) 72%, transparent);
+  .qds-ui.qds-variant-mobile .q-list--separator > .q-item + .q-item,
+  .qds-ui .qds-variant-mobile .q-list--separator > .q-item + .q-item {
     margin-inline-start: var(--qds-space-md);
     padding-inline-start: 0;
   }
 
-  .qds-ui.qds-variant-mobile .q-item.q-item,
-  .qds-ui .qds-variant-mobile .q-item.q-item {
-    min-height: var(--qds-list-item-min-height);
+  .qds-ui.qds-variant-mobile .q-item,
+  .qds-ui .qds-variant-mobile .q-item {
     padding-inline: var(--qds-space-md);
     border-radius: var(--qds-radius-control);
   }
 
-  .qds-ui.qds-variant-mobile .q-item.q-item.q-item--dense,
-  .qds-ui .qds-variant-mobile .q-item.q-item.q-item--dense {
-    min-height: 2.5rem;
-    padding-inline: var(--qds-space-sm);
-    border-radius: calc(var(--qds-radius-control) - 4px);
+  .qds-ui.qds-variant-mobile .q-item.q-item--active,
+  .qds-ui.qds-variant-mobile .q-item[aria-selected='true'],
+  .qds-ui .qds-variant-mobile .q-item.q-item--active,
+  .qds-ui .qds-variant-mobile .q-item[aria-selected='true'],
+  .qds-ui.qds-variant-mobile .q-expansion-item--expanded > .q-expansion-item__container > .q-item,
+  .qds-ui .qds-variant-mobile .q-expansion-item--expanded > .q-expansion-item__container > .q-item {
+    background-color: var(--qds-surface-focus-block);
   }
 
-  .qds-ui.qds-variant-mobile .q-item.q-item:not(.q-item--dense) .q-item__section--avatar,
-  .qds-ui .qds-variant-mobile .q-item.q-item:not(.q-item--dense) .q-item__section--avatar {
-    min-width: 2.75rem;
-  }
-
-  .qds-ui.qds-variant-mobile .q-item.q-item:hover,
-  .qds-ui .qds-variant-mobile .q-item.q-item:hover {
-    background-color: color-mix(in srgb, var(--qds-tab-hover-bg) 74%, var(--qds-surface-2) 26%);
-  }
-
-  .qds-ui.qds-variant-mobile .q-item.q-item.q-item--active,
-  .qds-ui.qds-variant-mobile .q-item.q-item[aria-selected='true'],
-  .qds-ui .qds-variant-mobile .q-item.q-item.q-item--active,
-  .qds-ui .qds-variant-mobile .q-item.q-item[aria-selected='true'] {
-    background-color: color-mix(in srgb, var(--qds-tab-active-bg) 82%, var(--qds-surface-2) 18%);
-    box-shadow: inset 0 0 0 1px rgba(var(--qds-color-primary-rgb), 0.08);
-  }
-
-  .qds-ui.qds-variant-mobile .q-item.q-item.q-item--active::before,
-  .qds-ui.qds-variant-mobile .q-item.q-item[aria-selected='true']::before,
-  .qds-ui .qds-variant-mobile .q-item.q-item.q-item--active::before,
-  .qds-ui .qds-variant-mobile .q-item.q-item[aria-selected='true']::before,
-  .qds-ui.qds-variant-mobile .q-expansion-item.q-expansion-item--expanded > .q-expansion-item__container > .q-item::before,
-  .qds-ui .qds-variant-mobile .q-expansion-item.q-expansion-item--expanded > .q-expansion-item__container > .q-item::before {
+  .qds-ui.qds-variant-mobile .q-item.q-item--active::before,
+  .qds-ui.qds-variant-mobile .q-item[aria-selected='true']::before,
+  .qds-ui .qds-variant-mobile .q-item.q-item--active::before,
+  .qds-ui .qds-variant-mobile .q-item[aria-selected='true']::before {
     display: none;
   }
 
-  .qds-ui.qds-variant-mobile .q-expansion-item.q-expansion-item,
-  .qds-ui .qds-variant-mobile .q-expansion-item.q-expansion-item {
+  .qds-ui.qds-variant-mobile .q-expansion-item,
+  .qds-ui .qds-variant-mobile .q-expansion-item {
     border-radius: var(--qds-card-radius);
-  }
-
-  .qds-ui.qds-variant-mobile .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item,
-  .qds-ui .qds-variant-mobile .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item {
-    min-height: var(--qds-expansion-item-min-height);
-    padding-inline: var(--qds-space-md);
-    border-radius: var(--qds-radius-control);
-  }
-
-  .qds-ui.qds-variant-mobile .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item.q-item--dense,
-  .qds-ui .qds-variant-mobile .q-expansion-item.q-expansion-item > .q-expansion-item__container > .q-item.q-item--dense {
-    min-height: 2.5rem;
-    padding-inline: var(--qds-space-sm);
-  }
-
-  .qds-ui.qds-variant-mobile .q-expansion-item.q-expansion-item--expanded > .q-expansion-item__container > .q-item,
-  .qds-ui .qds-variant-mobile .q-expansion-item.q-expansion-item--expanded > .q-expansion-item__container > .q-item {
-    background-color: color-mix(in srgb, var(--qds-tab-active-bg) 76%, var(--qds-surface-2) 24%);
-    box-shadow: inset 0 0 0 1px rgba(var(--qds-color-primary-rgb), 0.07);
-  }
-
-  .qds-ui.qds-variant-mobile .q-expansion-item.q-expansion-item .q-expansion-item__content,
-  .qds-ui .qds-variant-mobile .q-expansion-item.q-expansion-item .q-expansion-item__content {
-    margin: 0 var(--qds-space-xs) var(--qds-space-xs);
-    background: color-mix(in srgb, var(--qds-surface-1) 88%, transparent);
-    border-radius: calc(var(--qds-card-radius) - 6px);
-  }
-
-  .qds-ui.qds-variant-mobile .q-expansion-item.q-expansion-item.qds-card > .q-expansion-item__container > .q-item,
-  .qds-ui .qds-variant-mobile .q-expansion-item.q-expansion-item.qds-card > .q-expansion-item__container > .q-item {
-    margin: var(--qds-space-xs);
-  }
-
-  .qds-ui.qds-variant-ink .q-item.q-item.q-item--active,
-  .qds-ui.qds-variant-ink .q-item.q-item[aria-selected='true'],
-  .qds-ui .qds-variant-ink .q-item.q-item.q-item--active,
-  .qds-ui .qds-variant-ink .q-item.q-item[aria-selected='true'] {
-    color: var(--qds-text-strong);
-    background-color: var(--qds-surface-brand-soft);
-  }
-
-  .qds-ui.qds-variant-ink .q-item.q-item.q-item--active::before,
-  .qds-ui.qds-variant-ink .q-item.q-item[aria-selected='true']::before,
-  .qds-ui .qds-variant-ink .q-item.q-item.q-item--active::before,
-  .qds-ui .qds-variant-ink .q-item.q-item[aria-selected='true']::before {
-    background: var(--qds-color-primary);
-  }
-
-  .qds-ui.qds-variant-ink .q-expansion-item.q-expansion-item--expanded > .q-expansion-item__container > .q-item,
-  .qds-ui .qds-variant-ink .q-expansion-item.q-expansion-item--expanded > .q-expansion-item__container > .q-item {
-    background-color: var(--qds-surface-brand-soft);
-    box-shadow: none;
-  }
-
-  .qds-ui.qds-variant-mobile .q-item.q-item.q-item--active,
-  .qds-ui.qds-variant-mobile .q-item.q-item[aria-selected='true'],
-  .qds-ui .qds-variant-mobile .q-item.q-item.q-item--active,
-  .qds-ui .qds-variant-mobile .q-item.q-item[aria-selected='true'] {
-    background-color: var(--qds-surface-focus-block);
-    box-shadow: inset 0 0 0 1px rgba(var(--qds-color-primary-rgb), 0.08);
-  }
-
-  .qds-ui.qds-variant-mobile .q-expansion-item.q-expansion-item--expanded > .q-expansion-item__container > .q-item,
-  .qds-ui .qds-variant-mobile .q-expansion-item.q-expansion-item--expanded > .q-expansion-item__container > .q-item {
-    background-color: var(--qds-surface-focus-block);
-    box-shadow: inset 0 0 0 1px rgba(var(--qds-color-primary-rgb), 0.07);
-  }
-
-  .qds-ui.qds-variant-mobile .q-expansion-item.q-expansion-item .q-expansion-item__content,
-  .qds-ui .qds-variant-mobile .q-expansion-item.q-expansion-item .q-expansion-item__content {
-    background: var(--qds-surface-transient);
-  }
-
-  // Keep an explicit QTree `dark` prop dark on otherwise light pages. This is
-  // deliberately narrower than the variant rules above so normal trees retain
-  // their Ink and mobile surfaces.
-  .qds-ui.qds-theme-light.qds-variant-ink .q-tree.q-tree--dark,
-  .qds-ui.qds-theme-light.qds-variant-mobile .q-tree.q-tree--dark,
-  .qds-ui.qds-theme-light .qds-variant-ink .q-tree.q-tree--dark,
-  .qds-ui.qds-theme-light .qds-variant-mobile .q-tree.q-tree--dark {
-    background: var(--qds-text-strong);
-    color: var(--qds-surface-0);
-  }
-
-  .qds-ui.qds-theme-light .q-tree.q-tree--dark .q-tree__node-header.q-tree__node-header {
-    color: var(--qds-surface-0);
-    background: transparent;
-  }
-
-  .qds-ui.qds-theme-light .q-tree.q-tree--dark .q-tree__node-header.q-tree__node-header.q-tree__node--selected,
-  .qds-ui.qds-theme-light .q-tree.q-tree--dark .q-tree__node-header.q-tree__node-header[aria-selected='true'] {
-    color: var(--qds-surface-0);
-    background: color-mix(in srgb, var(--qds-color-primary) 48%, var(--qds-text-strong));
   }
 }

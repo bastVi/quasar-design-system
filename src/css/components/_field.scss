@@ -1,470 +1,301 @@
 @mixin styles {
-  .qds-ui .q-field.q-field {
-    font-size: var(--qds-field-label-size);
+  .qds-ui .q-field {
+    --qds-field-height: var(--qds-field-size-md);
+    --qds-field-band: calc(var(--qds-line-height-body1) + var(--qds-field-label-gap));
+    --qds-field-label-font: var(--qds-field-label-size-rest);
+    --qds-field-icon: var(--qds-field-icon-size);
+    --qds-field-gap: var(--qds-space-sm);
+    --qds-field-radius: var(--qds-radius-control);
+    --qds-field-stroke: var(--qds-stroke-default);
+    --qds-field-fill: var(--qds-bg-surface-2);
+    font-size: var(--qds-font-size-body1);
+    line-height: var(--qds-line-height-body1);
     color: var(--qds-fg-default);
   }
 
-  .qds-ui .q-field.q-field:not(.q-textarea) .q-field__control,
-  .qds-ui .q-field.q-field:not(.q-textarea) .q-field__marginal {
-    min-height: var(--qds-field-min-height);
-    height: var(--qds-field-min-height);
+  .qds-ui .q-field--dense {
+    --qds-field-height: var(--qds-field-size-sm);
+    --qds-field-band: calc(var(--qds-line-height-caption) + var(--qds-field-label-gap));
+    --qds-field-label-font: var(--qds-field-label-size-float);
+    --qds-field-icon: var(--qds-field-dense-icon-size);
+    --qds-field-gap: var(--qds-space-xs);
+    font-size: var(--qds-font-size-caption);
+    line-height: var(--qds-line-height-caption);
   }
 
-  .qds-ui .q-field.q-field--dense:not(.q-textarea) .q-field__control,
-  .qds-ui .q-field.q-field--dense:not(.q-textarea) .q-field__marginal {
-    min-height: var(--qds-field-dense-min-height);
-    height: var(--qds-field-dense-min-height);
+  .qds-ui .qds-field--lg { --qds-field-height: var(--qds-field-size-lg); }
+  .qds-ui .q-field--standard,
+  .qds-ui .q-field--borderless { --qds-field-radius: 0; }
+  .qds-ui .q-field--rounded { --qds-field-radius: var(--qds-radius-full); }
+
+  .qds-ui.qds-variant-ink .q-field,
+  .qds-ui .qds-variant-ink .q-field {
+    --qds-field-stroke: var(--qds-separator-color);
+    --qds-field-fill: var(--qds-surface-transient);
   }
 
-  .qds-ui .q-field.q-field:not(.q-textarea) .q-field__control-container {
+  .qds-ui.qds-variant-terminal .q-field,
+  .qds-ui .qds-variant-terminal .q-field { --qds-field-stroke: color-mix(in srgb, var(--qds-color-primary) 24%, var(--qds-border)); }
+
+  .qds-ui.qds-variant-mobile .q-field,
+  .qds-ui .qds-variant-mobile .q-field { --qds-field-fill: var(--qds-surface-focus-block); }
+
+  .qds-ui.qds-variant-mobile :is(.q-field--outlined, .q-field--filled),
+  .qds-ui .qds-variant-mobile :is(.q-field--outlined, .q-field--filled) { --qds-field-radius: calc(var(--qds-radius-control) + 0.25rem); }
+
+  // Label above the control: the root reserves the band, the label sits in it.
+  .qds-ui .q-field--labeled { padding-top: var(--qds-field-band); }
+
+  .qds-ui .q-field .q-field__control {
+    height: var(--qds-field-height);
+    min-height: var(--qds-field-height);
+    color: var(--qds-stroke-focus);
+    border-radius: var(--qds-field-radius);
+  }
+
+  .qds-ui .q-field--auto-height .q-field__control,
+  .qds-ui .q-textarea .q-field__control { height: auto; }
+
+  .qds-ui .q-field--outlined .q-field__control,
+  .qds-ui .q-field--filled .q-field__control,
+  .qds-ui .q-field--standout .q-field__control { padding-inline: var(--qds-field-padding-inline); }
+
+  .qds-ui .q-field--rounded .q-field__control { padding-inline: calc(var(--qds-field-padding-inline) + var(--qds-space-xs)); }
+
+  .qds-ui.qds-variant-mobile :is(.q-field--outlined, .q-field--filled) .q-field__control,
+  .qds-ui .qds-variant-mobile :is(.q-field--outlined, .q-field--filled) .q-field__control { padding-inline: max(var(--qds-field-padding-inline), var(--qds-space-md)); }
+
+  .qds-ui .q-field .q-field__control-container,
+  .qds-ui .q-field--dense.q-field--labeled .q-field__control-container { padding-block: 0; }
+
+  .qds-ui .q-field--labeled .q-field__control-container { position: static; }
+  .qds-ui .q-field .q-field__control-container:has(> .q-field__shadow) { position: relative; }
+
+  .qds-ui .q-field .q-field__native,
+  .qds-ui .q-field .q-field__prefix,
+  .qds-ui .q-field .q-field__suffix {
     min-height: 0;
-    height: 100%;
+    padding-block: 0;
+    font: inherit;
+    letter-spacing: normal;
+    color: var(--qds-fg-default);
+    opacity: 1;
+  }
+
+  .qds-ui .q-field .q-field__prefix,
+  .qds-ui .q-field .q-field__suffix { color: var(--qds-fg-muted); }
+
+  .qds-ui .q-field .q-field__native::placeholder,
+  .qds-ui .q-field .q-field__input::placeholder {
+    color: var(--qds-fg-muted);
+    opacity: 1;
+  }
+
+  .qds-ui .q-field--auto-height .q-field__native,
+  .qds-ui .q-field--auto-height.q-field--dense .q-field__native {
+    min-height: var(--qds-field-height);
+    padding-block: 0.125rem;
+    gap: var(--qds-space-xs);
+  }
+
+  .qds-ui .q-textarea .q-field__native,
+  .qds-ui .q-textarea.q-field--dense.q-field--labeled .q-field__native {
+    min-height: var(--qds-field-height);
+    padding-block: calc((var(--qds-field-height) - 1lh) / 2);
+  }
+
+  .qds-ui .q-field__native .q-chip {
+    min-height: min(1.5rem, calc(var(--qds-field-height) - 0.25rem));
+    margin: 0;
+    font-size: var(--qds-font-size-caption);
+  }
+
+  .qds-ui .q-field--labeled .q-field__label {
+    top: calc(-1 * var(--qds-field-band));
+    inset-inline: 0 auto;
+    max-width: 100%;
+    transform: none;
+    font-size: var(--qds-field-label-font);
+    font-weight: var(--qds-font-weight-regular);
+    line-height: inherit;
+    letter-spacing: normal;
+    color: var(--qds-fg-default);
+    transition: color var(--qds-field-transition);
+  }
+
+  .qds-ui .q-field .q-field__marginal {
+    height: var(--qds-field-height);
+    font-size: var(--qds-field-icon);
+    color: var(--qds-fg-muted);
+  }
+
+  .qds-ui .q-field .q-field__before,
+  .qds-ui .q-field .q-field__prepend { padding-inline: 0 var(--qds-field-gap); }
+  .qds-ui .q-field .q-field__after,
+  .qds-ui .q-field .q-field__append { padding-inline: var(--qds-field-gap) 0; }
+  .qds-ui .q-field .q-field__append + .q-field__append { padding-inline-start: var(--qds-space-xs); }
+
+  .qds-ui .q-field .q-field__marginal :is(.q-icon, svg) {
+    width: var(--qds-field-icon);
+    min-width: var(--qds-field-icon);
+    height: var(--qds-field-icon);
+    font-size: var(--qds-field-icon);
+    color: var(--qds-fg-muted);
+  }
+
+  .qds-ui .q-field--error .q-field__marginal :is(.q-icon, svg) { color: var(--qds-stroke-error); }
+
+  // ::before draws the stroke box; ::after is the Fluent focus bar scaling in from the centre.
+  .qds-ui .q-field .q-field__control::before {
+    border: 0 solid var(--qds-field-stroke);
+    border-bottom-color: var(--qds-stroke-strong);
+    background: none;
+    opacity: 1;
+    transition: border-color var(--qds-field-transition);
+  }
+
+  .qds-ui .q-field--filled.q-field--highlighted .q-field__control::before { background: none; }
+
+  .qds-ui .q-field .q-field__control::after {
+    inset: 0;
+    height: auto;
+    border: 0;
+    border-bottom: var(--qds-field-focus-border-width) solid currentColor;
+    border-radius: inherit;
+    background: none;
+    clip-path: inset(calc(100% - var(--qds-field-focus-border-width)) 0 0);
+    transform: scaleX(0);
+    transition: transform var(--qds-motion-duration-fast) var(--qds-motion-ease-in-out);
+  }
+
+  .qds-ui .q-field--highlighted .q-field__control::after {
+    transform: scaleX(1);
+    transition-duration: var(--qds-motion-duration-base);
+    transition-timing-function: var(--qds-motion-ease-out);
+  }
+
+  .qds-ui .q-field--outlined .q-field__control { background: var(--qds-control-fill-default); }
+  .qds-ui .q-field--outlined .q-field__control::before { border-width: var(--qds-border-width-control); }
+
+  .qds-ui .q-field--outlined .q-field__control:hover::before {
+    border-color: color-mix(in srgb, var(--qds-field-stroke) 75%, var(--qds-stroke-strong));
+    border-bottom-color: var(--qds-stroke-strong);
+  }
+
+  .qds-ui .q-field--filled .q-field__control::before,
+  .qds-ui .q-field--standard .q-field__control::before { border-bottom-width: var(--qds-border-width-control); }
+
+  .qds-ui .q-field--filled .q-field__control,
+  .qds-ui .q-field--standout .q-field__control {
+    background: var(--qds-field-fill);
+    transition: background-color var(--qds-field-transition), box-shadow var(--qds-field-transition);
+  }
+
+  .qds-ui .q-field--filled .q-field__control:hover,
+  .qds-ui .q-field--standout .q-field__control:hover { background: color-mix(in srgb, var(--qds-field-fill) 88%, var(--qds-fg-default)); }
+
+  .qds-ui .q-field--standout.q-field--highlighted .q-field__control {
+    background: var(--qds-control-fill-default);
+    box-shadow: var(--qds-shadow-2);
+  }
+
+  .qds-ui .q-field--standout.q-field--highlighted :is(.q-field__native, .q-field__prefix, .q-field__suffix, .q-field__input, .q-field__prepend, .q-field__append) { color: var(--qds-fg-default); }
+
+  .qds-ui .q-field--readonly .q-field__control::before,
+  .qds-ui .q-field--readonly .q-field__control:hover::before {
+    border-style: dashed;
+    border-color: var(--qds-stroke-default);
+  }
+
+  .qds-ui .q-field--error .q-field__control::before,
+  .qds-ui .q-field--error .q-field__control:hover::before { border-color: var(--qds-stroke-error); }
+  .qds-ui .q-field--error .q-field__control::after { border-bottom-color: var(--qds-stroke-error); transform: scaleX(1); }
+
+  .qds-ui .q-field--disabled.q-field--outlined .q-field__control { background: var(--qds-control-fill-disabled); }
+
+  .qds-ui .q-field--disabled .q-field__control::before { border-color: var(--qds-stroke-subtle); }
+
+  .qds-ui .q-field .q-field__bottom {
+    min-height: 1.25rem;
+    padding: var(--qds-field-label-gap) 0 0;
+    font-size: var(--qds-font-size-caption);
+    line-height: var(--qds-line-height-caption);
+    color: var(--qds-fg-muted);
+  }
+
+  .qds-ui .q-field .q-field__messages { line-height: inherit; }
+  .qds-ui .q-field--error .q-field__bottom { color: var(--qds-fg-negative); }
+
+  // Opt-in floating label: centred at rest, floated onto the border (outlined) or into a top band.
+  .qds-ui .qds-field--float,
+  .qds-ui .qds-field--stacked-animated {
+    --qds-field-height: var(--qds-field-min-height);
+    --qds-field-float-top: var(--qds-space-xs);
+    --qds-field-float-shift: 0%;
+    --qds-field-value-inset: var(--qds-field-value-inset-block-start) var(--qds-field-value-inset-block-end);
     padding-top: 0;
   }
 
-  .qds-ui .q-field.q-field:not(.q-textarea) .q-field__native,
-  .qds-ui .q-field.q-field:not(.q-textarea) .q-field__input,
-  .qds-ui .q-field.q-field:not(.q-textarea) .q-field__prefix,
-  .qds-ui .q-field.q-field:not(.q-textarea) .q-field__suffix {
-    min-height: 0;
-    height: 100%;
-    padding: 0;
-    box-sizing: border-box;
-    line-height: normal;
-    color: var(--qds-fg-default);
+  .qds-ui .qds-field--float.q-field--dense,
+  .qds-ui .qds-field--stacked-animated.q-field--dense {
+    --qds-field-height: var(--qds-field-dense-min-height);
+    --qds-field-value-inset: var(--qds-field-value-inset-block-start-dense) var(--qds-field-value-inset-block-end-dense);
   }
 
-  .qds-ui .q-field.q-field--labeled:not(.q-textarea) .q-field__control-container {
-    position: relative;
+  .qds-ui .qds-field--float.q-field--outlined {
+    --qds-field-float-top: 0%;
+    --qds-field-float-shift: -50%;
+    --qds-field-value-inset: 0;
+    --qds-field-label-mask: var(--qds-field-label-bg);
   }
 
-  // When the label is floated (focused or has a value), push input text below it.
-  .qds-ui .q-field.q-field--labeled.q-field--float:not(.q-textarea) .q-field__native,
-  .qds-ui .q-field.q-field--labeled.q-field--focused:not(.q-textarea) .q-field__native,
-  .qds-ui .q-field.q-field--labeled.q-field--float:not(.q-textarea) .q-field__prefix,
-  .qds-ui .q-field.q-field--labeled.q-field--focused:not(.q-textarea) .q-field__prefix,
-  .qds-ui .q-field.q-field--labeled.q-field--float:not(.q-textarea) .q-field__suffix,
-  .qds-ui .q-field.q-field--labeled.q-field--focused:not(.q-textarea) .q-field__suffix {
-    padding-block: var(--qds-field-value-inset-block-start) var(--qds-field-value-inset-block-end);
-  }
+  .qds-ui .qds-field--float .q-field__control-container,
+  .qds-ui .qds-field--stacked-animated .q-field__control-container { position: relative; }
 
-  .qds-ui .q-field.q-field--dense.q-field--labeled.q-field--float:not(.q-textarea) .q-field__native,
-  .qds-ui .q-field.q-field--dense.q-field--labeled.q-field--focused:not(.q-textarea) .q-field__native,
-  .qds-ui .q-field.q-field--dense.q-field--labeled.q-field--float:not(.q-textarea) .q-field__prefix,
-  .qds-ui .q-field.q-field--dense.q-field--labeled.q-field--focused:not(.q-textarea) .q-field__prefix,
-  .qds-ui .q-field.q-field--dense.q-field--labeled.q-field--float:not(.q-textarea) .q-field__suffix,
-  .qds-ui .q-field.q-field--dense.q-field--labeled.q-field--focused:not(.q-textarea) .q-field__suffix {
-    padding-block: var(--qds-field-value-inset-block-start-dense) var(--qds-field-value-inset-block-end-dense);
-  }
-
-  // Label at rest: centered vertically in the control (Quasar's floating label).
-  .qds-ui .q-field.q-field .q-field__label {
+  .qds-ui .qds-field--float .q-field__label,
+  .qds-ui .qds-field--stacked-animated .q-field__label {
     top: 50%;
     transform: translateY(-50%);
-    color: var(--qds-fg-muted);
     font-size: var(--qds-field-label-size-rest);
-    line-height: 1;
+    line-height: 1.2;
+    color: var(--qds-fg-muted);
     transition:
       top var(--qds-field-transition),
       transform var(--qds-field-transition),
       font-size var(--qds-field-transition),
       color var(--qds-field-transition),
-      background-color var(--qds-field-transition),
-      padding var(--qds-field-transition);
+      background-color var(--qds-field-transition);
   }
 
-  // Label floated: sits on the top border of the control.
-  .qds-ui .q-field.q-field--float .q-field__label,
-  .qds-ui .q-field.q-field--focused .q-field__label {
-    top: 0;
-    transform: translateY(-50%);
-    font-size: var(--qds-field-label-size-float);
-    color: var(--qds-stroke-focus);
-  }
-
-  .qds-ui .q-field--filled.q-field--float .q-field__label,
-  .qds-ui .q-field--filled.q-field--focused .q-field__label {
-    top: var(--qds-space-xs);
-    transform: none;
-  }
-
-  // Explicit default alias. Keeping the class in the contract makes the
-  // intended Fluent behavior inspectable while unclassed QFields remain
-  // compatible with the same animated treatment.
-  .qds-ui .q-field.qds-field--float .q-field__label {
-    transition-duration: var(--qds-field-transition);
-  }
-
-  // Stacked labels keep the label inside the control's upper band. This avoids
-  // changing Quasar's accessible label/input relationship while providing the
-  // predictable top-label form anatomy.
-  .qds-ui .q-field.qds-field--stacked .q-field__control-container,
-  .qds-ui .q-field.qds-field--stacked-animated .q-field__control-container {
-    display: grid;
-    grid-template-rows: auto minmax(0, 1fr);
-    align-content: center;
-    row-gap: var(--qds-field-label-gap);
-  }
-
-  .qds-ui .q-field.qds-field--stacked .q-field__label,
-  .qds-ui .q-field.qds-field--stacked-animated .q-field__label {
-    position: static;
-    grid-row: 1;
-    width: auto;
-    max-width: none;
-    padding: 0;
-    margin: 0;
-    transform: none;
-    background: transparent;
-    font-size: var(--qds-field-label-size-rest);
-    line-height: 1.25;
-  }
-
-  .qds-ui .q-field.qds-field--stacked .q-field__native,
-  .qds-ui .q-field.qds-field--stacked .q-field__input {
-    grid-row: 2;
-    align-self: center;
-    padding-block: 0;
-  }
-
-  .qds-ui .q-field.qds-field--stacked-animated.q-field--float .q-field__native,
-  .qds-ui .q-field.qds-field--stacked-animated.q-field--focused .q-field__native,
-  .qds-ui .q-field.qds-field--stacked-animated.q-field--float .q-field__input,
-  .qds-ui .q-field.qds-field--stacked-animated.q-field--focused .q-field__input {
-    grid-row: 2;
-    align-self: center;
-    padding-block: var(--qds-field-value-inset-block-start) var(--qds-field-value-inset-block-end);
-  }
-
-  .qds-ui .q-field.qds-field--stacked-animated.q-field--float .q-field__label,
-  .qds-ui .q-field.qds-field--stacked-animated.q-field--focused .q-field__label {
-    position: absolute;
-    inset-block-start: var(--qds-space-xs);
-    inset-inline-start: 0;
-    grid-row: auto;
-    font-size: var(--qds-field-label-size-float);
-    color: var(--qds-stroke-focus);
-  }
-
-  // Start labels are aligned against a shared inherited column. The label is
-  // taken out of the control flow only for this explicit form layout.
-  .qds-ui .q-field.qds-field--start {
-    display: block;
-    position: relative;
-  }
-
-  .qds-ui .q-field.qds-field--start .q-field__control-container {
-    position: static;
-  }
-
-  .qds-ui .q-field.qds-field--start .q-field__inner {
-    margin-inline-start: calc(var(--qds-field-label-column) + var(--qds-field-label-gap));
-  }
-
-  .qds-ui .q-field.qds-field--start .q-field__label {
-    position: absolute;
-    inset-inline-start: calc(-1 * (var(--qds-field-label-column) + var(--qds-field-label-gap) + var(--qds-field-padding-inline)));
-    top: 50%;
-    width: var(--qds-field-label-column);
-    max-width: var(--qds-field-label-column);
-    transform: translateY(-50%);
-    white-space: normal;
-    overflow: visible;
-    text-overflow: clip;
-    line-height: 1.25;
-  }
-
-  .qds-ui .q-field.qds-field--start .q-field__bottom {
-    margin-inline-start: calc(-1 * (var(--qds-field-label-column) + var(--qds-field-label-gap)));
-    padding-inline-start: calc(var(--qds-field-label-column) + var(--qds-field-label-gap));
-  }
-
-  .qds-ui .q-field.q-field--dense .q-field__label {
-    top: 50%;
-  }
-
-  .qds-ui .q-field.q-field--dense.q-field--float .q-field__label,
-  .qds-ui .q-field.q-field--dense.q-field--focused .q-field__label {
-    top: 0;
-  }
-
-  .qds-ui .q-field.q-field .q-field__marginal .q-icon,
-  .qds-ui .q-field.q-field .q-field__marginal svg {
-    width: var(--qds-field-icon-size);
-    min-width: var(--qds-field-icon-size);
-    height: var(--qds-field-icon-size);
-    font-size: var(--qds-field-icon-size);
-    color: var(--qds-fg-muted);
-    opacity: var(--qds-control-icon-opacity);
-  }
-
-  .qds-ui .q-field.q-field--dense .q-field__marginal .q-icon,
-  .qds-ui .q-field.q-field--dense .q-field__marginal svg {
-    width: var(--qds-field-dense-icon-size);
-    min-width: var(--qds-field-dense-icon-size);
-    height: var(--qds-field-dense-icon-size);
-    font-size: var(--qds-field-dense-icon-size);
-  }
-
-  .qds-ui .q-field.q-field--focused .q-field__marginal .q-icon,
-  .qds-ui .q-field.q-field--focused .q-field__marginal svg {
-    color: var(--qds-stroke-focus);
-    opacity: var(--qds-control-icon-opacity-active);
-  }
-
-  .qds-ui .q-field.q-field--error .q-field__marginal .q-icon,
-  .qds-ui .q-field.q-field--error .q-field__marginal svg {
-    color: var(--qds-stroke-error);
-    opacity: var(--qds-control-icon-opacity-active);
-  }
-
-  .qds-ui .q-field--outlined.q-field--float .q-field__label,
-  .qds-ui .q-field--outlined.q-field--focused .q-field__label {
-    z-index: 1;
-    width: auto;
-    max-width: calc(100% - 1.5rem);
-    padding: 0 var(--qds-space-xs);
+  .qds-ui :is(.qds-field--float, .qds-field--stacked-animated).q-field--float .q-field__label {
+    top: var(--qds-field-float-top);
+    max-width: calc(100% - var(--qds-space-md));
+    padding-inline: var(--qds-space-xs);
     margin-inline-start: calc(-1 * var(--qds-space-xs));
-    background: var(--qds-field-label-bg) !important;
+    transform: translateY(var(--qds-field-float-shift));
+    font-size: var(--qds-field-label-size-float);
+    background: var(--qds-field-label-mask, transparent);
     border-radius: var(--qds-radius-xs);
-    line-height: 1.2;
   }
 
-  .qds-ui .q-field--outlined .q-field__control,
-  .qds-ui .q-field--filled .q-field__control {
-    border-radius: var(--qds-radius-control);
-    padding-inline: var(--qds-field-padding-inline);
-  }
+  .qds-ui :is(.qds-field--float, .qds-field--stacked-animated).q-field--focused .q-field__label { color: var(--qds-stroke-focus); }
 
-  .qds-ui .q-field--outlined .q-field__control::before {
-    border-color: var(--qds-stroke-default);
-    border-radius: var(--qds-radius-control);
-  }
+  .qds-ui :is(.qds-field--float, .qds-field--stacked-animated).q-field--float :is(.q-field__native, .q-field__prefix, .q-field__suffix) { padding-block: var(--qds-field-value-inset); }
 
-  .qds-ui .q-field--outlined .q-field__control:hover::before {
-    border-color: var(--qds-stroke-strong);
-  }
+  .qds-ui :is(.qds-field--float, .qds-field--stacked-animated):not(.q-field--float) :is(.q-field__native, .q-field__input)::placeholder { color: transparent; }
+  .qds-ui :is(.qds-field--float, .qds-field--stacked-animated):not(.q-field--float) :is(.q-field__prefix, .q-field__suffix) { opacity: 0; }
 
-  .qds-ui .q-field--outlined .q-field__control::after {
-    border-radius: var(--qds-radius-control);
-  }
+  @media (min-width: 45rem) {
+    .qds-ui .qds-field--start { padding-top: 0; }
+    .qds-ui .qds-field--start .q-field__inner { margin-inline-start: calc(var(--qds-field-label-column) + var(--qds-space-md)); }
 
-  .qds-ui .q-field--outlined .q-field__control .q-field__notch::before,
-  .qds-ui .q-field--outlined .q-field__control .q-field__notch::after,
-  .qds-ui .q-field--outlined .q-field__control .q-field__notch .q-field__notch-label {
-    border-color: transparent !important;
-    background: transparent !important;
-  }
-
-  .qds-ui .q-field--outlined.q-field--focused .q-field__control::after {
-    border-color: var(--qds-stroke-focus);
-    border-width: var(--qds-field-focus-border-width);
-  }
-
-  .qds-ui .q-field--outlined.q-field--error .q-field__control::after {
-    border-color: var(--qds-stroke-error);
-    border-width: var(--qds-field-focus-border-width);
-  }
-
-  .qds-ui .q-field.q-field--error .q-field__bottom {
-    color: var(--qds-stroke-error);
-  }
-
-  .qds-ui .q-field.q-field--readonly .q-field__control::before {
-    border-color: var(--qds-stroke-subtle);
-    border-style: dashed;
-  }
-
-  .qds-ui .q-field.q-field--disabled {
-    opacity: 1;
-  }
-
-  .qds-ui .q-field.q-field--disabled .q-field__control {
-    background: var(--qds-control-fill-disabled);
-  }
-
-  .qds-ui .q-field.q-field--disabled .q-field__label,
-  .qds-ui .q-field.q-field--disabled .q-field__native,
-  .qds-ui .q-field.q-field--disabled .q-field__append,
-  .qds-ui .q-field.q-field--disabled .q-field__prepend {
-    color: var(--qds-fg-disabled);
-    opacity: 0.72;
-  }
-
-  .qds-ui .q-field--filled .q-field__control {
-    background: var(--qds-control-fill-default);
-  }
-
-  .qds-ui .q-field--filled .q-field__control:hover {
-    background: var(--qds-control-fill-hover);
-  }
-
-  .qds-ui .q-field--filled .q-field__control::before {
-    border-bottom: var(--qds-border-width-control) solid var(--qds-stroke-subtle);
-    opacity: 1;
-  }
-
-  .qds-ui .q-field--filled .q-field__control::after {
-    border-bottom: var(--qds-field-focus-border-width) solid var(--qds-stroke-focus);
-    transform: scale3d(0, 1, 1);
-  }
-
-  .qds-ui .q-field--filled.q-field--focused .q-field__control::after,
-  .qds-ui .q-field--filled.q-field--error .q-field__control::after {
-    transform: scale3d(1, 1, 1);
-  }
-
-  .qds-ui .q-field--filled.q-field--error .q-field__control::after {
-    border-bottom-color: var(--qds-stroke-error);
-  }
-
-  .qds-ui .q-field--filled.q-field--focused .q-field__label {
-    color: var(--qds-stroke-focus);
-  }
-
-  .qds-ui .q-field--error .q-field__control::before,
-  .qds-ui .q-field--error .q-field__control::after {
-    border-width: var(--qds-field-focus-border-width);
-  }
-
-  .qds-ui .q-select.q-select--multiple.q-field--auto-height .q-field__control {
-    min-height: var(--qds-field-min-height);
-    height: auto;
-  }
-
-  .qds-ui .q-select.q-select--multiple.q-field--auto-height .q-field__marginal {
-    min-height: var(--qds-field-min-height);
-    height: auto;
-    align-self: stretch;
-  }
-
-  .qds-ui .q-select.q-select--multiple .q-field__native {
-    min-height: calc(var(--qds-chip-min-height) - var(--qds-space-sm));
-    height: auto;
-    align-content: center;
-    flex-wrap: wrap;
-    gap: var(--qds-space-xs);
-    padding-block: calc(var(--qds-field-label-size) + var(--qds-space-xs)) var(--qds-space-xs);
-  }
-
-  .qds-ui .q-select.q-select--multiple .q-chip.q-chip {
-    margin: 0;
-    color: var(--qds-fg-default);
-    background: var(--qds-state-selected);
-    border: var(--qds-border-width-control) solid var(--qds-stroke-subtle);
-    border-radius: var(--qds-chip-radius);
-  }
-
-  .qds-ui .q-select.q-select--multiple .q-chip.q-chip .q-chip__icon,
-  .qds-ui .q-select.q-select--multiple .q-chip.q-chip .q-chip__icon--remove {
-    color: var(--qds-fg-muted);
-    opacity: 1;
-  }
-
-  .qds-ui .q-select.q-select--multiple .q-chip.q-chip .q-chip__icon--remove {
-    border-radius: var(--qds-radius-full);
-    transition:
-      background-color var(--qds-motion-fast),
-      color var(--qds-motion-fast);
-  }
-
-  .qds-ui .q-select.q-select--multiple .q-chip.q-chip .q-chip__icon--remove:hover,
-  .qds-ui .q-select.q-select--multiple .q-chip.q-chip .q-chip__icon--remove:focus-visible {
-    color: var(--qds-stroke-error);
-    background: var(--qds-state-pressed);
-  }
-
-  .qds-ui.qds-variant-terminal .q-field.q-field,
-  .qds-ui .qds-variant-terminal .q-field.q-field {
-    font-family: var(--qds-font-family);
-  }
-
-  .qds-ui.qds-variant-terminal .q-field--outlined .q-field__control::before,
-  .qds-ui .qds-variant-terminal .q-field--outlined .q-field__control::before {
-    border-color: color-mix(in srgb, var(--qds-color-primary) 24%, var(--qds-border) 76%);
-  }
-
-  .qds-ui.qds-variant-mobile .q-field--outlined .q-field__control,
-  .qds-ui.qds-variant-mobile .q-field--filled .q-field__control,
-  .qds-ui .qds-variant-mobile .q-field--outlined .q-field__control,
-  .qds-ui .qds-variant-mobile .q-field--filled .q-field__control {
-    border-radius: calc(var(--qds-radius-control) + 0.25rem);
-    padding-inline: max(var(--qds-field-padding-inline), var(--qds-space-md));
-  }
-
-  .qds-ui.qds-variant-mobile .q-field.q-field:not(.q-field--dense):not(.q-textarea) .q-field__control,
-  .qds-ui.qds-variant-mobile .q-field.q-field:not(.q-field--dense):not(.q-textarea) .q-field__marginal,
-  .qds-ui .qds-variant-mobile .q-field.q-field:not(.q-field--dense):not(.q-textarea) .q-field__control,
-  .qds-ui .qds-variant-mobile .q-field.q-field:not(.q-field--dense):not(.q-textarea) .q-field__marginal {
-    min-height: var(--qds-field-min-height);
-    height: var(--qds-field-min-height);
-  }
-
-  .qds-ui.qds-variant-mobile .q-field--outlined .q-field__control::before,
-  .qds-ui.qds-variant-mobile .q-field--outlined .q-field__control::after,
-  .qds-ui .qds-variant-mobile .q-field--outlined .q-field__control::before,
-  .qds-ui .qds-variant-mobile .q-field--outlined .q-field__control::after {
-    border-radius: calc(var(--qds-radius-control) + 0.25rem);
-  }
-
-  .qds-ui.qds-variant-mobile .q-field--filled .q-field__control,
-  .qds-ui .qds-variant-mobile .q-field--filled .q-field__control {
-    background: color-mix(in srgb, var(--qds-surface-2) 78%, transparent);
-  }
-
-  .qds-ui.qds-variant-mobile .q-field--filled .q-field__control::before,
-  .qds-ui .qds-variant-mobile .q-field--filled .q-field__control::before {
-    border-bottom: 0;
-  }
-
-  .qds-ui.qds-variant-mobile .q-field--filled .q-field__control::after,
-  .qds-ui .qds-variant-mobile .q-field--filled .q-field__control::after {
-    border-radius: calc(var(--qds-radius-control) + 0.25rem);
-    border: var(--qds-field-focus-border-width) solid var(--qds-color-primary);
-    transform: scale3d(0.98, 0.9, 1);
-    opacity: 0;
-  }
-
-  .qds-ui.qds-variant-mobile .q-field--filled.q-field--focused .q-field__control::after,
-  .qds-ui.qds-variant-mobile .q-field--filled.q-field--error .q-field__control::after,
-  .qds-ui .qds-variant-mobile .q-field--filled.q-field--focused .q-field__control::after,
-  .qds-ui .qds-variant-mobile .q-field--filled.q-field--error .q-field__control::after {
-    transform: scale3d(1, 1, 1);
-    opacity: 1;
-  }
-
-  .qds-ui.qds-variant-mobile .q-field--filled.q-field--error .q-field__control::after,
-  .qds-ui .qds-variant-mobile .q-field--filled.q-field--error .q-field__control::after {
-    border-color: var(--qds-color-negative);
-  }
-
-  .qds-ui.qds-variant-ink .q-field.q-field,
-  .qds-ui .qds-variant-ink .q-field.q-field {
-    font-family: var(--qds-font-family);
-  }
-
-  .qds-ui.qds-variant-ink .q-field--outlined .q-field__control::before,
-  .qds-ui .qds-variant-ink .q-field--outlined .q-field__control::before {
-    border-color: var(--qds-separator-color);
-  }
-
-  .qds-ui.qds-variant-ink .q-field--outlined .q-field__control:hover::before,
-  .qds-ui .qds-variant-ink .q-field--outlined .q-field__control:hover::before {
-    border-color: color-mix(in srgb, var(--qds-separator-color) 72%, var(--qds-color-primary) 28%);
-  }
-
-  .qds-ui.qds-variant-ink .q-field--filled .q-field__control,
-  .qds-ui .qds-variant-ink .q-field--filled .q-field__control {
-    background: var(--qds-surface-transient);
-  }
-
-  .qds-ui.qds-variant-ink .q-field--filled .q-field__control:hover,
-  .qds-ui .qds-variant-ink .q-field--filled .q-field__control:hover {
-    background: color-mix(in srgb, var(--qds-surface-transient) 82%, var(--qds-color-primary) 4%);
-  }
-
-  .qds-ui.qds-variant-mobile .q-field--filled .q-field__control,
-  .qds-ui .qds-variant-mobile .q-field--filled .q-field__control {
-    background: var(--qds-surface-focus-block);
+    .qds-ui .qds-field--start .q-field__label {
+      top: 50%;
+      inset-inline-start: calc(-1 * (var(--qds-field-label-column) + var(--qds-space-md)));
+      width: var(--qds-field-label-column);
+      transform: translateY(-50%);
+      white-space: normal;
+      overflow: visible;
+    }
   }
 }

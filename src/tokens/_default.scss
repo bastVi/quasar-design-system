@@ -1,49 +1,58 @@
-// Fluent 2-inspired baseline: compact, low-border, solid mica surfaces.
+@use 'sass:list';
+@use 'sass:map';
+
+// Fluent 2-inspired baseline: neutral-first, brand colour for CTAs and status only.
 $palette: (
-  primary: #005a9e,
-  primary-light: #60cdff,
-  primary-dark: #003e73,
-  secondary: #0f6c6c,
-  accent: #f2c94c,
-  positive: #6a8f66,
-  negative: #c42b1c,
-  warning: #f7630c,
-  info: #557c99,
+  primary: #0f6cbd,
+  primary-light: #479ef5,
+  primary-dark: #115ea3,
+  primary-pressed: #0c3b5e,
+  secondary: #424242,
+  accent: #c08400,
+  positive: #107c10,
+  negative: #d13438,
+  warning: #e8590c,
+  info: #616161,
 ) !default;
 
 $palette-rgb: (
-  primary: '0, 90, 158', primary-light: '96, 205, 255', primary-dark: '0, 62, 115',
-  secondary: '15, 108, 108', accent: '242, 201, 76', positive: '106, 143, 102',
-  negative: '196, 43, 28', warning: '247, 99, 12', info: '85, 124, 153',
+  primary: '15, 108, 189', primary-light: '71, 158, 245', primary-dark: '17, 94, 163',
+  secondary: '66, 66, 66', accent: '192, 132, 0', positive: '16, 124, 16',
+  negative: '209, 52, 56', warning: '232, 89, 12', info: '97, 97, 97',
 ) !default;
 
+// Dark role fills stay saturated: 3:1 against surface-0/1 and 4.5:1 under their on-fill text.
 $dark-palette: (
-  primary: #5ea9f6,
-  primary-light: #8bc2ff,
-  primary-dark: #378ad9,
-  secondary: #56c7c7,
-  accent: #f6cf65,
-  positive: #8fc987,
-  negative: #f07f72,
-  warning: #ff9d4d,
-  info: #83b7dd,
+  primary: #1976ca,
+  primary-light: #479ef5,
+  primary-dark: #0f6cbd,
+  primary-pressed: #0c3b5e,
+  secondary: #525252,
+  accent: #eaa300,
+  positive: #108510,
+  negative: #d6393d,
+  warning: #e8590c,
+  info: #757575,
 ) !default;
 
 $dark-palette-rgb: (
-  primary: '94, 169, 246', primary-light: '139, 194, 255', primary-dark: '55, 138, 217',
-  secondary: '86, 199, 199', accent: '246, 207, 101', positive: '143, 201, 135',
-  negative: '240, 127, 114', warning: '255, 157, 77', info: '131, 183, 221',
+  primary: '25, 118, 202', primary-light: '71, 158, 245', primary-dark: '15, 108, 189',
+  secondary: '82, 82, 82', accent: '234, 163, 0', positive: '16, 133, 16',
+  negative: '214, 57, 61', warning: '232, 89, 12', info: '117, 117, 117',
 ) !default;
 
-$light-surfaces: (0: #fffdf9, 1: #f8f7f5, 2: #f3f2f0, 3: #edebe9, glass: #fffdf9) !default;
-$dark-surfaces: (0: #1a1d22, 1: #21252b, 2: #282d34, 3: #31373f, glass: #21252b) !default;
-$light-text: (default: #1f2937, strong: #0f172a, muted: #556579) !default;
-$dark-text: (default: #f4f4f5, strong: #ffffff, muted: #c4c7cf) !default;
-$light-on-fill: (primary: #ffffff, secondary: #ffffff, accent: #0f172a, positive: #0f172a, negative: #ffffff, warning: #0f172a, info: #000000) !default;
-$dark-on-fill: (primary: #102a43, secondary: #102525, accent: #26210f, positive: #15291a, negative: #351614, warning: #38200f, info: #12283a) !default;
-$light-soft-surfaces: (brand: #e8f2fc, accent: #fff4d6, positive: #e9f4e7, warning: #fff0e4, negative: #fce9e7, info: #eaf1f7, focus-block: #dceeff, transient: #f7fbff) !default;
-$dark-soft-surfaces: (brand: #173b5c, accent: #493d19, positive: #23473a, warning: #503313, negative: #512a28, info: #243f54, focus-block: #214d78, transient: #202b34) !default;
-$borders: (light: #d1cfcd, subtle: #e9e7e4, dark: #555b64, dark-subtle: #343940) !default;
+$light-surfaces: (0: #ffffff, 1: #fafafa, 2: #f5f5f5, 3: #f0f0f0, glass: #ffffff) !default;
+$dark-surfaces: (0: #292929, 1: #1f1f1f, 2: #2e2e2e, 3: #3d3d3d, glass: #292929) !default;
+$light-text: (default: #242424, strong: #1a1a1a, muted: #616161) !default;
+$dark-text: (default: #f5f5f5, strong: #ffffff, muted: #adadad) !default;
+$light-on-fill: (primary: #ffffff, secondary: #ffffff, accent: #1a1a1a, positive: #ffffff, negative: #ffffff, warning: #1a1a1a, info: #ffffff) !default;
+$dark-on-fill: (primary: #ffffff, secondary: #ffffff, accent: #1a1a1a, positive: #ffffff, negative: #ffffff, warning: #1a1a1a, info: #ffffff) !default;
+// Text-safe role foregrounds: 4.5:1 on surface-0/1/2 and on the role's soft wash.
+$light-role-fg: (primary: var(--qds-fg-brand), secondary: #424242, accent: #835b00, positive: #0e700e, negative: #bc2f32, warning: #b33c00, info: #616161) !default;
+$dark-role-fg: (primary: var(--qds-fg-brand), secondary: #d6d6d6, accent: #eaa300, positive: #54b054, negative: #e37d80, warning: #e9835e, info: #adadad) !default;
+$light-soft-surfaces: (brand: #ebf3fc, accent: #fefbf4, positive: #f1faf1, warning: #fdf6f3, negative: #fdf6f6, info: #f5f5f5, focus-block: #cfe4fa, transient: #ffffff) !default;
+$dark-soft-surfaces: (brand: #082338, accent: #463100, positive: #052505, warning: #411200, negative: #3f1011, info: #333333, focus-block: #0c3b5e, transient: #2e2e2e) !default;
+$borders: (light: #d1d1d1, subtle: #e0e0e0, dark: #666666, dark-subtle: #525252) !default;
 
 // ── Semantic alias maps ─────────────────────────────────────────────
 // These are consumed by the fallbacks/default emission to produce
@@ -51,75 +60,111 @@ $borders: (light: #d1cfcd, subtle: #e9e7e4, dark: #555b64, dark-subtle: #343940)
 // CSS custom properties. Components consume these semantic aliases
 // instead of raw color-mix/rgba calculations.
 $light-semantic: (
-  fg-default: #1f2937, fg-strong: #0f172a, fg-muted: #556579, fg-disabled: #9ca3af,
-  fg-on-brand: #ffffff,
-  bg-canvas: #fffdf9, bg-surface-1: #f8f7f5, bg-surface-2: #f3f2f0, bg-layer: #edebe9,
-  bg-flyout: #fffdf9, bg-overlay: rgba(0, 0, 0, 0.32),
-  bg-card: #fffdf9, bg-card-hover: #f8f7f5,
-  stroke-default: #d1cfcd, stroke-subtle: #e9e7e4, stroke-strong: #555b64,
-  stroke-focus: #005a9e, stroke-error: #c42b1c, stroke-divider: #e9e7e4,
+  fg-default: #242424, fg-strong: #1a1a1a, fg-muted: #616161, fg-disabled: #bdbdbd,
+  fg-on-brand: #ffffff, fg-brand: var(--qds-color-primary),
+  bg-canvas: #ffffff, bg-surface-1: #fafafa, bg-surface-2: #f5f5f5, bg-layer: #f0f0f0,
+  bg-flyout: #ffffff, bg-overlay: rgba(0, 0, 0, 0.4),
+  bg-card: #ffffff, bg-card-hover: #fafafa,
+  stroke-default: #d1d1d1, stroke-subtle: #e0e0e0, stroke-strong: #616161,
+  stroke-focus: var(--qds-color-primary), stroke-error: #d13438, stroke-divider: #e0e0e0,
   state-hover: rgba(0, 0, 0, 0.04), state-pressed: rgba(0, 0, 0, 0.08),
-  state-selected: rgba(0, 90, 158, 0.08), state-disabled: rgba(0, 0, 0, 0.04),
-  state-focus-indicator: #005a9e,
-  control-fill-default: #fffdf9, control-fill-hover: #f3f2f0,
-  control-fill-pressed: #edebe9, control-fill-disabled: #f3f2f0,
+  state-selected: color-mix(in srgb, var(--qds-color-primary) calc(var(--qds-tonal-bg-opacity) * 100%), transparent), state-disabled: rgba(0, 0, 0, 0.04),
+  state-focus-indicator: var(--qds-color-primary),
+  control-fill-default: #ffffff, control-fill-hover: #fafafa,
+  control-fill-pressed: #f5f5f5, control-fill-disabled: #f5f5f5,
+  segmented-track-bg: var(--qds-bg-surface-2), segmented-thumb-bg: var(--qds-control-fill-default),
+  bar-dark-bg: #292929, bar-dark-fg: #ffffff,
 ) !default;
 
 $dark-semantic: (
-  fg-default: #f4f4f5, fg-strong: #ffffff, fg-muted: #c4c7cf, fg-disabled: #6b7280,
-  fg-on-brand: #102a43,
-  bg-canvas: #1a1d22, bg-surface-1: #21252b, bg-surface-2: #282d34, bg-layer: #31373f,
-  bg-flyout: #262a2f, bg-overlay: rgba(0, 0, 0, 0.52),
-  bg-card: #1d2024, bg-card-hover: #262a2f,
-  stroke-default: #343940, stroke-subtle: #404652, stroke-strong: #555b64,
-  stroke-focus: #5ea9f6, stroke-error: #f07f72, stroke-divider: #343940,
+  fg-default: #f5f5f5, fg-strong: #ffffff, fg-muted: #adadad, fg-disabled: #5c5c5c,
+  fg-on-brand: #ffffff, fg-brand: var(--qds-color-primary-light),
+  bg-canvas: #292929, bg-surface-1: #1f1f1f, bg-surface-2: #2e2e2e, bg-layer: #3d3d3d,
+  bg-flyout: #292929, bg-overlay: rgba(0, 0, 0, 0.5),
+  bg-card: #292929, bg-card-hover: #1f1f1f,
+  stroke-default: #666666, stroke-subtle: #525252, stroke-strong: #adadad,
+  stroke-focus: var(--qds-color-primary), stroke-error: #e37d80, stroke-divider: #525252,
   state-hover: rgba(255, 255, 255, 0.06), state-pressed: rgba(255, 255, 255, 0.10),
-  state-selected: rgba(94, 169, 246, 0.12), state-disabled: rgba(255, 255, 255, 0.04),
-  state-focus-indicator: #5ea9f6,
-  control-fill-default: #1d2024, control-fill-hover: #262a2f,
-  control-fill-pressed: #32373e, control-fill-disabled: #1d2024,
+  state-selected: color-mix(in srgb, var(--qds-color-primary) calc(var(--qds-tonal-bg-opacity) * 100%), transparent), state-disabled: rgba(255, 255, 255, 0.04),
+  state-focus-indicator: var(--qds-color-primary),
+  control-fill-default: #292929, control-fill-hover: #1f1f1f,
+  control-fill-pressed: #2e2e2e, control-fill-disabled: #2e2e2e,
+  segmented-track-bg: var(--qds-bg-surface-1), segmented-thumb-bg: var(--qds-bg-layer),
+  bar-dark-bg: var(--qds-bg-surface-1), bar-dark-fg: var(--qds-fg-default),
 ) !default;
 
 $space: (xs: 0.25rem, sm: 0.5rem, md: 1rem, lg: 1.5rem, xl: 2rem) !default;
-$radius: (xs: 2px, sm: 4px, md: 8px, lg: 8px, xl: 16px, full: 9999px, control: 4px) !default;
+$radius: (xs: 2px, sm: 4px, md: 8px, lg: 12px, xl: 16px, full: 9999px, control: 6px) !default;
+
+// Fluent two-part shadows: (ambient blur, key offset-y, key blur) per step; alpha pairs per scheme.
+$shadow-steps: (2: (2px, 1px, 2px), 4: (2px, 2px, 4px), 8: (2px, 4px, 8px), 16: (2px, 8px, 16px), 28: (8px, 14px, 28px), 64: (8px, 32px, 64px)) !default;
+$shadow-alpha: (light: (0.12, 0.14), dark: (0.24, 0.28)) !default;
+
+@function qds-shadow($step, $scheme: light, $direction: 1) {
+  $geometry: map.get($shadow-steps, $step);
+  $alpha: map.get($shadow-alpha, $scheme);
+  @return 0 0 list.nth($geometry, 1) rgba(0, 0, 0, list.nth($alpha, 1)), 0 (list.nth($geometry, 2) * $direction) list.nth($geometry, 3) rgba(0, 0, 0, list.nth($alpha, 2));
+}
+
 $shadow: (
-  sm: none,
-  md: 0 8px 20px rgba(31, 41, 55, 0.06),
-  lg: 0 16px 32px rgba(31, 41, 55, 0.08),
-  dark-sm: none,
-  dark-md: 0 10px 24px rgba(0, 0, 0, 0.2),
-  dark-lg: 0 18px 38px rgba(0, 0, 0, 0.26),
+  sm: qds-shadow(4),
+  md: qds-shadow(16),
+  lg: qds-shadow(64),
+  dark-sm: qds-shadow(4, dark),
+  dark-md: qds-shadow(16, dark),
+  dark-lg: qds-shadow(64, dark),
 ) !default;
 
 $font: (
   body: ('Inter Variable', Inter, 'Open Sans', 'Segoe UI Variable Text', 'Segoe UI', 'SF Pro Text', 'Avenir Next', 'Noto Sans', 'Helvetica Neue', Arial, sans-serif),
-  display: ('Selawik', 'Segoe UI Variable Display', 'Segoe UI', 'Inter Display', 'Inter Variable', Inter, 'SF Pro Display', 'Avenir Next', 'Noto Sans', 'Helvetica Neue', Arial, sans-serif),
+  display: null,
   accent: null,
   weight: (regular: 400, medium: 500, semibold: 600, bold: 700),
 ) !default;
+@if map.get($font, display) == null {
+  $font: map.merge($font, (display: map.get($font, body)));
+}
 
+// Fluent web type ramp (rem at 16px root); legacy keys alias ramp steps below.
 $typography: (
-  caption: (size: 0.75rem, line-height: 1.33, weight: regular),
-  body: (size: 0.875rem, line-height: 1.43, weight: regular),
-  body-strong: (size: 0.875rem, line-height: 1.43, weight: medium),
-  subtitle: (size: 1rem, line-height: 1.375, weight: semibold),
-  title: (size: 1.25rem, line-height: 1.3, weight: semibold),
-  title-large: (size: 1.5rem, line-height: 1.33, weight: semibold),
-  display: (size: 2rem, line-height: 1.25, weight: bold),
+  h1: (size: 2.5rem, line-height: 3.25rem, weight: semibold, letter-spacing: -0.01em),
+  h2: (size: 2rem, line-height: 2.5rem, weight: semibold, letter-spacing: -0.01em),
+  h3: (size: 1.75rem, line-height: 2.25rem, weight: semibold, letter-spacing: -0.01em),
+  h4: (size: 1.5rem, line-height: 2rem, weight: semibold),
+  h5: (size: 1.25rem, line-height: 1.75rem, weight: semibold),
+  h6: (size: 1rem, line-height: 1.375rem, weight: semibold),
+  subtitle1: (size: 1rem, line-height: 1.375rem, weight: medium),
+  subtitle2: (size: 0.875rem, line-height: 1.25rem, weight: semibold),
+  body1: (size: 0.875rem, line-height: 1.25rem, weight: regular),
+  body2: (size: 0.8125rem, line-height: 1.125rem, weight: regular),
+  caption: (size: 0.75rem, line-height: 1rem, weight: regular),
+  overline: (size: 0.6875rem, line-height: 1rem, weight: semibold, letter-spacing: 0.04em),
 ) !default;
+$typography: map.merge((
+  body: map.get($typography, body1),
+  body-strong: map.merge(map.get($typography, body1), (weight: semibold)),
+  subtitle: map.get($typography, h6),
+  title: map.get($typography, h5),
+  title-large: map.get($typography, h4),
+  display: map.get($typography, h1),
+), $typography);
 
-$motion: (duration-fast: 100ms, duration-base: 200ms, ease-out: cubic-bezier(0, 0, 0, 1), ease-in-out: cubic-bezier(0.33, 0, 0.67, 1), fast: 100ms cubic-bezier(0, 0, 0, 1), base: 200ms cubic-bezier(0.33, 0, 0.67, 1)) !default;
+$motion: (duration-fast: 100ms, duration-medium: 150ms, duration-base: 200ms, duration-slow: 250ms, ease-out: cubic-bezier(0, 0, 0, 1), ease-in-out: cubic-bezier(0.33, 0, 0.67, 1), fast: 100ms cubic-bezier(0, 0, 0, 1), base: 200ms cubic-bezier(0.33, 0, 0.67, 1)) !default;
 $state-opacity: (hover: 0.08, focus: 0.12, press: 0.16, disabled: 0.5, tonal-bg: 0.12, tonal-hover: 0.18, tonal-border: 0.2, tonal-text-mix: 72%) !default;
 $border-width: (control: 1px) !default;
-$control: (size-sm: 2rem, size-md: 2.25rem, size-lg: 2.75rem, font-size-sm: 0.875rem, icon-size-sm: 0.875rem, icon-size-md: 1rem, icon-size-lg: 1.25rem, icon-opacity: 0.72, icon-opacity-active: 0.88, letter-spacing: 0, text-transform: none, content-line-height: 1) !default;
+// Coarse pointers: 40px controls, 44px rows and tabs.
+$touch: (control-size-sm: 2rem, control-size-md: 2.5rem, row-min-height: 2.75rem, tab-min-height: 2.75rem) !default;
+$control: (size-sm: 1.5rem, size-md: 2rem, size-lg: 2.5rem, font-size-sm: 0.875rem, icon-size-sm: 0.875rem, icon-size-md: 1rem, icon-size-lg: 1.25rem, icon-opacity: 0.72, icon-opacity-active: 0.88, letter-spacing: 0, text-transform: none, content-line-height: 1) !default;
 $inline: (icon-gap: 0.375rem, dense-icon-gap: 0.25rem) !default;
 $focus-ring: (width: 2px, offset: 2px, opacity: 0.22) !default;
 $components: (
-  button: (padding-inline: 0.875rem, dense-padding-inline: 0.75rem, dense-radius: 0.625rem, dense-font-size: 0.78rem, elevated-shadow: none, elevated-shadow-hover: 0 4px 12px rgba(31, 41, 55, 0.08), dark-elevated-shadow: none, dark-elevated-shadow-hover: 0 5px 14px rgba(0, 0, 0, 0.22)),
-  card: (acrylic-tint-rgb: '255, 253, 249', dark-acrylic-tint-rgb: '94, 169, 246', tonal-opacity: 0.016, fallback-tonal-opacity: 0.012, readable-tonal-opacity: 0.032, readable-surface-mix: 100%, header-tonal-opacity: 0.026, header-surface-mix: 100%, dark-tonal-opacity: 0.018, dark-fallback-tonal-opacity: 0.014, dark-readable-tonal-opacity: 0.032, dark-readable-surface-mix: 100%, dark-header-tonal-opacity: 0.028, dark-header-surface-mix: 100%, border-mix: 22%, backdrop-blur: 0, backdrop-saturate: 1),
-  badge: (min-height: 1.375rem, padding: 0.125rem 0.5rem),
-  chip: (min-height: 1.875rem, padding: 0.25rem 0.625rem, dense-min-height: 1.625rem, dense-padding: 0.125rem 0.5rem),
-  field: (padding-inline: 0.875rem, label-size: 0.8125rem, focus-border-width: 1px),
+  button: (padding-inline: 0.75rem, dense-padding-inline: 0.5rem, dense-radius: 6px, dense-font-size: 0.75rem, fab-size: 3rem, fab-mini-size: 2.5rem, elevated-shadow: none, elevated-shadow-hover: qds-shadow(4), dark-elevated-shadow: none, dark-elevated-shadow-hover: qds-shadow(4, dark)),
+  card: (acrylic-tint-rgb: '255, 255, 255', dark-acrylic-tint-rgb: '255, 255, 255', tonal-opacity: 0.016, fallback-tonal-opacity: 0.012, readable-tonal-opacity: 0.032, readable-surface-mix: 100%, header-tonal-opacity: 0.026, header-surface-mix: 100%, dark-tonal-opacity: 0.018, dark-fallback-tonal-opacity: 0.014, dark-readable-tonal-opacity: 0.032, dark-readable-surface-mix: 100%, dark-header-tonal-opacity: 0.028, dark-header-surface-mix: 100%, border-mix: 22%, backdrop-blur: 0, backdrop-saturate: 1),
+  badge: (min-height: 1.25rem, padding: 0 0.5rem),
+  avatar: (initials-scale: 0.375em),
+  chip: (min-height: 1.75rem, padding: 0 0.75rem, dense-min-height: 1.5rem, dense-padding: 0 0.5rem),
+  field: (padding-inline: 0.75rem, label-size: 0.8125rem, focus-border-width: 2px, min-height: 3rem, dense-min-height: 2.5rem),
+  tab: (min-height: 2.25rem),
 ) !default;
 $chrome: (border-mix: 18%, border-soft-mix: 8%, surface-mix: 100%, surface-strong-mix: 100%, separator-mix: 14%, handle-border-mix: 42%, handle-primary-mix: 12%) !default;
 $effects: (glass: (blur: 0, saturate: 1, border-mix: 24%)) !default;
@@ -131,7 +176,7 @@ $variants: (
     primary: #30302d, primary-light: #5b5b55, primary-dark: #1e1e1c, secondary: #5d6397, accent: #c57c72, positive: #4f806b, negative: #af5c6f, warning: #b67842, info: #5e82a6,
     primary-rgb: '48, 48, 45', primary-light-rgb: '91, 91, 85', primary-dark-rgb: '30, 30, 28', secondary-rgb: '93, 99, 151', accent-rgb: '197, 124, 114', positive-rgb: '79, 128, 107', negative-rgb: '175, 92, 111', warning-rgb: '182, 120, 66', info-rgb: '94, 130, 166',
     light-surface-0: #fdf9f1, light-surface-1: #f7f1e6, light-surface-2: #eee5d7, light-surface-3: #e3d7c6, light-text: #393630, light-text-strong: #211f1b, light-text-muted: #655d52, light-border: #d7ccbc, light-border-subtle: #ebe2d5, light-on-fill: (primary: #ffffff, secondary: #ffffff, accent: #211f1b, positive: #ffffff, negative: #ffffff, warning: #211f1b, info: #000000), shadow-sm: none, shadow-md: 0 8px 20px rgba(63, 53, 39, 0.055), shadow-lg: 0 14px 30px rgba(63, 53, 39, 0.075),
-    radius-control: 10px, radius-lg: 16px, tonal-bg-opacity: 0.13, card-acrylic-tint-rgb: '93, 99, 151', card-tonal-opacity: 0.035, card-fallback-tonal-opacity: 0.028, card-readable-tonal-opacity: 0.055, card-readable-surface-mix: 100%, card-header-tonal-opacity: 0.06, card-header-surface-mix: 100%, card-border-mix: 16%, card-backdrop-blur: 0, card-backdrop-saturate: 1, chrome-border-mix: 16%, chrome-border-soft-mix: 8%, chrome-surface-mix: 100%, chrome-surface-strong-mix: 100%, separator-mix: 16%, handle-border-mix: 34%, handle-primary-mix: 18%, soft-brand: #e7e5ff, soft-accent: #fbe0da, soft-positive: #d9f1e4, soft-warning: #ffe8bd, soft-negative: #f8dce3, soft-info: #dbeafb, soft-focus-block: #dddafe, soft-transient: #f5f0ff,
+    radius-control: 10px, radius-lg: 16px, list-item-min-height: 2.5rem, menu-item-min-height: 2.25rem, tonal-bg-opacity: 0.13, card-acrylic-tint-rgb: '93, 99, 151', card-tonal-opacity: 0.035, card-fallback-tonal-opacity: 0.028, card-readable-tonal-opacity: 0.055, card-readable-surface-mix: 100%, card-header-tonal-opacity: 0.06, card-header-surface-mix: 100%, card-border-mix: 16%, card-backdrop-blur: 0, card-backdrop-saturate: 1, chrome-border-mix: 16%, chrome-border-soft-mix: 8%, chrome-surface-mix: 100%, chrome-surface-strong-mix: 100%, separator-mix: 16%, handle-border-mix: 34%, handle-primary-mix: 18%, soft-brand: #e7e5ff, soft-accent: #fbe0da, soft-positive: #d9f1e4, soft-warning: #ffe8bd, soft-negative: #f8dce3, soft-info: #dbeafb, soft-focus-block: #dddafe, soft-transient: #f5f0ff,
     dark-primary: #f0e9db, dark-primary-light: #fff8ea, dark-primary-dark: #d4ccbd, dark-secondary: #b9bef2, dark-accent: #f0a79c, dark-positive: #98cfb6, dark-negative: #f3a5b7, dark-warning: #f0be7b, dark-info: #a9caee,
     dark-primary-rgb: '240, 233, 219', dark-primary-light-rgb: '255, 248, 234', dark-primary-dark-rgb: '212, 204, 189', dark-secondary-rgb: '185, 190, 242', dark-accent-rgb: '240, 167, 156', dark-positive-rgb: '152, 207, 182', dark-negative-rgb: '243, 165, 183', dark-warning-rgb: '240, 190, 123', dark-info-rgb: '169, 202, 238',
     dark-surface-0: #25231f, dark-surface-1: #1d1b18, dark-surface-2: #302d28, dark-surface-3: #3d3932, dark-text: #eee7da, dark-text-strong: #fff9ed, dark-text-muted: #c8beaf, dark-border: #615b50, dark-border-subtle: #403b34, dark-on-fill: (primary: #25231f, secondary: #25231f, accent: #25231f, positive: #25231f, negative: #25231f, warning: #25231f, info: #25231f), dark-shadow-sm: none, dark-shadow-md: 0 10px 24px rgba(0, 0, 0, 0.2), dark-shadow-lg: 0 16px 34px rgba(0, 0, 0, 0.28), dark-card-acrylic-tint-rgb: '185, 190, 242', dark-card-tonal-opacity: 0.05, dark-card-fallback-tonal-opacity: 0.035, dark-card-readable-tonal-opacity: 0.07, dark-card-readable-surface-mix: 100%, dark-card-header-tonal-opacity: 0.07, dark-card-header-surface-mix: 100%, dark-soft-brand: #39364f, dark-soft-accent: #513940, dark-soft-positive: #30493e, dark-soft-warning: #53442d, dark-soft-negative: #563842, dark-soft-info: #30465a, dark-soft-focus-block: #464167, dark-soft-transient: #302c42,

@@ -1,71 +1,56 @@
-@mixin qds-notify-state($name, $token, $soft) {
-  .qds-ui .q-notification.bg-#{$name} {
-    --qds-notify-accent: var(--qds-color-#{$token});
-    --qds-notify-accent-rgb: var(--qds-color-#{$token}-rgb);
-    --qds-notify-on-accent: var(--qds-text-on-#{$token}, var(--qds-text-on-solid));
-    --qds-notify-wash: var(--qds-surface-#{$soft}-soft);
-  }
-}
+$ink: ':is(.qds-ui.qds-variant-ink, .qds-ui .qds-variant-ink)';
+$mobile: ':is(.qds-ui.qds-variant-mobile, .qds-ui .qds-variant-mobile)';
+$terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
 
 @mixin styles {
   .qds-ui .q-notification {
     --qds-notify-accent: var(--qds-color-primary);
-    --qds-notify-accent-rgb: var(--qds-color-primary-rgb);
     --qds-notify-on-accent: var(--qds-text-on-primary, var(--qds-text-on-solid));
     --qds-notify-wash: var(--qds-surface-brand-soft);
+    --qds-notify-bg: var(--qds-bg-flyout);
 
     position: relative;
     overflow: hidden;
+    padding-inline-start: calc(var(--qds-space-md) + 3px);
     color: var(--qds-fg-default) !important;
-    background: var(--qds-surface-transient) !important;
-    border: var(--qds-border-width-control) solid rgba(var(--qds-notify-accent-rgb), var(--qds-tonal-border-opacity));
-    border-radius: var(--qds-radius-md) !important;
-    box-shadow: var(--qds-shadow-md) !important;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+    background: var(--qds-notify-bg) !important;
+    border: var(--qds-border-width-control) solid transparent;
+    border-radius: var(--qds-notification-radius);
+    box-shadow: var(--qds-notification-shadow);
   }
 
-  .qds-ui .q-notification::before { content: ''; position: absolute; inset-block: 0; inset-inline-start: 0; width: 0.25rem; background: var(--qds-notify-accent); }
-  .qds-ui .q-notification__icon,
-  .qds-ui .q-notification__spinner,
-  .qds-ui .q-notification__actions { color: var(--qds-notify-accent) !important; }
-  .qds-ui .q-notification__message,
-  .qds-ui .q-notification__caption { color: var(--qds-fg-default); }
+  @each $role in positive, negative, warning, info {
+    .qds-ui .q-notification.bg-#{$role} {
+      --qds-notify-accent: var(--qds-color-#{$role});
+      --qds-notify-on-accent: var(--qds-text-on-#{$role}, var(--qds-text-on-solid));
+      --qds-notify-wash: var(--qds-surface-#{$role}-soft);
+    }
+  }
+
+  .qds-ui .q-notification::before { content: ''; position: absolute; inset-block: 0; inset-inline-start: 0; width: 3px; background: var(--qds-notify-accent); border-start-start-radius: inherit; border-end-start-radius: inherit; }
+  .qds-ui :is(.q-notification__icon, .q-notification__spinner) { color: var(--qds-notify-accent); }
+  .qds-ui .q-notification__caption { color: var(--qds-fg-muted); opacity: 1; }
   .qds-ui .q-notification__progress { background: var(--qds-notify-accent); opacity: var(--qds-tonal-border-opacity); }
+
   .qds-ui .q-notification__badge {
     color: var(--qds-notify-on-accent);
-    background-color: var(--qds-notify-accent);
-    border: var(--qds-border-width-control) solid rgba(var(--qds-notify-accent-rgb), var(--qds-tonal-border-opacity));
+    background: var(--qds-notify-accent);
     box-shadow: none;
   }
-  // Quasar positions grouped counters outside the notification corner.
+  // Grouped counters sit outside the corner, so the badge must escape the clip.
   .qds-ui .q-notification:has(.q-notification__badge) { overflow: visible; }
-  .qds-ui .q-notification__badge--top-left,
-  .qds-ui .q-notification__badge--top-right { top: var(--qds-space-xs); }
+  .qds-ui :is(.q-notification__badge--top-left, .q-notification__badge--top-right) { top: var(--qds-space-xs); }
 
-  @include qds-notify-state('positive', 'positive', 'positive');
-  @include qds-notify-state('negative', 'negative', 'negative');
-  @include qds-notify-state('warning', 'warning', 'warning');
-  @include qds-notify-state('info', 'info', 'info');
-
-  .qds-ui.qds-variant-ink .q-notification,
-  .qds-ui .qds-variant-ink .q-notification {
-    background: var(--qds-notify-wash) !important;
-    box-shadow: none !important;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
-
-  .qds-ui.qds-variant-mobile .q-notification,
-  .qds-ui .qds-variant-mobile .q-notification { background: var(--qds-notify-wash) !important; border-radius: var(--qds-radius-lg) !important; }
-
-  .qds-ui.qds-variant-terminal .q-notification,
-  .qds-ui .qds-variant-terminal .q-notification {
-    background: var(--qds-surface-0) !important;
+  #{$ink} .q-notification {
+    --qds-notify-bg: var(--qds-notify-wash);
+    --qds-notification-shadow: none;
     border-color: color-mix(in srgb, var(--qds-notify-accent) 32%, var(--qds-border));
-    border-radius: var(--qds-radius-sm) !important;
-    box-shadow: none !important;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+  }
+  #{$mobile} .q-notification { --qds-notify-bg: var(--qds-notify-wash); --qds-notification-radius: var(--qds-radius-lg); }
+  #{$terminal} .q-notification {
+    --qds-notify-bg: var(--qds-surface-0);
+    --qds-notification-shadow: none;
+    --qds-notification-radius: var(--qds-radius-sm);
+    border-color: color-mix(in srgb, var(--qds-notify-accent) 32%, var(--qds-border));
   }
 }

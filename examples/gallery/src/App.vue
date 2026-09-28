@@ -20,6 +20,7 @@ import TokensSection from './sections/TokensSection.vue'
 import TypographySection from './sections/TypographySection.vue'
 import ComponentsSection from './sections/ComponentsSection.vue'
 import CatalogSection from './sections/CatalogSection.vue'
+import CompareSection from './sections/CompareSection.vue'
 import IconsSection from './sections/IconsSection.vue'
 import FontsSection from './sections/FontsSection.vue'
 import PluginsSection from './sections/PluginsSection.vue'
@@ -29,9 +30,9 @@ import WindowSection from './sections/WindowSection.vue'
 
 const ds = useDesignSystem()
 
-type GalleryTab = 'tokens' | 'typography' | 'components' | 'catalog' | 'variants' | 'scenes' | 'plugins' | 'window' | 'icons' | 'fonts'
+type GalleryTab = 'tokens' | 'typography' | 'compare' | 'components' | 'catalog' | 'variants' | 'scenes' | 'plugins' | 'window' | 'icons' | 'fonts'
 
-const tabs: GalleryTab[] = ['tokens', 'typography', 'components', 'catalog', 'variants', 'scenes', 'plugins', 'window', 'icons', 'fonts']
+const tabs: GalleryTab[] = ['tokens', 'typography', 'compare', 'components', 'catalog', 'variants', 'scenes', 'plugins', 'window', 'icons', 'fonts']
 const tab = ref<GalleryTab>(tabFromHash())
 
 const modes: DesignSystemMode[] = ['light', 'dark', 'system']
@@ -47,6 +48,19 @@ const variantIcons: Record<string, Component> = {
   mobile: PhDeviceMobile,
   terminal: PhTerminal,
 }
+
+const modeOptions = modes.map((mode) => ({
+  value: mode,
+  slot: `mode-${mode}`,
+  class: 'gallery-switcher__button',
+  attrs: { 'aria-label': `${mode} mode` },
+}))
+const variantOptions = variants.map((variant) => ({
+  value: variant.name,
+  slot: `variant-${variant.name}`,
+  class: 'gallery-switcher__button',
+  attrs: { 'aria-label': variant.label },
+}))
 
 function onMode(mode: DesignSystemMode) {
   ds.setMode(mode)
@@ -111,43 +125,33 @@ watch(tab, (value) => {
         <q-toolbar-title class="gallery-title qds-display">Quasar Design System</q-toolbar-title>
 
         <div class="gallery-controls">
-          <div class="gallery-switcher" aria-label="Mode">
-            <q-btn
-              v-for="mode in modes"
-              :key="mode"
-              dense
-              unelevated
-              no-caps
-              color="primary"
-              class="gallery-switcher__button"
-              :aria-label="`${mode} mode`"
-              :aria-pressed="ds.mode.value === mode"
-              :class="{ 'qds-active': ds.mode.value === mode }"
-              @click="onMode(mode)"
-            >
+          <q-btn-toggle
+            :model-value="ds.mode.value"
+            no-caps
+            aria-label="Mode"
+            class="gallery-switcher"
+            :options="modeOptions"
+            @update:model-value="onMode"
+          >
+            <template v-for="mode in modes" :key="mode" #[`mode-${mode}`]>
               <component :is="modeIcons[mode]" :size="16" weight="duotone" />
-              <span>{{ mode }}</span>
-            </q-btn>
-          </div>
+              <span class="gallery-switcher__label">{{ mode }}</span>
+            </template>
+          </q-btn-toggle>
 
-          <div class="gallery-switcher" aria-label="Variant">
-            <q-btn
-              v-for="variant in variants"
-              :key="variant.name"
-              dense
-              unelevated
-              no-caps
-              color="accent"
-              class="gallery-switcher__button"
-              :aria-label="variant.label"
-              :aria-pressed="ds.variant.value === variant.name"
-              :class="{ 'qds-active': ds.variant.value === variant.name }"
-              @click="onVariant(variant.name)"
-            >
+          <q-btn-toggle
+            :model-value="ds.variant.value"
+            no-caps
+            aria-label="Variant"
+            class="gallery-switcher"
+            :options="variantOptions"
+            @update:model-value="onVariant"
+          >
+            <template v-for="variant in variants" :key="variant.name" #[`variant-${variant.name}`]>
               <component :is="variantIcons[variant.name] ?? PhPalette" :size="16" weight="duotone" />
-              <span>{{ variant.label }}</span>
-            </q-btn>
-          </div>
+              <span class="gallery-switcher__label">{{ variant.label }}</span>
+            </template>
+          </q-btn-toggle>
         </div>
       </q-toolbar>
 
@@ -162,6 +166,7 @@ watch(tab, (value) => {
       >
         <q-tab name="tokens" label="Tokens" />
         <q-tab name="typography" label="Typography" />
+        <q-tab name="compare" label="Compare" />
         <q-tab name="components" label="Components" />
         <q-tab name="catalog" label="Catalog" />
         <q-tab name="variants" label="Variants" />
@@ -178,6 +183,7 @@ watch(tab, (value) => {
         <q-tab-panels v-model="tab" animated class="gallery-panels bg-transparent">
           <q-tab-panel name="tokens"><TokensSection /></q-tab-panel>
           <q-tab-panel name="typography"><TypographySection /></q-tab-panel>
+          <q-tab-panel name="compare"><CompareSection /></q-tab-panel>
           <q-tab-panel name="components"><ComponentsSection /></q-tab-panel>
           <q-tab-panel name="catalog"><CatalogSection /></q-tab-panel>
           <q-tab-panel name="variants"><VariantsSection /></q-tab-panel>
@@ -225,58 +231,13 @@ watch(tab, (value) => {
 }
 
 .gallery-switcher {
-  display: inline-flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: 0;
-  padding: 0;
-  border: none;
-  border-radius: var(--qds-radius-md);
-  background: transparent;
-  overflow-x: auto;
-  scrollbar-width: thin;
-  max-width: 100%;
-}
-
-.gallery-switcher::-webkit-scrollbar {
-  height: 0.1875rem;
-}
-
-.gallery-switcher__button {
-  position: relative;
-  min-height: 1.75rem;
-  padding: 0 0.6rem;
-  border-radius: var(--qds-radius-md);
-  font-size: 0.78rem;
-  white-space: nowrap;
   flex: 0 0 auto;
-  background: transparent;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
 
-.gallery-switcher__button:not(:first-child)::before {
-  content: '';
-  position: absolute;
-  inset-block: 26%;
-  inset-inline-start: 0;
-  width: var(--qds-border-width-control, 1px);
-  background: var(--qds-stroke-divider);
-  opacity: 0.55;
-}
-
-.gallery-switcher__button.qds-active {
-  background: var(--qds-surface-brand-soft);
-}
-
-.gallery-switcher__button.qds-active::before,
-.gallery-switcher__button.qds-active + .gallery-switcher__button::before {
-  opacity: 0;
-}
-
-.gallery-switcher__button:hover {
-  background: var(--qds-surface-brand-soft);
-}
-
-.gallery-switcher__button :deep(.q-btn__content) {
+.gallery-switcher :deep(.q-btn__content) {
   gap: 0.25rem;
 }
 
@@ -328,12 +289,8 @@ watch(tab, (value) => {
 }
 
 @media (max-width: 420px) {
-  .gallery-switcher__button span:not(.q-icon) {
+  .gallery-switcher__label {
     display: none;
-  }
-
-  .gallery-switcher__button {
-    padding: 0 0.375rem;
   }
 }
 </style>

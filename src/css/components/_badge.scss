@@ -1,87 +1,69 @@
-@mixin qds-tonal-badge($name, $token) {
-  .qds-ui .q-badge.q-badge.bg-#{$name}:not(.qds-solid) {
-    color: var(--qds-fg-strong) !important;
-    background-color: rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-bg-opacity)) !important;
-    border: var(--qds-border-width-control) solid rgba(var(--qds-color-#{$token}-rgb), var(--qds-tonal-border-opacity)) !important;
-  }
-}
+@use 'button';
 
 @mixin styles {
-  .qds-ui .q-badge.q-badge {
+  .qds-ui .q-badge {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: var(--qds-badge-icon-gap);
     min-height: var(--qds-badge-min-height);
-    justify-content: center;
     padding: var(--qds-badge-padding);
+    color: var(--qds-fg-default);
+    background-color: var(--qds-bg-layer);
+    border: var(--qds-border-width-control) solid var(--qds-stroke-default);
     border-radius: var(--qds-badge-radius);
-    font-weight: var(--qds-font-weight-medium);
+    font-size: var(--qds-font-size-caption);
+    font-weight: var(--qds-font-weight-semibold);
     letter-spacing: var(--qds-control-letter-spacing);
-    line-height: var(--qds-control-content-line-height);
-    box-shadow: none;
+    line-height: var(--qds-line-height-caption);
     vertical-align: middle;
   }
 
-  .qds-ui .q-badge.q-badge.q-badge--dense {
+  .qds-ui .q-badge--dense {
     gap: var(--qds-badge-dense-icon-gap);
   }
 
-  @include qds-tonal-badge('primary', 'primary');
-  @include qds-tonal-badge('secondary', 'secondary');
-  @include qds-tonal-badge('positive', 'positive');
-  @include qds-tonal-badge('negative', 'negative');
-  @include qds-tonal-badge('warning', 'warning');
-  @include qds-tonal-badge('info', 'info');
-  @include qds-tonal-badge('accent', 'accent');
-
-  // Quasar's neutral `grey` utility otherwise pairs its light fill with white
-  // text. Keep tonal neutral badges surfaced, and their outlined counterpart
-  // transparent, while both use QDS semantic foreground and boundary tokens.
-  .qds-ui .q-badge.q-badge.bg-grey:not(.qds-solid) {
-    color: var(--qds-fg-strong) !important;
-    background-color: var(--qds-bg-surface-2) !important;
-    border: var(--qds-border-width-control) solid var(--qds-fg-muted) !important;
+  .qds-ui .q-badge--outline {
+    background-color: transparent;
+    border-color: var(--qds-stroke-default);
   }
 
-  .qds-ui .q-badge.q-badge.q-badge--outline.text-grey:not(.qds-solid) {
-    color: color-mix(in srgb, var(--qds-fg-muted) 75%, var(--qds-fg-strong)) !important;
-    background-color: transparent !important;
-    border: var(--qds-border-width-control) solid var(--qds-fg-muted) !important;
+  .qds-ui .q-badge--transparent {
+    color: var(--qds-fg-muted);
+    background-color: transparent;
+    border-color: transparent;
+    opacity: 1;
   }
 
-  .qds-ui.qds-variant-ink .q-badge.q-badge.bg-primary:not(.qds-solid),
-  .qds-ui .qds-variant-ink .q-badge.q-badge.bg-primary:not(.qds-solid) {
-    background-color: var(--qds-surface-brand-soft) !important;
-    border-color: transparent !important;
+  .qds-ui .q-badge.bg-grey {
+    color: var(--qds-fg-default);
+    background-color: var(--qds-bg-layer) !important;
   }
 
-  .qds-ui.qds-variant-ink .q-badge.q-badge.bg-positive:not(.qds-solid),
-  .qds-ui .qds-variant-ink .q-badge.q-badge.bg-positive:not(.qds-solid) {
-    background-color: var(--qds-surface-positive-soft) !important;
-    border-color: transparent !important;
+  .qds-ui .q-badge--outline.text-grey {
+    color: var(--qds-fg-muted) !important;
+    border-color: currentColor;
   }
 
-  .qds-ui.qds-variant-ink .q-badge.q-badge.bg-negative:not(.qds-solid),
-  .qds-ui .qds-variant-ink .q-badge.q-badge.bg-negative:not(.qds-solid) {
-    background-color: var(--qds-surface-negative-soft) !important;
-    border-color: transparent !important;
-  }
+  @each $role, $_ in button.$roles {
+    .qds-ui .q-badge.bg-#{$role}:not(.qds-tonal) {
+      color: var(--qds-text-on-#{$role});
+      background-color: var(--qds-color-#{$role}) !important;
+      border-color: transparent;
+    }
 
-  .qds-ui.qds-variant-ink .q-badge.q-badge.bg-warning:not(.qds-solid),
-  .qds-ui .qds-variant-ink .q-badge.q-badge.bg-warning:not(.qds-solid) {
-    background-color: var(--qds-surface-warning-soft) !important;
-    border-color: transparent !important;
-  }
+    .qds-ui .q-badge.bg-#{$role}.qds-tonal {
+      color: button.role-value($role, fg);
+      background-color: button.role-soft($role) !important;
+      border-color: transparent;
+    }
 
-  .qds-ui.qds-variant-ink .q-badge.q-badge.bg-info:not(.qds-solid),
-  .qds-ui .qds-variant-ink .q-badge.q-badge.bg-info:not(.qds-solid) {
-    background-color: var(--qds-surface-info-soft) !important;
-    border-color: transparent !important;
-  }
+    .qds-ui .q-badge.text-#{$role} {
+      color: button.role-value($role, fg) !important;
+    }
 
-  .qds-ui.qds-variant-ink .q-badge.q-badge.bg-accent:not(.qds-solid),
-  .qds-ui .qds-variant-ink .q-badge.q-badge.bg-accent:not(.qds-solid) {
-    background-color: var(--qds-surface-accent-soft) !important;
-    border-color: transparent !important;
+    .qds-ui .q-badge--outline.text-#{$role} {
+      border-color: currentColor;
+    }
   }
 }

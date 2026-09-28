@@ -140,27 +140,27 @@ const carouselSlides = [
     name: 'mobile',
     title: 'Mobile radius',
     caption: 'Large rounded frames with deterministic artwork.',
-    src: mediaSvg('Mobile', 'One UI inspired spacing', '#005a9e', '#14b8a6', '#ffb020'),
+    src: mediaSvg('Mobile', 'One UI inspired spacing', '#0f6cbd', '#14b8a6', '#ffb020'),
   },
   {
     name: 'fluent',
     title: 'Fluent contrast',
     caption: 'Readable captions over owned gradient surfaces.',
-    src: mediaSvg('Fluent', 'Primary QDS tone', '#005a9e', '#2563eb', '#8b5cf6'),
+    src: mediaSvg('Fluent', 'Primary QDS tone', '#0f6cbd', '#2563eb', '#8b5cf6'),
   },
 ]
 const chatAvatars = {
-  designer: avatarSvg('DS', '#005a9e', '#06b6d4'),
-  reviewer: avatarSvg('RV', '#6a8f66', '#005a9e'),
+  designer: avatarSvg('DS', '#0f6cbd', '#06b6d4'),
+  reviewer: avatarSvg('RV', '#6a8f66', '#0f6cbd'),
 }
 const videoSrc = `data:text/html;charset=utf-8,${encodeURIComponent(`
   <!doctype html>
   <html lang="en">
     <body style="margin:0;min-height:100vh;display:grid;place-items:center;background:linear-gradient(135deg,#111827,#312e81,#0891b2);font-family:Inter,Arial,sans-serif;color:white;">
-      <div style="text-align:center;padding:24px;">
-        <div style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;opacity:.72;">QVideo</div>
-        <div style="margin-top:10px;font-size:28px;font-weight:700;">Static embed preview</div>
-        <div style="margin-top:8px;font-size:15px;opacity:.76;">Local iframe content keeps the gallery deterministic.</div>
+      <div style="text-align:center;padding:4vw;">
+        <div style="font-size:clamp(10px,3.5vw,13px);letter-spacing:.16em;text-transform:uppercase;opacity:.72;">QVideo</div>
+        <div style="margin-top:1vw;font-size:clamp(16px,6vw,28px);font-weight:700;">Static embed preview</div>
+        <div style="margin-top:1vw;font-size:clamp(11px,3.8vw,15px);opacity:.76;">Local iframe content keeps the gallery deterministic.</div>
       </div>
     </body>
   </html>
@@ -392,8 +392,8 @@ onBeforeUnmount(() => {
         </q-carousel>
         <div class="catalog-label q-mt-md">QCarousel vertical control proof</div>
         <q-carousel v-model="verticalCarouselSlide" vertical padding control-type="outline" height="180px" class="catalog-media" data-test="qds-carousel-vertical">
-          <q-carousel-slide name="first" class="q-pa-md">Vertical first panel</q-carousel-slide>
-          <q-carousel-slide name="second" class="q-pa-md">Vertical second panel</q-carousel-slide>
+          <q-carousel-slide name="first" class="catalog-vertical-slide">Vertical first panel</q-carousel-slide>
+          <q-carousel-slide name="second" class="catalog-vertical-slide">Vertical second panel</q-carousel-slide>
           <template #control>
             <q-carousel-control position="left" :offset="[8, 8]"><div class="catalog-carousel-controls"><q-btn dense round outline aria-label="Show first vertical panel" :aria-current="verticalCarouselSlide === 'first' ? 'true' : undefined" @click="verticalCarouselSlide = 'first'"><q-icon :name="ppArrowLeft" /></q-btn><q-btn dense round outline aria-label="Show second vertical panel" :aria-current="verticalCarouselSlide === 'second' ? 'true' : undefined" @click="verticalCarouselSlide = 'second'"><q-icon :name="ppArrowRight" /></q-btn></div></q-carousel-control>
           </template>
@@ -409,7 +409,7 @@ onBeforeUnmount(() => {
 
       <div class="catalog-demo catalog-demo--wide">
         <div class="catalog-label">QVideo</div>
-        <q-video :src="videoSrc" :ratio="16 / 9" class="catalog-video" data-test="qds-video" />
+        <div class="catalog-video"><q-video :src="videoSrc" :ratio="16 / 9" data-test="qds-video" /></div>
       </div>
     </div>
   </q-card>
@@ -583,6 +583,11 @@ onBeforeUnmount(() => {
   color: var(--qds-text-strong);
   background: color-mix(in srgb, var(--qds-surface-1) 86%, var(--qds-color-primary) 6%);
   border-bottom: var(--qds-border-width-control) solid var(--qds-separator-color);
+}
+
+.catalog-vertical-slide {
+  padding: var(--qds-space-md);
+  padding-left: 5rem;
 }
 
 .catalog-img-proof {

@@ -1,20 +1,6 @@
-@mixin qds-semantic-text($role) {
-  .qds-ui .text-#{$role} {
-    color: color-mix(in srgb, var(--qds-color-#{$role}) 50%, var(--qds-text-strong)) !important;
-  }
-
-  // Icon and progress utilities are non-textual role indicators; keep their
-  // calibrated palette value rather than applying the text-contrast mix.
-  .qds-ui .q-icon.text-#{$role},
-  .qds-ui .q-spinner.text-#{$role},
-  .qds-ui .q-circular-progress.text-#{$role} {
-    color: var(--qds-color-#{$role}) !important;
-  }
-}
-
 @mixin styles {
   @each $role in primary, secondary, accent, positive, negative, warning, info {
-    @include qds-semantic-text($role);
+    .qds-ui .text-#{$role} { color: var(--qds-fg-#{$role}) !important; }
   }
   .qds-ui .bg-primary { background: var(--qds-color-primary) !important; }
   .qds-ui .bg-secondary { background: var(--qds-color-secondary) !important; }
@@ -63,28 +49,6 @@
 
   @media (max-width: 44.99rem) {
     .qds-field-demo-grid { grid-template-columns: 1fr; }
-
-    .qds-form--label-start .qds-field--start {
-      --qds-field-label-column: 0rem;
-    }
-
-    .qds-ui .qds-form--label-start .q-field.qds-field--start .q-field__inner {
-      margin-inline-start: 0;
-    }
-
-    .qds-ui .qds-form--label-start .q-field.qds-field--start .q-field__label {
-      position: static;
-      display: block;
-      width: auto;
-      max-width: none;
-      margin-block-end: var(--qds-field-label-gap);
-      transform: none;
-    }
-
-    .qds-ui .qds-form--label-start .q-field.qds-field--start .q-field__bottom {
-      margin-inline-start: 0;
-      padding-inline-start: 0;
-    }
   }
 
   .qds-ui.qds-variant-ink .qds-card,

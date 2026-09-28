@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
-import { applyTheme } from './helpers'
+import { applyTheme, resolvedShadow } from './helpers'
 
 async function gotoSection(page: Page, section: 'variants' | 'scenes') {
   await page.goto(`/#${section}`)
@@ -18,14 +18,16 @@ test.describe('Fluent composition', () => {
       return {
         cardBorders: [styles.borderTopWidth, styles.borderRightWidth, styles.borderBottomWidth, styles.borderLeftWidth],
         cardShadow: styles.boxShadow,
+        nestedShadow: nestedStyles.boxShadow,
         nestedBorders: [nestedStyles.borderTopWidth, nestedStyles.borderRightWidth, nestedStyles.borderBottomWidth, nestedStyles.borderLeftWidth],
         directSeparators: card.querySelectorAll(':scope > .q-separator').length,
         nestedSeparators: nested.querySelectorAll('.q-separator').length,
       }
     })
 
-    expect(composition.cardBorders, 'Fluent comparison cards use a quiet hairline border').toEqual(['1px', '1px', '1px', '1px'])
-    expect(composition.cardShadow, 'Fluent comparison cards stay low elevation').toBe('none')
+    expect(composition.cardBorders, 'Fluent comparison cards have no stroke').toEqual(['0px', '0px', '0px', '0px'])
+    expect(composition.cardShadow, 'Fluent comparison cards rest on shadow-4').toBe(await resolvedShadow(page, '--qds-shadow-4'))
+    expect(composition.nestedShadow, 'Nested Fluent cards are flat fills, not stacked shadows').toBe('none')
     expect(composition.nestedBorders, 'Nested Fluent cards do not create a second wireframe').toEqual(['0px', '0px', '0px', '0px'])
     expect(composition.directSeparators, 'Comparison cards do not add a redundant header separator').toBe(0)
     expect(composition.nestedSeparators, 'Nested Fluent cards do not stack separators').toBe(0)

@@ -1,406 +1,318 @@
 @mixin styles {
-  .qds-ui .q-checkbox.q-checkbox:not(.q-checkbox--dense),
-  .qds-ui .q-radio.q-radio:not(.q-radio--dense),
-  .qds-ui .q-toggle.q-toggle:not(.q-toggle--dense) {
+  .qds-ui .q-checkbox,
+  .qds-ui .q-radio,
+  .qds-ui .q-toggle {
     color: var(--qds-fg-default);
+  }
+
+  .qds-ui .q-checkbox:not(.q-checkbox--dense),
+  .qds-ui .q-radio:not(.q-radio--dense),
+  .qds-ui .q-toggle:not(.q-toggle--dense) {
     min-height: var(--qds-control-size-md);
   }
 
-  .qds-ui .q-checkbox.q-checkbox .q-checkbox__label,
-  .qds-ui .q-radio.q-radio .q-radio__label,
-  .qds-ui .q-toggle.q-toggle .q-toggle__label {
-    color: var(--qds-fg-default);
+  .qds-ui .q-checkbox .q-checkbox__label,
+  .qds-ui .q-radio .q-radio__label,
+  .qds-ui .q-toggle .q-toggle__label {
+    padding-inline: var(--qds-space-sm) 0;
   }
 
-  .qds-ui .q-checkbox.q-checkbox,
-  .qds-ui .q-radio.q-radio {
-    --qds-selection-inner-size: 1.5rem;
-    --qds-selection-mark-size: 1rem;
-    --qds-selection-mark-offset: calc((var(--qds-selection-inner-size) - var(--qds-selection-mark-size)) / 2);
+  .qds-ui .q-checkbox.reverse .q-checkbox__label,
+  .qds-ui .q-radio.reverse .q-radio__label,
+  .qds-ui .q-toggle.reverse .q-toggle__label {
+    padding-inline: 0 var(--qds-space-sm);
   }
 
-  .qds-ui .q-checkbox.q-checkbox--dense,
-  .qds-ui .q-radio.q-radio--dense {
-    --qds-selection-inner-size: 1.25rem;
-    --qds-selection-mark-size: 0.875rem;
+  .qds-ui .q-checkbox--dense,
+  .qds-ui .q-radio--dense {
+    --qds-selection-inner-size: 1rem;
   }
 
-  .qds-ui .q-checkbox.q-checkbox:not(.q-checkbox--dense) .q-checkbox__inner,
-  .qds-ui .q-radio.q-radio:not(.q-radio--dense) .q-radio__inner {
+  .qds-ui .q-checkbox .q-checkbox__inner,
+  .qds-ui .q-radio .q-radio__inner {
     width: var(--qds-selection-inner-size);
     min-width: var(--qds-selection-inner-size);
     height: var(--qds-selection-inner-size);
     font-size: var(--qds-selection-inner-size);
-    color: var(--qds-stroke-default);
+    color: var(--qds-stroke-strong);
   }
 
-  .qds-ui .q-checkbox.q-checkbox .q-checkbox__inner::before,
-  .qds-ui .q-radio.q-radio .q-radio__inner::before,
-  .qds-ui .q-checkbox.q-checkbox .q-checkbox__inner::after,
-  .qds-ui .q-radio.q-radio .q-radio__inner::after {
+  .qds-ui .q-checkbox .q-checkbox__inner::before,
+  .qds-ui .q-radio .q-radio__inner::before,
+  .qds-ui .q-toggle .q-toggle__thumb::before {
     display: none;
   }
 
-  .qds-ui .q-checkbox.q-checkbox:not(.q-checkbox--dense) .q-checkbox__bg,
-  .qds-ui .q-radio.q-radio:not(.q-radio--dense) .q-radio__bg {
-    top: var(--qds-selection-mark-offset);
-    left: var(--qds-selection-mark-offset);
+  .qds-ui .q-checkbox .q-checkbox__bg,
+  .qds-ui .q-radio .q-radio__bg {
+    inset: 0;
     width: var(--qds-selection-mark-size);
     height: var(--qds-selection-mark-size);
-    border: var(--qds-border-width-control) solid var(--qds-stroke-default);
-    border-color: var(--qds-stroke-default);
-    background: var(--qds-control-fill-default);
-    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--qds-stroke-default) 55%, transparent);
+    margin: auto;
+    background: transparent;
+    border: var(--qds-border-width-control) solid currentColor;
+    transition:
+      background-color var(--qds-motion-fast),
+      border-color var(--qds-motion-fast);
   }
 
-  .qds-ui .q-checkbox.q-checkbox .q-checkbox__bg {
-    border-radius: var(--qds-radius-xs);
+  .qds-ui .q-checkbox .q-checkbox__bg {
     overflow: hidden;
+    border-radius: var(--qds-radius-sm);
   }
 
-  .qds-ui .q-radio.q-radio .q-radio__bg {
+  .qds-ui .q-radio .q-radio__bg {
     border-radius: var(--qds-radius-full);
   }
 
-  .qds-ui .q-radio.q-radio .q-radio__bg path:not(.q-radio__check) {
+  .qds-ui .q-radio .q-radio__bg path:not(.q-radio__check) {
     fill: transparent;
   }
 
-  .qds-ui .q-checkbox.q-checkbox--dense .q-checkbox__inner,
-  .qds-ui .q-radio.q-radio--dense .q-radio__inner {
-    width: var(--qds-selection-inner-size);
-    min-width: var(--qds-selection-inner-size);
-    height: var(--qds-selection-inner-size);
-    color: var(--qds-stroke-default);
+  .qds-ui .q-checkbox:not(.disabled):hover .q-checkbox__inner--falsy,
+  .qds-ui .q-radio:not(.disabled):hover .q-radio__inner--falsy {
+    color: var(--qds-fg-default);
   }
 
-  .qds-ui .q-checkbox.q-checkbox--dense .q-checkbox__bg,
-  .qds-ui .q-radio.q-radio--dense .q-radio__bg {
-    top: var(--qds-selection-mark-offset);
-    left: var(--qds-selection-mark-offset);
-    width: var(--qds-selection-mark-size);
-    height: var(--qds-selection-mark-size);
-    border: var(--qds-border-width-control) solid var(--qds-stroke-default);
-    border-color: var(--qds-stroke-default);
-    background: var(--qds-control-fill-default);
-    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--qds-stroke-default) 55%, transparent);
+  .qds-ui .q-checkbox .q-checkbox__inner--truthy,
+  .qds-ui .q-checkbox .q-checkbox__inner--indet,
+  .qds-ui .q-radio .q-radio__inner--truthy {
+    color: var(--qds-color-primary);
   }
 
-  .qds-ui .q-checkbox.q-checkbox .q-checkbox__inner--truthy,
-  .qds-ui .q-checkbox.q-checkbox .q-checkbox__inner--indet,
-  .qds-ui .q-radio.q-radio .q-radio__inner--truthy {
-    color: var(--qds-stroke-focus);
+  .qds-ui .q-checkbox .q-checkbox__inner--truthy .q-checkbox__bg,
+  .qds-ui .q-checkbox .q-checkbox__inner--indet .q-checkbox__bg {
+    background: currentColor;
   }
 
-  .qds-ui .q-checkbox.q-checkbox .q-checkbox__inner--truthy .q-checkbox__bg,
-  .qds-ui .q-checkbox.q-checkbox .q-checkbox__inner--indet .q-checkbox__bg,
-  .qds-ui .q-radio.q-radio .q-radio__inner--truthy .q-radio__bg {
-    border-color: var(--qds-stroke-focus);
-    background: var(--qds-state-selected);
-    box-shadow: inset 0 0 0 1px rgba(var(--qds-color-primary-rgb), var(--qds-tonal-border-opacity));
+  .qds-ui .q-checkbox:not(.disabled):hover .q-checkbox__inner--truthy,
+  .qds-ui .q-checkbox:not(.disabled):hover .q-checkbox__inner--indet,
+  .qds-ui .q-radio:not(.disabled):hover .q-radio__inner--truthy {
+    color: var(--qds-color-primary-dark);
   }
 
-  .qds-ui .q-checkbox.q-checkbox:not(.q-checkbox--dense) .q-checkbox__svg {
-    inset: 0;
-    width: 100%;
-    height: 100%;
+  .qds-ui .q-checkbox .q-checkbox__svg {
     padding: 0.125rem;
-    box-sizing: border-box;
-    color: var(--qds-stroke-focus);
+    color: var(--qds-selection-on, var(--qds-text-on-primary));
   }
 
-  .qds-ui .q-checkbox.q-checkbox--dense .q-checkbox__svg {
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    padding: 0.1rem;
-    box-sizing: border-box;
-    color: var(--qds-stroke-focus);
+  // Dot is 10px on the 16px ring; the falsy scale3d(0) from Quasar stays untouched.
+  .qds-ui .q-radio .q-radio__inner--truthy .q-radio__check {
+    transform: scale3d(1.43, 1.43, 1);
   }
 
-  .qds-ui .q-radio.q-radio .q-radio__check {
-    fill: var(--qds-stroke-focus);
-    transform-origin: 50% 50%;
-    // Fluent 2 radio dot ~60% of the ring (Quasar default resolves to ~44%; 1.36x -> ~60%).
-    transform: scale(1.36);
+  // Selection marks fill with the role colour and draw marks in its on-fill colour.
+  @each $role in primary, secondary, accent, positive, negative, warning, info {
+    .qds-ui .q-checkbox__inner--truthy.text-#{$role},
+    .qds-ui .q-checkbox__inner--indet.text-#{$role},
+    .qds-ui .q-radio__inner--truthy.text-#{$role},
+    .qds-ui .q-toggle__inner--truthy.text-#{$role},
+    .qds-ui .q-slider__track.text-#{$role},
+    .qds-ui .q-slider__selection.text-#{$role},
+    .qds-ui .q-slider__thumb.text-#{$role} {
+      --qds-selection-on: var(--qds-text-on-#{$role});
+      color: var(--qds-color-#{$role}) !important;
+    }
   }
 
-  .qds-ui .q-checkbox.q-checkbox .q-focus-helper,
-  .qds-ui .q-radio.q-radio .q-focus-helper,
-  .qds-ui .q-toggle.q-toggle .q-focus-helper {
-    opacity: 0 !important;
+  .qds-ui .q-checkbox.disabled .q-checkbox__inner,
+  .qds-ui .q-radio.disabled .q-radio__inner,
+  .qds-ui .q-checkbox.disabled .q-checkbox__label,
+  .qds-ui .q-radio.disabled .q-radio__label,
+  .qds-ui .q-toggle.disabled .q-toggle__label {
+    color: var(--qds-fg-disabled);
   }
 
-  // Fluent 2 toggle anatomy (ratio-driven geometry; RTL mirrors via CSS custom properties).
-  // Inner box 40×24 (normal) / 36×20 (dense). Track 32×16 centered with 2px inset.
-  // Thumb 12px (normal) / 11px (dense), vertically centered in track. Travel is symmetric:
-  // 4px off → 4px on (normal), leaving thumb-center at 75% when on (close to Quasar's 87.5%).
-  // Dense keeps the same 32px track but the smaller 11px thumb shifts to ~79% on-center.
-  // The mobile variant overrides dimensions below for its larger touch-rhythm scale.
-  :root {
-    --qds-toggle-inner-w: 2.5rem;      // 40px
-    --qds-toggle-inner-h: 1.5rem;      // 24px
-    --qds-toggle-track-w: 2rem;        // 32px (Fluent 2 track half-width of inner box)
-    --qds-toggle-track-h: 1rem;        // 16px
-    --qds-toggle-track-inset: 0.125rem; // 2px inline IS LEFT margin inside the inner box
-    --qds-toggle-thumb-size: 0.75rem;  // 12px (below 16px so it fits within the 16px track)
-    --qds-toggle-thumb-top: calc((var(--qds-toggle-inner-h) - var(--qds-toggle-thumb-size)) / 2); // 6px -> thumb centered in the 24px inner
-    --qds-toggle-thumb-off: 0.5rem;    // 8px off travel from track start
-    --qds-toggle-thumb-on: 1.25rem;  // 20px on travel (symmetric 37.5% off -> 75% on)
-    --qds-toggle-dense-thumb-size: 0.6875rem;  // 11px
-    --qds-toggle-dense-thumb-top: 0.28125rem; // 4.5px = (20 - 11) / 2, thumb centered in the 20px dense inner
-    --qds-toggle-dense-thumb-off: 0.5rem;   // 8px off travel, center at 35.9%
-    --qds-toggle-dense-thumb-on: 1.375rem;  // 22px on travel, center at 79.7%
-  }
-
-  .qds-ui .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__inner {
-    width: var(--qds-toggle-inner-w);
-    min-width: var(--qds-toggle-inner-w);
-    height: var(--qds-toggle-inner-h);
-    padding: 0;
-    color: var(--qds-stroke-default);
-    transform: none;
-  }
-
-  .qds-ui .q-toggle.q-toggle--dense .q-toggle__inner {
-    width: 2.25rem;
-    min-width: 2.25rem;
-    height: 1.25rem;
-    padding: 0;
-    color: var(--qds-stroke-default);
-    transform: none;
-  }
-
-  .qds-ui .q-checkbox.q-checkbox:focus-visible .q-checkbox__inner,
-  .qds-ui .q-radio.q-radio:focus-visible .q-radio__inner,
-  .qds-ui .q-toggle.q-toggle:focus-visible .q-toggle__inner {
+  .qds-ui .q-checkbox:focus-visible .q-checkbox__inner,
+  .qds-ui .q-radio:focus-visible .q-radio__inner,
+  .qds-ui .q-toggle:focus-visible .q-toggle__inner {
     outline: var(--qds-focus-ring-width) solid var(--qds-stroke-focus);
+    outline-offset: 0;
+  }
+
+  .qds-ui .q-checkbox:focus-visible .q-checkbox__inner {
+    border-radius: var(--qds-radius-sm);
+  }
+
+  .qds-ui .q-toggle {
+    --qds-toggle-thumb-size: calc(var(--qds-toggle-track-height) - 2 * var(--qds-toggle-thumb-inset));
+  }
+
+  .qds-ui .q-toggle--dense {
+    --qds-toggle-track-width: var(--qds-control-size-md);
+    --qds-toggle-track-height: calc(var(--qds-control-size-md) / 2);
+  }
+
+  .qds-ui .q-toggle .q-toggle__inner {
+    width: var(--qds-toggle-track-width);
+    min-width: var(--qds-toggle-track-width);
+    height: var(--qds-toggle-track-height);
+    padding: 0;
+    border-radius: var(--qds-radius-full);
+  }
+
+  .qds-ui .q-toggle:focus-visible .q-toggle__inner {
     outline-offset: var(--qds-focus-ring-offset);
-    border-radius: var(--qds-radius-full);
   }
 
-  .qds-ui .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__track {
-    position: absolute;
-    top: calc((var(--qds-toggle-inner-h) - var(--qds-toggle-track-h)) / 2);
-    inset-inline-start: var(--qds-toggle-track-inset);
-    width: var(--qds-toggle-track-w);
-    height: var(--qds-toggle-track-h);
-    color: var(--qds-stroke-default);
-    background: var(--qds-bg-surface-2);
-    border: var(--qds-border-width-control) solid var(--qds-stroke-default);
+  .qds-ui .q-toggle .q-toggle__track {
+    height: 100%;
+    background: transparent;
+    border: var(--qds-border-width-control) solid var(--qds-stroke-strong);
     border-radius: var(--qds-radius-full);
     opacity: 1;
-    transform: none;
     transition:
       background-color var(--qds-motion-fast),
-      border-color var(--qds-motion-fast),
-      box-shadow var(--qds-motion-fast);
+      border-color var(--qds-motion-fast);
   }
 
-  .qds-ui .q-toggle.q-toggle--dense .q-toggle__track {
-    position: absolute;
-    top: calc((1.25rem - var(--qds-toggle-track-h)) / 2); // (20-16)/2 = 2px, centered in the 20px dense inner
-    inset-inline-start: var(--qds-toggle-track-inset);
-    width: var(--qds-toggle-track-w);
-    height: var(--qds-toggle-track-h);
-    color: var(--qds-stroke-default);
-    background: var(--qds-bg-surface-2);
-    border: var(--qds-border-width-control) solid var(--qds-stroke-default);
-    border-radius: var(--qds-radius-full);
-    opacity: 1;
-    transform: none;
-    transition:
-      background-color var(--qds-motion-fast),
-      border-color var(--qds-motion-fast),
-      box-shadow var(--qds-motion-fast);
-  }
-
-  .qds-ui .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__thumb {
-    top: var(--qds-toggle-thumb-top);
-    inset-inline-start: var(--qds-toggle-thumb-off);
+  .qds-ui .q-toggle .q-toggle__thumb {
+    top: var(--qds-toggle-thumb-inset);
+    inset-inline-start: var(--qds-toggle-thumb-inset);
     width: var(--qds-toggle-thumb-size);
     height: var(--qds-toggle-thumb-size);
-    color: var(--qds-bg-canvas);
-    border-radius: var(--qds-radius-full);
-    transform: none;
-    transition: inset-inline-start var(--qds-motion-duration-fast) cubic-bezier(0, 0, 0, 1);
+    transition: inset-inline-start var(--qds-motion-duration-medium) var(--qds-motion-ease-out);
   }
 
-  .qds-ui .q-toggle.q-toggle--dense .q-toggle__thumb {
-    top: var(--qds-toggle-dense-thumb-top);
-    inset-inline-start: var(--qds-toggle-dense-thumb-off);
-    width: var(--qds-toggle-dense-thumb-size);
-    height: var(--qds-toggle-dense-thumb-size);
-    color: var(--qds-bg-canvas);
-    border-radius: var(--qds-radius-full);
-    transform: none;
-    transition: inset-inline-start var(--qds-motion-duration-fast) cubic-bezier(0, 0, 0, 1);
+  .qds-ui .q-toggle .q-toggle__thumb::after {
+    background: var(--qds-stroke-strong);
+    box-shadow: none;
+    transition: background-color var(--qds-motion-fast);
   }
 
-  .qds-ui .q-toggle.q-toggle .q-toggle__thumb::after {
+  .qds-ui .q-toggle .q-toggle__thumb .q-icon {
+    font-size: calc(var(--qds-toggle-thumb-size) * 0.75);
+    color: var(--qds-bg-canvas);
+    opacity: 1;
+  }
+
+  .qds-ui .q-toggle .q-toggle__inner--truthy .q-toggle__thumb {
+    inset-inline-start: calc(var(--qds-toggle-track-width) - var(--qds-toggle-thumb-size) - var(--qds-toggle-thumb-inset));
+  }
+
+  .qds-ui .q-toggle .q-toggle__inner--indet .q-toggle__thumb {
+    inset-inline-start: calc((var(--qds-toggle-track-width) - var(--qds-toggle-thumb-size)) / 2);
+  }
+
+  .qds-ui .q-toggle .q-toggle__inner--truthy {
+    color: var(--qds-color-primary);
+  }
+
+  .qds-ui .q-toggle .q-toggle__inner--truthy .q-toggle__track {
+    background: currentColor;
+    border-color: currentColor;
+  }
+
+  .qds-ui .q-toggle .q-toggle__inner--truthy .q-toggle__thumb::after {
+    background: var(--qds-selection-on, var(--qds-text-on-primary));
+  }
+
+  .qds-ui .q-toggle .q-toggle__inner--truthy .q-toggle__thumb .q-icon {
+    color: currentColor;
+  }
+
+  .qds-ui .q-toggle:not(.disabled):hover .q-toggle__inner--falsy .q-toggle__track {
+    border-color: var(--qds-fg-default);
+  }
+
+  .qds-ui .q-toggle:not(.disabled):hover .q-toggle__inner--truthy {
+    color: var(--qds-color-primary-dark);
+  }
+
+  .qds-ui .q-toggle.disabled .q-toggle__track {
+    border-color: var(--qds-fg-disabled);
+  }
+
+  .qds-ui .q-toggle.disabled .q-toggle__thumb::after,
+  .qds-ui .q-toggle.disabled .q-toggle__inner--truthy .q-toggle__track {
+    background: var(--qds-fg-disabled);
+  }
+
+  .qds-ui .q-toggle.disabled .q-toggle__inner--truthy .q-toggle__thumb::after {
     background: var(--qds-bg-canvas);
-    border: var(--qds-border-width-control) solid var(--qds-stroke-subtle);
-    box-shadow: var(--qds-shadow-sm);
-    transition:
-      background-color var(--qds-motion-fast),
-      border-color var(--qds-motion-fast),
-      box-shadow var(--qds-motion-fast);
   }
 
-  .qds-ui .q-toggle.q-toggle .q-toggle__inner--truthy .q-toggle__track {
-    color: var(--qds-stroke-focus);
-    background: var(--qds-state-selected);
-    border-color: var(--qds-stroke-focus);
-  }
-
-  .qds-ui .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__inner--truthy .q-toggle__thumb {
-    inset-inline-start: var(--qds-toggle-thumb-on);
-    color: var(--qds-stroke-focus);
-  }
-
-  .qds-ui .q-toggle.q-toggle--dense .q-toggle__inner--truthy .q-toggle__thumb {
-    inset-inline-start: var(--qds-toggle-dense-thumb-on);
-    color: var(--qds-stroke-focus);
-  }
-
-  .qds-ui .q-toggle.q-toggle .q-toggle__inner--truthy .q-toggle__thumb::after {
-    background: var(--qds-stroke-focus);
-    border-color: var(--qds-stroke-focus);
-  }
-
-  .qds-ui .q-slider.q-slider,
-  .qds-ui .q-range.q-range {
+  .qds-ui .q-slider .q-slider__track,
+  .qds-ui .q-slider .q-slider__thumb {
     color: var(--qds-color-primary);
   }
 
-  .qds-ui .q-slider.q-slider .q-slider__track,
-  .qds-ui .q-range.q-range .q-slider__track {
-    height: 0.125rem;
-    border-radius: var(--qds-radius-full);
-    background: var(--qds-bg-surface-2);
-    box-shadow: inset 0 0 0 var(--qds-border-width-control) var(--qds-stroke-subtle);
-  }
-
-  .qds-ui .q-slider.q-slider .q-slider__track-container,
-  .qds-ui .q-range.q-range .q-slider__track-container {
-    height: 0.125rem;
-  }
-
-  .qds-ui .q-slider.q-slider .q-slider__track-container--h,
-  .qds-ui .q-range.q-range .q-slider__track-container--h {
-    height: 0.125rem;
-    padding-block: 0.75rem;
-  }
-
-  .qds-ui .q-slider.q-slider .q-slider__track-container--h .q-slider__track,
-  .qds-ui .q-range.q-range .q-slider__track-container--h .q-slider__track {
-    height: 0.125rem !important;
-  }
-
-  .qds-ui .q-slider.q-slider .q-slider__selection,
-  .qds-ui .q-range.q-range .q-slider__selection {
-    background: var(--qds-color-primary);
+  .qds-ui .q-slider .q-slider__track {
+    background: transparent;
     border-radius: var(--qds-radius-full);
   }
 
-  .qds-ui .q-slider.q-slider .q-slider__thumb,
-  .qds-ui .q-range.q-range .q-slider__thumb {
-    width: 1rem;
-    height: 1rem;
-    color: var(--qds-color-primary);
-    border: var(--qds-border-width-control) solid var(--qds-bg-canvas);
+  .qds-ui .q-slider .q-slider__inner {
+    background: var(--qds-stroke-strong);
+  }
+
+  .qds-ui .q-slider .q-slider__selection {
+    background: currentColor;
+  }
+
+  .qds-ui .q-slider .q-slider__markers {
+    color: var(--qds-stroke-default);
+  }
+
+  .qds-ui .q-slider .q-slider__thumb {
+    background: var(--qds-bg-canvas);
+    border: var(--qds-border-width-control) solid var(--qds-stroke-default);
     border-radius: var(--qds-radius-full);
     box-shadow: none;
   }
 
-  .qds-ui .q-slider.q-slider .q-slider__thumb-shape,
-  .qds-ui .q-range.q-range .q-slider__thumb-shape {
-    color: var(--qds-color-primary);
-    background: var(--qds-color-primary);
-    border-radius: var(--qds-radius-full);
+  .qds-ui .q-slider .q-slider__thumb-shape path {
+    stroke-width: 0;
   }
 
-  .qds-ui .q-slider.q-slider .q-slider__pin,
-  .qds-ui .q-range.q-range .q-slider__pin {
+  .qds-ui .q-slider.q-slider--active .q-slider__thumb-shape {
+    transform: none;
+  }
+
+  .qds-ui .q-slider .q-slider__focus-ring {
+    display: none;
+  }
+
+  .qds-ui .q-slider .q-slider__thumb.q-slider--focus {
+    outline: var(--qds-focus-ring-width) solid var(--qds-stroke-focus);
+    outline-offset: var(--qds-focus-ring-offset);
+  }
+
+  .qds-ui .q-slider .q-slider__pin {
     color: var(--qds-slider-label-bg);
-    background: transparent;
-    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.12));
   }
 
-  .qds-ui .q-slider.q-slider .q-slider__text-container,
-  .qds-ui .q-range.q-range .q-slider__text-container {
+  .qds-ui .q-slider .q-slider__text-container {
     min-height: 1.5rem;
     padding: 0.125rem 0.5rem;
-    color: var(--qds-slider-label-bg);
     background: var(--qds-slider-label-bg);
     border: var(--qds-border-width-control) solid var(--qds-slider-label-border);
-    border-radius: var(--qds-radius-full);
-    box-shadow: none;
+    border-radius: var(--qds-radius-sm);
+    box-shadow: var(--qds-shadow-8);
   }
 
-  .qds-ui .q-slider.q-slider .q-slider__text,
-  .qds-ui .q-range.q-range .q-slider__text {
+  .qds-ui .q-slider .q-slider__text {
     color: var(--qds-slider-label-text);
-    font-size: 0.75rem;
+    font-size: var(--qds-font-size-caption);
     font-weight: var(--qds-font-weight-semibold);
   }
 
-  .qds-ui .q-slider.q-slider .q-slider__marker,
-  .qds-ui .q-range.q-range .q-slider__marker {
-    color: var(--qds-stroke-default);
-  }
-
-  .qds-ui.qds-variant-ink .q-checkbox.q-checkbox .q-checkbox__inner--truthy .q-checkbox__bg,
-  .qds-ui.qds-variant-ink .q-checkbox.q-checkbox .q-checkbox__inner--indet .q-checkbox__bg,
-  .qds-ui.qds-variant-ink .q-radio.q-radio .q-radio__inner--truthy .q-radio__bg,
-  .qds-ui .qds-variant-ink .q-checkbox.q-checkbox .q-checkbox__inner--truthy .q-checkbox__bg,
-  .qds-ui .qds-variant-ink .q-checkbox.q-checkbox .q-checkbox__inner--indet .q-checkbox__bg,
-  .qds-ui .qds-variant-ink .q-radio.q-radio .q-radio__inner--truthy .q-radio__bg {
-    border-color: var(--qds-color-primary);
+  .qds-ui.qds-variant-ink .q-checkbox .q-checkbox__inner--truthy .q-checkbox__bg,
+  .qds-ui.qds-variant-ink .q-checkbox .q-checkbox__inner--indet .q-checkbox__bg,
+  .qds-ui .qds-variant-ink .q-checkbox .q-checkbox__inner--truthy .q-checkbox__bg,
+  .qds-ui .qds-variant-ink .q-checkbox .q-checkbox__inner--indet .q-checkbox__bg,
+  .qds-ui.qds-variant-ink .q-toggle .q-toggle__inner--truthy .q-toggle__track,
+  .qds-ui .qds-variant-ink .q-toggle .q-toggle__inner--truthy .q-toggle__track {
     background: var(--qds-surface-brand-soft);
-    box-shadow: none;
   }
 
-  .qds-ui.qds-variant-ink .q-toggle.q-toggle .q-toggle__inner--truthy .q-toggle__track,
-  .qds-ui .qds-variant-ink .q-toggle.q-toggle .q-toggle__inner--truthy .q-toggle__track {
-    background: var(--qds-surface-brand-soft);
-    border-color: var(--qds-color-primary);
+  .qds-ui.qds-variant-ink .q-checkbox .q-checkbox__svg,
+  .qds-ui .qds-variant-ink .q-checkbox .q-checkbox__svg {
+    color: var(--qds-color-primary);
   }
 
-  .qds-ui.qds-variant-mobile .q-checkbox.q-checkbox:not(.q-checkbox--dense),
-  .qds-ui.qds-variant-mobile .q-radio.q-radio:not(.q-radio--dense),
-  .qds-ui.qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense),
-  .qds-ui .qds-variant-mobile .q-checkbox.q-checkbox:not(.q-checkbox--dense),
-  .qds-ui .qds-variant-mobile .q-radio.q-radio:not(.q-radio--dense),
-  .qds-ui .qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense) {
-    min-height: 2.75rem;
-  }
-
-  // One UI keeps the larger touch target while Fluent desktop controls stay
-  // visually compact.
-  .qds-ui.qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__inner,
-  .qds-ui .qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__inner {
-    width: 3.25rem;
-    min-width: 3.25rem;
-    height: 2rem;
-  }
-
-  .qds-ui.qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__track,
-  .qds-ui .qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__track {
-    top: calc((2rem - 1.5rem) / 2); // 4px, centered in the 32px mobile inner
-    inset-inline-start: 0.25rem;    // 4px inline margin, centered look on the 52px inner
-    width: 2.75rem;
-    height: 1.5rem;
-  }
-
-  .qds-ui.qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__thumb,
-  .qds-ui .qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__thumb {
-    top: 0.625rem;                  // 10px = (32 - 12) / 2, vertically centered in the mobile inner
-    inset-inline-start: 0.5rem;     // 8px off travel inside the 44px track
-  }
-
-  .qds-ui.qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__inner--truthy .q-toggle__thumb,
-  .qds-ui .qds-variant-mobile .q-toggle.q-toggle:not(.q-toggle--dense) .q-toggle__inner--truthy .q-toggle__thumb {
-    inset-inline-start: 1.875rem;   // 30px: symmetric on travel, thumb-center flips at track middle
+  .qds-ui.qds-variant-ink .q-toggle .q-toggle__inner--truthy .q-toggle__thumb::after,
+  .qds-ui .qds-variant-ink .q-toggle .q-toggle__inner--truthy .q-toggle__thumb::after {
+    background: var(--qds-color-primary);
   }
 }

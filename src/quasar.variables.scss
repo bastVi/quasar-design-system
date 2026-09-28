@@ -17,8 +17,8 @@ $warning: map.get(tokens.$palette, warning) !default;
 
 $dark: map.get(tokens.$dark-surfaces, 0) !default;
 $dark-page: map.get(tokens.$dark-surfaces, 1) !default;
-$separator-color: map.get(tokens.$borders, light) !default;
-$separator-dark-color: map.get(tokens.$borders, dark) !default;
+$separator-color: map.get(tokens.$borders, subtle) !default;
+$separator-dark-color: map.get(tokens.$borders, dark-subtle) !default;
 
 $generic-border-radius: map.get(tokens.$radius, control) !default;
 $button-border-radius: map.get(tokens.$radius, control) !default;
@@ -33,6 +33,64 @@ $tooltip-color: map.get(tokens.$light-text, default) !default;
 $tooltip-background: map.get(tokens.$light-surfaces, 2) !default;
 $tooltip-border-radius: map.get(tokens.$radius, sm) !default;
 
-$body-font-size: 16px !default;
-$body-line-height: 1.5 !default;
+$body-font-size: 14px !default;
+$body-line-height: 20px !default;
 $typography-font-family: map.get(tokens.$font, body) !default;
+
+@function qds-quasar-type($name) {
+  $style: map.get(tokens.$typography, $name);
+  @return (
+    size: map.get($style, size),
+    line-height: map.get($style, line-height),
+    letter-spacing: map.get($style, letter-spacing) or normal,
+    weight: map.get(map.get(tokens.$font, weight), map.get($style, weight)),
+  );
+}
+
+$h1: qds-quasar-type(h1) !default;
+$h2: qds-quasar-type(h2) !default;
+$h3: qds-quasar-type(h3) !default;
+$h4: qds-quasar-type(h4) !default;
+$h5: qds-quasar-type(h5) !default;
+$h6: qds-quasar-type(h6) !default;
+$subtitle1: qds-quasar-type(subtitle1) !default;
+$subtitle2: qds-quasar-type(subtitle2) !default;
+$body1: qds-quasar-type(body1) !default;
+$body2: qds-quasar-type(body2) !default;
+$overline: qds-quasar-type(overline) !default;
+$caption: qds-quasar-type(caption) !default;
+
+// Quasar's 24 Material elevations collapse onto the Fluent shadow steps.
+@function qds-quasar-shadow($level, $scheme: light, $direction: 1) {
+  @each $limit, $step in (2: 2, 5: 4, 10: 8, 16: 16, 23: 28) {
+    @if $level <= $limit {
+      @return tokens.qds-shadow($step, $scheme, $direction);
+    }
+  }
+  @return tokens.qds-shadow(64, $scheme, $direction);
+}
+
+$shadow-1: qds-quasar-shadow(1) !default; $shadow-up-1: qds-quasar-shadow(1, light, -1) !default; $dark-shadow-1: qds-quasar-shadow(1, dark) !default; $dark-shadow-up-1: qds-quasar-shadow(1, dark, -1) !default;
+$shadow-2: qds-quasar-shadow(2) !default; $shadow-up-2: qds-quasar-shadow(2, light, -1) !default; $dark-shadow-2: qds-quasar-shadow(2, dark) !default; $dark-shadow-up-2: qds-quasar-shadow(2, dark, -1) !default;
+$shadow-3: qds-quasar-shadow(3) !default; $shadow-up-3: qds-quasar-shadow(3, light, -1) !default; $dark-shadow-3: qds-quasar-shadow(3, dark) !default; $dark-shadow-up-3: qds-quasar-shadow(3, dark, -1) !default;
+$shadow-4: qds-quasar-shadow(4) !default; $shadow-up-4: qds-quasar-shadow(4, light, -1) !default; $dark-shadow-4: qds-quasar-shadow(4, dark) !default; $dark-shadow-up-4: qds-quasar-shadow(4, dark, -1) !default;
+$shadow-5: qds-quasar-shadow(5) !default; $shadow-up-5: qds-quasar-shadow(5, light, -1) !default; $dark-shadow-5: qds-quasar-shadow(5, dark) !default; $dark-shadow-up-5: qds-quasar-shadow(5, dark, -1) !default;
+$shadow-6: qds-quasar-shadow(6) !default; $shadow-up-6: qds-quasar-shadow(6, light, -1) !default; $dark-shadow-6: qds-quasar-shadow(6, dark) !default; $dark-shadow-up-6: qds-quasar-shadow(6, dark, -1) !default;
+$shadow-7: qds-quasar-shadow(7) !default; $shadow-up-7: qds-quasar-shadow(7, light, -1) !default; $dark-shadow-7: qds-quasar-shadow(7, dark) !default; $dark-shadow-up-7: qds-quasar-shadow(7, dark, -1) !default;
+$shadow-8: qds-quasar-shadow(8) !default; $shadow-up-8: qds-quasar-shadow(8, light, -1) !default; $dark-shadow-8: qds-quasar-shadow(8, dark) !default; $dark-shadow-up-8: qds-quasar-shadow(8, dark, -1) !default;
+$shadow-9: qds-quasar-shadow(9) !default; $shadow-up-9: qds-quasar-shadow(9, light, -1) !default; $dark-shadow-9: qds-quasar-shadow(9, dark) !default; $dark-shadow-up-9: qds-quasar-shadow(9, dark, -1) !default;
+$shadow-10: qds-quasar-shadow(10) !default; $shadow-up-10: qds-quasar-shadow(10, light, -1) !default; $dark-shadow-10: qds-quasar-shadow(10, dark) !default; $dark-shadow-up-10: qds-quasar-shadow(10, dark, -1) !default;
+$shadow-11: qds-quasar-shadow(11) !default; $shadow-up-11: qds-quasar-shadow(11, light, -1) !default; $dark-shadow-11: qds-quasar-shadow(11, dark) !default; $dark-shadow-up-11: qds-quasar-shadow(11, dark, -1) !default;
+$shadow-12: qds-quasar-shadow(12) !default; $shadow-up-12: qds-quasar-shadow(12, light, -1) !default; $dark-shadow-12: qds-quasar-shadow(12, dark) !default; $dark-shadow-up-12: qds-quasar-shadow(12, dark, -1) !default;
+$shadow-13: qds-quasar-shadow(13) !default; $shadow-up-13: qds-quasar-shadow(13, light, -1) !default; $dark-shadow-13: qds-quasar-shadow(13, dark) !default; $dark-shadow-up-13: qds-quasar-shadow(13, dark, -1) !default;
+$shadow-14: qds-quasar-shadow(14) !default; $shadow-up-14: qds-quasar-shadow(14, light, -1) !default; $dark-shadow-14: qds-quasar-shadow(14, dark) !default; $dark-shadow-up-14: qds-quasar-shadow(14, dark, -1) !default;
+$shadow-15: qds-quasar-shadow(15) !default; $shadow-up-15: qds-quasar-shadow(15, light, -1) !default; $dark-shadow-15: qds-quasar-shadow(15, dark) !default; $dark-shadow-up-15: qds-quasar-shadow(15, dark, -1) !default;
+$shadow-16: qds-quasar-shadow(16) !default; $shadow-up-16: qds-quasar-shadow(16, light, -1) !default; $dark-shadow-16: qds-quasar-shadow(16, dark) !default; $dark-shadow-up-16: qds-quasar-shadow(16, dark, -1) !default;
+$shadow-17: qds-quasar-shadow(17) !default; $shadow-up-17: qds-quasar-shadow(17, light, -1) !default; $dark-shadow-17: qds-quasar-shadow(17, dark) !default; $dark-shadow-up-17: qds-quasar-shadow(17, dark, -1) !default;
+$shadow-18: qds-quasar-shadow(18) !default; $shadow-up-18: qds-quasar-shadow(18, light, -1) !default; $dark-shadow-18: qds-quasar-shadow(18, dark) !default; $dark-shadow-up-18: qds-quasar-shadow(18, dark, -1) !default;
+$shadow-19: qds-quasar-shadow(19) !default; $shadow-up-19: qds-quasar-shadow(19, light, -1) !default; $dark-shadow-19: qds-quasar-shadow(19, dark) !default; $dark-shadow-up-19: qds-quasar-shadow(19, dark, -1) !default;
+$shadow-20: qds-quasar-shadow(20) !default; $shadow-up-20: qds-quasar-shadow(20, light, -1) !default; $dark-shadow-20: qds-quasar-shadow(20, dark) !default; $dark-shadow-up-20: qds-quasar-shadow(20, dark, -1) !default;
+$shadow-21: qds-quasar-shadow(21) !default; $shadow-up-21: qds-quasar-shadow(21, light, -1) !default; $dark-shadow-21: qds-quasar-shadow(21, dark) !default; $dark-shadow-up-21: qds-quasar-shadow(21, dark, -1) !default;
+$shadow-22: qds-quasar-shadow(22) !default; $shadow-up-22: qds-quasar-shadow(22, light, -1) !default; $dark-shadow-22: qds-quasar-shadow(22, dark) !default; $dark-shadow-up-22: qds-quasar-shadow(22, dark, -1) !default;
+$shadow-23: qds-quasar-shadow(23) !default; $shadow-up-23: qds-quasar-shadow(23, light, -1) !default; $dark-shadow-23: qds-quasar-shadow(23, dark) !default; $dark-shadow-up-23: qds-quasar-shadow(23, dark, -1) !default;
+$shadow-24: qds-quasar-shadow(24) !default; $shadow-up-24: qds-quasar-shadow(24, light, -1) !default; $dark-shadow-24: qds-quasar-shadow(24, dark) !default; $dark-shadow-up-24: qds-quasar-shadow(24, dark, -1) !default;

@@ -87,7 +87,6 @@ test.describe('QDS optional QWindow extension', () => {
         chromePaddingLeft: chrome.paddingLeft,
         chromePaddingRight: chrome.paddingRight,
         consumerTitlebarHeight,
-        titleFontFamily: title.fontFamily,
         titleFontSize: title.fontSize,
         titleFontWeight: title.fontWeight,
         actionFontSize: actionContentStyles.fontSize,
@@ -121,7 +120,14 @@ test.describe('QDS optional QWindow extension', () => {
     expect.soft(styles.actionContentCenterOffset, 'QDS QWindow action glyphs are centered in their hit target').toBeLessThanOrEqual(0.5)
     expect.soft(styles.chromePaddingLeft, 'QDS QWindow chrome uses symmetric horizontal titlebar gaps').toBe(styles.chromePaddingRight)
     expect.soft(styles.consumerTitlebarHeight, 'QDS QWindow preserves consumer titlebarStyle geometry').toBe('48px')
-    expect.soft(styles.titleFontFamily, 'QDS QWindow title uses display typography').toMatch(/Selawik|Segoe UI Variable Display/)
+    // Display aliases body by default, so a distinct probe stack proves the title reads the display token.
+    const probedTitleFamily = await windowShell.locator('.qds-window__title').evaluate((title) => {
+      document.body.style.setProperty('--qds-font-family-display', "'QDS Display Probe', serif")
+      const family = getComputedStyle(title).fontFamily
+      document.body.style.removeProperty('--qds-font-family-display')
+      return family
+    })
+    expect.soft(probedTitleFamily, 'QDS QWindow title uses the display font token').toBe('"QDS Display Probe", serif')
     expect.soft(styles.titleFontSize, 'QDS QWindow title uses compact control typography').toBe('14px')
     expect.soft(styles.titleFontWeight, 'QDS QWindow title keeps semibold emphasis').toBe('600')
     expect.soft(parseFloat(styles.actionFontSize), 'QDS QWindow action glyphs use the compact icon-size token').toBe(compactActionIconSize)

@@ -1,97 +1,56 @@
 @mixin styles {
-  .qds-ui .q-rating.q-rating {
-    display: inline-flex;
-    align-items: center;
-    color: color-mix(in srgb, var(--qds-color-accent) 82%, var(--qds-fg-muted));
+  .qds-ui .q-rating {
+    gap: 0.125rem;
+    color: var(--qds-color-accent);
     line-height: 1;
     vertical-align: middle;
   }
 
-  .qds-ui .q-rating.q-rating .q-rating__icon-container {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
+  .qds-ui .q-rating .q-rating__icon-container + .q-rating__icon-container { margin-left: 0; }
 
-  .qds-ui .q-rating.q-rating .q-rating__icon {
-    opacity: 0.34;
+  // Unfilled stars take the accessible neutral stroke, as in Fluent Rating.
+  .qds-ui .q-rating .q-rating__icon {
+    color: var(--qds-stroke-strong);
+    opacity: 1;
     transition:
       color var(--qds-motion-fast),
       opacity var(--qds-motion-fast),
       transform var(--qds-motion-fast);
   }
 
-  .qds-ui .q-rating.q-rating .q-rating__icon--active,
-  .qds-ui .q-rating.q-rating .q-rating__icon--selected {
-    color: var(--qds-color-accent);
-    opacity: 1;
+  .qds-ui .q-rating :is(.q-rating__icon--active, .q-rating__icon--exselected),
+  .qds-ui .q-rating.q-rating--no-dimming .q-rating__icon {
+    color: currentColor;
   }
 
-  .qds-ui .q-rating.q-rating .q-rating__icon:hover {
-    transform: translateY(-1px);
-  }
-
-  .qds-ui .q-rating.q-rating .q-rating__icon-container:focus,
-  .qds-ui .q-rating.q-rating .q-rating__icon-container:focus-visible {
-    border-radius: var(--qds-radius-sm);
-    outline: var(--qds-focus-ring-width) solid rgba(var(--qds-color-primary-rgb), var(--qds-focus-ring-opacity));
-    outline-offset: var(--qds-focus-ring-offset);
-  }
-
-  .qds-ui .q-rating.q-rating.q-rating--non-editable .q-rating__icon,
-  .qds-ui .q-rating.q-rating.disabled .q-rating__icon {
-    cursor: default;
-  }
-
-  .qds-ui .q-rating.q-rating.q-rating--non-editable:not(.disabled) .q-rating__icon--active {
-    opacity: 0.85;
-  }
-
-  .qds-ui .q-rating.q-rating.disabled .q-rating__icon,
-  .qds-ui .q-rating.q-rating.disabled .q-rating__icon--active {
-    opacity: 0.24;
-    pointer-events: none;
-  }
-
-  .qds-ui .q-rating.q-rating:not(.disabled) .q-rating__icon--exselected {
-    color: var(--qds-color-accent);
+  .qds-ui .q-rating:not(.disabled) .q-rating__icon--exselected {
     opacity: 0.72;
   }
 
-  .qds-ui .q-rating.q-rating:not(.disabled):not(.q-rating--non-editable) .q-rating__icon--hovered {
-    color: var(--qds-color-accent);
+  .qds-ui .q-rating:not(.disabled, .q-rating--non-editable) .q-rating__icon--hovered {
     opacity: 1;
     transform: translateY(-1px);
   }
 
-  .qds-ui .q-rating.q-rating.q-rating--no-dimming:not(.disabled) .q-rating__icon {
+  .qds-ui .q-rating.disabled .q-rating__icon {
+    color: var(--qds-fg-disabled);
     opacity: 1;
+    pointer-events: none;
   }
 
-  .qds-ui .q-rating.q-rating .q-rating__icon.text-positive {
-    color: var(--qds-color-positive);
+  .qds-ui .q-rating:is(.q-rating--non-editable, .disabled) .q-rating__icon {
+    cursor: default;
   }
 
-  .qds-ui .q-rating.q-rating .q-rating__icon.text-negative {
-    color: var(--qds-color-negative);
+  .qds-ui .q-rating .q-rating__icon-container:focus-visible {
+    border-radius: var(--qds-radius-sm);
+    outline: var(--qds-focus-ring-width) solid var(--qds-stroke-focus);
+    outline-offset: var(--qds-focus-ring-offset);
   }
 
-  .qds-ui .q-rating.q-rating .q-rating__icon.text-primary {
-    color: var(--qds-color-primary);
-  }
-
-  .qds-ui.qds-variant-ink .q-rating.q-rating,
-  .qds-ui .qds-variant-ink .q-rating.q-rating {
-    color: var(--qds-color-accent);
-  }
-
-  .qds-ui.qds-variant-ink .q-rating.q-rating:not(.q-rating--no-dimming):not(.disabled) .q-rating__icon:not(.q-rating__icon--active):not(.q-rating__icon--exselected):not(.q-rating__icon--hovered),
-  .qds-ui .qds-variant-ink .q-rating.q-rating:not(.q-rating--no-dimming):not(.disabled) .q-rating__icon:not(.q-rating__icon--active):not(.q-rating__icon--exselected):not(.q-rating__icon--hovered) {
-    opacity: 0.28;
-  }
-
-  .qds-ui.qds-variant-ink .q-rating.q-rating.disabled .q-rating__icon,
-  .qds-ui .qds-variant-ink .q-rating.q-rating.disabled .q-rating__icon {
-    opacity: 0.2;
+  @each $role in primary, positive, negative {
+    .qds-ui .q-rating .q-rating__icon.text-#{$role} {
+      color: var(--qds-color-#{$role});
+    }
   }
 }

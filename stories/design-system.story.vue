@@ -42,7 +42,7 @@ function notify() {
   <Story title="Design System / Overview" :layout="{ type: 'single', iframe: true }" :init-state="initState">
     <Variant title="QDS catalog">
       <template #default="{ state }">
-        <StoryShell title="Quasar Design System" description="Tonal-first components over Quasar 2 primitives." :mode="state.mode" :variant="state.variant">
+        <StoryShell title="Quasar Design System" description="Neutral-first components over Quasar 2 primitives." :mode="state.mode" :variant="state.variant">
         <q-toolbar class="qds-story-toolbar q-mb-lg rounded-borders">
           <q-toolbar-title>
             <div class="text-h6 qds-story-title">Component catalog</div>
@@ -78,21 +78,21 @@ function notify() {
               <div class="row items-start q-col-gutter-lg">
                 <div class="col-12 col-md-7">
                   <div class="text-overline qds-text-muted">Buttons</div>
-                  <h2 class="qds-story-heading q-mt-none q-mb-sm">Semantic color is tonal by default here</h2>
+                  <h2 class="qds-story-heading q-mt-none q-mb-sm">Neutral first, colour for meaning</h2>
                   <p class="qds-text-muted q-mb-lg">
-                    Colored actions are tonal by default; reserve solid primary for a clear CTA.
+                    Default actions are neutral; <code>color</code> gives a solid role fill and <code>qds-tonal</code> opts into a soft wash.
                   </p>
                   <div class="q-gutter-sm q-mb-md">
-                    <q-btn unelevated color="primary" label="Primary tonal" />
-                    <q-btn unelevated color="positive" label="Positive tonal" />
-                    <q-btn unelevated color="warning" label="Warning tonal" />
-                    <q-btn unelevated color="negative" label="Negative tonal" />
+                    <q-btn label="Neutral" />
+                    <q-btn unelevated color="primary" label="Primary" />
+                    <q-btn outline label="Outline" />
+                    <q-btn flat label="Subtle" />
                   </div>
                   <div class="q-gutter-sm">
-                    <q-btn class="qds-solid" unelevated color="primary" label="Solid CTA" />
-                    <q-btn outline color="primary" label="Outline" />
-                    <q-btn unelevated label="Neutral" />
-                    <q-btn flat color="primary" label="Flat" />
+                    <q-btn unelevated class="qds-tonal" color="primary" label="Primary tonal" />
+                    <q-btn unelevated class="qds-tonal" color="positive" label="Positive tonal" />
+                    <q-btn unelevated class="qds-tonal" color="warning" label="Warning tonal" />
+                    <q-btn unelevated class="qds-tonal" color="negative" label="Negative tonal" />
                   </div>
                 </div>
 

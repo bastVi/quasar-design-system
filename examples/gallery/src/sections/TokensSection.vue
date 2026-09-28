@@ -75,7 +75,7 @@ function semanticForegroundFill(role: typeof semanticForegroundRoles[number]) {
         <q-badge
           v-for="role in semanticRoles"
           :key="`badge-${role}`"
-          class="q-mr-sm q-mb-xs"
+          class="qds-tonal q-mr-sm q-mb-xs"
           :color="role"
           :data-test="`qds-tonal-badge-${role}`"
           :label="role"
@@ -109,8 +109,8 @@ function semanticForegroundFill(role: typeof semanticForegroundRoles[number]) {
           <q-btn outline color="primary" label="Outline" no-caps data-test="qds-button-outline-primary" />
           <q-btn flat color="primary" label="Flat" no-caps data-test="qds-button-flat-primary" />
           <q-btn color="primary" label="Standard" no-caps data-test="qds-button-standard-primary" />
-          <q-btn unelevated color="primary" label="Tonal" no-caps data-test="qds-button-tonal-primary" />
-          <q-btn class="qds-solid" unelevated color="primary" label="Solid" no-caps data-test="qds-button-solid-primary" />
+          <q-btn unelevated class="qds-tonal" color="primary" label="Tonal" no-caps data-test="qds-button-tonal-primary" />
+          <q-btn unelevated color="primary" label="Solid" no-caps data-test="qds-button-solid-primary" />
         </div>
       </div>
     </q-card>

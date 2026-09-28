@@ -1,70 +1,45 @@
 @mixin styles {
-  .qds-ui .q-header.q-header,
-  .qds-ui .q-toolbar.q-toolbar,
-  .qds-ui .q-layout__section--marginal {
-    background: var(--qds-toolbar-bg);
+  .qds-ui .q-header,
+  .qds-ui .q-footer,
+  .qds-ui .q-toolbar {
     color: var(--qds-fg-default);
-    box-shadow: none !important;
+    background: var(--qds-toolbar-bg);
   }
 
-  .qds-ui .q-header.q-header,
-  .qds-ui .q-layout__section--marginal {
+  .qds-ui .q-header {
     border-bottom: var(--qds-border-width-control) solid var(--qds-stroke-subtle);
   }
 
-  .qds-ui .q-toolbar.q-toolbar.qds-card {
-    border: var(--qds-border-width-control) solid var(--qds-card-border);
+  .qds-ui .q-header .q-layout__shadow::after,
+  .qds-ui .q-footer .q-layout__shadow::after {
+    box-shadow: none;
   }
 
-  .qds-ui .q-bar.q-bar {
-    background: var(--qds-bg-surface-1) !important;
-    background-color: var(--qds-bg-surface-1) !important;
-    color: var(--qds-fg-default);
-    border: 0;
-    border-radius: var(--qds-radius-control);
-    height: 2.25rem;
+  .qds-ui .q-header .q-toolbar,
+  .qds-ui .q-footer .q-toolbar {
+    background: transparent;
+  }
+
+  .qds-ui .q-toolbar {
+    min-height: 3rem;
     padding-inline: var(--qds-space-sm);
-    box-shadow: none !important;
-  }
-
-  .qds-ui .q-bar.q-bar--dense {
-    height: 1.75rem;
-    min-height: 0;
-    padding-inline: var(--qds-space-sm);
-    font-size: 0.8125rem;
-  }
-
-  .qds-ui .q-bar.q-bar--dark {
-    background: var(--qds-color-primary-dark) !important;
-    background-color: var(--qds-color-primary-dark) !important;
-    color: var(--qds-text-on-primary);
   }
 
   .qds-ui .q-toolbar.q-toolbar--dense {
-    height: var(--qds-button-dense-min-height);
-    min-height: var(--qds-button-dense-min-height);
+    min-height: var(--qds-control-size-lg);
   }
 
-  .qds-ui .q-separator.q-separator {
-    background: var(--qds-stroke-divider);
-    border: 0;
-    opacity: 1;
-  }
-
-  .qds-ui .q-separator.q-separator--horizontal {
-    height: var(--qds-border-width-control);
-  }
-
-  .qds-ui .q-separator.q-separator--vertical {
-    width: var(--qds-border-width-control);
-  }
-
-  .qds-ui .q-separator.q-separator--dark {
-    background: var(--qds-text-on-solid);
+  .qds-ui .q-toolbar__title {
+    padding-inline: var(--qds-space-sm);
+    font-size: var(--qds-font-size-subtitle);
+    font-weight: var(--qds-font-weight-semibold);
+    letter-spacing: 0;
   }
 
   .qds-ui .q-toolbar.qds-toolbar--wrap {
     flex-wrap: wrap;
+    row-gap: var(--qds-space-xs);
+    padding-block: var(--qds-space-xs);
   }
 
   .qds-ui .q-toolbar.qds-toolbar--wrap .q-toolbar__title {
@@ -79,26 +54,48 @@
     white-space: nowrap;
   }
 
-  .qds-ui.qds-variant-ink .q-header.q-header,
-  .qds-ui.qds-variant-ink .q-toolbar.q-toolbar,
-  .qds-ui.qds-variant-ink .q-layout__section--marginal,
-  .qds-ui .qds-variant-ink .q-header.q-header,
-  .qds-ui .qds-variant-ink .q-toolbar.q-toolbar,
-  .qds-ui .qds-variant-ink .q-layout__section--marginal {
+  .qds-ui .q-bar {
+    height: 2.25rem;
+    padding-inline: var(--qds-space-sm);
+    color: var(--qds-fg-default);
+    background: var(--qds-bg-surface-1);
+    border-radius: var(--qds-radius-control);
+  }
+
+  .qds-ui .q-bar.q-bar--dense {
+    height: 1.75rem;
+    font-size: var(--qds-font-size-body2);
+  }
+
+  .qds-ui .q-bar.q-bar--dark {
+    color: var(--qds-bar-dark-fg);
+    background: var(--qds-bar-dark-bg);
+  }
+
+  .qds-ui .q-separator {
+    background: var(--qds-stroke-divider);
+  }
+
+  .qds-ui.qds-variant-ink .q-header,
+  .qds-ui.qds-variant-ink .q-footer,
+  .qds-ui.qds-variant-ink .q-toolbar,
+  .qds-ui .qds-variant-ink .q-header,
+  .qds-ui .qds-variant-ink .q-footer,
+  .qds-ui .qds-variant-ink .q-toolbar,
+  .qds-ui.qds-variant-ink .q-bar:not(.q-bar--dark),
+  .qds-ui .qds-variant-ink .q-bar:not(.q-bar--dark),
+  .qds-ui.qds-variant-terminal .q-bar:not(.q-bar--dark),
+  .qds-ui .qds-variant-terminal .q-bar:not(.q-bar--dark) {
     background: var(--qds-surface-0);
+  }
+
+  .qds-ui.qds-variant-ink .q-header,
+  .qds-ui .qds-variant-ink .q-header {
     border-bottom-color: var(--qds-separator-color);
   }
 
-  .qds-ui.qds-variant-ink .q-bar.q-bar:not(.q-bar--dark),
-  .qds-ui .qds-variant-ink .q-bar.q-bar:not(.q-bar--dark) {
-    background: var(--qds-surface-0) !important;
-    background-color: var(--qds-surface-0) !important;
-  }
-
-  .qds-ui.qds-variant-terminal .q-bar.q-bar:not(.q-bar--dark),
-  .qds-ui .qds-variant-terminal .q-bar.q-bar:not(.q-bar--dark) {
-    background: var(--qds-surface-0) !important;
-    background-color: var(--qds-surface-0) !important;
+  .qds-ui.qds-variant-terminal .q-bar:not(.q-bar--dark),
+  .qds-ui .qds-variant-terminal .q-bar:not(.q-bar--dark) {
     border: var(--qds-border-width-control) solid var(--qds-border-subtle);
   }
 }

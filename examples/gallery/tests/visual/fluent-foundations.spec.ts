@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { applyTheme, computed, customProperty, resolvedColor } from './helpers'
+import { applyTheme, coarsePointer, computed, customProperty, resolvedColor } from './helpers'
 
 type Rgb = readonly [number, number, number]
 
@@ -29,26 +29,37 @@ async function tokenColor(page: Parameters<typeof customProperty>[0], token: str
 }
 
 test.describe('Fluent foundation contract', () => {
-  test('keeps fields tall enough for a label band and centered value band', async ({ page }) => {
+  test('uses the 24/32/40 control scale with a label band above the field and an opt-in 48px float field', async ({ page }) => {
     await page.goto('/#components')
     await applyTheme(page, 'light', 'fluent')
 
     const panel = '.q-tab-panel'
-    expect(await computed(page, `${panel} .q-btn.q-btn--unelevated:not(.q-btn--dense)`, 'min-height')).toBe('36px')
-    expect(await computed(page, `${panel} .q-field--outlined .q-field__control`, 'min-height')).toBe('48px')
-    expect(await customProperty(page, '--qds-button-dense-min-height')).toBe('2rem')
+    const defaultField = '[data-test="qds-control-input"] .q-field'
+    const floatField = '[data-test="qds-field-float"] .q-field--outlined.qds-field--float'
+    // Coarse pointers raise sm/md to the 32/40px touch steps; lg stays 40px.
+    const coarse = await coarsePointer(page)
+    expect(await customProperty(page, '--qds-control-size-sm')).toBe(coarse ? '2rem' : '1.5rem')
+    expect(await customProperty(page, '--qds-control-size-md')).toBe(coarse ? '2.5rem' : '2rem')
+    expect(await customProperty(page, '--qds-control-size-lg')).toBe('2.5rem')
+    expect(await computed(page, `${panel} .q-btn.q-btn--unelevated:not(.q-btn--dense)`, 'min-height')).toBe(coarse ? '40px' : '32px')
+    expect(await computed(page, `${defaultField} .q-field__control`, 'min-height'), 'default field control is 32px (40px touch)').toBe(coarse ? '40px' : '32px')
+    expect(await computed(page, defaultField, 'padding-top'), 'default field reserves a 20px label line plus 4px gap above the control').toBe('24px')
+    expect(await computed(page, `${floatField} .q-field__control`, 'min-height'), 'opt-in float field keeps a 48px label band').toBe('48px')
+    expect(await customProperty(page, '--qds-button-dense-min-height')).toBe(coarse ? '2rem' : '1.5rem')
+    expect(await customProperty(page, '--qds-field-min-height')).toBe('3rem')
     expect(await customProperty(page, '--qds-field-dense-min-height')).toBe('2.5rem')
-    expect(await customProperty(page, '--qds-chip-min-height')).toBe('1.875rem')
-    expect(await customProperty(page, '--qds-chip-padding')).toBe('.25rem .625rem')
-    expect(await customProperty(page, '--qds-chip-dense-min-height')).toBe('1.625rem')
-    expect(await customProperty(page, '--qds-chip-dense-padding')).toBe('.125rem .5rem')
-    expect(await customProperty(page, '--qds-badge-min-height')).toBe('1.375rem')
-    expect(await customProperty(page, '--qds-compact-action-size')).toBe('2.25rem')
+    expect(await customProperty(page, '--qds-chip-min-height')).toBe('1.75rem')
+    expect(await customProperty(page, '--qds-chip-padding')).toBe('0 .75rem')
+    expect(await customProperty(page, '--qds-chip-dense-min-height')).toBe('1.5rem')
+    expect(await customProperty(page, '--qds-chip-dense-padding')).toBe('0 .5rem')
+    expect(await customProperty(page, '--qds-badge-min-height')).toBe('1.25rem')
+    expect(await customProperty(page, '--qds-compact-action-size')).toBe(coarse ? '2.5rem' : '2rem')
     expect(await customProperty(page, '--qds-compact-action-icon-size')).toBe('1rem')
 
     await applyTheme(page, 'light', 'mobile')
     expect(await computed(page, `${panel} .q-btn.q-btn--unelevated:not(.q-btn--dense)`, 'min-height')).toBe('44px')
-    expect(await computed(page, `${panel} .q-field--outlined .q-field__control`, 'min-height')).toBe('48px')
+    expect(await computed(page, `${defaultField} .q-field__control`, 'min-height'), 'One default field control meets the 44px touch height').toBe('44px')
+    expect(await computed(page, `${floatField} .q-field__control`, 'min-height')).toBe('48px')
     expect(await customProperty(page, '--qds-button-dense-min-height')).toBe('2.5rem')
     expect(await customProperty(page, '--qds-control-size-sm')).toBe('2.5rem')
   })

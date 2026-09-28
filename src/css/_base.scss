@@ -1,14 +1,39 @@
+@mixin qds-type-step($step) {
+  font-size: var(--qds-font-size-#{$step});
+  font-weight: var(--qds-font-weight-#{$step});
+  line-height: var(--qds-line-height-#{$step});
+  letter-spacing: var(--qds-letter-spacing-#{$step}, normal);
+}
+
 @mixin styles {
   body.qds-ui {
     background: var(--qds-surface-1);
     color: var(--qds-text);
     font-family: var(--qds-font-family);
+    font-size: var(--qds-font-size-body);
+    line-height: var(--qds-line-height-body);
   }
 
   body.qds-ui :where(h1, h2, h3, h4, h5, h6),
   body.qds-ui :where(.text-h1, .text-h2, .text-h3, .text-h4, .text-h5, .text-h6),
   .qds-display {
     font-family: var(--qds-font-family-display);
+  }
+
+  @each $step in h1, h2, h3, h4, h5, h6 {
+    body.qds-ui :where(#{$step}) {
+      @include qds-type-step($step);
+    }
+  }
+
+  @each $step in h1, h2, h3, h4, h5, h6, subtitle1, subtitle2, body1, body2, caption, overline {
+    body.qds-ui :where(.text-#{$step}) {
+      @include qds-type-step($step);
+    }
+  }
+
+  body.qds-ui :where(.text-overline) {
+    text-transform: uppercase;
   }
 
   // Ripple is a Material 2 tell; CSS states replace it.

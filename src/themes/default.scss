@@ -29,6 +29,7 @@
   }
 
   @include qds-variant-palette($variant, $palette-prefix);
+  --qds-color-primary-pressed: var(--qds-color-primary-dark);
   --qds-surface-0: #{qds-variant-token($variant, '#{$surface-prefix}surface-0')};
   --qds-surface-1: #{qds-variant-token($variant, '#{$surface-prefix}surface-1')};
   --qds-surface-2: #{qds-variant-token($variant, '#{$surface-prefix}surface-2')};
@@ -123,7 +124,19 @@
   :root {
     color-scheme: light;
     @include qds-derived-tokens;
+    @include fallbacks.qds-soft-surfaces(tokens.$light-soft-surfaces);
     @include fallbacks.qds-semantic-tokens(tokens.$light-semantic);
+    @include fallbacks.qds-role-fg(tokens.$light-role-fg);
+  }
+
+  @media (pointer: coarse) {
+    :root {
+      --qds-control-size-sm: #{map.get(tokens.$touch, control-size-sm)};
+      --qds-control-size-md: #{map.get(tokens.$touch, control-size-md)};
+      --qds-list-item-min-height-value: #{map.get(tokens.$touch, row-min-height)};
+      --qds-menu-item-min-height-value: #{map.get(tokens.$touch, row-min-height)};
+      --qds-tab-min-height: #{map.get(tokens.$touch, tab-min-height)};
+    }
   }
 
   .qds-theme-dark,
@@ -132,6 +145,7 @@
     --qds-color-primary: #{map.get(tokens.$dark-palette, primary)};
     --qds-color-primary-light: #{map.get(tokens.$dark-palette, primary-light)};
     --qds-color-primary-dark: #{map.get(tokens.$dark-palette, primary-dark)};
+    --qds-color-primary-pressed: #{map.get(tokens.$dark-palette, primary-pressed)};
     --qds-color-secondary: #{map.get(tokens.$dark-palette, secondary)};
     --qds-color-accent: #{map.get(tokens.$dark-palette, accent)};
     --qds-color-positive: #{map.get(tokens.$dark-palette, positive)};
@@ -158,6 +172,7 @@
     @include fallbacks.qds-on-fill(tokens.$dark-on-fill);
     --qds-border: #{map.get(tokens.$borders, dark)};
     --qds-border-subtle: #{map.get(tokens.$borders, dark-subtle)};
+    @include fallbacks.qds-shadow-steps(dark);
     --qds-shadow-sm: #{map.get(tokens.$shadow, dark-sm)};
     --qds-shadow-md: #{map.get(tokens.$shadow, dark-md)};
     --qds-shadow-lg: #{map.get(tokens.$shadow, dark-lg)};
@@ -173,12 +188,15 @@
     @include qds-derived-tokens;
     @include fallbacks.qds-soft-surfaces(tokens.$dark-soft-surfaces);
     @include fallbacks.qds-semantic-tokens(tokens.$dark-semantic);
+    @include fallbacks.qds-role-fg(tokens.$dark-role-fg);
   }
 
   .qds-variant-ink {
     --qds-font-family: #{qds-variant-token(ink, font-family)};
     --qds-font-family-display: #{qds-variant-token(ink, font-family-display)};
     @include qds-variant-scheme(ink);
+    --qds-list-item-min-height-value: #{qds-variant-token(ink, list-item-min-height)};
+    --qds-menu-item-min-height-value: #{qds-variant-token(ink, menu-item-min-height)};
   }
 
   .qds-theme-dark.qds-variant-ink,
@@ -208,6 +226,10 @@
     --qds-font-family-display: #{qds-variant-token(terminal, font-family-display)};
     @include qds-variant-scheme(terminal);
     @include qds-terminal-sizing;
+    --qds-fg-brand: color-mix(in srgb, var(--qds-color-primary) 40%, var(--qds-text-strong));
+    @each $role in secondary, accent, positive, negative, warning, info {
+      --qds-fg-#{$role}: color-mix(in srgb, var(--qds-color-#{$role}) 40%, var(--qds-text-strong));
+    }
   }
 
   .qds-theme-dark.qds-variant-terminal,
@@ -216,5 +238,6 @@
   body.qds-ui.body--dark .qds-variant-terminal {
     @include qds-variant-scheme(terminal, true);
     @include qds-terminal-sizing;
+    --qds-fg-brand: var(--qds-color-primary-light);
   }
 }

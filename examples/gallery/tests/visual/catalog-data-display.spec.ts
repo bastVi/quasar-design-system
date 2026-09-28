@@ -1,17 +1,8 @@
 import { test, expect, type Page } from '@playwright/test'
-import { MATRIX_VARIANTS } from './helpers'
+import { MATRIX_VARIANTS, customProperty, resolvedColor, resolvedShadow } from './helpers'
 
 type Mode = 'light' | 'dark'
 type Variant = 'fluent' | 'ink' | 'mobile'
-
-const EXPECTED_CARD_RADIUS: Record<Variant, string> = {
-  fluent: '8px',
-  ink: '16px',
-  mobile: '20px',
-}
-
-const EXPECTED_FLUENT_ACTIVE_TOGGLE_BG = 'rgba(0, 90, 158, 0.12)'
-const EXPECTED_FLUENT_PRIMARY = 'rgb(0, 90, 158)'
 
 /** Drive the runtime controller exactly as an external app would. */
 async function applyTheme(page: Page, mode: Mode, variant: Variant) {
@@ -86,20 +77,21 @@ test.describe('QDS catalog data display gate', () => {
     expect.soft(await computed(page, '[data-test="qds-btn-group"]', 'background-color'), 'QBtnGroup transparent').toBe('rgba(0, 0, 0, 0)')
     expect.soft(await computed(page, '[data-test="qds-btn-group"]', 'box-shadow'), 'QBtnGroup flat surface').toBe('none')
     expect.soft(await computed(page, '[data-test="qds-btn-dropdown"] .q-btn-dropdown__arrow', 'opacity'), 'QBtnDropdown arrow default opacity').toBe('0.72')
-    expect.soft(await computed(page, '[data-test="qds-btn-toggle"]', 'border-top-width'), 'QBtnToggle is a quiet Fluent command surface (no enclosing shell)').toBe('0px')
-    expect.soft(await computed(page, '[data-test="qds-btn-toggle"]', 'background-color'), 'QBtnToggle transparent').toBe('rgba(0, 0, 0, 0)')
-    expect.soft(await computed(page, '[data-test="qds-btn-toggle"] .q-btn[aria-pressed="true"]', 'background-color'), 'QBtnToggle active background').toBe(EXPECTED_FLUENT_ACTIVE_TOGGLE_BG)
+    expect.soft(await computed(page, '[data-test="qds-btn-toggle"]', 'border-top-width'), 'QBtnToggle segmented track has no stroke').toBe('0px')
+    expect.soft(await computed(page, '[data-test="qds-btn-toggle"]', 'background-color'), 'QBtnToggle segmented track uses the neutral surface-2 fill').toBe(await resolvedColor(page, '--qds-bg-surface-2'))
+    expect.soft(await computed(page, '[data-test="qds-btn-toggle"] .q-btn[aria-pressed="true"]', 'background-color'), 'QBtnToggle selected segment is raised on the control fill').toBe(await resolvedColor(page, '--qds-control-fill-default'))
+    expect.soft(await computed(page, '[data-test="qds-btn-toggle"] .q-btn[aria-pressed="true"]', 'box-shadow'), 'QBtnToggle selected segment carries shadow-2').toBe(await resolvedShadow(page, '--qds-shadow-2'))
     expect.soft(await computed(page, '[data-test="qds-btn-toggle"] .q-btn[aria-pressed="true"]', 'border-top-color'), 'QBtnToggle active has no extra outline').toBe('rgba(0, 0, 0, 0)')
-    expect.soft(await computed(page, '[data-test="qds-avatar"]', 'border-top-width'), 'QAvatar QDS border').toBe('1px')
+    expect.soft(await computed(page, '[data-test="qds-avatar"]', 'border-top-width'), 'QAvatar is a borderless fill').toBe('0px')
     expect.soft(await computed(page, '[data-test="qds-avatar"]', 'border-radius'), 'QAvatar QDS radius').toBe('9999px')
-    expect.soft(await computed(page, '[data-test="qds-avatar"]', 'background-color'), 'QAvatar tokenized bg').not.toBe('rgba(0, 0, 0, 0)')
-    expect.soft(await computed(page, '.catalog-panel', 'border-radius'), 'QTabPanels QDS radius').toBe(EXPECTED_CARD_RADIUS.fluent)
-    expect.soft(await computed(page, '.q-stepper', 'border-radius'), 'QStepper QDS radius').toBe(EXPECTED_CARD_RADIUS.fluent)
-    expect.soft(await computed(page, '.q-markup-table', 'border-radius'), 'QMarkupTable QDS radius').toBe(EXPECTED_CARD_RADIUS.fluent)
+    expect.soft(await computed(page, '[data-test="qds-avatar"]', 'background-color'), 'QAvatar color prop fills with the primary token').toBe(await resolvedColor(page, '--qds-color-primary'))
+    expect.soft(await computed(page, '.catalog-panel', 'border-radius'), 'QTabPanels leaves framing to the host instead of forcing a card radius').toBe(await customProperty(page, '--qds-radius-md'))
+    expect.soft(await computed(page, '.q-stepper', 'border-radius'), 'QStepper QDS radius').toBe(await customProperty(page, '--qds-card-radius'))
+    expect.soft(await computed(page, '.q-markup-table', 'border-radius'), 'QMarkupTable QDS radius').toBe(await customProperty(page, '--qds-card-radius'))
     expect.soft(await computed(page, '.q-editor', 'border-top-width'), 'QEditor QDS border').toBe('1px')
-    expect.soft(await computed(page, '.q-uploader', 'border-radius'), 'QUploader QDS radius').toBe(EXPECTED_CARD_RADIUS.fluent)
-    expect.soft(await computed(page, '[data-test="qds-knob"]', 'color'), 'QKnob primary color').toBe(EXPECTED_FLUENT_PRIMARY)
-    expect.soft(await computed(page, '[data-test="qds-spinner"]', 'color'), 'QSpinner primary color').toBe(EXPECTED_FLUENT_PRIMARY)
+    expect.soft(await computed(page, '.q-uploader', 'border-radius'), 'QUploader QDS radius').toBe(await customProperty(page, '--qds-card-radius'))
+    expect.soft(await computed(page, '[data-test="qds-knob"]', 'color'), 'QKnob primary color').toBe(await resolvedColor(page, '--qds-color-primary'))
+    expect.soft(await computed(page, '[data-test="qds-spinner"]', 'color'), 'QSpinner primary color').toBe(await resolvedColor(page, '--qds-color-primary'))
     expect.soft(await computed(page, '[data-test="qds-circular-progress"] .q-circular-progress__circle', 'filter'), 'QCircularProgress retains Fluent solid/no-glow treatment').toBe('none')
   })
 
@@ -139,7 +131,7 @@ test.describe('QDS catalog data display gate', () => {
     await expect(denseTree).toHaveClass(/q-tree--dense/)
     await expect(denseTree).toHaveClass(/q-tree--no-connectors/)
     await expect(denseTree.locator('.q-tree__node-header.q-tree__node--selected').first()).toContainText('Controls')
-    expect.soft(await computed(page, '[data-test="qds-tree-dense"] .q-tree__node-header', 'min-height'), 'dense QTree header height').toBe('38px')
+    expect.soft(await computed(page, '[data-test="qds-tree-dense"] .q-tree__node-header', 'min-height'), 'dense QTree header height').toBe('32px')
     expect.soft(await computed(page, '[data-test="qds-tree-dense"] .q-tree__node-header', 'display', '::before'), 'no-connectors rail display').toBe('none')
   })
 
@@ -150,7 +142,7 @@ test.describe('QDS catalog data display gate', () => {
         await applyTheme(page, mode, variant)
         const primary = await page.locator('body').evaluate((el) => {
           const probe = document.createElement('span')
-          probe.style.color = 'var(--qds-color-primary)'
+          probe.style.color = 'var(--qds-fg-primary)'
           el.append(probe)
           const value = getComputedStyle(probe).color
           probe.remove()
@@ -160,8 +152,8 @@ test.describe('QDS catalog data display gate', () => {
         await expect(page.locator('[data-test="qds-linear-progress"]')).toBeVisible()
         await expect(page.locator('[data-test="qds-circular-progress"]')).toBeVisible()
         await expect(page.locator('[data-test="qds-expansion-expanded"]')).toBeVisible()
-        expect.soft(await computed(page, '[data-test="qds-btn-group"]', 'border-radius'), `${mode}/${variant} action group geometry`).toBe(variant === 'mobile' ? '20px' : '3px')
-        expect.soft(await computed(page, '[data-test="qds-linear-progress"] .q-linear-progress__model', 'background-color'), `${mode}/${variant} linear progress uses primary`).toBe(primary)
+        expect.soft(await computed(page, '[data-test="qds-btn-group"]', 'border-radius'), `${mode}/${variant} action group follows the button radius`).toBe(await customProperty(page, '--qds-button-radius'))
+        expect.soft(await computed(page, '[data-test="qds-linear-progress"] .q-linear-progress__model', 'background-color'), `${mode}/${variant} linear progress uses the text-safe primary foreground`).toBe(primary)
         expect.soft(await computed(page, '[data-test="qds-circular-progress"]', 'color'), `${mode}/${variant} circular progress retains contrast`).not.toBe('rgba(0, 0, 0, 0)')
         if (variant === 'fluent') {
           expect.soft(await computed(page, '[data-test="qds-btn-group"]', 'box-shadow'), `${mode}/Fluent action content is flat`).toBe('none')

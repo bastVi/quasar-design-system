@@ -41,3 +41,19 @@ export async function resolvedColor(page: Page, property: string): Promise<strin
     return color
   }, property)
 }
+
+export async function resolvedShadow(page: Page, property: string): Promise<string> {
+  return page.locator('body').evaluate((element, name) => {
+    const probe = document.createElement('span')
+    probe.style.boxShadow = `var(${name})`
+    element.append(probe)
+    const shadow = getComputedStyle(probe).boxShadow
+    probe.remove()
+    return shadow
+  }, property)
+}
+
+// Touch projects (Pixel 5) match `(pointer: coarse)`, which raises QDS control and row tokens.
+export async function coarsePointer(page: Page): Promise<boolean> {
+  return page.evaluate(() => matchMedia('(pointer: coarse)').matches)
+}

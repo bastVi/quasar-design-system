@@ -14,6 +14,7 @@ export const QDS_TOKENS = [
   '--qds-color-primary',
   '--qds-color-primary-light',
   '--qds-color-primary-dark',
+  '--qds-color-primary-pressed',
   '--qds-color-secondary',
   '--qds-color-accent',
   '--qds-color-positive',
@@ -88,6 +89,12 @@ export const QDS_TOKENS = [
   '--qds-shadow-sm',
   '--qds-shadow-md',
   '--qds-shadow-lg',
+  '--qds-shadow-2',
+  '--qds-shadow-4',
+  '--qds-shadow-8',
+  '--qds-shadow-16',
+  '--qds-shadow-28',
+  '--qds-shadow-64',
 
   // ── Typography ──────────────────────────────────────────────────────
   '--qds-font-family',
@@ -103,6 +110,8 @@ export const QDS_TOKENS = [
   '--qds-motion-base',
   '--qds-motion-duration-fast',
   '--qds-motion-duration-base',
+  '--qds-motion-duration-medium',
+  '--qds-motion-duration-slow',
   '--qds-motion-ease-out',
   '--qds-motion-ease-in-out',
 
@@ -146,7 +155,7 @@ export const QDS_TOKENS = [
   '--qds-button-size-lg',
   '--qds-field-size-sm',
   '--qds-field-size-md',
-   '--qds-field-size-lg',
+  '--qds-field-size-lg',
   '--qds-field-label-size-rest',
   '--qds-field-label-size-float',
   '--qds-field-label-gap',
@@ -187,6 +196,11 @@ export const QDS_TOKENS = [
   '--qds-button-round-size',
   '--qds-button-elevated-shadow',
   '--qds-button-elevated-shadow-hover',
+  '--qds-fab-size',
+  '--qds-fab-mini-size',
+
+  // ── Avatar ──────────────────────────────────────────────────────────
+  '--qds-avatar-initials-scale',
 
   // ── Card ────────────────────────────────────────────────────────────
   '--qds-card-acrylic-tint-rgb',
@@ -369,10 +383,16 @@ export const QDS_TOKENS = [
 
   // ── Tab (derived) ───────────────────────────────────────────────────
   '--qds-tab-radius',
+  '--qds-tab-min-height',
   '--qds-tab-hover-bg',
   '--qds-tab-active-bg',
   '--qds-tab-active-text',
   '--qds-tab-active-rail',
+
+  // ── Toggle (derived) ────────────────────────────────────────────────
+  '--qds-toggle-track-width',
+  '--qds-toggle-track-height',
+  '--qds-toggle-thumb-inset',
 
   // ── Semantic foreground ─────────────────────────────────────────────
   '--qds-fg-default',
@@ -380,6 +400,14 @@ export const QDS_TOKENS = [
   '--qds-fg-muted',
   '--qds-fg-disabled',
   '--qds-fg-on-brand',
+  '--qds-fg-brand',
+  '--qds-fg-primary',
+  '--qds-fg-secondary',
+  '--qds-fg-accent',
+  '--qds-fg-positive',
+  '--qds-fg-negative',
+  '--qds-fg-warning',
+  '--qds-fg-info',
 
   // ── Semantic background ──────────────────────────────────────────────
   '--qds-bg-canvas',
@@ -412,6 +440,12 @@ export const QDS_TOKENS = [
   '--qds-control-fill-pressed',
   '--qds-control-fill-disabled',
 
+  // ── Semantic segmented control ──────────────────────────────────────
+  '--qds-segmented-track-bg',
+  '--qds-segmented-thumb-bg',
+  '--qds-bar-dark-bg',
+  '--qds-bar-dark-fg',
+
   // ── Typography ramp ──────────────────────────────────────────────────
   '--qds-font-size-caption',
   '--qds-line-height-caption',
@@ -434,6 +468,44 @@ export const QDS_TOKENS = [
   '--qds-font-size-display',
   '--qds-line-height-display',
   '--qds-font-weight-display',
+  '--qds-font-size-h1',
+  '--qds-line-height-h1',
+  '--qds-font-weight-h1',
+  '--qds-font-size-h2',
+  '--qds-line-height-h2',
+  '--qds-font-weight-h2',
+  '--qds-font-size-h3',
+  '--qds-line-height-h3',
+  '--qds-font-weight-h3',
+  '--qds-font-size-h4',
+  '--qds-line-height-h4',
+  '--qds-font-weight-h4',
+  '--qds-font-size-h5',
+  '--qds-line-height-h5',
+  '--qds-font-weight-h5',
+  '--qds-font-size-h6',
+  '--qds-line-height-h6',
+  '--qds-font-weight-h6',
+  '--qds-font-size-subtitle1',
+  '--qds-line-height-subtitle1',
+  '--qds-font-weight-subtitle1',
+  '--qds-font-size-subtitle2',
+  '--qds-line-height-subtitle2',
+  '--qds-font-weight-subtitle2',
+  '--qds-font-size-body1',
+  '--qds-line-height-body1',
+  '--qds-font-weight-body1',
+  '--qds-font-size-body2',
+  '--qds-line-height-body2',
+  '--qds-font-weight-body2',
+  '--qds-font-size-overline',
+  '--qds-line-height-overline',
+  '--qds-font-weight-overline',
+  '--qds-letter-spacing-display',
+  '--qds-letter-spacing-h1',
+  '--qds-letter-spacing-h2',
+  '--qds-letter-spacing-h3',
+  '--qds-letter-spacing-overline',
 
   // ── Elevation roles ─────────────────────────────────────────────────
   '--qds-elevation-card',

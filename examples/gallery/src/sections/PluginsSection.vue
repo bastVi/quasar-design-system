@@ -25,7 +25,7 @@ let dismissNotify: NotifyHandle | undefined
 let dismissGroupedNotify: NotifyHandle | undefined
 let updateNotify: NotifyHandle | undefined
 
-const notifyAvatar = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="32" fill="#005a9e"/><path fill="#fff" d="M20 48V38c0-6.6 5.4-12 12-12s12 5.4 12 12v10H20Zm12-26a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z"/></svg>')}`
+const notifyAvatar = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="32" fill="#0f6cbd"/><path fill="#fff" d="M20 48V38c0-6.6 5.4-12 12-12s12 5.4 12 12v10H20Zm12-26a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z"/></svg>')}`
 
 const listActions = [
   { id: 'pin', label: 'Pin surface' },

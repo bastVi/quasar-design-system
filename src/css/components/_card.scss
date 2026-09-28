@@ -1,110 +1,99 @@
+$ink: ':is(.qds-ui.qds-variant-ink, .qds-ui .qds-variant-ink)';
+$mobile: ':is(.qds-ui.qds-variant-mobile, .qds-ui .qds-variant-mobile)';
+$terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
+$explicit-dark: '.qds-ui.qds-theme-light :is(.q-card--dark, .q-table--dark, .q-tree--dark, .q-stepper--dark, .q-list--dark, .q-menu--dark, .q-uploader--dark, .q-date--dark, .q-time--dark)';
+
 @mixin styles {
-  .qds-ui .q-card.q-card,
-  .qds-ui .qds-card {
-    background: var(--qds-bg-card);
-    border: var(--qds-border-width-control) solid var(--qds-stroke-subtle);
-    border-radius: var(--qds-card-radius);
-    box-shadow: none;
+  // A `dark` prop on a light page re-points the semantic aliases at an inverted surface.
+  #{$explicit-dark} {
+    --qds-fg-default: var(--qds-surface-0);
+    --qds-fg-strong: var(--qds-surface-0);
+    --qds-fg-muted: color-mix(in srgb, var(--qds-surface-0) 72%, var(--qds-text-muted));
+    --qds-fg-disabled: color-mix(in srgb, var(--qds-surface-0) 40%, var(--qds-text-strong));
+    --qds-fg-brand: var(--qds-fg-primary);
+    --qds-bg-canvas: var(--qds-text-strong);
+    --qds-bg-card: var(--qds-text-strong);
+    --qds-bg-flyout: var(--qds-text-strong);
+    --qds-menu-bg: var(--qds-text-strong);
+    --qds-bg-card-hover: color-mix(in srgb, var(--qds-surface-0) 6%, var(--qds-text-strong));
+    --qds-bg-surface-1: color-mix(in srgb, var(--qds-surface-0) 6%, var(--qds-text-strong));
+    --qds-bg-surface-2: color-mix(in srgb, var(--qds-surface-0) 10%, var(--qds-text-strong));
+    --qds-bg-layer: color-mix(in srgb, var(--qds-surface-0) 16%, var(--qds-text-strong));
+    --qds-control-fill-default: var(--qds-text-strong);
+    --qds-control-fill-hover: color-mix(in srgb, var(--qds-surface-0) 6%, var(--qds-text-strong));
+    --qds-control-fill-pressed: color-mix(in srgb, var(--qds-surface-0) 10%, var(--qds-text-strong));
+    --qds-control-fill-disabled: color-mix(in srgb, var(--qds-surface-0) 10%, var(--qds-text-strong));
+    --qds-field-label-bg: var(--qds-text-strong);
+    --qds-stroke-default: color-mix(in srgb, var(--qds-surface-0) 36%, transparent);
+    --qds-stroke-subtle: color-mix(in srgb, var(--qds-surface-0) 16%, transparent);
+    --qds-stroke-divider: color-mix(in srgb, var(--qds-surface-0) 16%, transparent);
+    --qds-stroke-strong: color-mix(in srgb, var(--qds-surface-0) 64%, transparent);
+    --qds-stroke-focus: var(--qds-fg-primary);
+    --qds-tab-active-rail: var(--qds-fg-primary);
+    --qds-state-hover: color-mix(in srgb, var(--qds-surface-0) 8%, transparent);
+    --qds-state-pressed: color-mix(in srgb, var(--qds-surface-0) 12%, transparent);
+    --qds-state-selected: color-mix(in srgb, var(--qds-fg-primary) 24%, transparent);
+    --qds-surface-brand-soft: color-mix(in srgb, var(--qds-color-primary) 36%, var(--qds-text-strong));
+
+    @each $role in primary, secondary, accent, positive, negative, warning, info {
+      --qds-fg-#{$role}: color-mix(in srgb, var(--qds-color-#{$role}) 50%, var(--qds-surface-0));
+    }
+    @each $role in accent, positive, negative, warning, info {
+      --qds-surface-#{$role}-soft: color-mix(in srgb, var(--qds-color-#{$role}) 28%, var(--qds-text-strong));
+    }
+
     color: var(--qds-fg-default);
   }
+  #{$explicit-dark} .qds-text-muted { color: var(--qds-fg-muted); }
+  #{$explicit-dark} .qds-text-strong { color: var(--qds-fg-strong); }
 
-  .qds-ui .q-card.q-card:hover,
-  .qds-ui .qds-card:hover {
-    background: var(--qds-bg-card-hover);
+  .qds-ui .q-card,
+  .qds-ui .qds-card {
+    color: var(--qds-fg-default);
+    background: var(--qds-bg-card);
+    border-radius: var(--qds-card-radius);
+    box-shadow: var(--qds-card-shadow);
   }
 
-  .qds-ui .q-card.q-card.q-card--bordered,
-  .qds-ui .q-card.q-card.qds-card--readable,
-  .qds-ui .q-card.q-card.qds-card--contrast,
-  .qds-ui .q-card.q-card.qds-card--transient,
-  .qds-ui .qds-card.qds-card--readable,
-  .qds-ui .qds-card.qds-card--contrast,
-  .qds-ui .qds-card.qds-card--transient {
+  .qds-ui .q-card--bordered,
+  .qds-ui :is(.q-card, .qds-card):is(.qds-card--readable, .qds-card--contrast, .qds-card--opaque, .qds-card--solid) {
     border: var(--qds-border-width-control) solid var(--qds-stroke-default);
   }
 
-  .qds-ui .q-card.q-card.qds-card--readable,
-  .qds-ui .q-card.q-card.qds-card--contrast,
-  .qds-ui .qds-card.qds-card--readable,
-  .qds-ui .qds-card.qds-card--contrast {
-    background: var(--qds-card-bg-readable);
-  }
-
-  .qds-ui .q-card.q-card.qds-card--transient,
-  .qds-ui .qds-card.qds-card--transient {
+  .qds-ui :is(.q-card, .qds-card).qds-card--transient {
     background: var(--qds-surface-transient);
-    box-shadow: var(--qds-shadow-sm);
+    box-shadow: var(--qds-shadow-md);
   }
 
-  .qds-ui .q-card.q-card.qds-card--opaque,
-  .qds-ui .q-card.q-card.qds-card--solid,
-  .qds-ui .qds-card.qds-card--opaque,
-  .qds-ui .qds-card.qds-card--solid {
-    background: var(--qds-card-bg-opaque);
-    border: var(--qds-border-width-control) solid var(--qds-card-border-strong);
-  }
+  .qds-ui :is(.q-card.cursor-pointer, a.q-card, .q-card[tabindex='0']):hover { background: var(--qds-bg-card-hover); }
 
-  .qds-ui .q-card.q-card > .q-card__section.qds-card__header,
-  .qds-ui .q-card.q-card > .q-card__section.qds-card-header {
+  .qds-ui .q-card > .q-card__section:is(.qds-card__header, .qds-card-header) {
     padding: var(--qds-space-md);
-    background: var(--qds-bg-surface-1);
-    border-start-start-radius: inherit;
-    border-start-end-radius: inherit;
+    border-block-end: var(--qds-border-width-control) solid var(--qds-stroke-divider);
   }
 
-  .qds-ui .q-card.q-card > .q-card__section.qds-card__header--accent,
-  .qds-ui .q-card.q-card > .q-card__section.qds-card-header--accent {
+  .qds-ui .q-card > .q-card__section:is(.qds-card__header--accent, .qds-card-header--accent) {
     color: var(--qds-fg-strong);
     background: var(--qds-surface-brand-soft);
   }
 
-  .qds-ui .q-card.q-card .q-card.q-card,
-  .qds-ui .q-card.q-card .qds-card {
+  .qds-ui :is(.q-card, .qds-card) :is(.q-card, .qds-card) {
     background: var(--qds-bg-surface-1);
-    border: 0;
     box-shadow: none;
   }
 
-  .qds-ui.qds-variant-ink .q-card.q-card,
-  .qds-ui .qds-variant-ink .q-card.q-card,
-  .qds-ui.qds-variant-ink .qds-card,
-  .qds-ui .qds-variant-ink .qds-card {
-    background: var(--qds-surface-brand-soft);
-    color: var(--qds-text);
-  }
+  #{$ink} :is(.q-card, .qds-card) { background: var(--qds-surface-brand-soft); }
+  #{$ink} .q-card--bordered { border-color: color-mix(in srgb, var(--qds-color-primary) 28%, var(--qds-border)); }
+  #{$ink} .q-card > .q-card__section:is(.qds-card__header, .qds-card-header) { background: var(--qds-surface-accent-soft); }
 
-  .qds-ui.qds-variant-ink .q-card.q-card.q-card--bordered,
-  .qds-ui .qds-variant-ink .q-card.q-card.q-card--bordered {
-    border-color: color-mix(in srgb, var(--qds-color-primary) 28%, var(--qds-border));
-  }
-
-  .qds-ui.qds-variant-ink .q-card.q-card > .q-card__section.qds-card__header,
-  .qds-ui .qds-variant-ink .q-card.q-card > .q-card__section.qds-card__header,
-  .qds-ui.qds-variant-ink .q-card.q-card > .q-card__section.qds-card-header,
-  .qds-ui .qds-variant-ink .q-card.q-card > .q-card__section.qds-card-header {
-    background: var(--qds-surface-accent-soft);
-  }
-
-  .qds-ui.qds-variant-mobile .q-card.q-card,
-  .qds-ui .qds-variant-mobile .q-card.q-card,
-  .qds-ui.qds-variant-mobile .qds-card,
-  .qds-ui .qds-variant-mobile .qds-card {
+  #{$mobile} :is(.q-card, .qds-card) {
     background: var(--qds-surface-focus-block);
     border: var(--qds-border-width-control) solid var(--qds-separator-color);
   }
+  #{$mobile} .q-card > .q-card__section:is(.qds-card__header, .qds-card-header) { background: var(--qds-surface-brand-soft); }
 
-  .qds-ui.qds-variant-mobile .q-card.q-card > .q-card__section.qds-card__header,
-  .qds-ui .qds-variant-mobile .q-card.q-card > .q-card__section.qds-card__header,
-  .qds-ui.qds-variant-mobile .q-card.q-card > .q-card__section.qds-card-header,
-  .qds-ui .qds-variant-mobile .q-card.q-card > .q-card__section.qds-card-header {
-    background: var(--qds-surface-brand-soft);
-  }
-
-  .qds-ui.qds-variant-terminal .q-card.q-card,
-  .qds-ui .qds-variant-terminal .q-card.q-card,
-  .qds-ui.qds-variant-terminal .qds-card,
-  .qds-ui .qds-variant-terminal .qds-card {
-    border: var(--qds-border-width-control) solid color-mix(in srgb, var(--qds-color-primary) 24%, var(--qds-border));
+  #{$terminal} :is(.q-card, .qds-card) {
     background: linear-gradient(180deg, rgba(var(--qds-color-primary-rgb), 0.035), transparent 42%), var(--qds-surface-0);
+    border: var(--qds-border-width-control) solid color-mix(in srgb, var(--qds-color-primary) 24%, var(--qds-border));
   }
 }

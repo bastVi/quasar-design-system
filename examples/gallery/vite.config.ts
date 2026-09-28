@@ -7,7 +7,12 @@ import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 export default defineConfig({
   base: './',
   plugins: [
-    vue({ template: { transformAssetUrls } }),
+    vue({
+      template: {
+        transformAssetUrls,
+        compilerOptions: { isCustomElement: (tag) => tag.startsWith('fluent-') },
+      },
+    }),
     quasar(),
   ],
   resolve: {

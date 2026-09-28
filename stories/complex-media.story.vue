@@ -28,7 +28,7 @@ import {
   ppImageSquare,
   ppPalette,
   ppStar,
-  ppStarHalf,
+  ppStarHalfFill,
   ppWarning,
 } from 'quasar-extras-svg-icons/phosphor-icons-v2'
 import { PhBellRinging, PhCloudArrowUp, PhFloppyDisk, PhImageSquare, PhWarning } from '@phosphor-icons/vue'
@@ -64,7 +64,7 @@ const artwork = svgData(`
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-label="Local abstract design-system artwork">
     <defs>
       <linearGradient id="qds-media" x1="0" x2="1" y1="0" y2="1">
-        <stop stop-color="#005a9e"/><stop offset=".52" stop-color="#2563eb"/><stop offset="1" stop-color="#8b5cf6"/>
+        <stop stop-color="#0f6cbd"/><stop offset=".52" stop-color="#2563eb"/><stop offset="1" stop-color="#8b5cf6"/>
       </linearGradient>
     </defs>
     <rect width="960" height="540" rx="48" fill="url(#qds-media)"/>
@@ -253,7 +253,7 @@ onBeforeUnmount(() => {
                   <div class="text-h6 qds-story-title q-mb-lg">Rating states</div>
                   <div class="qds-story-rating-row">
                     <span>Editable half</span>
-                    <QRating v-model="editableRating" aria-label="Editable rating" :icon-aria-label="ratingIconAriaLabels" :max="5" :icon="ppStar" :icon-half="ppStarHalf" color="primary" size="2rem" />
+                    <QRating v-model="editableRating" aria-label="Editable rating" :icon-aria-label="ratingIconAriaLabels" :max="5" :icon="ppStar" :icon-half="ppStarHalfFill" color="primary" size="2rem" />
                   </div>
                   <div class="qds-story-rating-row">
                     <span>Read-only</span>

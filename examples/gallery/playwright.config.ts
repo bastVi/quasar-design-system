@@ -14,8 +14,15 @@ export default defineConfig({
   fullyParallel: true,
   reporter: [['list'], ['html', { open: 'never', outputFolder: 'playwright-report' }]],
   outputDir: 'test-results',
+  // Screenshot baselines only run inside the pinned Playwright image (`pnpm gallery:screens`).
+  grep: process.env.QDS_SCREENS ? /@screens/ : undefined,
+  grepInvert: process.env.QDS_SCREENS ? undefined : /@screens/,
+  snapshotPathTemplate: '{testDir}/__screens__/{arg}-{projectName}{ext}',
+  expect: {
+    toHaveScreenshot: { animations: 'disabled', caret: 'hide', maxDiffPixelRatio: 0.002 },
+  },
   use: {
-    baseURL: BASE_URL,
+    baseURL: process.env.QDS_BASE_URL ?? BASE_URL,
     screenshot: 'only-on-failure',
   },
   // Desktop + mobile viewports; mode × variant are driven inside the spec.
@@ -29,7 +36,7 @@ export default defineConfig({
       use: { ...devices['Pixel 5'], viewport: { width: 390, height: 844 } },
     },
   ],
-  webServer: {
+  webServer: process.env.QDS_BASE_URL ? undefined : {
     // Build then preview the production bundle so the gate matches the release.
     command: `pnpm build && pnpm preview --host 127.0.0.1 --port ${PORT} --strictPort`,
     url: BASE_URL,

@@ -68,9 +68,17 @@ test.describe('QDS catalog form picker gate', () => {
       'QInput readonly outline is visibly distinct',
     ).toBe('dashed')
     expect.soft(
-      await computedPseudo(page, '[data-test="qds-catalog-input-error"] .q-field__control', '::after', 'border-top-color'),
-      'QInput error outline uses negative token',
+      await computedPseudo(page, '[data-test="qds-catalog-input-error"] .q-field__control', '::before', 'border-top-color'),
+      'QInput error stroke uses negative token on every side',
     ).toBe(negative)
+    expect.soft(
+      await computedPseudo(page, '[data-test="qds-catalog-input-error"] .q-field__control', '::after', 'border-bottom-color'),
+      'QInput error keeps a persistent negative bottom bar',
+    ).toBe(negative)
+    expect.soft(
+      await computedPseudo(page, '[data-test="qds-catalog-input-error"] .q-field__control', '::after', 'transform'),
+      'QInput error bar is shown at rest at full width, not only on focus',
+    ).toBe('matrix(1, 0, 0, 1, 0, 0)')
     expect.soft(
       await computed(page, '[data-test="qds-catalog-input-disabled"] .q-field__control', 'background-color'),
       'QInput disabled control keeps a visible disabled surface',
@@ -85,8 +93,12 @@ test.describe('QDS catalog form picker gate', () => {
       'QSelect readonly outline is visibly distinct',
     ).toBe('dashed')
     expect.soft(
-      await computedPseudo(page, '[data-test="qds-catalog-select-error"] .q-field__control', '::after', 'border-top-color'),
-      'QSelect error outline uses negative token',
+      await computedPseudo(page, '[data-test="qds-catalog-select-error"] .q-field__control', '::before', 'border-top-color'),
+      'QSelect error stroke uses negative token on every side',
+    ).toBe(negative)
+    expect.soft(
+      await computedPseudo(page, '[data-test="qds-catalog-select-error"] .q-field__control', '::after', 'border-bottom-color'),
+      'QSelect error keeps a persistent negative bottom bar',
     ).toBe(negative)
     await expect(page.locator('[data-test="qds-catalog-select-multiple"] .q-chip').first(), 'QSelect multiple chip rendered').toBeVisible()
     expect.soft(await computed(page, '[data-test="qds-catalog-select-multiple"] .q-chip', 'border-radius'), 'QSelect chips use chip radius').not.toBe('0px')
@@ -104,7 +116,8 @@ test.describe('QDS catalog form picker gate', () => {
     expect.soft(await computed(page, '[data-test="qds-catalog-radio"] .q-radio__bg', 'border-top-color'), 'QRadio truthy frame uses primary').toBe(primary)
     expect.soft(await computed(page, '[data-test="qds-catalog-radio"] .q-radio__check', 'fill'), 'QRadio check uses primary').toBe(primary)
     expect.soft(await computed(page, '[data-test="qds-catalog-toggle"] .q-toggle__track', 'border-radius'), 'QToggle track is rounded').not.toBe('0px')
-    expect.soft(await computedPseudo(page, '[data-test="qds-catalog-toggle"] .q-toggle__thumb', '::after', 'background-color'), 'QToggle thumb uses primary when on').toBe(primary)
+    expect.soft(await computed(page, '[data-test="qds-catalog-toggle"] .q-toggle__track', 'background-color'), 'QToggle track fills with primary when on').toBe(primary)
+    expect.soft(await computedPseudo(page, '[data-test="qds-catalog-toggle"] .q-toggle__thumb', '::after', 'background-color'), 'QToggle thumb uses on-primary on the brand track').toBe(await resolvedColor(page, '--qds-text-on-primary'))
     const toggleGeo = await page.locator('[data-test="qds-catalog-toggle"]').evaluate((el) => {
       const track = el.querySelector('.q-toggle__track')!.getBoundingClientRect()
       const thumb = el.querySelector('.q-toggle__thumb')!.getBoundingClientRect()
@@ -172,14 +185,24 @@ test.describe('QDS catalog form picker gate', () => {
     const countNativeFileChooser = () => { nativeFileChooserCount += 1 }
     page.on('filechooser', countNativeFileChooser)
     for (const protectedFile of [readonlyFile, disabledFile]) {
-      await protectedFile.scrollIntoViewIfNeeded()
+      // Centre the field and prove it is the hit target so the forced click cannot land on the sticky header.
+      await protectedFile.evaluate((element) => element.scrollIntoView({ block: 'center', behavior: 'instant' }))
+      await expect.poll(() => protectedFile.evaluate((element) => {
+        const rect = element.getBoundingClientRect()
+        const hit = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2)
+        return Boolean(hit && element.contains(hit))
+      }), { message: 'protected QFile is the pointer hit target' }).toBe(true)
       await protectedFile.click({ force: true })
+    }
+    // Keyboard checks run after every pointer check: Space scrolls the page and would move later click targets.
+    for (const protectedFile of [readonlyFile, disabledFile]) {
       await protectedFile.locator('.q-field__native').focus()
       await protectedFile.locator('.q-field__native').press('Enter')
       await protectedFile.locator('.q-field__native').press('Space')
     }
     await page.waitForTimeout(100)
     page.off('filechooser', countNativeFileChooser)
+    await expect(page.locator('body'), 'protected QFile clicks do not reach the header switchers').toHaveClass(/qds-variant-fluent/)
     expect.soft(nativeFileChooserCount, 'Readonly and disabled QFile fields do not activate the native chooser by pointer or keyboard').toBe(0)
     await expect(page.locator('[data-test="qds-catalog-file-affordances"] .q-field__prepend svg')).toBeVisible()
     await expect(page.locator('[data-test="qds-catalog-file-affordances"] .q-field__append svg')).toBeVisible()
@@ -241,7 +264,8 @@ test.describe('QDS catalog form picker gate', () => {
     expect.soft(await selectedDate.evaluate((el) => getComputedStyle(el as Element).color), 'QDate selected day uses on-solid text').toBe(onSolid)
     expect.soft(await computed(page, '[data-test="qds-catalog-date"] .q-date__header', 'background-color'), 'QDate header is not transparent').not.toBe('rgba(0, 0, 0, 0)')
     await expect(page.locator('[data-test="qds-catalog-date"] .q-date__calendar-item--out').first(), 'QDate disabled/out day rendered').toBeVisible()
-    expect.soft(await computed(page, '[data-test="qds-catalog-date"] .q-date__calendar-item--out > div', 'background-color'), 'QDate out days retain a subtle disabled surface').not.toBe('rgba(0, 0, 0, 0)')
+    expect.soft(await computed(page, '[data-test="qds-catalog-date"] .q-date__calendar-item--out', 'opacity'), 'QDate out days recede by opacity').toBe('0.4')
+    expect.soft(await computed(page, '[data-test="qds-catalog-date"] .q-date__calendar-item--out > div', 'background-color'), 'QDate out days carry no fill').toBe('rgba(0, 0, 0, 0)')
     await expect(page.locator('[data-test="qds-catalog-date-months"] .q-date__months')).toBeVisible()
     await expect(page.locator('[data-test="qds-catalog-date-years"] .q-date__years')).toBeVisible()
     expect.soft(await computed(page, '[data-test="qds-catalog-date-months"] .q-date__months', 'gap'), 'QDate month grid has native picker rhythm').not.toBe('0px')
@@ -251,8 +275,8 @@ test.describe('QDS catalog form picker gate', () => {
     await expect(page.locator('[data-test="qds-catalog-date-range"] .q-date__range-from').first(), 'QDate range start rendered').toBeVisible()
     await expect(page.locator('[data-test="qds-catalog-date-range"] .q-date__range-to').first(), 'QDate range end rendered').toBeVisible()
     expect.soft(await computedPseudo(page, '[data-test="qds-catalog-date-range"] .q-date__range', '::before', 'background-color'), 'QDate range fill is tokenized').not.toBe('rgba(0, 0, 0, 0)')
-    expect.soft(await computed(page, '[data-test="qds-catalog-date-range"] .q-date__range-from', 'border-top-left-radius'), 'QDate range start is rounded').not.toBe('0px')
-    expect.soft(await computed(page, '[data-test="qds-catalog-date-range"] .q-date__range-to', 'border-top-right-radius'), 'QDate range end is rounded').not.toBe('0px')
+    expect.soft(await computedPseudo(page, '[data-test="qds-catalog-date-range"] .q-date__range-from', '::before', 'border-top-left-radius'), 'QDate range band starts with a pill cap').toBe('9999px')
+    expect.soft(await computedPseudo(page, '[data-test="qds-catalog-date-range"] .q-date__range-to', '::before', 'border-top-right-radius'), 'QDate range band ends with a pill cap').toBe('9999px')
 
     const activeTime = page.locator('[data-test="qds-catalog-time"] .q-time__clock-position--active').first()
     await expect(activeTime).toBeVisible()
@@ -334,7 +358,7 @@ test.describe('QDS catalog form picker gate', () => {
         await expect(page.locator('[data-test="qds-catalog-date"] .q-date__header')).toBeVisible()
         await expect(page.locator('[data-test="qds-catalog-time"] .q-time__container-child')).toBeVisible()
         expect.soft(await computed(page, '[data-test="qds-catalog-input-error"] .q-field__control', 'border-radius'), `${mode}/${variant} field radius`).not.toBe('0px')
-        expect.soft(await computedPseudo(page, '[data-test="qds-catalog-input-error"] .q-field__control', '::after', 'border-top-color'), `${mode}/${variant} error outline is semantic`).not.toBe('rgba(0, 0, 0, 0)')
+        expect.soft(await computedPseudo(page, '[data-test="qds-catalog-input-error"] .q-field__control', '::after', 'border-bottom-color'), `${mode}/${variant} error bar is semantic`).toBe(await resolvedColor(page, '--qds-stroke-error'))
         expect.soft(await computedPseudo(page, '[data-test="qds-catalog-file-readonly"] .q-field__control', '::before', 'border-top-style'), `${mode}/${variant} QFile readonly outline is distinct`).toBe('dashed')
         expect.soft(await computed(page, '[data-test="qds-catalog-file-disabled"] .q-field__control', 'background-color'), `${mode}/${variant} QFile disabled surface remains visible`).not.toBe('rgba(0, 0, 0, 0)')
         expect.soft(await page.locator('[data-test="qds-catalog-date"]').getByRole('button', { name: '17', exact: true }).evaluate((el) => getComputedStyle(el).backgroundColor), `${mode}/${variant} selected date uses the active primary`).toBe(primary)
@@ -343,7 +367,7 @@ test.describe('QDS catalog form picker gate', () => {
           expect.soft(await page.locator('body').evaluate((el) => getComputedStyle(el).getPropertyValue('--qds-surface-positive-soft').trim()), `${mode}/ink has a pastel semantic role surface`).toBe(mode === 'light' ? '#d9f1e4' : '#30493e')
         }
         if (variant === 'mobile') {
-          expect.soft(await computed(page, '[data-test="qds-catalog-input-error"] .q-field__control', 'min-height'), `${mode}/One fields retain the label-safe 48px field height`).toBe('48px')
+          expect.soft(await computed(page, '[data-test="qds-catalog-input-error"] .q-field__control', 'min-height'), `${mode}/One label-above fields use the 44px One UI control height`).toBe('44px')
         }
       }
     }

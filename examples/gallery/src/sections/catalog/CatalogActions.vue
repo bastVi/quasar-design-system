@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { ppPlus, ppPencil, ppShare, ppStar, ppStarFill, ppStarHalf } from 'quasar-extras-svg-icons/phosphor-icons-v2'
+import { ppMinus, ppPlus, ppPencil, ppShare, ppStar, ppStarFill, ppStarHalfFill, ppX } from 'quasar-extras-svg-icons/phosphor-icons-v2'
 
 const dropdownItems = ['Duplicate', 'Move', 'Archive']
 const toggleChoice = ref('weekly')
@@ -62,27 +62,27 @@ const toggleOptions = [
         <div class="catalog-label">QRating states</div>
         <div class="column q-gutter-sm">
           <div class="row items-center q-gutter-md">
-            <span class="qds-text-muted text-caption">Inactive:</span>
+            <span class="qds-text-muted text-caption catalog-rating-label">Inactive:</span>
             <q-rating v-model="ratingInactive" data-test="qds-rating-inactive" aria-label="Product rating" icon-aria-label="Product rating" :icon="ppStar" size="sm" :max="5" />
           </div>
           <div class="row items-center q-gutter-md">
-            <span class="qds-text-muted text-caption">Selected (3):</span>
+            <span class="qds-text-muted text-caption catalog-rating-label">Selected (3):</span>
             <q-rating v-model="ratingActive" data-test="qds-rating-active" aria-label="Product rating" icon-aria-label="Product rating" :icon="ppStar" :icon-selected="ppStarFill" size="sm" :max="5" />
           </div>
           <div class="row items-center q-gutter-md">
-            <span class="qds-text-muted text-caption">Half (2.5):</span>
-            <q-rating v-model="ratingHalf" data-test="qds-rating-half" aria-label="Product rating" icon-aria-label="Product rating" :icon="ppStar" :icon-half="ppStarHalf" :icon-selected="ppStarFill" size="sm" :max="5" />
+            <span class="qds-text-muted text-caption catalog-rating-label">Half (2.5):</span>
+            <q-rating v-model="ratingHalf" data-test="qds-rating-half" aria-label="Product rating" icon-aria-label="Product rating" :icon="ppStar" :icon-half="ppStarHalfFill" :icon-selected="ppStarFill" size="sm" :max="5" />
           </div>
           <div class="row items-center q-gutter-md">
-            <span class="qds-text-muted text-caption">Readonly:</span>
+            <span class="qds-text-muted text-caption catalog-rating-label">Readonly:</span>
             <q-rating v-model="ratingReadonly" data-test="qds-rating-readonly" aria-label="Read only product rating" icon-aria-label="Read only product rating" :icon="ppStar" :icon-selected="ppStarFill" size="sm" :max="5" readonly />
           </div>
           <div class="row items-center q-gutter-md">
-            <span class="qds-text-muted text-caption">Disabled:</span>
+            <span class="qds-text-muted text-caption catalog-rating-label">Disabled:</span>
             <q-rating v-model="ratingDisabled" data-test="qds-rating-disabled" aria-label="Unavailable product rating" icon-aria-label="Unavailable product rating" :icon="ppStar" :icon-selected="ppStarFill" size="sm" :max="5" disable />
           </div>
           <div class="row items-center q-gutter-md">
-            <span class="qds-text-muted text-caption">No dimming:</span>
+            <span class="qds-text-muted text-caption catalog-rating-label">No dimming:</span>
             <q-rating v-model="ratingNoDimming" data-test="qds-rating-no-dimming" aria-label="No dimming product rating" icon-aria-label="No dimming product rating" :icon="ppStar" :icon-selected="ppStarFill" no-dimming size="sm" :max="5" />
           </div>
         </div>
@@ -101,15 +101,15 @@ const toggleOptions = [
         <div class="catalog-label">QRating semantic colors</div>
         <div class="column q-gutter-sm">
           <div class="row items-center q-gutter-md">
-            <span class="qds-text-muted text-caption">Positive:</span>
+            <span class="qds-text-muted text-caption catalog-rating-label">Positive:</span>
             <q-rating v-model="ratingPositive" data-test="qds-rating-positive" :icon="ppStar" :icon-selected="ppStarFill" size="sm" :max="5" color="positive" />
           </div>
           <div class="row items-center q-gutter-md">
-            <span class="qds-text-muted text-caption">Negative:</span>
+            <span class="qds-text-muted text-caption catalog-rating-label">Negative:</span>
             <q-rating v-model="ratingNegative" data-test="qds-rating-negative" :icon="ppStar" :icon-selected="ppStarFill" size="sm" :max="5" color="negative" />
           </div>
           <div class="row items-center q-gutter-md">
-            <span class="qds-text-muted text-caption">Primary:</span>
+            <span class="qds-text-muted text-caption catalog-rating-label">Primary:</span>
             <q-rating v-model="ratingPrimary" data-test="qds-rating-primary" :icon="ppStar" :icon-selected="ppStarFill" size="sm" :max="5" color="primary" />
           </div>
         </div>
@@ -139,8 +139,8 @@ const toggleOptions = [
         <q-bar data-test="qds-bar-standard" class="catalog-bar">
           <div>Toolbar preview</div>
           <q-space />
-          <q-btn dense flat round aria-label="Minimize" />
-          <q-btn dense flat round aria-label="Close" />
+          <q-btn dense flat round :icon="ppMinus" aria-label="Minimize" />
+          <q-btn dense flat round :icon="ppX" aria-label="Close" />
         </q-bar>
         <q-separator data-test="qds-separator-horizontal" spaced />
         <div data-test="qds-separator-inset-host">
@@ -151,7 +151,7 @@ const toggleOptions = [
           <q-bar data-test="qds-bar-dense" dense>
             <div>Dense bar</div>
             <q-space />
-            <q-btn dense flat round aria-label="Minimize" />
+            <q-btn dense flat round :icon="ppMinus" aria-label="Minimize" />
           </q-bar>
           <q-separator data-test="qds-separator-vertical" vertical spaced style="height: 2rem" />
           <q-bar data-test="qds-bar-dense-secondary" dense>
@@ -159,9 +159,9 @@ const toggleOptions = [
           </q-bar>
         </div>
         <q-bar data-test="qds-bar-dark" dark class="q-mt-md">
-          <div>Explicit dark bar</div>
+          <div>Dark bar</div>
           <q-space />
-          <q-btn dense flat round aria-label="Close dark bar" />
+          <q-btn dense flat round :icon="ppX" aria-label="Close dark bar" />
         </q-bar>
       </div>
 
@@ -169,7 +169,7 @@ const toggleOptions = [
         <div class="catalog-label">QAvatar</div>
         <div class="row items-center q-gutter-sm">
           <q-avatar data-test="qds-avatar" color="primary" text-color="white">QD</q-avatar>
-          <q-avatar rounded color="accent" text-color="white">Ink</q-avatar>
+          <q-avatar rounded color="accent">Ink</q-avatar>
           <q-avatar square color="secondary" text-color="white">UI</q-avatar>
         </div>
       </div>
@@ -197,3 +197,9 @@ const toggleOptions = [
     </div>
   </q-card>
 </template>
+
+<style scoped>
+.catalog-rating-label {
+  min-width: 6.5rem;
+}
+</style>

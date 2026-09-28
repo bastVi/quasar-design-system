@@ -13,12 +13,13 @@ Published under the personal scope `@bastvi/quasar-design-system` while the visu
 
 ## Design Direction
 
-The default language is Microsoft Fluent 2-inspired: navy primary, gold accent, orange warning, warm neutral surfaces, restrained acrylic cards, and compact enterprise controls.
+The default language is Microsoft Fluent 2-inspired and neutral-first: colour marks the primary action and status, everything else is a calm grey. Apple and One UI contribute softer corners, grouped inset rows, and touch comfort.
 
-- clean, calm, tonal surfaces with restrained acrylic depth
-- tonal-first semantic controls with explicit solid, outlined, and neutral states
-- crisp radii and hairline borders; subtle state layers
-- a clear 2px outline focus ring
+- neutral grey surfaces and text, a Fluent blue brand for the primary CTA, charcoal secondary, marigold accent
+- compact 24/32/40px controls with quiet 1px strokes and subtle state layers
+- label-above fields
+- 6px control and 12px card/dialog radii; cards lift with a layered shadow instead of a stroke
+- a clear 2px brand focus stroke
 - adaptive light/dark/system mode
 - deliberate variant overlays (see Variants), not separate brands
 
@@ -89,18 +90,35 @@ For layered Quasar setups, use `@bastvi/quasar-design-system/css/extensions/qwin
 
 > **Native QWindow minimize caveat:** `@quasar/quasar-ui-qwindow@3.0.0` exposes a `minimize` action/method, but that native action currently throws in its internal state guard. `QdsWindow` therefore treats `minimized` as a consumer-controlled visual state and filters `minimize` out of the native action list. Use your application state layer, such as a taskbar/window store, to hide and restore minimized windows until the peer fixes this action.
 
-## Buttons
+## Buttons, Badges, and Chips
 
-Four usage states over Quasar's native `QBtn`:
+Neutral comes first; add `color` when the control carries meaning.
 
 ```vue
-<q-btn unelevated color="primary" label="Preview" />         <!-- tonal: semantic default -->
-<q-btn class="qds-solid" unelevated color="primary" label="Save" />  <!-- solid: primary CTA -->
-<q-btn outline color="primary" label="Edit" />               <!-- outlined: secondary action -->
-<q-btn label="Cancel" />                                     <!-- neutral: uncolored default -->
+<q-btn label="Cancel" />                                     <!-- neutral default: surface fill + 1px stroke -->
+<q-btn unelevated color="primary" label="Save" />            <!-- solid: primary CTA -->
+<q-btn outline color="primary" label="Edit" />               <!-- outlined -->
+<q-btn flat label="More" />                                  <!-- subtle: no fill until hover -->
+<q-btn unelevated class="qds-tonal" color="primary" label="Preview" />  <!-- opt-in tonal wash -->
 ```
 
-Colored non-solid buttons are tonal by default. Add `qds-solid` only for the strongest filled CTA.
+| Component | No `color` | With `color` | Opt-in |
+| --- | --- | --- | --- |
+| `QBtn` | neutral | solid role fill | `.qds-tonal` soft wash |
+| `QBadge` | neutral tint | solid role fill | `.qds-tonal` soft wash |
+| `QChip` | neutral tint | soft role tint | `.qds-solid` solid fill |
+
+Chips stay soft by default because they usually sit in groups; `.qds-solid` is only meaningful on chips. Buttons sit on the 24/32/40px scale (`size="sm"`, default, `size="lg"`); `dense` uses the 24px step.
+
+## Fields
+
+`QInput`, `QSelect`, and the other `QField` controls place the label **above** a 32px control (24px dense) with a 1px stroke and a 2px brand bar on focus. No markup changes are needed.
+
+Older layouts stay available per field:
+
+- `qds-field--float` — Quasar's floating label inside a 48px control
+- `qds-field--stacked-animated` — label animates to the top edge inside the control
+- `qds-form--label-start` + `qds-field--start` — labels in a shared side column on wide screens, collapsing to label-above on narrow ones
 
 ## Icons
 
@@ -123,6 +141,12 @@ Inter (body), Open Sans (compatibility/body alternative), and Selawik (optional 
 import '@bastvi/quasar-design-system/fonts/inter.css'
 import '@bastvi/quasar-design-system/fonts/open-sans.css'
 import '@bastvi/quasar-design-system/fonts/selawik.css'
+```
+
+The display stack follows the body stack (Inter) by default. Selawik is not part of any default stack; to use it for display text, import its CSS and set the token after the QDS CSS:
+
+```css
+:root { --qds-font-family-display: 'Selawik', var(--qds-font-family); }
 ```
 
 The core CSS only declares the font stack, so skipping these still yields a sane system fallback. An accent font token is reserved for future use.
@@ -153,7 +177,7 @@ Legacy inputs `air`, `glass`, and `studio` resolve to `fluent`; `feather` resolv
 
 QDS skins visible Quasar chrome — buttons, cards, inputs, toolbars, drawers, lists, expansion items, and similar surfaces that carry tokenized visual treatment. The release gallery and Histoire catalog exercise the high-value sub-elements across forms/pickers, data/navigation/layout, media/complex/loading, and overlays/plugins.
 
-Public QDS-owned component classes use strict namespaced BEM for new optional modules: block `.qds-window`, elements such as `.qds-window__titlebar`, and modifiers such as `.qds-window--embedded`. Utility hooks such as `.qds-ui`, `.qds-solid`, and variant classes remain intentionally semantic rather than component blocks.
+Public QDS-owned component classes use strict namespaced BEM for new optional modules: block `.qds-window`, elements such as `.qds-window__titlebar`, and modifiers such as `.qds-window--embedded`. Utility hooks such as `.qds-ui`, `.qds-tonal`, `.qds-solid`, and variant classes remain intentionally semantic rather than component blocks.
 
 It intentionally does **not** add CSS for behavior-only, SSR, observer, or composable surfaces. These inherit Quasar's own defaults or have no visual representation at all:
 
