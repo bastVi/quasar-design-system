@@ -116,7 +116,10 @@
   }
 
   .qds-ui .q-checkbox.disabled .q-checkbox__inner,
-  .qds-ui .q-radio.disabled .q-radio__inner,
+  .qds-ui .q-radio.disabled .q-radio__inner {
+    color: color-mix(in srgb, var(--qds-fg-disabled), var(--qds-fg-muted) 40%);
+  }
+
   .qds-ui .q-checkbox.disabled .q-checkbox__label,
   .qds-ui .q-radio.disabled .q-radio__label,
   .qds-ui .q-toggle.disabled .q-toggle__label {

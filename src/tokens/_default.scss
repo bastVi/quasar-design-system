@@ -168,6 +168,13 @@ $components: (
 ) !default;
 $chrome: (border-mix: 18%, border-soft-mix: 8%, surface-mix: 100%, surface-strong-mix: 100%, separator-mix: 14%, handle-border-mix: 42%, handle-primary-mix: 12%) !default;
 $effects: (glass: (blur: 0, saturate: 1, border-mix: 24%)) !default;
+// Win11 acrylic/Mica + SwiftUI materials; mixes keep 4.5:1 body text over black or white content.
+$materials: (
+  blur: (thin: 20px, regular: 30px, thick: 60px),
+  saturate: 1.6,
+  light: (surface: 0, thin: 78%, regular: 88%, thick: 98%, mica-tint: 3%, stroke: rgba(0, 0, 0, 0.06), edge: rgba(255, 255, 255, 0.7), backdrop-brand: 0.08, backdrop-accent: 0.05),
+  dark: (surface: 2, thin: 80%, regular: 92%, thick: 98%, mica-tint: 5%, stroke: rgba(255, 255, 255, 0.12), edge: rgba(255, 255, 255, 0.12), backdrop-brand: 0.18, backdrop-accent: 0.05),
+) !default;
 
 // Variant maps contain values only; theme selectors consume them in default.scss.
 $variants: (

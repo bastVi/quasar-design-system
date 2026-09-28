@@ -65,6 +65,22 @@ export const QDS_TOKENS = [
   '--qds-media-scrim',
   '--qds-media-scrim-strong',
 
+  // ── Materials ───────────────────────────────────────────────────────
+  '--qds-backdrop',
+  '--qds-mica-alt',
+  '--qds-material-thin-bg',
+  '--qds-material-regular-bg',
+  '--qds-material-thick-bg',
+  '--qds-material-thin-blur',
+  '--qds-material-regular-blur',
+  '--qds-material-thick-blur',
+  '--qds-material-thin-filter',
+  '--qds-material-regular-filter',
+  '--qds-material-thick-filter',
+  '--qds-material-saturate',
+  '--qds-material-stroke',
+  '--qds-material-edge',
+
   // ── Borders ─────────────────────────────────────────────────────────
   '--qds-border',
   '--qds-border-subtle',

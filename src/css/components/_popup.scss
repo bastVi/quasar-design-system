@@ -5,10 +5,12 @@
     font-size: var(--qds-font-size-caption);
     line-height: var(--qds-line-height-caption);
     color: var(--qds-fg-default);
-    background: var(--qds-bg-flyout);
-    border: var(--qds-border-width-control) solid transparent;
+    background: var(--qds-material-thin-bg);
+    border: var(--qds-border-width-control) solid var(--qds-material-stroke);
     border-radius: var(--qds-radius-control);
-    box-shadow: var(--qds-shadow-16);
+    box-shadow: var(--qds-material-edge), var(--qds-shadow-16);
+    -webkit-backdrop-filter: var(--qds-material-thin-filter);
+    backdrop-filter: var(--qds-material-thin-filter);
   }
 
   // Pickers opened from QPopupProxy take the menu surface instead of their own frame.
@@ -31,5 +33,7 @@
     background: var(--qds-surface-0);
     border-color: color-mix(in srgb, var(--qds-color-primary) 28%, var(--qds-border));
     box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 }

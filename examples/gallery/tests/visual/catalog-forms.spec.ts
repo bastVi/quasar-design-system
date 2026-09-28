@@ -243,7 +243,8 @@ test.describe('QDS catalog form picker gate', () => {
     expect.soft(await computed(page, '[data-test="qds-catalog-color"] .q-tab.q-tab--active', 'border-radius'), 'QColor tabs are softened').not.toBe('0px')
     expect.soft(await computed(page, '[data-test="qds-catalog-color"] .q-tab.q-tab--active', 'transition-property'), 'QColor tabs animate state changes').toContain('box-shadow')
     expect.soft(await computed(page, '[data-test="qds-catalog-color-spectrum"] .q-color-picker__spectrum', 'border-radius'), 'QColor spectrum is framed').not.toBe('0px')
-    expect.soft(await computed(page, '[data-test="qds-catalog-color-spectrum"] .q-color-picker__alpha .q-slider__track-container', 'background-image'), 'QColor alpha slider exposes checker pattern').not.toBe('none')
+    expect.soft(await computed(page, '[data-test="qds-catalog-color-spectrum"] .q-color-picker__alpha .q-slider__track-container', 'background-image'), 'QColor alpha track container paints no stray checker band').toBe('none')
+    expect.soft(await page.locator('[data-test="qds-catalog-color-spectrum"] .q-color-picker__alpha .q-slider__track').first().evaluate((el) => getComputedStyle(el, '::before').backgroundImage), 'QColor alpha track keeps a transparency checker').toContain('conic-gradient')
     expect.soft(await computed(page, '[data-test="qds-catalog-color-tune"] .q-color-picker__tune-tab > .row', 'background-color'), 'QColor tune rows are surfaced').not.toBe('rgba(0, 0, 0, 0)')
     await page.locator('[data-test="qds-catalog-color-tune"] .q-color-picker__tune-tab input').first().focus()
     expect.soft(await computed(page, '[data-test="qds-catalog-color-tune"] .q-color-picker__tune-tab input', 'outline-style'), 'QColor tune input focus ring is visible').toBe('solid')
@@ -322,6 +323,7 @@ test.describe('QDS catalog form picker gate', () => {
     await coverSelect.locator('.q-field__native').click()
     const coverMenu = page.locator('.q-menu').last()
     await expect(coverMenu, 'QSelect cover menu opens deterministically').toBeVisible()
+    await expect.poll(async () => Math.abs(((await coverMenu.boundingBox())?.width ?? 0) - (coverControlBox?.width ?? 0)), { timeout: 2000 }).toBeLessThanOrEqual(1)
     const coverMenuBox = await coverMenu.boundingBox()
     if (coverControlBox && coverMenuBox) {
       expect.soft(Math.abs(coverMenuBox.x - coverControlBox.x), 'QSelect cover menu aligns with its control').toBeLessThanOrEqual(1)

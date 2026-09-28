@@ -19,6 +19,21 @@
     vertical-align: middle;
   }
 
+  .qds-ui .q-badge--floating {
+    top: 0;
+    inset-inline: auto 0;
+    min-width: var(--qds-badge-min-height);
+    padding-inline: var(--qds-space-xs);
+    translate: 50% -50%;
+  }
+
+  .qds-ui .q-badge--floating:dir(rtl) { translate: -50% -50%; }
+
+  .qds-ui .q-badge--multi-line {
+    word-break: normal;
+    overflow-wrap: anywhere;
+  }
+
   .qds-ui .q-badge--dense {
     gap: var(--qds-badge-dense-icon-gap);
   }

@@ -26,9 +26,29 @@ $banner-roles: (positive: positive, negative: negative, warning: warning, info: 
     outline: var(--qds-focus-ring-width) solid var(--qds-stroke-focus);
   }
 
+  // Inline flow so a wrapped line breaks before a separator, never after it.
+  .qds-ui .q-breadcrumbs > div {
+    display: block;
+    margin: 0;
+    line-height: var(--qds-control-size-md);
+  }
+
+  .qds-ui .q-breadcrumbs > div > :not(.q-breadcrumbs__separator) {
+    display: inline-flex;
+    margin: 0;
+    line-height: var(--qds-line-height-body1);
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
   .qds-ui .q-breadcrumbs .q-breadcrumbs__separator {
+    display: inline;
+    margin: 0 var(--qds-space-sm);
     color: var(--qds-fg-disabled);
   }
+
+  .qds-ui .q-breadcrumbs .q-breadcrumbs__separator::before { content: '\200B'; }
+  .qds-ui .q-breadcrumbs .q-breadcrumbs__separator::after { content: '\2060'; }
 
   .qds-ui .q-btn-group {
     border-radius: var(--qds-button-radius);
@@ -100,15 +120,44 @@ $banner-roles: (positive: positive, negative: negative, warning: warning, info: 
   }
 
   .qds-ui .q-banner {
+    align-items: flex-start;
+    min-height: 0;
+    padding-block: 0.75rem;
+    font-size: var(--qds-font-size-body2);
+    line-height: var(--qds-line-height-body2);
     color: var(--qds-fg-default);
     background: var(--qds-bg-surface-2);
     border: var(--qds-border-width-control) solid var(--qds-stroke-subtle);
     border-radius: var(--qds-radius-md);
   }
 
+  .qds-ui .q-banner--dense { padding-block: var(--qds-space-sm); }
+
+  // Avatar and inline actions take one text line so they centre on the first line of copy.
   .qds-ui .q-banner .q-banner__avatar {
+    align-self: flex-start;
+    align-content: center;
+    height: 1lh;
     color: var(--qds-fg-muted);
   }
+
+  .qds-ui .q-banner .q-banner__avatar:has(> .q-avatar, > img) { height: auto; }
+
+  .qds-ui .q-banner .q-banner__actions {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--qds-space-xs);
+  }
+
+  .qds-ui .q-banner .q-banner__actions.col-auto { align-content: center; height: 1lh; }
+  // Flat actions bleed into the end padding so their labels align with the copy edge.
+  .qds-ui .q-banner .q-banner__actions.col-all {
+    flex: none;
+    width: calc(100% + var(--qds-space-sm));
+    margin-inline-end: calc(-1 * var(--qds-space-sm));
+    padding-block-start: var(--qds-space-sm);
+  }
+  .qds-ui .q-banner .q-banner__actions > .q-btn-item { margin: 0; }
 
   @each $role, $soft in $banner-roles {
     .qds-ui .q-banner:is(.bg-#{$role}, .text-#{$role}) {

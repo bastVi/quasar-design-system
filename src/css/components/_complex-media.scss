@@ -12,8 +12,15 @@ $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
   }
   .qds-ui :is(.q-stepper--bordered, .q-uploader--bordered, .qds-uploader--bordered) { border: var(--qds-border-width-control) solid var(--qds-stroke-default); }
 
-  .qds-ui .q-stepper { --qds-stepper-rail: var(--qds-stroke-default); --qds-stepper-rail-active: var(--qds-color-primary); }
+  .qds-ui .q-stepper {
+    --qds-stepper-rail: var(--qds-stroke-default);
+    --qds-stepper-rail-active: var(--qds-color-primary);
+    --qds-stepper-rail-done: var(--qds-color-positive);
+    --qds-stepper-dot-size: 1.5rem;
+    --qds-stepper-icon-size: var(--qds-control-icon-size-sm);
+  }
   .qds-ui .q-stepper__header--border { border-color: var(--qds-stroke-divider); }
+  .qds-ui .q-stepper--horizontal .q-stepper__header--standard-labels { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; }
   .qds-ui .q-stepper__tab { color: var(--qds-fg-muted); border-radius: var(--qds-radius-control); }
   .qds-ui .q-stepper__tab--navigation:hover { background: var(--qds-state-hover); }
   .qds-ui .q-stepper__tab:focus-visible { outline: var(--qds-focus-ring-width) solid var(--qds-stroke-focus); outline-offset: calc(-1 * var(--qds-focus-ring-width)); }
@@ -24,19 +31,30 @@ $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
   .qds-ui .q-stepper__tab--disabled .q-stepper__title { color: var(--qds-fg-disabled); }
   .qds-ui .q-stepper__caption { color: var(--qds-fg-muted); }
 
-  .qds-ui .q-stepper__dot { color: var(--qds-fg-muted); background: var(--qds-bg-card); border: var(--qds-border-width-control) solid var(--qds-stepper-rail); }
-  .qds-ui .q-stepper__dot > span { color: inherit; }
+  .qds-ui .q-stepper__dot {
+    width: var(--qds-stepper-dot-size);
+    min-width: var(--qds-stepper-dot-size);
+    height: var(--qds-stepper-dot-size);
+    font-size: var(--qds-stepper-icon-size);
+    color: var(--qds-fg-muted);
+    background: var(--qds-bg-card);
+    border: var(--qds-border-width-control) solid var(--qds-stepper-rail);
+  }
+  .qds-ui .q-stepper__dot > span { font-size: inherit; line-height: 1; color: inherit; }
   .qds-ui .q-stepper__tab--active .q-stepper__dot { color: var(--qds-text-on-primary, var(--qds-text-on-solid)); background: var(--qds-stepper-rail-active); border-color: var(--qds-stepper-rail-active); }
-  .qds-ui .q-stepper__tab--done .q-stepper__dot { color: var(--qds-text-on-positive, var(--qds-text-on-solid)); background: var(--qds-color-positive); border-color: var(--qds-color-positive); }
+  .qds-ui .q-stepper__tab--done .q-stepper__dot { color: var(--qds-text-on-positive, var(--qds-text-on-solid)); background: var(--qds-stepper-rail-done); border-color: var(--qds-stepper-rail-done); }
   // Quasar forces a transparent error dot when an error icon is set.
   .qds-ui .q-stepper__tab--error .q-stepper__dot { color: var(--qds-text-on-negative, var(--qds-text-on-solid)); background: var(--qds-color-negative) !important; border-color: var(--qds-color-negative); box-shadow: 0 0 0 0.25rem var(--qds-surface-negative-soft); }
 
+  .qds-ui .q-stepper--vertical .q-stepper__dot::before,
+  .qds-ui .q-stepper--vertical .q-stepper__dot::after { inset-inline: 0; width: var(--qds-border-width-control); margin-inline: auto; }
+  .qds-ui .q-stepper--horizontal .q-stepper__line::before,
+  .qds-ui .q-stepper--horizontal .q-stepper__line::after { inset-block: 0; height: var(--qds-border-width-control); margin-block: auto; }
   .qds-ui .q-stepper__line::before,
   .qds-ui .q-stepper__line::after { background: var(--qds-stepper-rail); }
-  .qds-ui .q-stepper__tab--active .q-stepper__line::before,
-  .qds-ui .q-stepper__tab--active .q-stepper__line::after { background: var(--qds-stepper-rail-active); }
-  .qds-ui .q-stepper__tab--done .q-stepper__line::before,
-  .qds-ui .q-stepper__tab--done .q-stepper__line::after { background: var(--qds-color-positive); }
+  .qds-ui .q-stepper__tab--done .q-stepper__line::after,
+  .qds-ui .q-stepper__tab--done + .q-stepper__tab .q-stepper__line::before,
+  .qds-ui .q-stepper__step:has(> .q-stepper__tab--done) + .q-stepper__step .q-stepper__line::before { background: var(--qds-stepper-rail-done); }
 
   .qds-ui .q-timeline { --qds-timeline-rail: var(--qds-stroke-subtle); color: var(--qds-fg-default); }
   .qds-ui :is(.q-timeline__heading-title, .q-timeline__title) { color: var(--qds-fg-strong); font-weight: var(--qds-font-weight-semibold); }
@@ -58,24 +76,47 @@ $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
   .qds-ui .q-carousel .q-carousel__navigation .q-carousel__navigation-icon--active { color: var(--qds-color-primary); }
   .qds-ui .q-carousel__navigation--thumbnails { padding: var(--qds-space-xs) var(--qds-space-sm); background: var(--qds-bg-flyout); border-radius: var(--qds-radius-full); }
 
-  .qds-ui .q-message { margin-block: var(--qds-space-sm); color: var(--qds-fg-default); }
-  .qds-ui .q-message :is(.q-message-name, .q-message-stamp) { color: var(--qds-fg-muted); opacity: 1; }
-  .qds-ui .q-message-avatar { background: var(--qds-bg-layer); }
+  .qds-ui .q-message {
+    --qds-chat-avatar-size: 2rem;
+    --qds-chat-bubble-padding: var(--qds-space-sm) 0.75rem;
+    --qds-chat-stack-gap: 0.125rem;
+    margin-block: var(--qds-space-sm);
+    color: var(--qds-fg-default);
+  }
+  .qds-ui .q-message-container { gap: var(--qds-space-sm); }
+  .qds-ui .q-message-avatar {
+    flex: none;
+    width: var(--qds-chat-avatar-size);
+    min-width: 0;
+    height: var(--qds-chat-avatar-size);
+    margin: 0;
+    object-fit: cover;
+    background: var(--qds-bg-layer);
+    border-radius: var(--qds-radius-full);
+  }
+  .qds-ui .q-message-name { margin-block-end: var(--qds-space-xs); color: var(--qds-fg-muted); font-size: var(--qds-font-size-caption); line-height: var(--qds-line-height-caption); }
+  .qds-ui .q-message-name--sent { text-align: end; }
   .qds-ui .q-message .q-message-text {
     --qds-chat-bubble-bg: var(--qds-bg-surface-1);
     --qds-chat-bubble-fg: var(--qds-fg-default);
     max-width: min(34rem, 100%);
-    padding: var(--qds-space-sm) var(--qds-space-md);
+    min-height: 0;
+    padding: var(--qds-chat-bubble-padding);
+    line-height: var(--qds-line-height-body);
     color: var(--qds-chat-bubble-fg);
     background: var(--qds-chat-bubble-bg);
     border: var(--qds-border-width-control) solid var(--qds-stroke-subtle);
     border-radius: var(--qds-radius-lg);
   }
+  .qds-ui .q-message-text + .q-message-text { margin-block-start: var(--qds-chat-stack-gap); }
+  .qds-ui .q-message-text--received:last-child { border-end-start-radius: var(--qds-radius-sm); }
+  .qds-ui .q-message-text--sent:last-child { border-end-end-radius: var(--qds-radius-sm); }
+  .qds-ui .q-message .q-message-text::before { display: none; }
   .qds-ui .q-message-sent .q-message-text { --qds-chat-bubble-bg: var(--qds-color-primary); --qds-chat-bubble-fg: var(--qds-text-on-primary, var(--qds-text-on-solid)); border-color: transparent; }
   // Quasar gives bubble content `text-*` utility classes, which the bubble foreground must beat.
   .qds-ui .q-message-text > .q-message-text-content { color: var(--qds-chat-bubble-fg) !important; }
+  .qds-ui .q-message-stamp { margin-block-start: var(--qds-chat-stack-gap); color: var(--qds-fg-muted); font-size: var(--qds-font-size-caption); opacity: 1; }
   .qds-ui .q-message-sent .q-message-text .q-message-stamp { color: var(--qds-chat-bubble-fg); }
-  .qds-ui .q-message .q-message-text::before { border-bottom-color: var(--qds-chat-bubble-bg); }
 
   .qds-ui .q-img { overflow: hidden; color: var(--qds-fg-default); background: var(--qds-bg-surface-2); border-radius: var(--qds-radius-lg); }
   .qds-ui .q-img__content { color: var(--qds-fg-muted); }

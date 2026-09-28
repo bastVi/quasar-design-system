@@ -8,10 +8,24 @@ $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
   // :where keeps Quasar's positioned-dialog corner flattening (0,2,1) in charge.
   .qds-ui :where(.q-dialog__inner--minimized) > .q-card {
     width: min(32rem, calc(100vw - 2 * var(--qds-space-md)));
-    background: var(--qds-bg-flyout);
+    background: var(--qds-material-thick-bg);
+    border: var(--qds-border-width-control) solid var(--qds-material-stroke);
     border-radius: var(--qds-card-radius);
-    box-shadow: var(--qds-shadow-lg);
+    box-shadow: var(--qds-material-edge), var(--qds-shadow-lg);
+    -webkit-backdrop-filter: var(--qds-material-thick-filter);
+    backdrop-filter: var(--qds-material-thick-filter);
   }
+
+  // The content animates, not the inner: fading the inner would make the card's backdrop blur snap in.
+  .qds-ui .q-dialog__inner:is(.q-transition--scale-enter-active, .q-transition--scale-leave-active) {
+    --qds-dialog-motion: min(var(--q-transition-duration, 300ms), var(--qds-motion-duration-slow));
+    transition: transform var(--qds-dialog-motion);
+  }
+
+  .qds-ui .q-dialog__inner.q-transition--scale-leave-active { --qds-dialog-motion: min(var(--q-transition-duration, 300ms), var(--qds-motion-duration-medium)); }
+  .qds-ui .q-dialog__inner:is(.q-transition--scale-enter-from, .q-transition--scale-leave-to) { opacity: 1; transform: none; }
+  .qds-ui .q-dialog__inner:is(.q-transition--scale-enter-active, .q-transition--scale-leave-active) > * { transition: opacity var(--qds-dialog-motion) var(--qds-motion-ease-out), transform var(--qds-dialog-motion) var(--qds-motion-ease-out); }
+  .qds-ui .q-dialog__inner:is(.q-transition--scale-enter-from, .q-transition--scale-leave-to) > * { opacity: 0; transform: scale3d(0.96, 0.96, 1); }
 
   .qds-ui .q-dialog__inner > .q-card > .q-card__section { padding: var(--qds-space-sm) var(--qds-space-lg); }
   .qds-ui .q-dialog__inner > .q-card > .q-card__section:first-child { padding-block-start: var(--qds-space-lg); }
@@ -39,10 +53,12 @@ $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
     box-shadow: none;
   }
 
-  #{$mobile} .q-dialog__inner--standard > .q-card { background: var(--qds-surface-focus-block); border-radius: var(--qds-radius-xl); }
+  #{$mobile} .q-dialog__inner--standard > .q-card { background: var(--qds-surface-focus-block); border-radius: var(--qds-radius-xl); -webkit-backdrop-filter: none; backdrop-filter: none; }
 
   #{$terminal} .q-dialog__inner > .q-card {
     background: var(--qds-surface-0);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
     border: var(--qds-border-width-control) solid color-mix(in srgb, var(--qds-color-primary) 28%, var(--qds-border));
   }
 }

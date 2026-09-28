@@ -39,6 +39,12 @@ const scenes: Scene[] = [
     detail: 'Near-black surfaces, crisp hairline cards, and restrained amber glow for developer UI.',
   },
 ]
+
+const materials = [
+  { level: 'thin', use: 'Tooltip' },
+  { level: 'regular', use: 'Menu, popover, picker, toast' },
+  { level: 'thick', use: 'Dialog, bottom sheet' },
+] as const
 </script>
 
 <template>
@@ -50,6 +56,19 @@ const scenes: Scene[] = [
         These frames compare the same tokenized Quasar card anatomy over deterministic SVG wallpapers.
         Each canonical variant is judged against image-rich context so surface, border, and depth rules stay visible.
       </p>
+    </div>
+
+    <div class="materials-backdrop" data-test="qds-scene-materials" role="group" aria-label="Material levels over a colourful backdrop">
+      <div
+        v-for="material in materials"
+        :key="material.level"
+        class="materials-sample qds-material"
+        :class="`qds-material--${material.level}`"
+        :data-test="`qds-material-${material.level}`"
+      >
+        <strong>{{ material.level }}</strong>
+        <span class="qds-text-muted">{{ material.use }}</span>
+      </div>
     </div>
 
     <div class="scenes-grid" aria-label="Variant scene matrix">
@@ -145,6 +164,7 @@ const scenes: Scene[] = [
   inset: 0;
   z-index: -1;
   content: '';
+  border-radius: inherit;
   background:
     radial-gradient(circle at 22% 20%, rgba(var(--qds-color-primary-rgb), 0.18), transparent 32%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.02));
@@ -211,8 +231,38 @@ const scenes: Scene[] = [
     linear-gradient(135deg, rgba(255, 248, 232, 0.72), rgba(255, 248, 232, 0.08));
 }
 
+.materials-backdrop {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--qds-space-lg);
+  padding: clamp(1.5rem, 5vw, 3rem);
+  border-radius: calc(var(--qds-card-radius) + 0.75rem);
+  background:
+    radial-gradient(circle at 12% 20%, rgb(var(--qds-color-primary-light-rgb)), transparent 42%),
+    radial-gradient(circle at 88% 24%, rgb(var(--qds-color-accent-rgb)), transparent 40%),
+    radial-gradient(circle at 60% 90%, rgb(var(--qds-color-negative-rgb)), transparent 46%),
+    radial-gradient(circle at 30% 80%, rgb(var(--qds-color-positive-rgb)), transparent 38%),
+    rgb(var(--qds-color-primary-dark-rgb));
+}
+
+.materials-sample {
+  display: grid;
+  gap: var(--qds-space-xs);
+  min-height: 7rem;
+  align-content: center;
+  padding: var(--qds-space-md) var(--qds-space-lg);
+  border-radius: var(--qds-card-radius);
+}
+
+.materials-sample strong {
+  color: var(--qds-text-strong);
+  font-size: var(--qds-font-size-subtitle);
+  text-transform: capitalize;
+}
+
 @media (max-width: 900px) {
-  .scenes-grid {
+  .scenes-grid,
+  .materials-backdrop {
     grid-template-columns: 1fr;
   }
 }

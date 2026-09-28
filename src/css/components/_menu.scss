@@ -4,9 +4,25 @@
     min-width: 8rem;
     color: var(--qds-fg-default);
     background: var(--qds-menu-bg);
-    border: var(--qds-border-width-control) solid transparent;
+    border: var(--qds-border-width-control) solid var(--qds-material-stroke);
     border-radius: var(--qds-menu-radius);
-    box-shadow: var(--qds-menu-shadow);
+    box-shadow: var(--qds-material-edge), var(--qds-menu-shadow);
+    -webkit-backdrop-filter: var(--qds-material-regular-filter);
+    backdrop-filter: var(--qds-material-regular-filter);
+  }
+
+  // Quasar's `transition-duration` prop still shortens these; longer values are capped.
+  .qds-ui .q-menu.q-transition--fade-enter-active {
+    --qds-menu-motion: min(var(--q-transition-duration, 300ms), var(--qds-motion-duration-base));
+    transition: opacity var(--qds-menu-motion) var(--qds-motion-ease-out), transform var(--qds-menu-motion) var(--qds-motion-ease-out);
+  }
+
+  .qds-ui .q-menu.q-transition--fade-leave-active {
+    transition: opacity min(var(--q-transition-duration, 300ms), var(--qds-motion-duration-medium)) var(--qds-motion-ease-in-out);
+  }
+
+  .qds-ui .q-menu.q-transition--fade-enter-from {
+    transform: scale3d(0.98, 0.98, 1);
   }
 
   .qds-ui .q-menu .q-list {

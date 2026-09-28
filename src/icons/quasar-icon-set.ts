@@ -22,13 +22,15 @@ import {
   ppCaretDoubleRight,
   ppCheckCircle,
   ppCheck,
+  ppCheckBold,
+  ppPencilSimpleBold,
+  ppExclamationMarkBold,
   ppCheckSquare,
   ppXCircle,
   ppX,
   ppWarning,
   ppInfo,
   ppPlus,
-  ppPencil,
   ppPalette,
   ppSliders,
   ppDotOutline,
@@ -58,7 +60,6 @@ import {
   ppTextAa,
   ppMinus,
   ppPrinter,
-  ppPlay,
   ppCalendarBlank,
   ppClock,
 } from 'quasar-extras-svg-icons/phosphor-icons-v2'
@@ -81,7 +82,7 @@ import {
 //   field.{clear,error}
 //   pagination.{first,prev,next,last}
 //   rating.icon
-//   stepper.{done,active,error}
+//   stepper.{done,active,error} — Bold weight to stay legible on filled dots
 //   tabs.{left,right,up,down}
 //   table.{arrowUp,warning,firstPage,prevPage,nextPage,lastPage}
 //   tree.icon
@@ -204,9 +205,9 @@ const qdsIconSet = {
   },
 
   stepper: {
-    done: ppCheck,
-    active: ppPencil,
-    error: ppWarning,
+    done: ppCheckBold,
+    active: ppPencilSimpleBold,
+    error: ppExclamationMarkBold,
   },
 
   tabs: {
@@ -226,7 +227,7 @@ const qdsIconSet = {
   },
 
   tree: {
-    icon: ppPlay,
+    icon: ppCaretRight,
   },
 
   uploader: {

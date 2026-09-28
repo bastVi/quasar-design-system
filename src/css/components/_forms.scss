@@ -59,6 +59,9 @@
     border-inline-end: var(--qds-border-width-control) solid var(--qds-stroke-divider);
   }
 
+  // Pickers in a menu sit on its material; solid bars would seam.
+  .qds-ui .q-menu :is(.q-date__header, .q-time__header, .q-color-picker__footer) { background: transparent; }
+
   .qds-ui :is(.q-date__header-link, .q-time__link) {
     color: var(--qds-fg-muted);
     opacity: 1;
@@ -130,7 +133,7 @@
   .qds-ui .q-time__header-ampm {
     gap: 0.125rem;
     padding: 0.125rem;
-    background: var(--qds-bg-surface-2);
+    background: var(--qds-segmented-track-bg);
     border-radius: var(--qds-radius-control);
   }
 
@@ -141,8 +144,8 @@
   }
 
   .qds-ui .q-time__header-ampm .q-time__link--active {
-    background: var(--qds-control-fill-default);
-    box-shadow: var(--qds-shadow-2);
+    background: var(--qds-segmented-thumb-bg);
+    box-shadow: var(--qds-shadow-2), inset 0 0 0 var(--qds-border-width-control) var(--qds-stroke-subtle);
   }
 
   .qds-ui .q-time__container-child { background: var(--qds-bg-surface-2); }
@@ -167,47 +170,79 @@
 
   .qds-ui .q-time__now-button { box-shadow: none; }
 
-  .qds-ui .q-color-picker__header-tabs,
-  .qds-ui .q-color-picker__footer {
-    gap: 0.125rem;
-    padding: 0.125rem;
+  .qds-ui :is(.q-color-picker__header-tabs, .q-color-picker__footer) {
+    height: auto;
+    padding: var(--qds-space-sm);
     color: var(--qds-fg-default);
-    background: var(--qds-bg-surface-2);
+    background: var(--qds-bg-flyout);
   }
 
+  .qds-ui .q-color-picker__footer { border-block-start: var(--qds-border-width-control) solid var(--qds-stroke-divider); }
+  .qds-ui .q-color-picker__footer > .q-tabs { position: static; }
+
+  .qds-ui :is(.q-color-picker__header-tabs, .q-color-picker__footer) .q-tabs__content {
+    gap: 0.125rem;
+    padding: 0.125rem;
+    background: var(--qds-segmented-track-bg);
+    border-radius: var(--qds-radius-control);
+  }
+
+  // Quasar pins header/footer tab heights with !important.
   .qds-ui .q-color-picker .q-tab {
-    min-height: var(--qds-control-size-sm);
+    height: var(--qds-control-size-sm) !important;
+    min-height: var(--qds-control-size-sm) !important;
     color: var(--qds-fg-muted);
+    font-size: var(--qds-font-size-caption);
+    font-weight: var(--qds-font-weight-semibold);
     background: transparent;
     border-radius: var(--qds-radius-sm);
     opacity: 1;
     transition: background-color var(--qds-motion-fast), color var(--qds-motion-fast), box-shadow var(--qds-motion-fast);
   }
 
+  .qds-ui .q-color-picker .q-tab:hover { color: var(--qds-fg-strong); }
+  .qds-ui .q-color-picker .q-tab .q-icon { font-size: var(--qds-control-icon-size-md); }
+
   .qds-ui .q-color-picker .q-tab--active {
     color: var(--qds-fg-strong);
-    background: var(--qds-control-fill-default);
-    box-shadow: var(--qds-shadow-2);
+    background: var(--qds-segmented-thumb-bg);
+    box-shadow: var(--qds-shadow-2), inset 0 0 0 var(--qds-border-width-control) var(--qds-stroke-subtle);
   }
 
   .qds-ui .q-color-picker .q-tab__indicator,
   .qds-ui .q-color-picker .q-tab::before { display: none; }
 
-  .qds-ui .q-color-picker__header-banner { border-bottom: var(--qds-border-width-control) solid var(--qds-stroke-divider); }
+  .qds-ui .q-color-picker__header-banner { border-block-end: var(--qds-border-width-control) solid var(--qds-stroke-divider); }
 
   // Quasar ships a raster checker with !important; this token-coloured one replaces it.
-  .qds-ui :is(.q-color-picker__header-bg, .q-color-picker__alpha .q-slider__track-container) {
+  .qds-ui .q-color-picker__header-bg {
     background-color: var(--qds-bg-flyout);
     background-image: conic-gradient(var(--qds-bg-layer) 25%, transparent 0 50%, var(--qds-bg-layer) 0 75%, transparent 0) !important;
     background-size: 0.5rem 0.5rem;
   }
 
-  .qds-ui :is(.q-color-picker__spectrum-tab, .q-color-picker__sliders, .q-color-picker__tune-tab, .q-color-picker__palette-rows) { padding: var(--qds-space-sm) var(--qds-space-md); }
+  .qds-ui :is(.q-color-picker__sliders, .q-color-picker__tune-tab, .q-color-picker__palette-rows) { padding: var(--qds-space-sm) var(--qds-space-md); }
+
+  // Quasar inlines its raster checker with !important; hide it and draw a token checker under the alpha ramp.
+  .qds-ui .q-color-picker__alpha .q-slider__track {
+    background-color: transparent !important;
+    background-size: 0 0 !important;
+  }
+
+  .qds-ui .q-color-picker__alpha .q-slider__track::before {
+    background:
+      linear-gradient(90deg, transparent, var(--qds-stroke-strong)),
+      conic-gradient(var(--qds-bg-layer) 25%, var(--qds-bg-flyout) 0 50%, var(--qds-bg-layer) 0 75%, var(--qds-bg-flyout) 0) 0 0 / 0.5rem 0.5rem;
+  }
 
   .qds-ui .q-color-picker__spectrum {
-    border: var(--qds-border-width-control) solid var(--qds-stroke-subtle);
+    width: auto;
+    margin: var(--qds-space-sm) var(--qds-space-sm) 0;
+    overflow: hidden;
     border-radius: var(--qds-radius-control);
   }
+
+  .qds-ui .q-color-picker__sliders { display: flex; flex-direction: column; gap: var(--qds-space-xs); }
 
   .qds-ui .q-color-picker__tune-tab > .row {
     gap: var(--qds-space-sm);
@@ -218,7 +253,8 @@
     border-radius: var(--qds-radius-control);
   }
 
-  .qds-ui .q-color-picker__tune-tab > .row + .row { margin-top: var(--qds-space-xs); }
+  .qds-ui .q-color-picker__tune-tab > .row + .row { margin-block-start: var(--qds-space-xs); }
+  .qds-ui .q-color-picker__tune-tab .q-slider { margin-inline: var(--qds-space-xs); }
 
   .qds-ui .q-color-picker__tune-tab input {
     min-height: var(--qds-control-size-sm);
@@ -233,10 +269,19 @@
     outline-offset: -1px;
   }
 
+  .qds-ui .q-color-picker__palette-rows {
+    display: grid;
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+    gap: 1px;
+  }
+
+  // Quasar sizes swatches with `width: 10% !important`; the grid owns the size.
   .qds-ui .q-color-picker__cube {
+    width: auto !important;
+    padding: 0;
     aspect-ratio: 1;
     border-radius: var(--qds-radius-xs);
-    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--qds-fg-strong) 12%, transparent);
+    box-shadow: inset 0 0 0 var(--qds-border-width-control) var(--qds-stroke-subtle);
     transition: transform var(--qds-motion-fast);
   }
 

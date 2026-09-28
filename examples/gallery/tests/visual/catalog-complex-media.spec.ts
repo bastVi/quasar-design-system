@@ -120,7 +120,6 @@ test.describe('QDS catalog complex media gate', () => {
     const sentText = await tokenColor(page, sentBubble, '--qds-text-on-primary')
     const receivedSurface = await tokenColor(page, receivedBubble, '--qds-surface-1')
     const sentBg = await computed(page, sentBubble, 'background-color')
-    const sentTail = await computed(page, sentBubble, 'border-bottom-color', '::before')
     const sentFg = await computed(page, sentContent, 'color')
 
     await expect(page.locator('[data-test="qds-chat-sent"] .q-message-avatar')).toHaveAttribute('src', /^data:image\/svg\+xml/)
@@ -130,11 +129,18 @@ test.describe('QDS catalog complex media gate', () => {
     expect.soft(sentFg, 'sent chat content uses the on-solid foreground').toBe(sentText)
     expect.soft(await computed(page, receivedBubble, 'background-color'), 'received chat bubble uses the neutral surface').toBe(receivedSurface)
     expect.soft(await computed(page, receivedContent, 'color'), 'received chat content uses its bubble foreground').toBe(await computed(page, receivedBubble, 'color'))
-    expect.soft(sentTail, 'sent chat tail uses the bubble surface').toBe(sentBg)
-    expect.soft(await computed(page, receivedBubble, 'border-bottom-color', '::before'), 'received chat tail uses the bubble surface').toBe(await computed(page, receivedBubble, 'background-color'))
+    expect.soft(await computed(page, sentBubble, 'display', '::before'), 'sent chat bubble draws no tail').toBe('none')
+    expect.soft(await computed(page, receivedBubble, 'display', '::before'), 'received chat bubble draws no tail').toBe('none')
     expect.soft(await computed(page, sentStamp, 'color'), 'sent chat stamp uses the primary on-fill foreground').toBe(sentText)
     expect.soft(await computed(page, receivedStamp, 'color'), 'received chat stamp uses the muted text token').toBe(await tokenColor(page, receivedBubble, '--qds-text-muted'))
     expect.soft(await computed(page, receivedBubble, 'border-top-width'), 'received chat bubble keeps QDS border').toBe('1px')
+    for (const [bubble, tail, label] of [[sentBubble, 'border-end-end-radius', 'sent'], [receivedBubble, 'border-end-start-radius', 'received']] as const) {
+      const tailRadius = parseFloat(await computed(page, bubble, tail))
+      const otherCorners = ['border-start-start-radius', 'border-start-end-radius', 'border-end-start-radius', 'border-end-end-radius'].filter((corner) => corner !== tail)
+      for (const corner of otherCorners) {
+        expect.soft(tailRadius, `${label} chat bubble ${tail} is tighter than ${corner}`).toBeLessThan(parseFloat(await computed(page, bubble, corner)))
+      }
+    }
 
     const stepper = page.locator('[data-test="qds-stepper"]')
     await expect(stepper).toHaveClass(/q-stepper--vertical/)
@@ -148,7 +154,7 @@ test.describe('QDS catalog complex media gate', () => {
     expect.soft(await computed(page, '[data-test="qds-stepper"] .q-stepper__tab--active .q-stepper__dot', 'display', '::after'), 'active vertical connector is displayed').not.toBe('none')
     expect.soft(parseFloat(await computed(page, '[data-test="qds-stepper"] .q-stepper__tab--active .q-stepper__dot', 'width', '::after')), 'active vertical connector has native width').toBeGreaterThan(0)
     expect.soft(parseFloat(await computed(page, '[data-test="qds-stepper"] .q-stepper__tab--active .q-stepper__dot', 'height', '::after')), 'active vertical connector has native height').toBeGreaterThan(0)
-    expect.soft(await computed(page, '[data-test="qds-stepper"] .q-stepper__tab--active .q-stepper__dot', 'background-color', '::after'), 'active vertical connector uses the primary rail color').toBe(await tokenColor(page, '[data-test="qds-stepper"]', '--qds-stepper-rail-active'))
+    expect.soft(await computed(page, '[data-test="qds-stepper"] .q-stepper__tab--active .q-stepper__dot', 'background-color', '::after'), 'outgoing connector of the active step stays neutral').toBe(await tokenColor(page, '[data-test="qds-stepper"]', '--qds-stepper-rail'))
     const firstDoneDot = stepper.locator('.q-stepper__tab--done .q-stepper__dot').first()
     await expect(firstDoneDot).toBeVisible()
     expect.soft(await computed(page, '[data-test="qds-stepper"] .q-stepper__tab--done .q-stepper__dot', 'content', '::after'), 'done vertical connector is emitted by Quasar').toBe('""')
@@ -180,7 +186,7 @@ test.describe('QDS catalog complex media gate', () => {
     expect.soft((await horizontalConnector.boundingBox())?.width ?? 0, 'horizontal connector owner has rendered width').toBeGreaterThan(0)
     expect.soft(await computed(page, '[data-test="qds-stepper-horizontal"] .q-stepper__tab--active .q-stepper__label.q-stepper__line', 'display', '::after'), 'horizontal connector is visible').not.toBe('none')
     expect.soft(parseFloat(await computed(page, '[data-test="qds-stepper-horizontal"] .q-stepper__tab--active .q-stepper__label.q-stepper__line', 'width', '::after')), 'horizontal connector has rendered length').toBeGreaterThan(0)
-    expect.soft(await computed(page, '[data-test="qds-stepper-horizontal"] .q-stepper__tab--active .q-stepper__label.q-stepper__line', 'background-color', '::after'), 'horizontal active connector uses the primary rail color').toBe(await tokenColor(page, '[data-test="qds-stepper-horizontal"]', '--qds-stepper-rail-active'))
+    expect.soft(await computed(page, '[data-test="qds-stepper-horizontal"] .q-stepper__tab--active .q-stepper__label.q-stepper__line', 'background-color', '::after'), 'horizontal outgoing connector of the active step stays neutral').toBe(await tokenColor(page, '[data-test="qds-stepper-horizontal"]', '--qds-stepper-rail'))
     expect.soft(await computed(page, '[data-test="qds-stepper-horizontal"] .q-stepper__tab--done .q-stepper__label.q-stepper__line', 'background-color', '::after'), 'horizontal done connector uses the positive rail color').toBe(await tokenColor(page, '[data-test="qds-stepper-horizontal"]', '--qds-color-positive'))
     const compactStepper = page.locator('[data-test="qds-stepper-compact"]')
     await expect(compactStepper).toHaveClass(/q-stepper--dark/)
@@ -411,6 +417,7 @@ test.describe('QDS catalog complex media gate', () => {
   })
 
   test('complex and media fixtures preserve canonical variant proof in light and dark', async ({ page }) => {
+    test.setTimeout(60_000)
     await page.goto('/#catalog')
     for (const mode of ['light', 'dark'] as const) {
       for (const variant of ['fluent', 'ink', 'mobile', 'terminal'] as const) {

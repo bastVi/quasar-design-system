@@ -3,12 +3,19 @@
     --qds-pagination-active-bg: var(--qds-state-selected);
     --qds-pagination-active-border: transparent;
     --qds-pagination-active-text: var(--qds-fg-brand);
+    max-width: 100%;
     color: var(--qds-fg-default);
   }
 
+  // Pages stay on one row and shrink toward Quasar's inline 2em minimum instead of wrapping.
+  .qds-ui :is(.q-pagination__content, .q-pagination__middle) {
+    flex-wrap: nowrap;
+    min-width: 0;
+  }
+
   .qds-ui .q-pagination .q-btn {
+    flex: 0 1 var(--qds-button-min-height);
     height: var(--qds-button-min-height);
-    aspect-ratio: 1;
     color: var(--qds-fg-default) !important;
     background-color: transparent !important;
     border-color: transparent;
@@ -24,6 +31,7 @@
 
   .qds-ui .qds-variant-mobile .q-pagination .q-btn,
   .qds-ui.qds-variant-mobile .q-pagination .q-btn {
+    flex-basis: 2.75rem;
     height: 2.75rem;
   }
 

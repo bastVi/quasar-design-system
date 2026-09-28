@@ -165,8 +165,8 @@ test.describe('QDS accessibility, motion, and RTL evidence', () => {
     expect(ltrRail.inlineStart, 'LTR selected QTree rail uses logical inline-start').toBe('0px')
     expect(rtlRail.inlineStart, 'RTL selected QTree rail remains logical inline-start').toBe('0px')
     expect(rtlRail.physicalRight, 'RTL selected QTree rail renders on the physical right edge').toBe('0px')
-    expect(rtlRail.startEndRadius, 'RTL selected QTree rail uses logical start/end radius').toBe('2px')
-    expect(rtlRail.endEndRadius, 'RTL selected QTree rail uses logical end/end radius').toBe('2px')
+    expect(rtlRail.startEndRadius, 'RTL selected QTree rail stays a pill').toBe('9999px')
+    expect(rtlRail.endEndRadius, 'RTL selected QTree rail end/end corner stays a pill').toBe('9999px')
 
     await page.goto('/#components')
     await applyLightFluent(page)
@@ -223,7 +223,7 @@ test.describe('QDS accessibility, motion, and RTL evidence', () => {
       })
       expect(rail.inlineStart, `${variant} selected rail keeps logical inline-start in RTL`).toBe('0px')
       expect(rail.physicalRight, `${variant} selected rail renders on the physical right edge in RTL`).toBe('0px')
-      expect(rail.endRadius, `${variant} selected rail retains logical end radius in RTL`).toBe('2px')
+      expect(rail.endRadius, `${variant} selected rail stays a pill in RTL`).toBe('9999px')
     }
   })
 })

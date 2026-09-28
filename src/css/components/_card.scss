@@ -15,6 +15,14 @@ $explicit-dark: '.qds-ui.qds-theme-light :is(.q-card--dark, .q-table--dark, .q-t
     --qds-bg-card: var(--qds-text-strong);
     --qds-bg-flyout: var(--qds-text-strong);
     --qds-menu-bg: var(--qds-text-strong);
+    --qds-material-thin-bg: var(--qds-text-strong);
+    --qds-material-regular-bg: var(--qds-text-strong);
+    --qds-material-thick-bg: var(--qds-text-strong);
+    --qds-material-thin-filter: none;
+    --qds-material-regular-filter: none;
+    --qds-material-thick-filter: none;
+    --qds-material-edge: inset 0 0 0 0 transparent;
+    --qds-material-stroke: var(--qds-stroke-subtle);
     --qds-bg-card-hover: color-mix(in srgb, var(--qds-surface-0) 6%, var(--qds-text-strong));
     --qds-bg-surface-1: color-mix(in srgb, var(--qds-surface-0) 6%, var(--qds-text-strong));
     --qds-bg-surface-2: color-mix(in srgb, var(--qds-surface-0) 10%, var(--qds-text-strong));
@@ -80,6 +88,22 @@ $explicit-dark: '.qds-ui.qds-theme-light :is(.q-card--dark, .q-table--dark, .q-t
   .qds-ui :is(.q-card, .qds-card) :is(.q-card, .qds-card) {
     background: var(--qds-bg-surface-1);
     box-shadow: none;
+  }
+
+  .qds-ui .qds-material {
+    background: var(--qds-material-regular-bg);
+    border: var(--qds-border-width-control) solid var(--qds-material-stroke);
+    box-shadow: var(--qds-material-edge), var(--qds-card-shadow);
+    -webkit-backdrop-filter: var(--qds-material-regular-filter);
+    backdrop-filter: var(--qds-material-regular-filter);
+  }
+
+  @each $level in thin, thick {
+    .qds-ui .qds-material.qds-material--#{$level} {
+      background: var(--qds-material-#{$level}-bg);
+      -webkit-backdrop-filter: var(--qds-material-#{$level}-filter);
+      backdrop-filter: var(--qds-material-#{$level}-filter);
+    }
   }
 
   #{$ink} :is(.q-card, .qds-card) { background: var(--qds-surface-brand-soft); }

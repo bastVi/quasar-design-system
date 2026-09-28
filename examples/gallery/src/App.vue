@@ -179,7 +179,7 @@ watch(tab, (value) => {
     </q-header>
 
     <q-page-container>
-      <q-page class="gallery-page qds-surface-muted">
+      <q-page class="gallery-page">
         <q-tab-panels v-model="tab" animated class="gallery-panels bg-transparent">
           <q-tab-panel name="tokens"><TokensSection /></q-tab-panel>
           <q-tab-panel name="typography"><TypographySection /></q-tab-panel>
@@ -242,7 +242,7 @@ watch(tab, (value) => {
 }
 
 .gallery-tabs {
-  background: color-mix(in srgb, var(--qds-toolbar-bg) 88%, transparent);
+  background: transparent;
   color: var(--qds-text);
   overflow-x: auto;
   scrollbar-width: thin;

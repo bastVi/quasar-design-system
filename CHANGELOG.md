@@ -4,6 +4,31 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [Unreleased]
+
+### Added
+
+- **Materials**: Windows 11 / SwiftUI-style acrylic on overlays — menus, popups, pickers, and notifications
+  (regular), dialogs and the bottom sheet (thick), tooltips (thin) — with a hairline stroke and an inner top edge
+  highlight.
+  New tokens `--qds-material-*`, `--qds-mica-alt`, `--qds-backdrop`; opt-in `.qds-material` (`--thin`, `--thick`)
+  for cards and other elements. Solid fallbacks without `backdrop-filter`, under
+  `prefers-reduced-transparency: reduce`, and in forced-colors mode; `ink` stays solid.
+- Menus fade and scale in from 98%; dialogs scale from 96% with a fade. Quasar `transition-duration` values
+  shorter than the token still apply; longer ones are capped.
+
+### Changed
+
+- The page shows the Mica backdrop (`--qds-backdrop`, a `background` value) on a fixed `body::before` layer tied
+  to the window; header, footer, drawer, and toolbars use the opaque `--qds-mica-alt` tint (`--qds-toolbar-bg`).
+- The bottom sheet is full-bleed below 600px and respects the bottom safe area.
+- `--qds-menu-bg` now resolves to the translucent regular material; dialogs, menus, and tooltips carry the material
+  stroke and edge highlight.
+- Chat messages drop the bubble tail and use 32px circular avatars aligned to the bubble bottom.
+- Stepper connectors pass through the dot centres; dot icons are 14px.
+- QTree uses a single indent guide and the Phosphor caret (`tree.icon` in `qdsIconSet`) instead of the play triangle.
+- QColor header and footer tabs are segmented controls; the swatch grid uses hairline gaps.
+
 ## [0.8.0-rc.1] — 2026-09-28
 
 Reference-driven Fluent 2 rebuild. Default controls are neutral-first; colour is

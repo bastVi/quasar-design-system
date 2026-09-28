@@ -9,12 +9,20 @@ $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
     margin-inline: auto;
     padding-block-end: var(--qds-space-sm);
     overflow: hidden auto;
-    background: var(--qds-bg-flyout);
+    background: var(--qds-material-thick-bg);
     border-radius: var(--qds-card-radius) var(--qds-card-radius) 0 0;
-    box-shadow: var(--qds-shadow-lg);
+    box-shadow: var(--qds-material-edge), var(--qds-shadow-lg);
+    -webkit-backdrop-filter: var(--qds-material-thick-filter);
+    backdrop-filter: var(--qds-material-thick-filter);
   }
 
   .qds-ui .q-dialog__inner > .q-bottom-sheet--grid { width: min(44rem, calc(100vw - 2 * var(--qds-space-md))); }
+
+  @media (max-width: 599.98px) {
+    .qds-ui .q-dialog__inner--bottom:has(> .q-bottom-sheet) { padding-inline: 0; }
+    .qds-ui .q-dialog__inner > .q-bottom-sheet { width: 100%; padding-block-end: calc(var(--qds-space-sm) + env(safe-area-inset-bottom)); }
+  }
+
   .qds-ui .q-bottom-sheet .q-card__section { padding: var(--qds-space-md) var(--qds-space-lg); }
   .qds-ui .q-bottom-sheet .q-dialog__message { color: var(--qds-fg-muted); }
   .qds-ui .q-bottom-sheet--list .q-bottom-sheet__item { min-height: var(--qds-list-item-min-height); margin-inline: var(--qds-space-sm); padding-inline: var(--qds-space-md); border-radius: var(--qds-radius-control); }
@@ -38,11 +46,13 @@ $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
   .qds-ui .q-loading .q-loading__message { margin: var(--qds-space-md) var(--qds-space-sm) 0; color: var(--qds-fg-muted); }
 
   #{$ink} .q-dialog__inner > .q-bottom-sheet,
-  #{$mobile} .q-dialog__inner > .q-bottom-sheet { background: var(--qds-surface-focus-block); }
+  #{$mobile} .q-dialog__inner > .q-bottom-sheet { background: var(--qds-surface-focus-block); -webkit-backdrop-filter: none; backdrop-filter: none; }
   #{$mobile} .q-bottom-sheet--list .q-bottom-sheet__item { min-height: 3.5rem; margin-inline: 0; padding-inline: var(--qds-space-lg); }
   #{$terminal} :is(.q-dialog__inner > .q-bottom-sheet, .q-loading .q-loading__box) {
     background: var(--qds-surface-0);
     border: var(--qds-border-width-control) solid color-mix(in srgb, var(--qds-color-primary) 24%, var(--qds-border));
     box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 }

@@ -151,11 +151,25 @@ The display stack follows the body stack (Inter) by default. Selawik is not part
 
 The core CSS only declares the font stack, so skipping these still yields a sane system fallback. An accent font token is reserved for future use.
 
+## Materials
+
+Overlays use Windows 11-style acrylic materials: menus, popups, pickers, and notifications use the
+regular material; dialogs and the bottom sheet the thick one; tooltips the thin one. The page sits on a Mica backdrop
+(`--qds-backdrop`, painted on a fixed `body::before` layer), and the header, drawer, and toolbars use the opaque
+`--qds-mica-alt` tint. Cards stay solid; add `qds-material` (or `qds-material--thin` /
+`qds-material--thick`) to opt an element into a material.
+
+Materials fall back to solid surfaces without `backdrop-filter` support, under `prefers-reduced-transparency: reduce`,
+and in forced-colors mode. The `ink` variant is always solid.
+
+Tokens: `--qds-material-{thin,regular,thick}-{bg,blur,filter}`, `--qds-material-saturate`, `--qds-material-stroke`,
+`--qds-material-edge`, `--qds-mica-alt`, `--qds-backdrop` (a full `background` value, not a colour).
+
 ## Variants
 
 The package is structured around `src/themes/`. For now there is one real theme, `default`, plus small runtime variants layered over it:
 
-- `fluent`: default Fluent 2-inspired direction with solid mica surfaces, low-border content, and selective transient material. Absorbs the legacy Air translucency behavior.
+- `fluent`: default Fluent 2-inspired direction with a Mica app backdrop, acrylic overlays, solid reading surfaces, and low-border content. Absorbs the legacy Air translucency behavior.
 - `ink`: paper-neutral editorial surfaces with charcoal type and coordinated pastel role washes.
 - `mobile` (labelled **One**): Samsung One UI-inspired focus blocks, rounding, spacing, and touch-friendly control rhythm.
 - `terminal`: dark amber developer UI with near-black surfaces, crisp hairline cards, restrained glow, and a monospace-forward feel.

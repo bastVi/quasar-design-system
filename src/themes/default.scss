@@ -72,6 +72,7 @@
   // re-emitted; this keeps a nested variant from retaining a prior scheme.
   @include qds-derived-tokens;
   @include fallbacks.qds-semantic-tokens(if($dark, tokens.$dark-semantic, tokens.$light-semantic));
+  @include fallbacks.qds-material-tokens(if($dark, dark, light));
 
   @if map.has-key(map.get(tokens.$variants, $variant), '#{$component-prefix}soft-brand') {
     @include fallbacks.qds-soft-surfaces((
@@ -118,6 +119,8 @@
   --qds-table-row-height-value: #{qds-variant-token(terminal, table-row-height)};
   --qds-table-header-height-value: #{qds-variant-token(terminal, table-header-height)};
 }
+
+$qds-material-scopes: '.qds-theme-dark, body.qds-ui.body--dark, .qds-variant-mobile, .qds-theme-dark.qds-variant-mobile, .qds-theme-dark .qds-variant-mobile, body.qds-ui.body--dark.qds-variant-mobile, body.qds-ui.body--dark .qds-variant-mobile, .qds-variant-terminal, .qds-theme-dark.qds-variant-terminal, .qds-theme-dark .qds-variant-terminal, body.qds-ui.body--dark.qds-variant-terminal, body.qds-ui.body--dark .qds-variant-terminal';
 
 @layer qds.tokens {
   // fallbacks.scss is also a standalone entry and emits the full base contract.
@@ -189,12 +192,14 @@
     @include fallbacks.qds-soft-surfaces(tokens.$dark-soft-surfaces);
     @include fallbacks.qds-semantic-tokens(tokens.$dark-semantic);
     @include fallbacks.qds-role-fg(tokens.$dark-role-fg);
+    @include fallbacks.qds-material-tokens(dark);
   }
 
   .qds-variant-ink {
     --qds-font-family: #{qds-variant-token(ink, font-family)};
     --qds-font-family-display: #{qds-variant-token(ink, font-family-display)};
     @include qds-variant-scheme(ink);
+    @include fallbacks.qds-material-tokens(solid);
     --qds-list-item-min-height-value: #{qds-variant-token(ink, list-item-min-height)};
     --qds-menu-item-min-height-value: #{qds-variant-token(ink, menu-item-min-height)};
   }
@@ -204,6 +209,7 @@
   body.qds-ui.body--dark.qds-variant-ink,
   body.qds-ui.body--dark .qds-variant-ink {
     @include qds-variant-scheme(ink, true);
+    @include fallbacks.qds-material-tokens(solid);
   }
 
   .qds-variant-mobile {
@@ -239,5 +245,13 @@
     @include qds-variant-scheme(terminal, true);
     @include qds-terminal-sizing;
     --qds-fg-brand: var(--qds-color-primary-light);
+  }
+
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    #{$qds-material-scopes} { @include fallbacks.qds-material-tokens(solid); }
+  }
+
+  @media (prefers-reduced-transparency: reduce), (forced-colors: active) {
+    #{$qds-material-scopes} { @include fallbacks.qds-material-tokens(solid); }
   }
 }
