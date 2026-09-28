@@ -93,7 +93,7 @@ function showNotify() {
     type: 'info',
     message: 'Plugin notification',
     caption: 'Dismissed explicitly by the demo or visual gate.',
-    position: 'top-right',
+    position: 'bottom-right',
     timeout: 0,
     group: false,
     actions: [{ label: 'Dismiss', color: 'info', noCaps: true }],
@@ -151,7 +151,7 @@ function showProgressNotify() {
     type: 'info',
     message: 'Publishing visual proof',
     caption: 'The progress rail remains visible until this deterministic fixture is dismissed.',
-    position: 'top-right',
+    position: 'bottom-right',
     timeout: 60_000,
     progress: true,
     group: false,
@@ -177,7 +177,7 @@ function showGroupedNotify() {
     type: 'warning',
     message: 'Repeated token audit',
     caption: 'The same explicit group increments Quasar’s stable notification badge.',
-    position: 'top-right' as const,
+    position: 'bottom-right' as const,
     timeout: 0,
     group: 'qds-gallery-notify-group',
     badgePosition: 'top-left' as const,
@@ -212,7 +212,7 @@ function showUpdatableNotify() {
     type: 'info',
     message: 'Syncing visual proof',
     caption: 'This persistent non-grouped notification can be updated in place.',
-    position: 'top-right',
+    position: 'bottom-right',
     timeout: 0,
     group: false,
     spinner: true,
@@ -237,7 +237,7 @@ function showSemanticNotify(type: typeof notifyTypes[number]) {
     type,
     message: `${type[0].toUpperCase()}${type.slice(1)} semantic surface`,
     caption: 'Each canonical QDS variant resolves the matching role accent and wash.',
-    position: 'top-right',
+    position: 'bottom-right',
     timeout: 0,
     group: false,
     classes: `qds-notify-semantic qds-notify-semantic--${type}`,
@@ -346,36 +346,35 @@ onBeforeUnmount(() => {
 
       <div class="row q-col-gutter-md">
         <div class="col-12 col-md-6 col-lg-4">
-          <q-card flat bordered class="q-pa-md full-height">
+          <q-card flat bordered class="q-pa-md full-height" data-test="qds-plugin-bottomsheet-card">
             <div class="text-subtitle1 qds-text-strong q-mb-xs">BottomSheet</div>
             <div class="qds-text-muted q-mb-md">List and grid action sheets share one tokenized surface.</div>
             <div class="qds-button-row">
-              <q-btn unelevated color="primary" no-caps label="Open list BottomSheet" @click="openListBottomSheet" />
-              <q-btn outline color="accent" no-caps label="Open grid BottomSheet" @click="openGridBottomSheet" />
+              <q-btn outline no-caps label="Open list BottomSheet" @click="openListBottomSheet" />
+              <q-btn outline no-caps label="Open grid BottomSheet" @click="openGridBottomSheet" />
             </div>
           </q-card>
         </div>
 
         <div class="col-12 col-md-6 col-lg-4">
-          <q-card flat bordered class="q-pa-md full-height">
+          <q-card flat bordered class="q-pa-md full-height" data-test="qds-plugin-dialog-notify-card">
             <div class="text-subtitle1 qds-text-strong q-mb-xs">Dialog &amp; Notify</div>
             <div class="qds-text-muted q-mb-md">Global overlays reuse the existing dialog and notification skin.</div>
             <div class="qds-button-row">
-              <q-btn unelevated color="primary" no-caps label="Open plugin dialog" @click="openDialog" />
-              <q-btn outline color="info" no-caps label="Show plugin notify" @click="showNotify" />
-              <q-btn outline color="info" no-caps label="Show avatar Notify" data-test="qds-notify-avatar-trigger" @click="showAvatarNotify" />
-              <q-btn outline color="positive" no-caps label="Show bottom-center Notify" data-test="qds-notify-bottom-trigger" @click="showBottomNotify" />
-              <q-btn outline color="info" no-caps label="Show action and progress notify" data-test="qds-notify-progress-trigger" @click="showProgressNotify" />
-              <q-btn outline color="warning" no-caps label="Show grouped notify" data-test="qds-notify-grouped-trigger" @click="showGroupedNotify" />
-              <q-btn outline color="positive" no-caps label="Show updatable notify" data-test="qds-notify-updatable-trigger" @click="showUpdatableNotify" />
-              <q-btn flat color="primary" no-caps label="Clear demo notifications" data-test="qds-notify-clear" @click="clearNotifications" />
+              <q-btn outline no-caps label="Open plugin dialog" @click="openDialog" />
+              <q-btn outline no-caps label="Show plugin notify" @click="showNotify" />
+              <q-btn outline no-caps label="Show avatar Notify" data-test="qds-notify-avatar-trigger" @click="showAvatarNotify" />
+              <q-btn outline no-caps label="Show bottom-center Notify" data-test="qds-notify-bottom-trigger" @click="showBottomNotify" />
+              <q-btn outline no-caps label="Show action and progress notify" data-test="qds-notify-progress-trigger" @click="showProgressNotify" />
+              <q-btn outline no-caps label="Show grouped notify" data-test="qds-notify-grouped-trigger" @click="showGroupedNotify" />
+              <q-btn outline no-caps label="Show updatable notify" data-test="qds-notify-updatable-trigger" @click="showUpdatableNotify" />
+              <q-btn flat no-caps label="Clear demo notifications" data-test="qds-notify-clear" @click="clearNotifications" />
             </div>
             <div class="qds-button-row q-mt-sm" aria-label="Semantic Notify surfaces">
               <q-btn
                 v-for="type in notifyTypes"
                 :key="type"
                 outline
-                :color="type"
                 no-caps
                 :label="`Show ${type} Notify`"
                 :data-test="`qds-notify-${type}-trigger`"
@@ -386,16 +385,16 @@ onBeforeUnmount(() => {
         </div>
 
         <div class="col-12 col-md-6 col-lg-4">
-          <q-card flat bordered class="q-pa-md full-height">
+          <q-card flat bordered class="q-pa-md full-height" data-test="qds-plugin-loading-card">
             <div class="text-subtitle1 qds-text-strong q-mb-xs">Loading surfaces</div>
             <div class="qds-text-muted q-mb-md">Custom Quasar loading options stay visible until their explicit cleanup action.</div>
             <div class="qds-button-row">
-              <q-btn unelevated color="primary" no-caps label="Show loading overlay" @click="showLoading" />
-              <q-btn flat color="primary" no-caps label="Hide loading overlay" data-test="qds-loading-hide" @click="hideLoading" />
-              <q-btn outline color="primary" no-caps label="Show grouped Loading precedence" data-test="qds-loading-grouped-trigger" @click="showGroupedLoading" />
-              <q-btn flat color="primary" no-caps label="Hide newer Loading group" data-test="qds-loading-hide-newer" @click="hideNewerLoadingGroup" />
-              <q-btn outline color="accent" no-caps label="Start loading bar" @click="startLoadingBar" />
-              <q-btn flat color="accent" no-caps label="Stop loading bar" @click="stopLoadingBar" />
+              <q-btn outline no-caps label="Show loading overlay" @click="showLoading" />
+              <q-btn flat no-caps label="Hide loading overlay" data-test="qds-loading-hide" @click="hideLoading" />
+              <q-btn outline no-caps label="Show grouped Loading precedence" data-test="qds-loading-grouped-trigger" @click="showGroupedLoading" />
+              <q-btn flat no-caps label="Hide newer Loading group" data-test="qds-loading-hide-newer" @click="hideNewerLoadingGroup" />
+              <q-btn outline no-caps label="Start loading bar" @click="startLoadingBar" />
+              <q-btn flat no-caps label="Stop loading bar" @click="stopLoadingBar" />
             </div>
             <div class="qds-plugin-inner-loading-box q-mt-md" data-test="qds-plugin-inner-loading-box">
               <div class="qds-text-strong">Inline busy proof</div>

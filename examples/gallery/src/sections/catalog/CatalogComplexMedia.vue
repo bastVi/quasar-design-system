@@ -26,6 +26,7 @@ type UploaderProbe = {
 const step = ref(2)
 const horizontalStep = ref(2)
 const compactStep = ref(1)
+const verticalStep = ref(2)
 const carouselSlide = ref('ink')
 const verticalCarouselSlide = ref('first')
 const carouselFullscreen = ref(false)
@@ -110,18 +111,11 @@ function mediaSvg(title: string, subtitle: string, from: string, via: string, to
   `)
 }
 
-function avatarSvg(initials: string, from: string, to: string): string {
+function avatarSvg(initials: string, fill: string): string {
   return svgData(`
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="${initials} avatar">
-      <defs>
-        <linearGradient id="a" x1="0" x2="1" y1="0" y2="1">
-          <stop stop-color="${from}"/>
-          <stop offset="1" stop-color="${to}"/>
-        </linearGradient>
-      </defs>
-      <rect width="96" height="96" rx="48" fill="url(#a)"/>
-      <circle cx="72" cy="24" r="24" fill="white" fill-opacity=".22"/>
-      <text x="48" y="58" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="750" fill="white">${initials}</text>
+      <rect width="96" height="96" rx="48" fill="${fill}"/>
+      <text x="48" y="63" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="42" font-weight="700" fill="white">${initials}</text>
     </svg>
   `)
 }
@@ -150,8 +144,8 @@ const carouselSlides = [
   },
 ]
 const chatAvatars = {
-  designer: avatarSvg('DS', '#0f6cbd', '#06b6d4'),
-  reviewer: avatarSvg('RV', '#6a8f66', '#0f6cbd'),
+  designer: avatarSvg('DS', '#0f6cbd'),
+  reviewer: avatarSvg('RV', '#616161'),
 }
 const videoSrc = `data:text/html;charset=utf-8,${encodeURIComponent(`
   <!doctype html>
@@ -227,7 +221,7 @@ onBeforeUnmount(() => {
             Exercise Quasar surfaces with a visible vertical rail and navigation slot.
             <q-stepper-navigation data-test="qds-stepper-nav">
               <q-btn color="primary" unelevated no-caps label="Continue" />
-              <q-btn flat no-caps color="primary" label="Back" class="q-ml-sm" />
+              <q-btn flat no-caps label="Back" class="q-ml-sm" />
             </q-stepper-navigation>
           </q-step>
 
@@ -287,6 +281,39 @@ onBeforeUnmount(() => {
 
           <q-step :name="4" title="Resolve" caption="Error" :icon="ppWarning" error>
             Error state remains visible without changing the active step.
+          </q-step>
+        </q-stepper>
+      </div>
+
+      <div class="catalog-demo catalog-demo--wide">
+        <div class="catalog-label">QStepper vertical flow</div>
+        <q-stepper
+          v-model="verticalStep"
+          flat
+          vertical
+          animated
+          color="primary"
+          done-color="positive"
+          data-test="qds-stepper-vertical"
+        >
+          <q-step :name="1" title="Choose a template" caption="Completed" :icon="ppPalette" done>
+            A starter template seeds the workspace.
+          </q-step>
+
+          <q-step :name="2" title="Configure surfaces" caption="In progress" :icon="ppSliders">
+            Pick the density and material for the new workspace.
+            <q-stepper-navigation data-test="qds-stepper-vertical-nav">
+              <q-btn color="primary" unelevated no-caps label="Continue" @click="verticalStep = 3" />
+              <q-btn flat no-caps label="Back" class="q-ml-sm" @click="verticalStep = 1" />
+            </q-stepper-navigation>
+          </q-step>
+
+          <q-step :name="3" title="Publish" caption="Pending" :icon="ppCheckCircle">
+            Publishing makes the workspace visible to collaborators.
+            <q-stepper-navigation>
+              <q-btn color="primary" unelevated no-caps label="Finish" />
+              <q-btn flat no-caps label="Back" class="q-ml-sm" @click="verticalStep = 2" />
+            </q-stepper-navigation>
           </q-step>
         </q-stepper>
       </div>

@@ -23,7 +23,7 @@ const tab = ref('overview')
           <q-tab name="overview" label="Overview" />
           <q-tab name="states" label="States" />
         </q-tabs>
-        <q-tab-panels v-model="tab" animated class="catalog-panel">
+        <q-tab-panels v-model="tab" animated class="catalog-panel" data-test="qds-tab-panels">
           <q-tab-panel name="overview">Panel surfaces inherit the gallery background.</q-tab-panel>
           <q-tab-panel name="states">Animated panels keep the Quasar interaction model.</q-tab-panel>
         </q-tab-panels>

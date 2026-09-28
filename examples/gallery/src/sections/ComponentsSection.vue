@@ -12,6 +12,7 @@ import {
   PhSidebar,
   PhSparkle,
 } from '@phosphor-icons/vue'
+import { ppArchive, ppBell, ppCopy, ppHouse, ppLink, ppPencilSimple, ppShareNetwork, ppTrash, ppX } from 'quasar-extras-svg-icons/phosphor-icons-v2'
 
 const $q = useQuasar()
 
@@ -21,6 +22,20 @@ const select = ref<string | null>(null)
 const selectMultiple = ref(['Fluent', 'Ink'])
 const selectOptions = ['Fluent', 'Ink', 'One']
 const dialogOpen = ref(false)
+const persistentDialogOpen = ref(false)
+const maximizedDialogOpen = ref(false)
+const bottomDialogOpen = ref(false)
+const promptDialogOpen = ref(false)
+const promptName = ref('Release notes')
+const tooltipPositions = [
+  { name: 'top', anchor: 'top middle', self: 'bottom middle' },
+  { name: 'right', anchor: 'center right', self: 'center left' },
+  { name: 'bottom', anchor: 'bottom middle', self: 'top middle' },
+  { name: 'left', anchor: 'center left', self: 'center right' },
+] as const
+const horizontalTab = ref('overview')
+const scrollTab = ref('tab-1')
+const scrollTabs = Array.from({ length: 8 }, (_, index) => `tab-${index + 1}`)
 const tooltipOpen = ref(false)
 const drawerOpen = ref(true)
 const drawerSeamlessOpen = ref(true)
@@ -58,7 +73,7 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
   $q.notify({
     type,
     message: `This is a ${type} notification`,
-    position: 'top-right',
+    position: 'bottom-right',
   })
 }
 </script>
@@ -147,6 +162,20 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
         <q-chip clickable color="info" label="Clickable" />
         <q-chip dense color="info"><PhInfo :size="14" weight="regular" /> Dense</q-chip>
         <q-chip class="qds-solid" color="primary" label="Solid" />
+      </div>
+      <div class="text-subtitle2 qds-text-muted q-mt-md q-mb-xs">Floating, multiline, square &amp; avatar</div>
+      <div class="qds-button-row items-start">
+        <q-btn outline no-caps label="Inbox" data-test="qds-badge-floating">
+          <q-badge color="negative" floating>4</q-badge>
+        </q-btn>
+        <q-badge multi-line color="info" class="qds-demo-multiline-badge" data-test="qds-badge-multiline">
+          Multiline badges wrap long status text onto a second line
+        </q-badge>
+        <q-chip square color="primary" label="Square" data-test="qds-chip-square" />
+        <q-chip data-test="qds-chip-avatar">
+          <q-avatar color="primary" text-color="white">QD</q-avatar>
+          Design owner
+        </q-chip>
       </div>
     </q-card>
 
@@ -273,6 +302,24 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
         </q-btn>
       </div>
 
+      <div class="text-subtitle2 qds-text-muted q-mt-md q-mb-xs">Dialog modes</div>
+      <div class="qds-button-row">
+        <q-btn outline no-caps label="Persistent dialog" data-test="qds-dialog-persistent-trigger" @click="persistentDialogOpen = true" />
+        <q-btn outline no-caps label="Maximized dialog" data-test="qds-dialog-maximized-trigger" @click="maximizedDialogOpen = true" />
+        <q-btn outline no-caps label="Bottom dialog" data-test="qds-dialog-bottom-trigger" @click="bottomDialogOpen = true" />
+        <q-btn outline no-caps label="Prompt dialog" data-test="qds-dialog-prompt-trigger" @click="promptDialogOpen = true" />
+      </div>
+
+      <div class="text-subtitle2 qds-text-muted q-mt-md q-mb-xs">Tooltip positions &amp; delay</div>
+      <div class="qds-button-row" data-test="qds-tooltip-triggers">
+        <q-btn v-for="position in tooltipPositions" :key="position.name" flat no-caps :label="`Tooltip ${position.name}`" :data-test="`qds-tooltip-${position.name}-trigger`">
+          <q-tooltip :anchor="position.anchor" :self="position.self" :data-test="`qds-tooltip-${position.name}`">Placed {{ position.name }}</q-tooltip>
+        </q-btn>
+        <q-btn flat no-caps label="Delayed tooltip" data-test="qds-tooltip-delay-trigger">
+          <q-tooltip :delay="600" data-test="qds-tooltip-delay">Appears after a 600ms delay</q-tooltip>
+        </q-btn>
+      </div>
+
       <q-dialog v-model="dialogOpen">
         <q-card>
           <q-card-section>
@@ -285,6 +332,63 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
             <q-btn flat label="Cancel" no-caps v-close-popup />
             <q-btn unelevated color="negative" label="Delete" no-caps v-close-popup />
           </q-card-actions>
+        </q-card>
+      </q-dialog>
+
+      <q-dialog v-model="persistentDialogOpen" persistent>
+        <q-card data-test="qds-dialog-persistent">
+          <q-card-section>
+            <div class="text-h6 qds-display">Unsaved changes</div>
+            <div class="qds-text-muted q-mt-sm">Persistent dialogs ignore scrim clicks and Escape until an action is chosen.</div>
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn flat label="Keep editing" no-caps v-close-popup />
+            <q-btn unelevated color="primary" label="Discard changes" no-caps v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+
+      <q-dialog v-model="maximizedDialogOpen" maximized>
+        <q-card data-test="qds-dialog-maximized">
+          <q-toolbar>
+            <q-toolbar-title>Maximized surface</q-toolbar-title>
+            <q-btn flat round aria-label="Close maximized dialog" v-close-popup><q-icon :name="ppX" /></q-btn>
+          </q-toolbar>
+          <q-card-section class="qds-text-muted">
+            Maximized dialogs fill the viewport and drop the card radius.
+          </q-card-section>
+        </q-card>
+      </q-dialog>
+
+      <q-dialog v-model="bottomDialogOpen" position="bottom">
+        <q-card data-test="qds-dialog-bottom" style="width: 28rem; max-width: 100%">
+          <q-list>
+            <q-item v-close-popup clickable>
+              <q-item-section avatar><q-icon :name="ppShareNetwork" /></q-item-section>
+              <q-item-section>Share link</q-item-section>
+            </q-item>
+            <q-item v-close-popup clickable>
+              <q-item-section avatar><q-icon :name="ppCopy" /></q-item-section>
+              <q-item-section>Copy to workspace</q-item-section>
+            </q-item>
+          </q-list>
+        </q-card>
+      </q-dialog>
+
+      <q-dialog v-model="promptDialogOpen">
+        <q-card data-test="qds-dialog-prompt" style="width: 24rem; max-width: 100%">
+          <q-form @submit.prevent="promptDialogOpen = false">
+            <q-card-section>
+              <div class="text-h6 qds-display">Rename document</div>
+            </q-card-section>
+            <q-card-section class="q-pt-none">
+              <q-input v-model="promptName" name="components-prompt-name" label="Document name" outlined autofocus />
+            </q-card-section>
+            <q-card-actions align="right">
+              <q-btn flat label="Cancel" no-caps v-close-popup />
+              <q-btn unelevated color="primary" type="submit" label="Rename" no-caps />
+            </q-card-actions>
+          </q-form>
         </q-card>
       </q-dialog>
     </q-card>
@@ -402,7 +506,7 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
       <div class="text-h6 qds-display q-mb-md">QTabs</div>
       <div class="row q-col-gutter-md">
         <div class="col-12 col-md-5">
-          <q-tabs v-model="verticalTab" vertical align="left" no-caps class="qds-card qds-vertical-tabs-demo q-pa-xs">
+          <q-tabs v-model="verticalTab" vertical align="left" no-caps class="qds-card qds-vertical-tabs-demo q-pa-xs" data-test="qds-tabs-vertical">
             <q-tab name="home" label="Home" />
             <q-tab name="network" label="Network & internet" />
             <q-tab name="personalization" label="Personalization" />
@@ -415,6 +519,24 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
               Active tabs use a tokenized 2px accent underline that respects padding and avoids boxed fills.
             </div>
           </div>
+        </div>
+      </div>
+      <div class="row q-col-gutter-md q-mt-sm">
+        <div class="col-12 col-md-7">
+          <div class="text-subtitle2 qds-text-muted q-mb-xs">Icons, badge &amp; disabled</div>
+          <q-tabs v-model="horizontalTab" align="left" no-caps data-test="qds-tabs-horizontal">
+            <q-tab name="overview" :icon="ppHouse" label="Overview" />
+            <q-tab name="alerts" :icon="ppBell" label="Alerts">
+              <q-badge color="negative" floating>3</q-badge>
+            </q-tab>
+            <q-tab name="archive" :icon="ppArchive" label="Archive" disable />
+          </q-tabs>
+        </div>
+        <div class="col-12 col-md-5">
+          <div class="text-subtitle2 qds-text-muted q-mb-xs">Scroll arrows</div>
+          <q-tabs v-model="scrollTab" dense no-caps outside-arrows mobile-arrows class="qds-demo-scroll-tabs" data-test="qds-tabs-scroll">
+            <q-tab v-for="(name, index) in scrollTabs" :key="name" :name="name" :label="`Section ${index + 1}`" />
+          </q-tabs>
         </div>
       </div>
     </q-card>
@@ -586,6 +708,61 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
           </q-list>
         </q-menu>
       </q-btn>
+
+      <div class="text-subtitle2 qds-text-muted q-mt-md q-mb-xs">Dense, sectioned &amp; context menus</div>
+      <div class="qds-button-row items-stretch">
+        <q-btn outline no-caps label="Dense menu" data-test="qds-menu-dense-trigger">
+          <q-menu :offset="[0, 4]" data-test="qds-menu-dense">
+            <q-list dense style="min-width: 160px">
+              <q-item v-close-popup clickable><q-item-section>Rename</q-item-section></q-item>
+              <q-item v-close-popup clickable><q-item-section>Move</q-item-section></q-item>
+              <q-item v-close-popup clickable><q-item-section>Export</q-item-section></q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
+        <q-btn outline no-caps label="Sectioned menu" data-test="qds-menu-sections-trigger">
+          <q-menu :offset="[0, 4]" data-test="qds-menu-sections">
+            <q-list style="min-width: 220px">
+              <q-item-label header>Edit</q-item-label>
+              <q-item v-close-popup clickable>
+                <q-item-section avatar><q-icon :name="ppPencilSimple" /></q-item-section>
+                <q-item-section>Rename</q-item-section>
+                <q-item-section side>F2</q-item-section>
+              </q-item>
+              <q-item v-close-popup clickable>
+                <q-item-section avatar><q-icon :name="ppCopy" /></q-item-section>
+                <q-item-section>Duplicate</q-item-section>
+                <q-item-section side>Ctrl+D</q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item-label header>Share</q-item-label>
+              <q-item v-close-popup clickable>
+                <q-item-section avatar><q-icon :name="ppLink" /></q-item-section>
+                <q-item-section>Copy link</q-item-section>
+              </q-item>
+              <q-item disable>
+                <q-item-section avatar><q-icon :name="ppShareNetwork" /></q-item-section>
+                <q-item-section>Publish externally</q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item v-close-popup clickable>
+                <q-item-section avatar><q-icon :name="ppTrash" color="negative" /></q-item-section>
+                <q-item-section class="text-negative">Move to trash</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
+        <div class="qds-demo-context-target" tabindex="0" data-test="qds-menu-context-target">
+          Right-click this area
+          <q-menu touch-position context-menu data-test="qds-menu-context">
+            <q-list dense style="min-width: 180px">
+              <q-item v-close-popup clickable><q-item-section>Cut</q-item-section></q-item>
+              <q-item v-close-popup clickable><q-item-section>Copy</q-item-section></q-item>
+              <q-item v-close-popup clickable><q-item-section>Paste</q-item-section></q-item>
+            </q-list>
+          </q-menu>
+        </div>
+      </div>
     </q-card>
 
     <!-- QNotification -->
@@ -600,3 +777,23 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
     </q-card>
   </div>
 </template>
+
+<style scoped>
+.qds-demo-multiline-badge {
+  max-width: 12rem;
+}
+
+.qds-demo-scroll-tabs {
+  max-width: 18rem;
+}
+
+.qds-demo-context-target {
+  display: flex;
+  align-items: center;
+  min-height: 2.25rem;
+  padding-inline: var(--qds-space-md);
+  color: var(--qds-text-muted);
+  border: 1px dashed var(--qds-border-subtle);
+  border-radius: var(--qds-radius-md);
+}
+</style>
