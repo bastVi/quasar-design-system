@@ -135,7 +135,7 @@ For content icons, use `@phosphor-icons/vue` (duotone for feature icons, line we
 
 ## Fonts
 
-Inter (body), Open Sans (compatibility/body alternative), and Selawik (optional display) ship as optional CSS — import what you need:
+Inter (body and display), Open Sans (compatibility/body alternative), and Selawik (an optional display face an app may enable) ship as optional CSS — import what you need:
 
 ```ts
 import '@bastvi/quasar-design-system/fonts/inter.css'
