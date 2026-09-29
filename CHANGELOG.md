@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [0.8.0-rc.2] — 2026-09-29
+
 ### Added
 
 - **Materials**: Windows 11 / SwiftUI-style acrylic on overlays — menus, popups, pickers, and notifications
@@ -16,6 +18,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
   `prefers-reduced-transparency: reduce`, and in forced-colors mode; `ink` stays solid.
 - Menus fade and scale in from 98%; dialogs scale from 96% with a fade. Quasar `transition-duration` values
   shorter than the token still apply; longer ones are capped.
+- `pnpm css:budget` (`scripts/css-budget.mjs`) caps `!important`, doubled Quasar class selectors, and component
+  stylesheet lines; `verify:publish` runs it first.
+- Icon-size ramp `--qds-icon-size-xs|sm|md|lg` (12/14/16/20px); `--qds-control-icon-size-*` alias it.
+- The gallery gate lints sub-elements across the atlas families: no Material ligature icons, chat bubble tails,
+  tree L-connectors, play-triangle carets, or raw white/black fills, and the icon-size tokens resolve.
 
 ### Changed
 
@@ -28,6 +35,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 - Stepper connectors pass through the dot centres; dot icons are 14px.
 - QTree uses a single indent guide and the Phosphor caret (`tree.icon` in `qdsIconSet`) instead of the play triangle.
 - QColor header and footer tabs are segmented controls; the swatch grid uses hairline gaps.
+- Dark brand foreground (`--qds-fg-brand`) is lighter (≈ `#63acf6`) so brand text keeps 4.5:1 on hover layers.
+- Dark thin material is 85% opaque (was 80%) so muted captions keep 4.5:1 over white content.
+- Floating badges anchor 8px inside the host's top-end corner and grow outward instead of centring on it.
+- Every `backdrop-filter` is emitted through one internal materials mixin; QInnerLoading now also carries the
+  `-webkit-` prefix.
+- Sass: `$control` no longer carries `icon-size-sm|md|lg`; read the new `$icon-size` map from `./tokens/default`
+  instead (the `--qds-control-icon-size-*` custom properties remain).
+
+### Fixed
+
+- Multiline badges no longer break mid-word.
+- Floating badges inside a QBtnGroup keep their counter width and paint above the next button.
+- A coloured QBtnToggle keeps unselected segments unfilled with muted text; disabled segments stay unfilled.
+- A floating badge no longer covers the last letter of an outline button label.
+- Below 600px, banner actions stay on one end-aligned row.
+- Breadcrumb icon separators no longer end a wrapped line.
+- Gallery QRating row labels align with their card titles.
+- README and the gallery Fonts tab describe Selawik as an optional display face; the display stack follows Inter.
 
 ## [0.8.0-rc.1] — 2026-09-28
 
