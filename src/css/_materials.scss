@@ -1,0 +1,15 @@
+// material() reads tokens that turn solid without backdrop-filter, under reduced transparency and in forced colors; backdrop() is raw.
+@mixin backdrop($filter) {
+  -webkit-backdrop-filter: $filter;
+  backdrop-filter: $filter;
+}
+
+@mixin material($weight, $fill: var(--qds-material-#{$weight}-bg)) {
+  @if $fill { background: $fill; }
+  @include backdrop(var(--qds-material-#{$weight}-filter));
+}
+
+@mixin solid($fill: null) {
+  @if $fill { background: $fill; }
+  @include backdrop(none);
+}

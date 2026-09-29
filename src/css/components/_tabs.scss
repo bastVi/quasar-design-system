@@ -1,7 +1,7 @@
+$mobile: ':is(.qds-ui.qds-variant-mobile, .qds-ui .qds-variant-mobile)';
+
 @mixin styles {
-  .qds-ui .q-tabs {
-    color: var(--qds-fg-default);
-  }
+  .qds-ui .q-tabs { color: var(--qds-fg-default); }
 
   .qds-ui .q-tab {
     min-height: var(--qds-tab-min-height);
@@ -12,27 +12,11 @@
     transition: color var(--qds-motion-fast);
   }
 
-  .qds-ui .q-tabs--dense .q-tab {
-    min-height: var(--qds-control-size-md);
-  }
-
-  .qds-ui .q-tab > .q-focus-helper {
-    display: none;
-  }
-
-  .qds-ui .q-tab:hover,
-  .qds-ui .q-tab.q-tab--active {
-    color: var(--qds-fg-strong);
-  }
-
-  .qds-ui .q-tab.disabled {
-    color: var(--qds-fg-disabled);
-  }
-
-  .qds-ui .q-tab:focus-visible {
-    outline: var(--qds-focus-ring-width) solid var(--qds-stroke-focus);
-    outline-offset: calc(-1 * var(--qds-focus-ring-width));
-  }
+  .qds-ui .q-tabs--dense .q-tab { min-height: var(--qds-control-size-md); }
+  .qds-ui .q-tab > .q-focus-helper { display: none; }
+  .qds-ui .q-tab:is(:hover, .q-tab--active) { color: var(--qds-fg-strong); }
+  .qds-ui .q-tab.disabled { color: var(--qds-fg-disabled); }
+  .qds-ui .q-tab:focus-visible { outline: var(--qds-focus-ring-width) solid var(--qds-stroke-focus); outline-offset: calc(-1 * var(--qds-focus-ring-width)); }
 
   .qds-ui .q-tab .q-tab__indicator {
     height: 3px;
@@ -41,80 +25,29 @@
     transition: opacity var(--qds-motion-fast);
   }
 
-  .qds-ui .q-tabs--horizontal .q-tab > .q-tab__indicator {
-    inset-inline: 0.75rem;
-  }
-
-  .qds-ui .q-tab:not(.q-tab--active):not(.disabled):hover .q-tab__indicator {
-    color: var(--qds-stroke-default);
-    opacity: 1;
-  }
-
-  .qds-ui .q-tabs--vertical .q-tab {
-    justify-content: flex-start;
-  }
-
-  .qds-ui .q-tabs--vertical .q-tab .q-tab__indicator {
-    width: 3px;
-    height: auto;
-    inset-block: 0.5rem;
-  }
+  .qds-ui .q-tabs--horizontal .q-tab > .q-tab__indicator { inset-inline: 0.75rem; }
+  .qds-ui .q-tab:not(.q-tab--active):not(.disabled):hover .q-tab__indicator { color: var(--qds-stroke-default); opacity: 1; }
+  .qds-ui .q-tabs--vertical .q-tab { justify-content: flex-start; }
+  .qds-ui .q-tabs--vertical .q-tab .q-tab__indicator { width: 3px; height: auto; inset-block: 0.5rem; }
 
   // Fluent keeps the vertical indicator at the start; switch-indicator moves it to the end.
-  .qds-ui .q-tabs--vertical .q-tab__indicator.absolute-right {
-    right: auto;
-    inset-inline-start: 0;
-  }
+  .qds-ui .q-tabs--vertical .q-tab__indicator.absolute-right { right: auto; inset-inline-start: 0; }
+  .qds-ui .q-tabs--vertical .q-tab__indicator.absolute-left { left: auto; inset-inline-end: 0; }
 
-  .qds-ui .q-tabs--vertical .q-tab__indicator.absolute-left {
-    left: auto;
-    inset-inline-end: 0;
-  }
+  .qds-ui .q-tabs .q-tabs__arrow { color: var(--qds-fg-muted); text-shadow: none; }
+  .qds-ui .q-tabs .q-tabs__arrow:hover { color: var(--qds-fg-strong); }
+  .qds-ui .q-tab-panels { color: var(--qds-fg-default); background: transparent; }
+  .qds-ui .q-tab-panel { padding: var(--qds-space-md); }
+  .qds-ui .q-tab-panels .q-panel--inactive { pointer-events: none; }
 
-  .qds-ui .q-tabs .q-tabs__arrow {
-    color: var(--qds-fg-muted);
-    text-shadow: none;
-  }
-
-  .qds-ui .q-tabs .q-tabs__arrow:hover {
-    color: var(--qds-fg-strong);
-  }
-
-  .qds-ui .q-tab-panels {
-    color: var(--qds-fg-default);
-    background: transparent;
-  }
-
-  .qds-ui .q-tab-panel {
-    padding: var(--qds-space-md);
-  }
-
-  .qds-ui .q-tab-panels .q-panel--inactive {
-    pointer-events: none;
-  }
-
-  .qds-ui.qds-variant-mobile .q-tabs .q-tabs__content,
-  .qds-ui .qds-variant-mobile .q-tabs .q-tabs__content {
+  #{$mobile} .q-tabs .q-tabs__content {
     gap: var(--qds-space-xs);
     padding: var(--qds-space-xs);
     background: var(--qds-surface-focus-block);
     border-radius: calc(var(--qds-card-radius) + 2px);
   }
 
-  .qds-ui.qds-variant-mobile .q-tab,
-  .qds-ui .qds-variant-mobile .q-tab {
-    min-height: var(--qds-control-size-md);
-    border-radius: var(--qds-card-radius);
-  }
-
-  .qds-ui.qds-variant-mobile .q-tab .q-tab__indicator,
-  .qds-ui .qds-variant-mobile .q-tab .q-tab__indicator {
-    display: none;
-  }
-
-  .qds-ui.qds-variant-mobile .q-tab.q-tab--active,
-  .qds-ui .qds-variant-mobile .q-tab.q-tab--active {
-    background: var(--qds-surface-0);
-    box-shadow: var(--qds-shadow-2);
-  }
+  #{$mobile} .q-tab { min-height: var(--qds-control-size-md); border-radius: var(--qds-card-radius); }
+  #{$mobile} .q-tab .q-tab__indicator { display: none; }
+  #{$mobile} .q-tab.q-tab--active { background: var(--qds-surface-0); box-shadow: var(--qds-shadow-2); }
 }

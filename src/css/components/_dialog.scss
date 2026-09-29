@@ -1,3 +1,5 @@
+@use '../materials';
+
 $ink: ':is(.qds-ui.qds-variant-ink, .qds-ui .qds-variant-ink)';
 $mobile: ':is(.qds-ui.qds-variant-mobile, .qds-ui .qds-variant-mobile)';
 $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
@@ -8,12 +10,10 @@ $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
   // :where keeps Quasar's positioned-dialog corner flattening (0,2,1) in charge.
   .qds-ui :where(.q-dialog__inner--minimized) > .q-card {
     width: min(32rem, calc(100vw - 2 * var(--qds-space-md)));
-    background: var(--qds-material-thick-bg);
     border: var(--qds-border-width-control) solid var(--qds-material-stroke);
     border-radius: var(--qds-card-radius);
     box-shadow: var(--qds-material-edge), var(--qds-shadow-lg);
-    -webkit-backdrop-filter: var(--qds-material-thick-filter);
-    backdrop-filter: var(--qds-material-thick-filter);
+    @include materials.material(thick);
   }
 
   // The content animates, not the inner: fading the inner would make the card's backdrop blur snap in.
@@ -53,12 +53,10 @@ $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
     box-shadow: none;
   }
 
-  #{$mobile} .q-dialog__inner--standard > .q-card { background: var(--qds-surface-focus-block); border-radius: var(--qds-radius-xl); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  #{$mobile} .q-dialog__inner--standard > .q-card { border-radius: var(--qds-radius-xl); @include materials.solid(var(--qds-surface-focus-block)); }
 
   #{$terminal} .q-dialog__inner > .q-card {
-    background: var(--qds-surface-0);
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
     border: var(--qds-border-width-control) solid color-mix(in srgb, var(--qds-color-primary) 28%, var(--qds-border));
+    @include materials.solid(var(--qds-surface-0));
   }
 }

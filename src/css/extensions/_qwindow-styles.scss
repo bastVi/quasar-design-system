@@ -1,3 +1,5 @@
+@use '../materials';
+
 @mixin styles {
   // This optional extension intentionally targets only the QWindow BEM contract.
   .qds-ui .qds-window {
@@ -12,8 +14,7 @@
   .qds-ui .qds-window--floating {
     background: var(--qds-surface-transient);
     box-shadow: var(--qds-shadow-lg);
-    backdrop-filter: blur(var(--qds-glass-blur)) saturate(var(--qds-glass-saturate));
-    -webkit-backdrop-filter: blur(var(--qds-glass-blur)) saturate(var(--qds-glass-saturate));
+    @include materials.backdrop(blur(var(--qds-glass-blur)) saturate(var(--qds-glass-saturate)));
   }
   .qds-ui .qds-window--active { border-color: color-mix(in srgb, var(--qds-color-primary) 42%, transparent); }
   .qds-ui .qds-window.qds-window--disabled { opacity: var(--qds-disabled-opacity) !important; }

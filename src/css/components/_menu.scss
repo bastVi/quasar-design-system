@@ -1,14 +1,17 @@
+@use '../materials';
+
+$mobile: ':is(.qds-ui.qds-variant-mobile, .qds-ui .qds-variant-mobile)';
+$terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
+
 @mixin styles {
   // QMenu `fit` pins min-width to the anchor inline; the anchor gap is Quasar's `offset` prop.
   .qds-ui .q-menu {
     min-width: 8rem;
     color: var(--qds-fg-default);
-    background: var(--qds-menu-bg);
     border: var(--qds-border-width-control) solid var(--qds-material-stroke);
     border-radius: var(--qds-menu-radius);
     box-shadow: var(--qds-material-edge), var(--qds-menu-shadow);
-    -webkit-backdrop-filter: var(--qds-material-regular-filter);
-    backdrop-filter: var(--qds-material-regular-filter);
+    @include materials.material(regular, var(--qds-menu-bg));
   }
 
   // Quasar's `transition-duration` prop still shortens these; longer values are capped.
@@ -17,17 +20,9 @@
     transition: opacity var(--qds-menu-motion) var(--qds-motion-ease-out), transform var(--qds-menu-motion) var(--qds-motion-ease-out);
   }
 
-  .qds-ui .q-menu.q-transition--fade-leave-active {
-    transition: opacity min(var(--q-transition-duration, 300ms), var(--qds-motion-duration-medium)) var(--qds-motion-ease-in-out);
-  }
-
-  .qds-ui .q-menu.q-transition--fade-enter-from {
-    transform: scale3d(0.98, 0.98, 1);
-  }
-
-  .qds-ui .q-menu .q-list {
-    padding: var(--qds-space-xs);
-  }
+  .qds-ui .q-menu.q-transition--fade-leave-active { transition: opacity min(var(--q-transition-duration, 300ms), var(--qds-motion-duration-medium)) var(--qds-motion-ease-in-out); }
+  .qds-ui .q-menu.q-transition--fade-enter-from { transform: scale3d(0.98, 0.98, 1); }
+  .qds-ui .q-menu .q-list { padding: var(--qds-space-xs); }
 
   .qds-ui .q-menu .q-item {
     min-height: var(--qds-menu-item-min-height);
@@ -35,45 +30,13 @@
     border-radius: calc(var(--qds-menu-radius) - var(--qds-space-xs));
   }
 
-  .qds-ui .q-menu .q-item + .q-item {
-    margin-block-start: var(--qds-row-gap);
-  }
+  .qds-ui .q-menu .q-item + .q-item { margin-block-start: var(--qds-row-gap); }
+  .qds-ui .q-menu .q-separator { margin-block: var(--qds-space-xs); margin-inline: calc(-1 * var(--qds-space-xs)); }
 
-  .qds-ui .q-menu .q-separator {
-    margin-block: var(--qds-space-xs);
-    margin-inline: calc(-1 * var(--qds-space-xs));
-  }
-
-  .qds-ui.qds-variant-ink .q-menu,
-  .qds-ui .qds-variant-ink .q-menu {
-    border-color: var(--qds-separator-color);
-    box-shadow: none;
-  }
-
-  .qds-ui.qds-variant-terminal .q-menu,
-  .qds-ui .qds-variant-terminal .q-menu {
-    border-color: color-mix(in srgb, var(--qds-color-primary) 28%, var(--qds-border) 72%);
-    border-radius: var(--qds-radius-sm);
-  }
-
-  .qds-ui.qds-variant-terminal .q-menu .q-item,
-  .qds-ui .qds-variant-terminal .q-menu .q-item {
-    border-radius: var(--qds-radius-xs);
-  }
-
-  .qds-ui.qds-variant-mobile .q-menu,
-  .qds-ui .qds-variant-mobile .q-menu {
-    border-radius: var(--qds-card-radius);
-  }
-
-  .qds-ui.qds-variant-mobile .q-menu .q-list,
-  .qds-ui .qds-variant-mobile .q-menu .q-list {
-    padding: var(--qds-space-sm);
-  }
-
-  .qds-ui.qds-variant-mobile .q-menu .q-item,
-  .qds-ui .qds-variant-mobile .q-menu .q-item {
-    padding-inline: var(--qds-space-md);
-    border-radius: var(--qds-radius-control);
-  }
+  :is(.qds-ui.qds-variant-ink, .qds-ui .qds-variant-ink) .q-menu { border-color: var(--qds-separator-color); box-shadow: none; }
+  #{$terminal} .q-menu { border-color: color-mix(in srgb, var(--qds-color-primary) 28%, var(--qds-border) 72%); border-radius: var(--qds-radius-sm); }
+  #{$terminal} .q-menu .q-item { border-radius: var(--qds-radius-xs); }
+  #{$mobile} .q-menu { border-radius: var(--qds-card-radius); }
+  #{$mobile} .q-menu .q-list { padding: var(--qds-space-sm); }
+  #{$mobile} .q-menu .q-item { padding-inline: var(--qds-space-md); border-radius: var(--qds-radius-control); }
 }

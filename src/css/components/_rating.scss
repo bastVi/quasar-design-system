@@ -1,46 +1,20 @@
 @mixin styles {
-  .qds-ui .q-rating {
-    gap: 0.125rem;
-    color: var(--qds-color-accent);
-    line-height: 1;
-    vertical-align: middle;
-  }
-
+  .qds-ui .q-rating { gap: 0.125rem; color: var(--qds-color-accent); line-height: 1; vertical-align: middle; }
   .qds-ui .q-rating .q-rating__icon-container + .q-rating__icon-container { margin-left: 0; }
 
   // Unfilled stars take the accessible neutral stroke, as in Fluent Rating.
   .qds-ui .q-rating .q-rating__icon {
     color: var(--qds-stroke-strong);
     opacity: 1;
-    transition:
-      color var(--qds-motion-fast),
-      opacity var(--qds-motion-fast),
-      transform var(--qds-motion-fast);
+    transition: color var(--qds-motion-fast), opacity var(--qds-motion-fast), transform var(--qds-motion-fast);
   }
 
   .qds-ui .q-rating :is(.q-rating__icon--active, .q-rating__icon--exselected),
-  .qds-ui .q-rating.q-rating--no-dimming .q-rating__icon {
-    color: currentColor;
-  }
-
-  .qds-ui .q-rating:not(.disabled) .q-rating__icon--exselected {
-    opacity: 0.72;
-  }
-
-  .qds-ui .q-rating:not(.disabled, .q-rating--non-editable) .q-rating__icon--hovered {
-    opacity: 1;
-    transform: translateY(-1px);
-  }
-
-  .qds-ui .q-rating.disabled .q-rating__icon {
-    color: var(--qds-fg-disabled);
-    opacity: 1;
-    pointer-events: none;
-  }
-
-  .qds-ui .q-rating:is(.q-rating--non-editable, .disabled) .q-rating__icon {
-    cursor: default;
-  }
+  .qds-ui .q-rating.q-rating--no-dimming .q-rating__icon { color: currentColor; }
+  .qds-ui .q-rating:not(.disabled) .q-rating__icon--exselected { opacity: 0.72; }
+  .qds-ui .q-rating:not(.disabled, .q-rating--non-editable) .q-rating__icon--hovered { opacity: 1; transform: translateY(-1px); }
+  .qds-ui .q-rating.disabled .q-rating__icon { color: var(--qds-fg-disabled); opacity: 1; pointer-events: none; }
+  .qds-ui .q-rating:is(.q-rating--non-editable, .disabled) .q-rating__icon { cursor: default; }
 
   .qds-ui .q-rating .q-rating__icon-container:focus-visible {
     border-radius: var(--qds-radius-sm);
@@ -49,8 +23,6 @@
   }
 
   @each $role in primary, positive, negative {
-    .qds-ui .q-rating .q-rating__icon.text-#{$role} {
-      color: var(--qds-color-#{$role});
-    }
+    .qds-ui .q-rating .q-rating__icon.text-#{$role} { color: var(--qds-color-#{$role}); }
   }
 }

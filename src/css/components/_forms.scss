@@ -6,13 +6,7 @@
     color: var(--qds-fg-default);
   }
 
-  .qds-ui .q-option-group--inline {
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--qds-space-xs) var(--qds-space-md);
-  }
-
+  .qds-ui .q-option-group--inline { flex-direction: row; flex-wrap: wrap; align-items: center; gap: var(--qds-space-xs) var(--qds-space-md); }
   .qds-ui .q-option-group--inline > div { display: inline-flex; }
 
   .qds-ui .q-option-group :is(.q-checkbox, .q-radio, .q-toggle) {
@@ -23,11 +17,7 @@
   }
 
   .qds-ui .q-option-group :is(.q-checkbox, .q-radio, .q-toggle):is(:hover, :focus-within) { background: var(--qds-state-hover); }
-
-  .qds-ui .q-file .q-field__native {
-    align-items: center;
-    gap: var(--qds-space-xs);
-  }
+  .qds-ui .q-file .q-field__native { align-items: center; gap: var(--qds-space-xs); }
 
   .qds-ui .q-file .q-file__dnd {
     color: var(--qds-fg-brand);
@@ -54,10 +44,7 @@
     border-bottom: var(--qds-border-width-control) solid var(--qds-stroke-divider);
   }
 
-  .qds-ui .q-time--landscape .q-time__header {
-    border-bottom: 0;
-    border-inline-end: var(--qds-border-width-control) solid var(--qds-stroke-divider);
-  }
+  .qds-ui .q-time--landscape .q-time__header { border-bottom: 0; border-inline-end: var(--qds-border-width-control) solid var(--qds-stroke-divider); }
 
   // Pickers in a menu sit on its material; solid bars would seam.
   .qds-ui .q-menu :is(.q-date__header, .q-time__header, .q-color-picker__footer) { background: transparent; }
@@ -72,17 +59,10 @@
   .qds-ui :is(.q-date__header-link, .q-time__link):is(:hover, :focus-visible) { background: var(--qds-state-hover); }
   .qds-ui :is(.q-date__header-link, .q-time__link):focus-visible { outline: var(--qds-focus-ring-width) solid var(--qds-stroke-focus); outline-offset: 0; }
   .qds-ui :is(.q-date__header-link--active, .q-time__link--active) { color: var(--qds-fg-strong); }
-
   .qds-ui :is(.q-date__header-title-label, .q-time__header-label) { font-weight: var(--qds-font-weight-semibold); }
-
   .qds-ui :is(.q-date__view, .q-date__months, .q-date__years) { padding: var(--qds-space-sm); }
   .qds-ui :is(.q-date__months, .q-date__years-content) { gap: var(--qds-space-xs); }
-
-  .qds-ui .q-date__calendar-weekdays > div {
-    color: var(--qds-fg-muted);
-    font-weight: var(--qds-font-weight-semibold);
-    opacity: 1;
-  }
+  .qds-ui .q-date__calendar-weekdays > div { color: var(--qds-fg-muted); font-weight: var(--qds-font-weight-semibold); opacity: 1; }
 
   .qds-ui :is(.q-date__calendar-item, .q-date__months-item, .q-date__years-item) > :is(.q-btn, div) {
     color: var(--qds-fg-default);
@@ -92,38 +72,13 @@
   }
 
   .qds-ui .q-date__calendar-item--out { opacity: 0.4; }
-
-  .qds-ui .q-date .q-date__today {
-    color: var(--qds-fg-brand);
-    box-shadow: inset 0 0 0 var(--qds-border-width-control) var(--qds-stroke-focus);
-  }
-
-  .qds-ui :is(.q-date__range, .q-date__range-from, .q-date__range-to, .q-date__edit-range)::before {
-    background: var(--qds-surface-brand-soft);
-    opacity: 1;
-  }
-
+  .qds-ui .q-date .q-date__today { color: var(--qds-fg-brand); box-shadow: inset 0 0 0 var(--qds-border-width-control) var(--qds-stroke-focus); }
+  .qds-ui :is(.q-date__range, .q-date__range-from, .q-date__range-to, .q-date__edit-range)::before { background: var(--qds-surface-brand-soft); opacity: 1; }
   .qds-ui :is(.q-date__range, .q-date__edit-range) > .q-btn { color: var(--qds-fg-default) !important; }
-
-  .qds-ui .q-date__range-from::before {
-    border-start-start-radius: var(--qds-radius-full);
-    border-end-start-radius: var(--qds-radius-full);
-  }
-
-  .qds-ui .q-date__range-to::before {
-    border-start-end-radius: var(--qds-radius-full);
-    border-end-end-radius: var(--qds-radius-full);
-  }
-
-  .qds-ui .q-date__event {
-    background: var(--qds-color-primary);
-    box-shadow: 0 0 0 1px var(--qds-bg-flyout);
-  }
-
-  .qds-ui :is(.q-date__actions, .q-time__actions) {
-    gap: var(--qds-space-sm);
-    padding: var(--qds-space-sm) var(--qds-space-md) var(--qds-space-md);
-  }
+  .qds-ui .q-date__range-from::before { border-start-start-radius: var(--qds-radius-full); border-end-start-radius: var(--qds-radius-full); }
+  .qds-ui .q-date__range-to::before { border-start-end-radius: var(--qds-radius-full); border-end-end-radius: var(--qds-radius-full); }
+  .qds-ui .q-date__event { background: var(--qds-color-primary); box-shadow: 0 0 0 1px var(--qds-bg-flyout); }
+  .qds-ui :is(.q-date__actions, .q-time__actions) { gap: var(--qds-space-sm); padding: var(--qds-space-sm) var(--qds-space-md) var(--qds-space-md); }
 
   .qds-ui :is(.q-date__navigation .q-btn, .q-date__calendar-item button, .q-date__months-item .q-btn, .q-date__years-item .q-btn):focus-visible {
     outline: var(--qds-focus-ring-width) solid var(--qds-stroke-focus);
@@ -137,17 +92,8 @@
     border-radius: var(--qds-radius-control);
   }
 
-  .qds-ui .q-time__header-ampm .q-time__link {
-    min-width: 2.25rem;
-    padding: 0.125rem var(--qds-space-xs);
-    text-align: center;
-  }
-
-  .qds-ui .q-time__header-ampm .q-time__link--active {
-    background: var(--qds-segmented-thumb-bg);
-    box-shadow: var(--qds-shadow-2), inset 0 0 0 var(--qds-border-width-control) var(--qds-stroke-subtle);
-  }
-
+  .qds-ui .q-time__header-ampm .q-time__link { min-width: 2.25rem; padding: 0.125rem var(--qds-space-xs); text-align: center; }
+  .qds-ui .q-time__header-ampm .q-time__link--active { background: var(--qds-segmented-thumb-bg); box-shadow: var(--qds-shadow-2), inset 0 0 0 var(--qds-border-width-control) var(--qds-stroke-subtle); }
   .qds-ui .q-time__container-child { background: var(--qds-bg-surface-2); }
 
   .qds-ui .q-time__clock-position {
@@ -157,17 +103,8 @@
   }
 
   .qds-ui .q-time__clock-position:hover { background: var(--qds-state-hover); }
-
-  .qds-ui .q-time__clock-position--active {
-    color: var(--qds-text-on-primary);
-    background: var(--qds-color-primary);
-  }
-
-  .qds-ui :is(.q-time__clock-position--disable, .q-date.disabled .q-date__calendar-item) {
-    opacity: var(--qds-disabled-opacity);
-    cursor: not-allowed;
-  }
-
+  .qds-ui .q-time__clock-position--active { color: var(--qds-text-on-primary); background: var(--qds-color-primary); }
+  .qds-ui :is(.q-time__clock-position--disable, .q-date.disabled .q-date__calendar-item) { opacity: var(--qds-disabled-opacity); cursor: not-allowed; }
   .qds-ui .q-time__now-button { box-shadow: none; }
 
   .qds-ui :is(.q-color-picker__header-tabs, .q-color-picker__footer) {
@@ -187,7 +124,7 @@
     border-radius: var(--qds-radius-control);
   }
 
-  // Quasar pins header/footer tab heights with !important.
+  // Quasar pins the header/footer tab heights.
   .qds-ui .q-color-picker .q-tab {
     height: var(--qds-control-size-sm) !important;
     min-height: var(--qds-control-size-sm) !important;
@@ -202,19 +139,12 @@
 
   .qds-ui .q-color-picker .q-tab:hover { color: var(--qds-fg-strong); }
   .qds-ui .q-color-picker .q-tab .q-icon { font-size: var(--qds-control-icon-size-md); }
-
-  .qds-ui .q-color-picker .q-tab--active {
-    color: var(--qds-fg-strong);
-    background: var(--qds-segmented-thumb-bg);
-    box-shadow: var(--qds-shadow-2), inset 0 0 0 var(--qds-border-width-control) var(--qds-stroke-subtle);
-  }
-
+  .qds-ui .q-color-picker .q-tab--active { color: var(--qds-fg-strong); background: var(--qds-segmented-thumb-bg); box-shadow: var(--qds-shadow-2), inset 0 0 0 var(--qds-border-width-control) var(--qds-stroke-subtle); }
   .qds-ui .q-color-picker .q-tab__indicator,
   .qds-ui .q-color-picker .q-tab::before { display: none; }
-
   .qds-ui .q-color-picker__header-banner { border-block-end: var(--qds-border-width-control) solid var(--qds-stroke-divider); }
 
-  // Quasar ships a raster checker with !important; this token-coloured one replaces it.
+  // Replaces Quasar's pinned raster checker with a token-coloured one.
   .qds-ui .q-color-picker__header-bg {
     background-color: var(--qds-bg-flyout);
     background-image: conic-gradient(var(--qds-bg-layer) 25%, transparent 0 50%, var(--qds-bg-layer) 0 75%, transparent 0) !important;
@@ -223,11 +153,8 @@
 
   .qds-ui :is(.q-color-picker__sliders, .q-color-picker__tune-tab, .q-color-picker__palette-rows) { padding: var(--qds-space-sm) var(--qds-space-md); }
 
-  // Quasar inlines its raster checker with !important; hide it and draw a token checker under the alpha ramp.
-  .qds-ui .q-color-picker__alpha .q-slider__track {
-    background-color: transparent !important;
-    background-size: 0 0 !important;
-  }
+  // Hides Quasar's pinned raster checker and draws a token checker under the alpha ramp.
+  .qds-ui .q-color-picker__alpha .q-slider__track { background-color: transparent !important; background-size: 0 0 !important; }
 
   .qds-ui .q-color-picker__alpha .q-slider__track::before {
     background:
@@ -235,13 +162,7 @@
       conic-gradient(var(--qds-bg-layer) 25%, var(--qds-bg-flyout) 0 50%, var(--qds-bg-layer) 0 75%, var(--qds-bg-flyout) 0) 0 0 / 0.5rem 0.5rem;
   }
 
-  .qds-ui .q-color-picker__spectrum {
-    width: auto;
-    margin: var(--qds-space-sm) var(--qds-space-sm) 0;
-    overflow: hidden;
-    border-radius: var(--qds-radius-control);
-  }
-
+  .qds-ui .q-color-picker__spectrum { width: auto; margin: var(--qds-space-sm) var(--qds-space-sm) 0; overflow: hidden; border-radius: var(--qds-radius-control); }
   .qds-ui .q-color-picker__sliders { display: flex; flex-direction: column; gap: var(--qds-space-xs); }
 
   .qds-ui .q-color-picker__tune-tab > .row {
@@ -264,18 +185,10 @@
     border-radius: var(--qds-radius-sm);
   }
 
-  .qds-ui .q-color-picker__tune-tab input:focus-visible {
-    outline: var(--qds-focus-ring-width) solid var(--qds-stroke-focus);
-    outline-offset: -1px;
-  }
+  .qds-ui .q-color-picker__tune-tab input:focus-visible { outline: var(--qds-focus-ring-width) solid var(--qds-stroke-focus); outline-offset: -1px; }
+  .qds-ui .q-color-picker__palette-rows { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 1px; }
 
-  .qds-ui .q-color-picker__palette-rows {
-    display: grid;
-    grid-template-columns: repeat(10, minmax(0, 1fr));
-    gap: 1px;
-  }
-
-  // Quasar sizes swatches with `width: 10% !important`; the grid owns the size.
+  // Quasar pins swatch width at 10%; the grid owns the size.
   .qds-ui .q-color-picker__cube {
     width: auto !important;
     padding: 0;
@@ -285,18 +198,9 @@
     transition: transform var(--qds-motion-fast);
   }
 
-  .qds-ui .q-color-picker__cube:is(:hover, :focus-visible) {
-    z-index: 1;
-    transform: scale(1.12);
-    box-shadow: 0 0 0 2px var(--qds-bg-flyout), 0 0 0 4px var(--qds-stroke-focus);
-  }
-
+  .qds-ui .q-color-picker__cube:is(:hover, :focus-visible) { z-index: 1; transform: scale(1.12); box-shadow: 0 0 0 2px var(--qds-bg-flyout), 0 0 0 4px var(--qds-stroke-focus); }
   .qds-ui .q-color-picker__spectrum-circle { box-shadow: 0 0 0 2px var(--qds-bg-flyout), 0 0 0 3px var(--qds-fg-strong); }
-
-  .qds-ui .q-popup-edit {
-    min-width: min(20rem, calc(100vw - 2rem));
-    padding: var(--qds-space-md);
-  }
+  .qds-ui .q-popup-edit { min-width: min(20rem, calc(100vw - 2rem)); padding: var(--qds-space-md); }
 
   .qds-ui .q-popup-edit__buttons {
     display: flex;

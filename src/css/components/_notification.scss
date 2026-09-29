@@ -1,3 +1,5 @@
+@use '../materials';
+
 $ink: ':is(.qds-ui.qds-variant-ink, .qds-ui .qds-variant-ink)';
 $mobile: ':is(.qds-ui.qds-variant-mobile, .qds-ui .qds-variant-mobile)';
 $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
@@ -17,8 +19,7 @@ $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
     border: var(--qds-border-width-control) solid transparent;
     border-radius: var(--qds-notification-radius);
     box-shadow: var(--qds-notification-shadow);
-    -webkit-backdrop-filter: var(--qds-material-regular-filter);
-    backdrop-filter: var(--qds-material-regular-filter);
+    @include materials.material(regular, null);
   }
 
   @each $role in positive, negative, warning, info {
@@ -48,13 +49,12 @@ $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
     --qds-notification-shadow: none;
     border-color: color-mix(in srgb, var(--qds-notify-accent) 32%, var(--qds-border));
   }
-  #{$mobile} .q-notification { --qds-notify-bg: var(--qds-notify-wash); --qds-notification-radius: var(--qds-radius-lg); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  #{$mobile} .q-notification { --qds-notify-bg: var(--qds-notify-wash); --qds-notification-radius: var(--qds-radius-lg); @include materials.solid; }
   #{$terminal} .q-notification {
     --qds-notify-bg: var(--qds-surface-0);
     --qds-notification-shadow: none;
     --qds-notification-radius: var(--qds-radius-sm);
     border-color: color-mix(in srgb, var(--qds-notify-accent) 32%, var(--qds-border));
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
+    @include materials.solid;
   }
 }

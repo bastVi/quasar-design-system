@@ -25,7 +25,7 @@
 
   .qds-ui .q-checkbox--dense,
   .qds-ui .q-radio--dense {
-    --qds-selection-inner-size: 1rem;
+    --qds-selection-inner-size: var(--qds-icon-size-md);
   }
 
   .qds-ui .q-checkbox .q-checkbox__inner,

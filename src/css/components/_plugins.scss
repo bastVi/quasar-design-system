@@ -1,3 +1,5 @@
+@use '../materials';
+
 $ink: ':is(.qds-ui.qds-variant-ink, .qds-ui .qds-variant-ink)';
 $mobile: ':is(.qds-ui.qds-variant-mobile, .qds-ui .qds-variant-mobile)';
 $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
@@ -9,11 +11,9 @@ $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
     margin-inline: auto;
     padding-block-end: var(--qds-space-sm);
     overflow: hidden auto;
-    background: var(--qds-material-thick-bg);
     border-radius: var(--qds-card-radius) var(--qds-card-radius) 0 0;
     box-shadow: var(--qds-material-edge), var(--qds-shadow-lg);
-    -webkit-backdrop-filter: var(--qds-material-thick-filter);
-    backdrop-filter: var(--qds-material-thick-filter);
+    @include materials.material(thick);
   }
 
   .qds-ui .q-dialog__inner > .q-bottom-sheet--grid { width: min(44rem, calc(100vw - 2 * var(--qds-space-md))); }
@@ -46,13 +46,11 @@ $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
   .qds-ui .q-loading .q-loading__message { margin: var(--qds-space-md) var(--qds-space-sm) 0; color: var(--qds-fg-muted); }
 
   #{$ink} .q-dialog__inner > .q-bottom-sheet,
-  #{$mobile} .q-dialog__inner > .q-bottom-sheet { background: var(--qds-surface-focus-block); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  #{$mobile} .q-dialog__inner > .q-bottom-sheet { @include materials.solid(var(--qds-surface-focus-block)); }
   #{$mobile} .q-bottom-sheet--list .q-bottom-sheet__item { min-height: 3.5rem; margin-inline: 0; padding-inline: var(--qds-space-lg); }
   #{$terminal} :is(.q-dialog__inner > .q-bottom-sheet, .q-loading .q-loading__box) {
-    background: var(--qds-surface-0);
     border: var(--qds-border-width-control) solid color-mix(in srgb, var(--qds-color-primary) 24%, var(--qds-border));
     box-shadow: none;
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
+    @include materials.solid(var(--qds-surface-0));
   }
 }

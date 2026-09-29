@@ -1,3 +1,5 @@
+@use '../materials';
+
 $ink: ':is(.qds-ui.qds-variant-ink, .qds-ui .qds-variant-ink)';
 $mobile: ':is(.qds-ui.qds-variant-mobile, .qds-ui .qds-variant-mobile)';
 $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
@@ -21,7 +23,7 @@ $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
   .qds-ui .q-inner-loading {
     color: var(--qds-fg-default);
     background: color-mix(in srgb, var(--qds-bg-canvas) 80%, transparent);
-    backdrop-filter: blur(0.25rem);
+    @include materials.backdrop(blur(0.25rem));
   }
 
   .qds-ui .q-skeleton { background: var(--qds-bg-layer); }
@@ -85,5 +87,5 @@ $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
   #{$ink} :is(.q-linear-progress__track, .q-skeleton) { background: var(--qds-surface-brand-soft); }
   #{$mobile} .q-tree__node-header { min-height: 2.75rem; }
   #{$terminal} .q-linear-progress { border-radius: 0; }
-  #{$terminal} .q-inner-loading { background: var(--qds-surface-0); backdrop-filter: none; }
+  #{$terminal} .q-inner-loading { @include materials.solid(var(--qds-surface-0)); }
 }

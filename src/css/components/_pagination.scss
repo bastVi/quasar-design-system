@@ -22,7 +22,7 @@
     font-weight: var(--qds-font-weight-regular);
   }
 
-  .qds-ui .q-pagination .q-btn.q-btn[aria-current='true'] {
+  .qds-ui .q-pagination .q-btn[aria-current='true'] {
     color: var(--qds-pagination-active-text) !important;
     background-color: var(--qds-pagination-active-bg) !important;
     border-color: var(--qds-pagination-active-border);

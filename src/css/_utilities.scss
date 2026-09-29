@@ -1,14 +1,8 @@
 @mixin styles {
   @each $role in primary, secondary, accent, positive, negative, warning, info {
     .qds-ui .text-#{$role} { color: var(--qds-fg-#{$role}) !important; }
+    .qds-ui .bg-#{$role} { background: var(--qds-color-#{$role}) !important; }
   }
-  .qds-ui .bg-primary { background: var(--qds-color-primary) !important; }
-  .qds-ui .bg-secondary { background: var(--qds-color-secondary) !important; }
-  .qds-ui .bg-accent { background: var(--qds-color-accent) !important; }
-  .qds-ui .bg-positive { background: var(--qds-color-positive) !important; }
-  .qds-ui .bg-negative { background: var(--qds-color-negative) !important; }
-  .qds-ui .bg-warning { background: var(--qds-color-warning) !important; }
-  .qds-ui .bg-info { background: var(--qds-color-info) !important; }
 
   .qds-surface { background: var(--qds-surface-0); color: var(--qds-text); }
   .qds-surface-muted { background: var(--qds-surface-1); color: var(--qds-text); }

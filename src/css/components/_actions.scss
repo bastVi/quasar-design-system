@@ -1,14 +1,10 @@
 $banner-roles: (positive: positive, negative: negative, warning: warning, info: info);
+$ink-terminal: ':is(.qds-ui.qds-variant-ink, .qds-ui .qds-variant-ink, .qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
+$mobile: ':is(.qds-ui.qds-variant-mobile, .qds-ui .qds-variant-mobile)';
 
 @mixin styles {
-  .qds-ui .q-breadcrumbs {
-    color: var(--qds-fg-muted);
-    font-size: var(--qds-font-size-body1);
-  }
-
-  .qds-ui .q-breadcrumbs .q-breadcrumbs__el {
-    color: var(--qds-fg-muted);
-  }
+  .qds-ui .q-breadcrumbs { color: var(--qds-fg-muted); font-size: var(--qds-font-size-body1); }
+  .qds-ui .q-breadcrumbs .q-breadcrumbs__el { color: var(--qds-fg-muted); }
 
   .qds-ui .q-breadcrumbs a.q-breadcrumbs__el {
     padding: 0.125rem var(--qds-space-xs);
@@ -17,14 +13,8 @@ $banner-roles: (positive: positive, negative: negative, warning: warning, info: 
     text-decoration: none;
   }
 
-  .qds-ui .q-breadcrumbs a.q-breadcrumbs__el:hover {
-    color: var(--qds-fg-strong);
-    background: var(--qds-state-hover);
-  }
-
-  .qds-ui .q-breadcrumbs a.q-breadcrumbs__el:focus-visible {
-    outline: var(--qds-focus-ring-width) solid var(--qds-stroke-focus);
-  }
+  .qds-ui .q-breadcrumbs a.q-breadcrumbs__el:hover { color: var(--qds-fg-strong); background: var(--qds-state-hover); }
+  .qds-ui .q-breadcrumbs a.q-breadcrumbs__el:focus-visible { outline: var(--qds-focus-ring-width) solid var(--qds-stroke-focus); }
 
   // Inline flow so a wrapped line breaks before a separator, never after it.
   .qds-ui .q-breadcrumbs > div {
@@ -45,24 +35,20 @@ $banner-roles: (positive: positive, negative: negative, warning: warning, info: 
     display: inline;
     margin: 0 var(--qds-space-sm);
     color: var(--qds-fg-disabled);
+    white-space: nowrap;
   }
 
   .qds-ui .q-breadcrumbs .q-breadcrumbs__separator::before { content: '\200B'; }
   .qds-ui .q-breadcrumbs .q-breadcrumbs__separator::after { content: '\2060'; }
 
-  .qds-ui .q-btn-group {
-    border-radius: var(--qds-button-radius);
-    box-shadow: none;
-  }
+  .qds-ui .q-btn-group { border-radius: var(--qds-button-radius); box-shadow: none; }
 
-  .qds-ui .q-btn-group > .q-btn-item + .q-btn-item {
+  .qds-ui .q-btn-group:where(:not(.q-btn-toggle)) > .q-btn-item + .q-btn-item {
     margin-inline-start: calc(var(--qds-border-width-control) * -1);
     border-inline-start-color: color-mix(in srgb, currentColor 24%, transparent);
   }
 
-  .qds-ui .q-btn-group > .q-btn-item:is(:hover, :focus-visible) {
-    z-index: 1;
-  }
+  .qds-ui .q-btn-group > .q-btn-item:is(:hover, :focus-visible) { z-index: 1; }
 
   .qds-ui .q-btn-toggle {
     gap: 0.125rem;
@@ -71,24 +57,25 @@ $banner-roles: (positive: positive, negative: negative, warning: warning, info: 
     border-radius: calc(var(--qds-button-radius) + 0.125rem);
   }
 
-  .qds-ui .q-btn-toggle > .q-btn-item.q-btn-item {
+  .qds-ui .q-btn-toggle > .q-btn.q-btn-item {
     min-height: calc(var(--qds-button-min-height) - 0.25rem);
     margin: 0;
-    color: var(--qds-fg-muted);
     background-color: transparent !important;
     border-color: transparent;
     border-radius: var(--qds-button-radius);
   }
 
-  .qds-ui .q-btn-toggle > .q-btn-item.q-btn-item:is([aria-pressed='true'], .q-btn--active, .qds-active) {
+  .qds-ui .q-btn-toggle > .q-btn.q-btn-item:where(:not(.disabled)) { color: var(--qds-fg-muted) !important; }
+
+  #{$ink-terminal} .q-btn-toggle > .q-btn.q-btn-item { border-color: transparent; }
+
+  .qds-ui .q-btn-toggle > .q-btn.q-btn-item:is([aria-pressed='true'], .q-btn--active, .qds-active) {
     color: var(--qds-fg-strong) !important;
     background-color: var(--qds-segmented-thumb-bg) !important;
     box-shadow: var(--qds-shadow-2);
   }
 
-  .qds-ui .q-fab .q-fab__actions {
-    gap: var(--qds-space-xs);
-  }
+  .qds-ui .q-fab .q-fab__actions { gap: var(--qds-space-xs); }
 
   .qds-ui .q-avatar {
     color: var(--qds-fg-default);
@@ -97,27 +84,15 @@ $banner-roles: (positive: positive, negative: negative, warning: warning, info: 
     font-weight: var(--qds-font-weight-semibold);
   }
 
-  .qds-ui .q-avatar .q-avatar__content:not(:has(> .q-icon)) {
-    font-size: var(--qds-avatar-initials-scale);
-  }
-
-  .qds-ui .q-avatar--square {
-    border-radius: var(--qds-radius-control);
-  }
+  .qds-ui .q-avatar .q-avatar__content:not(:has(> .q-icon)) { font-size: var(--qds-avatar-initials-scale); }
+  .qds-ui .q-avatar--square { border-radius: var(--qds-radius-control); }
 
   @each $role in primary, secondary, accent, positive, negative, warning, info {
-    .qds-ui .q-avatar.bg-#{$role} {
-      color: var(--qds-text-on-#{$role}) !important;
-    }
+    .qds-ui .q-avatar.bg-#{$role} { color: var(--qds-text-on-#{$role}) !important; }
   }
 
-  .qds-ui .q-avatar--rounded {
-    border-radius: var(--qds-radius-md);
-  }
-
-  .qds-ui .q-avatar img {
-    border-radius: inherit;
-  }
+  .qds-ui .q-avatar--rounded { border-radius: var(--qds-radius-md); }
+  .qds-ui .q-avatar img { border-radius: inherit; }
 
   .qds-ui .q-banner {
     align-items: flex-start;
@@ -142,14 +117,9 @@ $banner-roles: (positive: positive, negative: negative, warning: warning, info: 
   }
 
   .qds-ui .q-banner .q-banner__avatar:has(> .q-avatar, > img) { height: auto; }
-
-  .qds-ui .q-banner .q-banner__actions {
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: var(--qds-space-xs);
-  }
-
+  .qds-ui .q-banner .q-banner__actions { flex-wrap: wrap; justify-content: flex-end; gap: var(--qds-space-xs); }
   .qds-ui .q-banner .q-banner__actions.col-auto { align-content: center; height: 1lh; }
+
   // Flat actions bleed into the end padding so their labels align with the copy edge.
   .qds-ui .q-banner .q-banner__actions.col-all {
     flex: none;
@@ -157,7 +127,14 @@ $banner-roles: (positive: positive, negative: negative, warning: warning, info: 
     margin-inline-end: calc(-1 * var(--qds-space-sm));
     padding-block-start: var(--qds-space-sm);
   }
+
   .qds-ui .q-banner .q-banner__actions > .q-btn-item { margin: 0; }
+
+  // Narrow rows bleed into both paddings and tighten labels so the actions stay on one end-aligned line.
+  @media (max-width: 599.98px) {
+    .qds-ui .q-banner .q-banner__actions.col-all { width: calc(100% + 2 * var(--qds-space-sm)); margin-inline-start: calc(-1 * var(--qds-space-sm)); }
+    .qds-ui .q-banner .q-banner__actions.col-all > .q-btn-item:not(.q-btn--round) { padding-inline: var(--qds-space-sm); }
+  }
 
   @each $role, $soft in $banner-roles {
     .qds-ui .q-banner:is(.bg-#{$role}, .text-#{$role}) {
@@ -167,20 +144,9 @@ $banner-roles: (positive: positive, negative: negative, warning: warning, info: 
       border-inline-start: 0.1875rem solid var(--qds-color-#{$role});
     }
 
-    .qds-ui .q-banner:is(.bg-#{$role}, .text-#{$role}) .q-banner__avatar {
-      color: var(--qds-color-#{$role});
-    }
+    .qds-ui .q-banner:is(.bg-#{$role}, .text-#{$role}) .q-banner__avatar { color: var(--qds-color-#{$role}); }
   }
 
-  .qds-ui .qds-variant-mobile .q-btn-toggle,
-  .qds-ui.qds-variant-mobile .q-btn-toggle {
-    padding: 0.25rem;
-    background: var(--qds-surface-focus-block);
-    border-radius: var(--qds-radius-lg);
-  }
-
-  .qds-ui .qds-variant-mobile .q-btn-toggle > .q-btn-item.q-btn-item,
-  .qds-ui.qds-variant-mobile .q-btn-toggle > .q-btn-item.q-btn-item {
-    min-height: var(--qds-button-min-height);
-  }
+  #{$mobile} .q-btn-toggle { padding: 0.25rem; background: var(--qds-surface-focus-block); border-radius: var(--qds-radius-lg); }
+  #{$mobile} .q-btn-toggle > .q-btn-item { min-height: var(--qds-button-min-height); }
 }

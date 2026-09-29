@@ -1,3 +1,5 @@
+@use '../materials';
+
 $ink: ':is(.qds-ui.qds-variant-ink, .qds-ui .qds-variant-ink)';
 $mobile: ':is(.qds-ui.qds-variant-mobile, .qds-ui .qds-variant-mobile)';
 $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
@@ -55,8 +57,7 @@ $explicit-dark: '.qds-ui.qds-theme-light :is(.q-card--dark, .q-table--dark, .q-t
   #{$explicit-dark} .qds-text-muted { color: var(--qds-fg-muted); }
   #{$explicit-dark} .qds-text-strong { color: var(--qds-fg-strong); }
 
-  .qds-ui .q-card,
-  .qds-ui .qds-card {
+  .qds-ui :is(.q-card, .qds-card) {
     color: var(--qds-fg-default);
     background: var(--qds-bg-card);
     border-radius: var(--qds-card-radius);
@@ -64,56 +65,27 @@ $explicit-dark: '.qds-ui.qds-theme-light :is(.q-card--dark, .q-table--dark, .q-t
   }
 
   .qds-ui .q-card--bordered,
-  .qds-ui :is(.q-card, .qds-card):is(.qds-card--readable, .qds-card--contrast, .qds-card--opaque, .qds-card--solid) {
-    border: var(--qds-border-width-control) solid var(--qds-stroke-default);
-  }
-
-  .qds-ui :is(.q-card, .qds-card).qds-card--transient {
-    background: var(--qds-surface-transient);
-    box-shadow: var(--qds-shadow-md);
-  }
-
+  .qds-ui :is(.q-card, .qds-card):is(.qds-card--readable, .qds-card--contrast, .qds-card--opaque, .qds-card--solid) { border: var(--qds-border-width-control) solid var(--qds-stroke-default); }
+  .qds-ui :is(.q-card, .qds-card).qds-card--transient { background: var(--qds-surface-transient); box-shadow: var(--qds-shadow-md); }
   .qds-ui :is(.q-card.cursor-pointer, a.q-card, .q-card[tabindex='0']):hover { background: var(--qds-bg-card-hover); }
-
-  .qds-ui .q-card > .q-card__section:is(.qds-card__header, .qds-card-header) {
-    padding: var(--qds-space-md);
-    border-block-end: var(--qds-border-width-control) solid var(--qds-stroke-divider);
-  }
-
-  .qds-ui .q-card > .q-card__section:is(.qds-card__header--accent, .qds-card-header--accent) {
-    color: var(--qds-fg-strong);
-    background: var(--qds-surface-brand-soft);
-  }
-
-  .qds-ui :is(.q-card, .qds-card) :is(.q-card, .qds-card) {
-    background: var(--qds-bg-surface-1);
-    box-shadow: none;
-  }
+  .qds-ui .q-card > .q-card__section:is(.qds-card__header, .qds-card-header) { padding: var(--qds-space-md); border-block-end: var(--qds-border-width-control) solid var(--qds-stroke-divider); }
+  .qds-ui .q-card > .q-card__section:is(.qds-card__header--accent, .qds-card-header--accent) { color: var(--qds-fg-strong); background: var(--qds-surface-brand-soft); }
+  .qds-ui :is(.q-card, .qds-card) :is(.q-card, .qds-card) { background: var(--qds-bg-surface-1); box-shadow: none; }
 
   .qds-ui .qds-material {
-    background: var(--qds-material-regular-bg);
     border: var(--qds-border-width-control) solid var(--qds-material-stroke);
     box-shadow: var(--qds-material-edge), var(--qds-card-shadow);
-    -webkit-backdrop-filter: var(--qds-material-regular-filter);
-    backdrop-filter: var(--qds-material-regular-filter);
+    @include materials.material(regular);
   }
 
   @each $level in thin, thick {
-    .qds-ui .qds-material.qds-material--#{$level} {
-      background: var(--qds-material-#{$level}-bg);
-      -webkit-backdrop-filter: var(--qds-material-#{$level}-filter);
-      backdrop-filter: var(--qds-material-#{$level}-filter);
-    }
+    .qds-ui .qds-material.qds-material--#{$level} { @include materials.material($level); }
   }
 
   #{$ink} :is(.q-card, .qds-card) { background: var(--qds-surface-brand-soft); }
   #{$ink} .q-card--bordered { border-color: color-mix(in srgb, var(--qds-color-primary) 28%, var(--qds-border)); }
   #{$ink} .q-card > .q-card__section:is(.qds-card__header, .qds-card-header) { background: var(--qds-surface-accent-soft); }
-
-  #{$mobile} :is(.q-card, .qds-card) {
-    background: var(--qds-surface-focus-block);
-    border: var(--qds-border-width-control) solid var(--qds-separator-color);
-  }
+  #{$mobile} :is(.q-card, .qds-card) { background: var(--qds-surface-focus-block); border: var(--qds-border-width-control) solid var(--qds-separator-color); }
   #{$mobile} .q-card > .q-card__section:is(.qds-card__header, .qds-card-header) { background: var(--qds-surface-brand-soft); }
 
   #{$terminal} :is(.q-card, .qds-card) {

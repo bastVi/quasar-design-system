@@ -19,19 +19,20 @@
     vertical-align: middle;
   }
 
+  // Anchored inside the top-end corner so wider counts grow outward, clear of the host label.
   .qds-ui .q-badge--floating {
     top: 0;
-    inset-inline: auto 0;
+    inset-inline: calc(100% - var(--qds-space-sm)) auto;
     min-width: var(--qds-badge-min-height);
     padding-inline: var(--qds-space-xs);
-    translate: 50% -50%;
+    translate: 0 -50%;
   }
 
-  .qds-ui .q-badge--floating:dir(rtl) { translate: -50% -50%; }
+  .qds-ui .q-btn-group > .q-btn-item .q-badge--floating { inset-inline: calc(100% - var(--qds-space-sm)) auto; }
+  .qds-ui .q-btn-group > .q-btn-item:has(.q-badge--floating) { z-index: 1; }
 
   .qds-ui .q-badge--multi-line {
     word-break: normal;
-    overflow-wrap: anywhere;
   }
 
   .qds-ui .q-badge--dense {

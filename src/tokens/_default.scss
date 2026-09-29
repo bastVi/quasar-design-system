@@ -78,7 +78,7 @@ $light-semantic: (
 
 $dark-semantic: (
   fg-default: #f5f5f5, fg-strong: #ffffff, fg-muted: #adadad, fg-disabled: #5c5c5c,
-  fg-on-brand: #ffffff, fg-brand: var(--qds-color-primary-light),
+  fg-on-brand: #ffffff, fg-brand: color-mix(in srgb, var(--qds-color-primary-light) 85%, var(--qds-text-strong)),
   bg-canvas: #292929, bg-surface-1: #1f1f1f, bg-surface-2: #2e2e2e, bg-layer: #3d3d3d,
   bg-flyout: #292929, bg-overlay: rgba(0, 0, 0, 0.5),
   bg-card: #292929, bg-card-hover: #1f1f1f,
@@ -154,7 +154,8 @@ $state-opacity: (hover: 0.08, focus: 0.12, press: 0.16, disabled: 0.5, tonal-bg:
 $border-width: (control: 1px) !default;
 // Coarse pointers: 40px controls, 44px rows and tabs.
 $touch: (control-size-sm: 2rem, control-size-md: 2.5rem, row-min-height: 2.75rem, tab-min-height: 2.75rem) !default;
-$control: (size-sm: 1.5rem, size-md: 2rem, size-lg: 2.5rem, font-size-sm: 0.875rem, icon-size-sm: 0.875rem, icon-size-md: 1rem, icon-size-lg: 1.25rem, icon-opacity: 0.72, icon-opacity-active: 0.88, letter-spacing: 0, text-transform: none, content-line-height: 1) !default;
+$icon-size: (xs: 0.75rem, sm: 0.875rem, md: 1rem, lg: 1.25rem) !default;
+$control: (size-sm: 1.5rem, size-md: 2rem, size-lg: 2.5rem, font-size-sm: 0.875rem, icon-opacity: 0.72, icon-opacity-active: 0.88, letter-spacing: 0, text-transform: none, content-line-height: 1) !default;
 $inline: (icon-gap: 0.375rem, dense-icon-gap: 0.25rem) !default;
 $focus-ring: (width: 2px, offset: 2px, opacity: 0.22) !default;
 $components: (
@@ -173,7 +174,7 @@ $materials: (
   blur: (thin: 20px, regular: 30px, thick: 60px),
   saturate: 1.6,
   light: (surface: 0, thin: 78%, regular: 88%, thick: 98%, mica-tint: 3%, stroke: rgba(0, 0, 0, 0.06), edge: rgba(255, 255, 255, 0.7), backdrop-brand: 0.08, backdrop-accent: 0.05),
-  dark: (surface: 2, thin: 80%, regular: 92%, thick: 98%, mica-tint: 5%, stroke: rgba(255, 255, 255, 0.12), edge: rgba(255, 255, 255, 0.12), backdrop-brand: 0.18, backdrop-accent: 0.05),
+  dark: (surface: 2, thin: 85%, regular: 92%, thick: 98%, mica-tint: 5%, stroke: rgba(255, 255, 255, 0.12), edge: rgba(255, 255, 255, 0.12), backdrop-brand: 0.18, backdrop-accent: 0.05),
 ) !default;
 
 // Variant maps contain values only; theme selectors consume them in default.scss.

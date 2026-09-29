@@ -137,9 +137,6 @@
   --qds-button-round-size: var(--qds-control-size-md);
   --qds-compact-action-size: var(--qds-control-size-md);
   --qds-compact-action-icon-size: var(--qds-control-icon-size-md);
-  --qds-icon-size-sm: var(--qds-control-icon-size-sm);
-  --qds-icon-size-md: var(--qds-control-icon-size-md);
-  --qds-icon-size-lg: var(--qds-control-icon-size-lg);
   --qds-control-icon-color: var(--qds-text-muted);
   --qds-button-icon-size: var(--qds-control-icon-size-md);
   --qds-button-dense-icon-size: var(--qds-control-icon-size-sm);
@@ -223,8 +220,8 @@
   --qds-scrollbar-thumb: var(--qds-handle-color);
   --qds-scrollbar-thumb-hover: color-mix(in srgb, var(--qds-handle-color) 72%, var(--qds-text-muted));
   // Selection controls
-  --qds-selection-inner-size: 1.25rem;
-  --qds-selection-mark-size: 1rem;
+  --qds-selection-inner-size: var(--qds-icon-size-lg);
+  --qds-selection-mark-size: var(--qds-icon-size-md);
   --qds-selection-mark-offset: calc((var(--qds-selection-inner-size) - var(--qds-selection-mark-size)) / 2);
   // Stepper
   --qds-stepper-rail: var(--qds-separator-color);
@@ -341,9 +338,12 @@
     --qds-control-size-md: #{map.get(tokens.$control, size-md)};
     --qds-control-size-lg: #{map.get(tokens.$control, size-lg)};
     --qds-control-font-size-sm: #{map.get(tokens.$control, font-size-sm)};
-    --qds-control-icon-size-sm: #{map.get(tokens.$control, icon-size-sm)};
-    --qds-control-icon-size-md: #{map.get(tokens.$control, icon-size-md)};
-    --qds-control-icon-size-lg: #{map.get(tokens.$control, icon-size-lg)};
+    @each $step, $size in tokens.$icon-size {
+      --qds-icon-size-#{$step}: #{$size};
+    }
+    --qds-control-icon-size-sm: var(--qds-icon-size-sm);
+    --qds-control-icon-size-md: var(--qds-icon-size-md);
+    --qds-control-icon-size-lg: var(--qds-icon-size-lg);
     --qds-control-icon-opacity: #{map.get(tokens.$control, icon-opacity)};
     --qds-control-icon-opacity-active: #{map.get(tokens.$control, icon-opacity-active)};
     --qds-control-letter-spacing: #{map.get(tokens.$control, letter-spacing)};

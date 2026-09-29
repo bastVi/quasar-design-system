@@ -184,30 +184,33 @@ $not-fab: ':where(:not(.q-btn--fab, .q-btn--fab-mini))';
       border-color: color-mix(in srgb, currentColor 60%, transparent);
     }
 
+    // States swap --qds-button-fill so only the base rule needs !important against Quasar's bg-*.
     .qds-ui .q-btn.bg-#{$role}:not(.qds-tonal) {
+      --qds-button-fill: var(--qds-color-#{$role});
       color: var(--qds-text-on-#{$role}) !important;
-      background-color: var(--qds-color-#{$role}) !important;
+      background-color: var(--qds-button-fill) !important;
       border-color: transparent;
     }
 
     .qds-ui .q-btn.bg-#{$role}:not(.qds-tonal, .disabled):hover {
-      background-color: role-value($role, hover) !important;
+      --qds-button-fill: #{role-value($role, hover)};
       background-image: none;
     }
 
     .qds-ui .q-btn.bg-#{$role}:not(.qds-tonal, .disabled):active {
-      background-color: role-value($role, pressed) !important;
+      --qds-button-fill: #{role-value($role, pressed)};
       background-image: none;
     }
 
     .qds-ui .q-btn.bg-#{$role}.qds-tonal {
+      --qds-button-fill: #{role-soft($role)};
       color: role-value($role, fg) !important;
-      background-color: role-soft($role) !important;
+      background-color: var(--qds-button-fill) !important;
       border-color: transparent;
     }
 
     .qds-ui .q-btn.bg-#{$role}.qds-tonal:not(.disabled):hover {
-      background-color: color-mix(in srgb, role-soft($role), var(--qds-color-#{$role}) 10%) !important;
+      --qds-button-fill: color-mix(in srgb, #{role-soft($role)}, var(--qds-color-#{$role}) 10%);
       background-image: none;
     }
   }
@@ -218,12 +221,12 @@ $not-fab: ':where(:not(.q-btn--fab, .q-btn--fab-mini))';
     opacity: 1 !important;
   }
 
-  .qds-ui .q-btn.q-btn-item.disabled:is(.q-btn--standard, .q-btn--unelevated, .q-btn--push) {
+  .qds-ui .q-btn.q-btn-item.disabled:is(.q-btn--standard, .q-btn--unelevated, .q-btn--push):where(:not(.q-btn-toggle > .q-btn)) {
     background-color: var(--qds-control-fill-disabled) !important;
     border-color: var(--qds-stroke-subtle);
   }
 
-  .qds-ui .q-btn.q-btn-item.disabled.q-btn--outline {
+  .qds-ui .q-btn.q-btn-item.disabled.q-btn--outline:where(:not(.q-btn-toggle > .q-btn)) {
     border-color: var(--qds-stroke-subtle);
   }
 
