@@ -1,9 +1,9 @@
 <script setup lang="ts">
 // Faces shipped via @bastvi/quasar-design-system/fonts/*.css (imported in main.ts).
 const families = [
-  { label: 'Inter Variable', stack: "'Inter Variable', sans-serif", note: 'Body / --qds-font-family' },
-  { label: 'Selawik', stack: "'Selawik', sans-serif", note: 'Optional display face — set --qds-font-family-display' },
+  { label: 'Inter Variable', stack: "'Inter Variable', sans-serif", note: 'Body and display / --qds-font-family' },
   { label: 'Open Sans Variable', stack: "'Open Sans Variable', sans-serif", note: 'Alternate body face' },
+  { label: 'Selawik', stack: "'Selawik', sans-serif", note: 'Optional display face, off by default — an app may set --qds-font-family-display' },
 ]
 const sample = 'The quick brown fox jumps. Le vif œuf brun. 0123456789'
 </script>

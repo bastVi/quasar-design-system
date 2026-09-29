@@ -1,8 +1,7 @@
 import { fileURLToPath } from 'node:url'
 import { expect, test, type Page } from '@playwright/test'
+import { FAMILIES, type Section } from './atlas-families'
 import { applyTheme, type Mode } from './helpers'
-
-type Section = 'components' | 'catalog' | 'plugins'
 
 type Overlay = {
   name: string
@@ -35,20 +34,30 @@ const HIDE_GALLERY_HEADER = fileURLToPath(new URL('./atlas-element.css', import.
 
 // Floor the overlay rect inward so sub-pixel positions never bleed the trigger beneath into the crop.
 async function tightClip(page: Page, selector: string) {
-  // Enter transitions scale the overlay, so settle every finite animation before measuring.
-  await page.evaluate(() =>
-    Promise.all(
-      document
-        .getAnimations()
-        .filter((animation) => Number.isFinite(Number(animation.effect?.getComputedTiming().endTime)))
-        .map((animation) => animation.finished.catch(() => undefined)),
-    ),
-  )
+  // Enter transitions scale and slide the overlay, so wait until its rect holds still for three frames.
+  await page.locator(selector).evaluate(async (element) => {
+    const frame = () => new Promise(requestAnimationFrame)
+    let last = ''
+    for (let stable = 0, tries = 0; stable < 3 && tries < 240; tries++) {
+      await frame()
+      await Promise.all(
+        document
+          .getAnimations()
+          .filter((animation) => Number.isFinite(Number(animation.effect?.getComputedTiming().endTime)))
+          .map((animation) => animation.finished.catch(() => undefined)),
+      )
+      const rect = element.getBoundingClientRect()
+      const key = [rect.x, rect.y, rect.width, rect.height].join()
+      stable = key === last ? stable + 1 : 0
+      last = key
+    }
+  })
   const box = await page.locator(selector).boundingBox()
   expect(box, `${selector} has a layout box`).not.toBeNull()
   const x = Math.ceil(box!.x)
   const y = Math.ceil(box!.y)
-  return { x, y, width: Math.floor(box!.x + box!.width) - x, height: Math.floor(box!.y + box!.height) - y }
+  // Size from the box alone so sub-pixel placement never changes the crop dimensions.
+  return { x, y, width: Math.floor(box!.width) - 1, height: Math.floor(box!.height) - 1 }
 }
 
 const byHook = (hook: string) => `[data-test="${hook}"]`
@@ -64,99 +73,6 @@ const clickButton = (target: string, name: string) => async (page: Page) => {
 
 const clickItem = (target: string, text: string) => async (page: Page) => {
   await page.locator(target).locator('.q-item', { hasText: text }).click()
-}
-
-const FAMILIES: Record<Section, Record<string, readonly string[]>> = {
-  components: {
-    actions: ['qds-control-standard-button', 'qds-control-outline-button', 'qds-card-header-action'],
-    identity: ['qds-badge-floating', 'qds-badge-multiline', 'qds-chip-square', 'qds-chip-avatar'],
-    forms: [
-      'qds-control-input',
-      'qds-control-input-filled',
-      'qds-control-input-error',
-      'qds-control-select',
-      'qds-control-select-multiple',
-      'qds-field-float-value',
-      'qds-field-start-form',
-    ],
-    data: ['qds-table-official-modes', 'qds-table-no-chrome', 'qds-pagination', 'qds-pagination-input', 'qds-flush-card-table'],
-    tabs: ['qds-tabs-horizontal', 'qds-tabs-vertical', 'qds-tabs-scroll'],
-  },
-  catalog: {
-    actions: [
-      'qds-btn-dropdown',
-      'qds-btn-group',
-      'qds-btn-toggle',
-      'qds-rating-active',
-      'qds-rating-half',
-      'qds-toolbar-surface',
-      'qds-toolbar-dense',
-      'qds-bar-standard',
-      'qds-bar-dark',
-      'qds-separator-inset-host',
-    ],
-    identity: [
-      'qds-avatar',
-      'qds-breadcrumbs',
-      'qds-breadcrumbs-overflow',
-      'qds-banner',
-      'qds-banner-actions',
-      'qds-banner-dense',
-    ],
-    tabs: ['qds-tab-panels'],
-    forms: [
-      'qds-catalog-input-error',
-      'qds-catalog-select-multiple',
-      'qds-catalog-option-group',
-      'qds-catalog-checkbox',
-      'qds-catalog-radio',
-      'qds-catalog-toggle',
-      'qds-catalog-file-multiple',
-      'qds-catalog-file-progress',
-      'qds-catalog-slider',
-      'qds-catalog-range',
-      'qds-catalog-color',
-      'qds-catalog-date',
-      'qds-catalog-date-range',
-      'qds-catalog-time',
-    ],
-    data: [
-      'qds-linear-progress',
-      'qds-circular-progress',
-      'qds-spinner',
-      'qds-expansion-expanded',
-      'qds-expansion-collapsed',
-      'qds-expansion-dense',
-      'qds-tree-primary',
-      'qds-tree-dense',
-    ],
-    media: [
-      'qds-stepper',
-      'qds-stepper-vertical',
-      'qds-stepper-horizontal',
-      'qds-stepper-compact',
-      'qds-timeline',
-      'qds-timeline-dense',
-      'qds-chat-sent',
-      'qds-chat-received',
-      'qds-carousel',
-      'qds-scroll-area',
-      'qds-splitter',
-      'qds-slide-item',
-      'qds-knob',
-      'qds-editor',
-      'qds-uploader',
-    ],
-  },
-  plugins: {
-    plugins: [
-      'qds-plugin-bottomsheet-card',
-      'qds-plugin-dialog-notify-card',
-      'qds-plugin-loading-card',
-      'qds-plugin-inner-loading-box',
-      'qds-plugin-status-card',
-    ],
-  },
 }
 
 const MOBILE_HOOKS: Record<Section, readonly string[]> = {

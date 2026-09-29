@@ -60,28 +60,28 @@ const toggleOptions = [
 
       <div class="catalog-demo catalog-demo--wide">
         <div class="catalog-label">QRating states</div>
-        <div class="column q-gutter-sm">
-          <div class="row items-center q-gutter-md">
+        <div class="catalog-rating-stack">
+          <div class="catalog-rating-row">
             <span class="qds-text-muted text-caption catalog-rating-label">Inactive:</span>
             <q-rating v-model="ratingInactive" data-test="qds-rating-inactive" aria-label="Product rating" icon-aria-label="Product rating" :icon="ppStar" size="sm" :max="5" />
           </div>
-          <div class="row items-center q-gutter-md">
+          <div class="catalog-rating-row">
             <span class="qds-text-muted text-caption catalog-rating-label">Selected (3):</span>
             <q-rating v-model="ratingActive" data-test="qds-rating-active" aria-label="Product rating" icon-aria-label="Product rating" :icon="ppStar" :icon-selected="ppStarFill" size="sm" :max="5" />
           </div>
-          <div class="row items-center q-gutter-md">
+          <div class="catalog-rating-row">
             <span class="qds-text-muted text-caption catalog-rating-label">Half (2.5):</span>
             <q-rating v-model="ratingHalf" data-test="qds-rating-half" aria-label="Product rating" icon-aria-label="Product rating" :icon="ppStar" :icon-half="ppStarHalfFill" :icon-selected="ppStarFill" size="sm" :max="5" />
           </div>
-          <div class="row items-center q-gutter-md">
+          <div class="catalog-rating-row">
             <span class="qds-text-muted text-caption catalog-rating-label">Readonly:</span>
             <q-rating v-model="ratingReadonly" data-test="qds-rating-readonly" aria-label="Read only product rating" icon-aria-label="Read only product rating" :icon="ppStar" :icon-selected="ppStarFill" size="sm" :max="5" readonly />
           </div>
-          <div class="row items-center q-gutter-md">
+          <div class="catalog-rating-row">
             <span class="qds-text-muted text-caption catalog-rating-label">Disabled:</span>
             <q-rating v-model="ratingDisabled" data-test="qds-rating-disabled" aria-label="Unavailable product rating" icon-aria-label="Unavailable product rating" :icon="ppStar" :icon-selected="ppStarFill" size="sm" :max="5" disable />
           </div>
-          <div class="row items-center q-gutter-md">
+          <div class="catalog-rating-row">
             <span class="qds-text-muted text-caption catalog-rating-label">No dimming:</span>
             <q-rating v-model="ratingNoDimming" data-test="qds-rating-no-dimming" aria-label="No dimming product rating" icon-aria-label="No dimming product rating" :icon="ppStar" :icon-selected="ppStarFill" no-dimming size="sm" :max="5" />
           </div>
@@ -90,7 +90,7 @@ const toggleOptions = [
 
       <div class="catalog-demo catalog-demo--wide">
         <div class="catalog-label">QRating sizes</div>
-        <div class="row items-center q-gutter-lg">
+        <div class="catalog-rating-row catalog-rating-row--sizes">
           <q-rating data-test="qds-rating-sm" :model-value="3" :icon="ppStar" :icon-selected="ppStarFill" size="sm" :max="5" />
           <q-rating data-test="qds-rating-md" :model-value="3" :icon="ppStar" :icon-selected="ppStarFill" size="md" :max="5" />
           <q-rating data-test="qds-rating-lg" :model-value="3" :icon="ppStar" :icon-selected="ppStarFill" size="lg" :max="5" />
@@ -99,16 +99,16 @@ const toggleOptions = [
 
       <div class="catalog-demo catalog-demo--wide">
         <div class="catalog-label">QRating semantic colors</div>
-        <div class="column q-gutter-sm">
-          <div class="row items-center q-gutter-md">
+        <div class="catalog-rating-stack">
+          <div class="catalog-rating-row">
             <span class="qds-text-muted text-caption catalog-rating-label">Positive:</span>
             <q-rating v-model="ratingPositive" data-test="qds-rating-positive" :icon="ppStar" :icon-selected="ppStarFill" size="sm" :max="5" color="positive" />
           </div>
-          <div class="row items-center q-gutter-md">
+          <div class="catalog-rating-row">
             <span class="qds-text-muted text-caption catalog-rating-label">Negative:</span>
             <q-rating v-model="ratingNegative" data-test="qds-rating-negative" :icon="ppStar" :icon-selected="ppStarFill" size="sm" :max="5" color="negative" />
           </div>
-          <div class="row items-center q-gutter-md">
+          <div class="catalog-rating-row">
             <span class="qds-text-muted text-caption catalog-rating-label">Primary:</span>
             <q-rating v-model="ratingPrimary" data-test="qds-rating-primary" :icon="ppStar" :icon-selected="ppStarFill" size="sm" :max="5" color="primary" />
           </div>
@@ -199,6 +199,22 @@ const toggleOptions = [
 </template>
 
 <style scoped>
+.catalog-rating-stack {
+  display: grid;
+  gap: var(--qds-space-sm);
+}
+
+.catalog-rating-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--qds-space-md);
+}
+
+.catalog-rating-row--sizes {
+  gap: var(--qds-space-lg);
+}
+
 .catalog-rating-label {
   min-width: 6.5rem;
 }

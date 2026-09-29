@@ -18,6 +18,8 @@ const $q = useQuasar()
 
 const colors = ['primary', 'secondary', 'accent', 'positive', 'negative', 'warning', 'info'] as const
 const text = ref('')
+const colorToggle = ref('week')
+const colorToggleOptions = [{ label: 'Day', value: 'day' }, { label: 'Week', value: 'week' }, { label: 'Month', value: 'month' }, { label: 'Year', value: 'year', disable: true }]
 const select = ref<string | null>(null)
 const selectMultiple = ref(['Fluent', 'Ink'])
 const selectOptions = ['Fluent', 'Ink', 'One']
@@ -164,10 +166,17 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
         <q-chip class="qds-solid" color="primary" label="Solid" />
       </div>
       <div class="text-subtitle2 qds-text-muted q-mt-md q-mb-xs">Floating, multiline, square &amp; avatar</div>
-      <div class="qds-button-row items-start">
+      <div class="qds-button-row items-start q-pt-sm">
         <q-btn outline no-caps label="Inbox" data-test="qds-badge-floating">
           <q-badge color="negative" floating>4</q-badge>
         </q-btn>
+        <q-btn-group outline data-test="qds-badge-floating-group">
+          <q-btn outline no-caps label="Queue">
+            <q-badge color="negative" floating>99+</q-badge>
+          </q-btn>
+          <q-btn outline no-caps label="Done" />
+        </q-btn-group>
+        <q-btn-toggle v-model="colorToggle" color="primary" no-caps :options="colorToggleOptions" data-test="qds-toggle-color" />
         <q-badge multi-line color="info" class="qds-demo-multiline-badge" data-test="qds-badge-multiline">
           Multiline badges wrap long status text onto a second line
         </q-badge>

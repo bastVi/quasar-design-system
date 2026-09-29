@@ -9,6 +9,8 @@ import {
   ppPlay,
   ppArrowLeft,
   ppArrowRight,
+  ppArrowUp,
+  ppArrowDown,
   ppPalette,
   ppSliders,
   ppWarning,
@@ -422,7 +424,7 @@ onBeforeUnmount(() => {
           <q-carousel-slide name="first" class="catalog-vertical-slide">Vertical first panel</q-carousel-slide>
           <q-carousel-slide name="second" class="catalog-vertical-slide">Vertical second panel</q-carousel-slide>
           <template #control>
-            <q-carousel-control position="left" :offset="[8, 8]"><div class="catalog-carousel-controls"><q-btn dense round outline aria-label="Show first vertical panel" :aria-current="verticalCarouselSlide === 'first' ? 'true' : undefined" @click="verticalCarouselSlide = 'first'"><q-icon :name="ppArrowLeft" /></q-btn><q-btn dense round outline aria-label="Show second vertical panel" :aria-current="verticalCarouselSlide === 'second' ? 'true' : undefined" @click="verticalCarouselSlide = 'second'"><q-icon :name="ppArrowRight" /></q-btn></div></q-carousel-control>
+            <q-carousel-control position="left" :offset="[8, 8]"><div class="catalog-carousel-controls"><q-btn dense round outline aria-label="Show first vertical panel" :aria-current="verticalCarouselSlide === 'first' ? 'true' : undefined" @click="verticalCarouselSlide = 'first'"><q-icon :name="ppArrowUp" /></q-btn><q-btn dense round outline aria-label="Show second vertical panel" :aria-current="verticalCarouselSlide === 'second' ? 'true' : undefined" @click="verticalCarouselSlide = 'second'"><q-icon :name="ppArrowDown" /></q-btn></div></q-carousel-control>
           </template>
         </q-carousel>
       </div>

@@ -8,6 +8,12 @@ type ComplexMediaTestHook = {
   setRtl: (rtl: boolean) => boolean
 }
 
+declare global {
+  interface Window {
+    __qdsComplexMedia?: ComplexMediaTestHook
+  }
+}
+
 const EXPECTED_MEDIA_RADIUS: Record<Extract<Variant, 'fluent' | 'mobile' | 'terminal'>, string> = {
   fluent: '12px',
   mobile: '20px',
@@ -89,12 +95,12 @@ function wcagContrast(foreground: string, background: string): number {
 }
 
 async function getComplexMediaRtl(page: Page): Promise<boolean> {
-  await page.waitForFunction(() => Boolean((window as Window & { __qdsComplexMedia?: unknown }).__qdsComplexMedia))
-  return page.evaluate(() => (window as Window & { __qdsComplexMedia: ComplexMediaTestHook }).__qdsComplexMedia.getRtl())
+  await page.waitForFunction(() => Boolean(window.__qdsComplexMedia))
+  return page.evaluate(() => window.__qdsComplexMedia!.getRtl())
 }
 
 async function setComplexMediaRtl(page: Page, rtl: boolean): Promise<boolean> {
-  return page.evaluate(rtl => (window as Window & { __qdsComplexMedia: ComplexMediaTestHook }).__qdsComplexMedia.setRtl(rtl), rtl)
+  return page.evaluate(rtl => window.__qdsComplexMedia!.setRtl(rtl), rtl)
 }
 
 async function expectStepperErrorHalo(page: Page, label: string) {

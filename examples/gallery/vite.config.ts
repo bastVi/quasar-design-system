@@ -25,4 +25,6 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['@bastvi/quasar-design-system'],
   },
+  // The Docker Desktop screens runner reaches the preview through this host name.
+  preview: { allowedHosts: ['host.docker.internal'] },
 })
