@@ -58,7 +58,8 @@
   .qds-ui .qds-field-group > .q-field { flex: 1 1 0; min-width: 0; }
   .qds-ui .qds-field-group > .q-btn { align-self: stretch; min-height: 0; }
   .qds-ui .qds-field-group > * + * { margin-inline-start: calc(-1 * var(--qds-border-width-control)); }
-  .qds-ui .qds-field-group > :is(:hover, .q-field--highlighted, :focus-visible) { z-index: 1; }
+  .qds-ui .qds-field-group > :hover { z-index: 1; }
+  .qds-ui .qds-field-group > :is(.q-field--highlighted, :focus-visible) { z-index: 2; }
 
   .qds-ui .qds-field-group > :not(:first-child) .q-field__control,
   .qds-ui .qds-field-group > .q-btn:not(:first-child) {

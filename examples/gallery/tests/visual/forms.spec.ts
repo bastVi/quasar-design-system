@@ -383,6 +383,7 @@ test.describe('forms', () => {
 
       await page.locator(`${byHook('qds-forms-field-group')} .q-input input`).focus()
       await page.keyboard.press('Tab')
+      if (!(await coarsePointer(page))) await page.locator(`${byHook('qds-forms-field-group')} .q-btn`).hover()
       await expect(page.locator(`${byHook('qds-forms-field-group')} .q-select`)).toHaveClass(/q-field--highlighted/)
       const focused = await measure()
       expect.soft(focused[1].z, 'focused child sits above its siblings').toBeGreaterThan(Math.max(focused[0].z, focused[2].z))
