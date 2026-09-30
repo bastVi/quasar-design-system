@@ -57,6 +57,8 @@ const readonlyValue = ref('ws_01HZX4Q8')
 
 const memberQuery = ref('')
 const memberRole = ref('Editor')
+const waitlistEmail = ref('')
+const memberFilter = ref('')
 const roleOptions = ['Viewer', 'Editor', 'Admin']
 const search = ref('')
 const seats = ref(12)
@@ -308,6 +310,14 @@ function onPinBackspace(index: number) {
         <q-select v-model="memberRole" name="forms-member-role" :options="roleOptions" outlined aria-label="Role" />
         <q-btn unelevated color="primary" no-caps label="Invite" />
       </div>
+      <div class="qds-field-group q-mb-sm" role="group" aria-label="Join waitlist" data-test="qds-forms-field-group-pair">
+        <q-input v-model="waitlistEmail" name="forms-waitlist" outlined placeholder="you@example.com" aria-label="Waitlist email" />
+        <q-btn unelevated color="primary" no-caps label="Join" />
+      </div>
+      <div class="qds-field-group q-mb-lg" role="group" aria-label="Filter members" data-test="qds-forms-field-group-button-first">
+        <q-btn outline no-caps label="Filter" />
+        <q-input v-model="memberFilter" name="forms-member-filter" outlined placeholder="Filter by name" aria-label="Member filter" />
+      </div>
 
       <div class="forms-grid">
         <div data-test="qds-forms-kbd">
@@ -456,7 +466,6 @@ function onPinBackspace(index: number) {
               v-for="entry in settingsNav"
               :key="entry.value"
               clickable
-              dense
               :active="settingsSection === entry.value"
               :aria-current="settingsSection === entry.value ? 'page' : undefined"
               @click="settingsSection = entry.value"

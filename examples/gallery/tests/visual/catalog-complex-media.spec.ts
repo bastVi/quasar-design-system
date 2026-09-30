@@ -15,7 +15,7 @@ declare global {
 }
 
 const EXPECTED_MEDIA_RADIUS: Record<Extract<Variant, 'fluent' | 'one' | 'term'>, string> = {
-  fluent: '12px',
+  fluent: '8px',
   one: '20px',
   term: '10px',
 }

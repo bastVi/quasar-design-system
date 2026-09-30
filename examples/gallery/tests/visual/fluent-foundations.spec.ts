@@ -36,11 +36,11 @@ test.describe('Fluent foundation contract', () => {
     const panel = '.q-tab-panel'
     const defaultField = '[data-test="qds-control-input"] .q-field'
     const floatField = '[data-test="qds-field-float"] .q-field--outlined.qds-field--float'
-    // Coarse pointers raise sm/md to the 32/40px touch steps; lg stays 40px.
+    // Coarse pointers step the scale up to 32/40/48px so dense, default and lg stay distinct.
     const coarse = await coarsePointer(page)
     expect(await customProperty(page, '--qds-control-size-sm')).toBe(coarse ? '2rem' : '1.5rem')
     expect(await customProperty(page, '--qds-control-size-md')).toBe(coarse ? '2.5rem' : '2rem')
-    expect(await customProperty(page, '--qds-control-size-lg')).toBe('2.5rem')
+    expect(await customProperty(page, '--qds-control-size-lg')).toBe(coarse ? '3rem' : '2.5rem')
     expect(await computed(page, `${panel} .q-btn.q-btn--unelevated:not(.q-btn--dense)`, 'min-height')).toBe(coarse ? '40px' : '32px')
     expect(await computed(page, `${defaultField} .q-field__control`, 'min-height'), 'default field control is 32px (40px touch)').toBe(coarse ? '40px' : '32px')
     expect(await computed(page, defaultField, 'padding-top'), 'default field reserves a 20px label line plus 4px gap above the control').toBe('24px')
@@ -62,6 +62,64 @@ test.describe('Fluent foundation contract', () => {
     expect(await computed(page, `${floatField} .q-field__control`, 'min-height')).toBe('48px')
     expect(await customProperty(page, '--qds-button-dense-min-height')).toBe('2.5rem')
     expect(await customProperty(page, '--qds-control-size-sm')).toBe('2.5rem')
+  })
+
+  test('solid role buttons lighten toward the layer on hover and press and keep their text contrast', async ({ page }) => {
+    await page.goto('/#components')
+    const parse = (value: string) => {
+      const channels = value.match(/[\d.]+/g)!.map(Number)
+      const scale = value.startsWith('color(srgb') ? 255 : 1
+      return { rgb: [channels[0] * scale, channels[1] * scale, channels[2] * scale] as Rgb, alpha: channels[3] ?? 1 }
+    }
+    const luminance = (rgb: Rgb) => contrast(rgb, [0, 0, 0]) - 1
+    const paint = async () => {
+      const [background, color] = await page.locator('#qds-role-probe').evaluate((element) => [getComputedStyle(element).backgroundColor, getComputedStyle(element).color])
+      const fill = parse(background)
+      const text = parse(color)
+      const shown = text.rgb.map((channel, index) => channel * text.alpha + fill.rgb[index] * (1 - text.alpha)) as unknown as Rgb
+      return { fill: fill.rgb, ratio: contrast(fill.rgb, shown) }
+    }
+
+    const roles = ['primary', 'secondary', 'accent', 'positive', 'negative', 'warning', 'info']
+    const states = async (role: string) => {
+      await page.evaluate((role) => {
+        document.getElementById('qds-role-probe')?.remove()
+        const button = document.createElement('button')
+        button.id = 'qds-role-probe'
+        button.className = `q-btn q-btn-item q-btn--unelevated bg-${role} text-white`
+        button.textContent = role
+        button.style.cssText = 'position: fixed; inset-block-start: 8px; inset-inline-start: 8px; z-index: 9999; transition: none'
+        document.body.append(button)
+      }, role)
+      await page.mouse.move(0, 0)
+      const rest = await paint()
+      await page.locator('#qds-role-probe').hover()
+      const hover = await paint()
+      await page.mouse.down()
+      const pressed = await paint()
+      await page.mouse.up()
+      return { rest, hover, pressed }
+    }
+
+    for (const mode of ['light', 'dark'] as const) {
+      await applyTheme(page, mode, 'fluent')
+      for (const role of roles) {
+        const { rest, hover, pressed } = await states(role)
+        const lighter = mode === 'light' ? 1 : -1
+        expect.soft(lighter * (luminance(hover.fill) - luminance(rest.fill)), `${mode} ${role} hover moves toward the layer`).toBeGreaterThan(0)
+        expect.soft(lighter * (luminance(pressed.fill) - luminance(hover.fill)), `${mode} ${role} press moves further toward the layer`).toBeGreaterThan(0)
+        expect.soft(rest.ratio, `${mode} ${role} rest text contrast`).toBeGreaterThanOrEqual(4.5)
+        expect.soft(hover.ratio, `${mode} ${role} hover text contrast`).toBeGreaterThanOrEqual(4.5)
+        expect.soft(pressed.ratio, `${mode} ${role} pressed secondary text contrast`).toBeGreaterThanOrEqual(3)
+      }
+    }
+
+    await applyTheme(page, 'light', 'term')
+    for (const role of roles) {
+      const { rest, hover, pressed } = await states(role)
+      expect.soft(luminance(hover.fill), `term ${role} hover keeps darkening`).toBeLessThan(luminance(rest.fill))
+      expect.soft(luminance(pressed.fill), `term ${role} press stays at or below hover`).toBeLessThanOrEqual(luminance(hover.fill))
+    }
   })
 
   test('uses independently tuned Fluent dark semantic fills, soft surfaces, and focus boundaries', async ({ page }) => {

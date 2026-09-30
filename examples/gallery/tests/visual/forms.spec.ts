@@ -331,6 +331,36 @@ test.describe('forms', () => {
     await expect.poll(async () => isTransparent((await paint(page, target)).background), 'ghost fills on focus').toBe(false)
   })
 
+  for (const hook of ['qds-forms-field-group-pair', 'qds-forms-field-group-button-first']) {
+    test(`two-child field group stays on one row (${hook})`, async ({ page }) => {
+      await openForms(page, 'light')
+      const group = page.locator(byHook(hook))
+      for (const width of [page.viewportSize()!.width, 393]) {
+        await page.setViewportSize({ width, height: page.viewportSize()!.height })
+        const [first, last] = await group.evaluate((element) =>
+          [...element.children].map((child) => {
+            const box = (child.classList.contains('q-btn') ? child : child.querySelector('.q-field__control')) as HTMLElement
+            const style = getComputedStyle(box)
+            const r = box.getBoundingClientRect()
+            const radius = (value: string) => Number.parseFloat(value) || 0
+            return {
+              left: r.left, right: r.right, top: r.top, height: r.height,
+              startStart: radius(style.borderStartStartRadius), startEnd: radius(style.borderStartEndRadius),
+              endStart: radius(style.borderEndStartRadius), endEnd: radius(style.borderEndEndRadius),
+            }
+          }),
+        )
+        expect.soft(Math.abs(last.top - first.top), `${width}px children share a row`).toBeLessThanOrEqual(1)
+        expect.soft(Math.abs(last.height - first.height), `${width}px children share a height`).toBeLessThanOrEqual(1)
+        expect.soft(Math.min(first.height, last.height), `${width}px button keeps a usable target`).toBeGreaterThanOrEqual(24)
+        expect.soft(last.left - first.right, `${width}px seam leaves no gap`).toBeLessThanOrEqual(0.5)
+        expect.soft(last.left - first.right, `${width}px seam overlaps at most a hairline`).toBeGreaterThanOrEqual(-2)
+        expect.soft(first.startStart > 0 && first.endStart > 0 && first.startEnd + first.endEnd === 0, `${width}px first child rounds only its outer corners`).toBe(true)
+        expect.soft(last.startEnd > 0 && last.endEnd > 0 && last.startStart + last.endStart === 0, `${width}px last child rounds only its outer corners`).toBe(true)
+      }
+    })
+  }
+
   for (const variant of CANONICAL_VARIANTS) {
     test(`field group joins its children (${variant})`, async ({ page }) => {
       await openForms(page, 'light', variant)
@@ -366,13 +396,25 @@ test.describe('forms', () => {
       expect.soft(isTransparent(fill), `group button keeps its colour fill (${fill})`).toBe(false)
       expect(parts.length, 'input, select and button').toBe(3)
       const [first, middle, last] = parts
-      expect.soft(first.startStart > 0 && first.endStart > 0, 'first child keeps its outer radii').toBe(true)
-      expect.soft(first.startEnd + first.endEnd, 'first child squares its inner corners').toBe(0)
-      expect.soft(middle.startStart + middle.startEnd + middle.endStart + middle.endEnd, 'middle child is square').toBe(0)
-      expect.soft(last.startEnd > 0 && last.endEnd > 0, 'last child keeps its outer radii').toBe(true)
-      expect.soft(last.startStart + last.endStart, 'last child squares its inner corners').toBe(0)
+      const wrapped = await page.evaluate(() => matchMedia('(max-width: 30rem)').matches)
+      if (wrapped) {
+        expect.soft(first.startStart > 0 && first.startEnd > 0, 'wrapped first row keeps its top radii').toBe(true)
+        expect.soft(first.endStart + first.endEnd, 'wrapped first row squares its bottom corners').toBe(0)
+        expect.soft(middle.endStart > 0 && middle.startStart + middle.startEnd + middle.endEnd === 0, 'second row starts with the bottom-start radius only').toBe(true)
+        expect.soft(last.endEnd > 0 && last.startStart + last.startEnd + last.endStart === 0, 'second row ends with the bottom-end radius only').toBe(true)
+        expect.soft(Math.abs(middle.left - first.left), 'second row aligns with the first').toBeLessThanOrEqual(1)
+        const seam = middle.top - (first.top + first.height)
+        expect.soft(seam, 'rows meet without a gap').toBeLessThanOrEqual(0.5)
+        expect.soft(seam, 'rows overlap at most a hairline').toBeGreaterThanOrEqual(-2)
+      } else {
+        expect.soft(first.startStart > 0 && first.endStart > 0, 'first child keeps its outer radii').toBe(true)
+        expect.soft(first.startEnd + first.endEnd, 'first child squares its inner corners').toBe(0)
+        expect.soft(middle.startStart + middle.startEnd + middle.endStart + middle.endEnd, 'middle child is square').toBe(0)
+        expect.soft(last.startEnd > 0 && last.endEnd > 0, 'last child keeps its outer radii').toBe(true)
+        expect.soft(last.startStart + last.endStart, 'last child squares its inner corners').toBe(0)
+      }
 
-      for (const [index, [prev, next]] of [[first, middle], [middle, last]].entries()) {
+      for (const [index, [prev, next]] of (wrapped ? [[middle, last]] : [[first, middle], [middle, last]]).entries()) {
         const gap = next.left - prev.right
         expect.soft(gap, `seam ${index} leaves no gap`).toBeLessThanOrEqual(0.5)
         expect.soft(gap, `seam ${index} overlaps at most a hairline`).toBeGreaterThanOrEqual(-2)

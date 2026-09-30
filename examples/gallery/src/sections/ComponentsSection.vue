@@ -81,7 +81,7 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
 </script>
 
 <template>
-  <div class="column" style="gap: 1.5rem">
+  <div class="column no-wrap" style="gap: 1.5rem">
     <!-- QBtn -->
     <q-card class="q-pa-lg">
       <div class="text-h6 qds-display q-mb-md">QBtn</div>
@@ -334,7 +334,7 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
           <q-card-section>
             <div class="text-h6 qds-display">Delete draft?</div>
             <div class="qds-text-muted q-mt-sm">
-              Dialogs use a plain scrim, a 12px card radius, and a neutral secondary action.
+              Dialogs use a plain scrim, an 8px overlay radius, and a neutral secondary action.
             </div>
           </q-card-section>
           <q-card-actions align="right">
