@@ -1,4 +1,4 @@
-export type Section = 'components' | 'catalog' | 'plugins'
+export type Section = 'components' | 'forms' | 'catalog' | 'plugins'
 
 export const FAMILIES: Record<Section, Record<string, readonly string[]>> = {
   components: {
@@ -15,6 +15,31 @@ export const FAMILIES: Record<Section, Record<string, readonly string[]>> = {
     ],
     data: ['qds-table-official-modes', 'qds-table-no-chrome', 'qds-pagination', 'qds-pagination-input', 'qds-flush-card-table'],
     tabs: ['qds-tabs-horizontal', 'qds-tabs-vertical', 'qds-tabs-scroll'],
+  },
+  forms: {
+    anatomy: ['qds-forms-anatomy-field', 'qds-forms-anatomy-error', 'qds-forms-label-hint', 'qds-forms-required', 'qds-forms-horizontal'],
+    variants: ['qds-forms-variants'],
+    states: [
+      'qds-forms-state-positive',
+      'qds-forms-state-warning',
+      'qds-forms-state-error',
+      'qds-forms-state-disabled',
+      'qds-forms-state-readonly',
+    ],
+    compositions: [
+      'qds-forms-field-group',
+      'qds-forms-kbd',
+      'qds-forms-stepper',
+      'qds-forms-tags',
+      'qds-forms-password',
+      'qds-forms-copy',
+      'qds-forms-avatar',
+      'qds-forms-dropzone',
+      'qds-forms-pin',
+      'qds-forms-option-cards-radio',
+      'qds-forms-option-cards-checkbox',
+    ],
+    settings: ['qds-forms-pills', 'qds-forms-settings'],
   },
   catalog: {
     actions: [

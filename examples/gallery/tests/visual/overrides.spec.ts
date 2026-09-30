@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { QDS_TOKENS } from '../../../../src/tokens'
-import { applyTheme, computed, customProperty, MATRIX_VARIANTS, resolvedColor, resolvedShadow, type Mode, type Variant } from './helpers'
+import { applyTheme, computed, customProperty, MATRIX_VARIANTS, resolvedColor, type Mode, type Variant } from './helpers'
 
 type Rgba = readonly [number, number, number, number]
 
@@ -82,7 +82,7 @@ test.describe('QDS override gate', () => {
         expect.soft(await computed(page, `${panel} .q-field--outlined .q-field__control`, 'border-radius'), 'QField consumes the resolved control geometry').toBe(variant === 'mobile' ? '18px' : expected.controlRadius)
         expect.soft(await computed(page, `${panel} .q-card`, 'background-color'), 'QCard has a rendered surface').not.toBe('rgba(0, 0, 0, 0)')
         const cardBorderStyle = await computed(page, `${panel} .q-card`, 'border-top-style')
-        if (variant === 'fluent' || variant === 'ink') {
+        if (variant === 'ink') {
           expect.soft(cardBorderStyle, `${variant} default card has no stroke`).toBe('none')
           expect.soft(await computed(page, `${panel} .q-card`, 'border-top-width'), `${variant} default card stroke width is 0`).toBe('0px')
         } else {
@@ -93,7 +93,8 @@ test.describe('QDS override gate', () => {
 
         if (variant === 'fluent') {
           expect.soft(await computed(page, `${panel} .q-card`, 'backdrop-filter'), 'Fluent content has no blur').toBe('none')
-          expect.soft(await computed(page, `${panel} .q-card`, 'box-shadow'), 'Fluent resting card is lifted by shadow-4').toBe(await resolvedShadow(page, '--qds-shadow-4'))
+          expect.soft(await computed(page, `${panel} .q-card`, 'box-shadow'), 'Fluent card is a flat Win11 layer').toBe('none')
+          expect.soft(await computed(page, `${panel} .q-card`, 'border-top-color'), 'Fluent card stroke is the card stroke token').toBe(await resolvedColor(page, '--qds-card-stroke'))
         }
         if (variant === 'ink') {
           expect.soft(await customProperty(page, '--qds-surface-negative-soft'), 'Ink negative pastel wash token').toBe(mode === 'light' ? '#f8dce3' : '#563842')

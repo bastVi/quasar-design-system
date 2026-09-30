@@ -1,11 +1,12 @@
 import { expect, test, type Page } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 
-type GalleryTab = 'components' | 'catalog' | 'plugins'
+type GalleryTab = 'components' | 'forms' | 'catalog' | 'plugins'
 
-const KEY_TABS: GalleryTab[] = ['components', 'catalog', 'plugins']
+const KEY_TABS: GalleryTab[] = ['components', 'forms', 'catalog', 'plugins']
 const TAB_LABEL: Record<GalleryTab, string> = {
   components: 'Components',
+  forms: 'Forms',
   catalog: 'Catalog',
   plugins: 'Plugins',
 }
@@ -19,6 +20,7 @@ const ACTIVE_PANEL = '.q-tab-panel'
 // The gate still scans the active tab body and fails serious/critical findings elsewhere.
 const AXE_EXCLUSIONS: Record<GalleryTab, string[]> = {
   components: ['.q-slider', '.q-range'],
+  forms: [],
   catalog: [
     '.q-color-picker',
     '.q-color-picker input',

@@ -251,7 +251,7 @@ test.describe('Fluent control geometry and Phosphor icon contract', () => {
     const denseChipMinimum = Number.parseFloat(await customProperty(page, '--qds-chip-dense-min-height'))
     expect.soft(denseChipMinimum * 16, 'dense chip token sits between normal chip and badge').toBeGreaterThan(badgeMinimum)
     expect.soft(denseChipMinimum * 16, 'dense chip token is smaller than normal chip').toBeLessThan(chipMinimum)
-    expect.soft(await computed(page, '[data-test="qds-control-standard-button"]', 'border-top-color'), 'filled standard button keeps its 1px geometry border transparent').toBe('rgba(0, 0, 0, 0)')
+    expect.soft(await computed(page, '[data-test="qds-control-standard-button"]', 'border-top-color'), 'filled accent button carries the WinUI elevation top edge').toBe(await resolvedColor(page, '--qds-control-stroke-on-accent-top'))
     expect.soft(await computed(page, '[data-test="qds-control-standard-button"]', 'background-color'), 'standard color button is a solid primary fill').toBe(await resolvedColor(page, '--qds-color-primary'))
     expect.soft(await computed(page, '[data-test="qds-control-outline-button"]', 'border-top-width'), 'outline button keeps its explicit border').toBe('1px')
   })

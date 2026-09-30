@@ -77,6 +77,7 @@ const clickItem = (target: string, text: string) => async (page: Page) => {
 
 const MOBILE_HOOKS: Record<Section, readonly string[]> = {
   components: ['qds-control-standard-button', 'qds-chip-avatar', 'qds-control-input', 'qds-pagination', 'qds-tabs-horizontal', 'qds-tabs-scroll'],
+  forms: ['qds-forms-anatomy-field', 'qds-forms-horizontal', 'qds-forms-field-group', 'qds-forms-pin', 'qds-forms-option-cards-radio', 'qds-forms-pills', 'qds-forms-settings-group'],
   catalog: [
     'qds-btn-toggle',
     'qds-banner-actions',
@@ -126,6 +127,7 @@ const OVERLAYS: Record<Section, readonly Overlay[]> = {
     { name: 'qds-dialog-bottom', open: clickHook('qds-dialog-bottom-trigger'), target: byHook('qds-dialog-bottom'), close: escape },
     { name: 'qds-dialog-prompt', open: clickHook('qds-dialog-prompt-trigger'), target: byHook('qds-dialog-prompt'), close: clickButton(byHook('qds-dialog-prompt'), 'Cancel'), mobile: true },
   ],
+  forms: [],
   catalog: [],
   plugins: [
     {
