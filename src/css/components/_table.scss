@@ -18,6 +18,7 @@ $term: ':is(.qds-ui.qds-variant-term, .qds-ui .qds-variant-term)';
   }
 
   .qds-ui .q-table__card { box-shadow: var(--qds-card-shadow); }
+  .qds-ui :is(.q-table__card, .q-table--grid) { border-radius: var(--qds-card-radius); }
   .qds-ui :is(.q-table--flat, .q-table--grid) { box-shadow: none; }
   .qds-ui :is(.q-table--bordered, .qds-table--bordered) { border: var(--qds-border-width-control) solid var(--qds-stroke-default); }
 

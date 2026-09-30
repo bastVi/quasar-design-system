@@ -7,7 +7,7 @@ $term: ':is(.qds-ui.qds-variant-term, .qds-ui .qds-variant-term)';
   .qds-ui :is(.q-header, .q-footer) .q-layout__shadow::after { box-shadow: none; }
   .qds-ui :is(.q-header, .q-footer) .q-toolbar { background: transparent; }
   .qds-ui .q-toolbar { min-height: 3rem; padding-inline: var(--qds-space-sm); }
-  .qds-ui .q-toolbar.q-toolbar--dense { min-height: var(--qds-control-size-lg); }
+  .qds-ui .q-toolbar.q-toolbar--dense { min-height: var(--qds-toolbar-dense-min-height); }
 
   .qds-ui .q-toolbar__title {
     padding-inline: var(--qds-space-sm);

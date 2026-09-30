@@ -29,7 +29,6 @@
   }
 
   @include qds-variant-palette($variant, $palette-prefix);
-  --qds-color-primary-pressed: var(--qds-color-primary-dark);
   --qds-surface-0: #{qds-variant-token($variant, '#{$surface-prefix}surface-0')};
   --qds-surface-1: #{qds-variant-token($variant, '#{$surface-prefix}surface-1')};
   --qds-surface-2: #{qds-variant-token($variant, '#{$surface-prefix}surface-2')};
@@ -71,6 +70,13 @@
   // Palette, geometry, and chrome overrides must settle before aliases are
   // re-emitted; this keeps a nested variant from retaining a prior scheme.
   @include qds-derived-tokens;
+  --qds-row-radius: var(--qds-radius-md);
+  --qds-fill-hover-mix: #{map.get(tokens.$fill-state, variant-hover-mix)};
+  --qds-fill-pressed-mix: #{map.get(tokens.$fill-state, variant-pressed-mix)};
+  --qds-fill-state-base: var(--qds-fg-strong);
+  --qds-text-on-fill-pressed-mix: 100%;
+  --qds-color-primary-hover: var(--qds-color-primary-dark);
+  --qds-color-primary-pressed: var(--qds-color-primary-dark);
   @include fallbacks.qds-semantic-tokens(if($dark, tokens.$dark-semantic, tokens.$light-semantic));
   @include fallbacks.qds-material-tokens(if($dark, dark, light));
 
@@ -102,6 +108,7 @@
   --qds-list-item-min-height-value: #{qds-variant-token(one, list-item-min-height)};
   --qds-menu-item-min-height-value: #{qds-variant-token(one, menu-item-min-height)};
   --qds-expansion-item-min-height-value: #{qds-variant-token(one, expansion-item-min-height)};
+  --qds-toolbar-dense-min-height: #{qds-variant-token(one, toolbar-dense-min-height)};
 }
 
 @mixin qds-term-sizing {
@@ -136,6 +143,7 @@ $qds-material-scopes: '.qds-theme-dark, body.qds-ui.body--dark, .qds-variant-one
     :root {
       --qds-control-size-sm: #{map.get(tokens.$touch, control-size-sm)};
       --qds-control-size-md: #{map.get(tokens.$touch, control-size-md)};
+      --qds-control-size-lg: #{map.get(tokens.$touch, control-size-lg)};
       --qds-list-item-min-height-value: #{map.get(tokens.$touch, row-min-height)};
       --qds-menu-item-min-height-value: #{map.get(tokens.$touch, row-min-height)};
       --qds-tab-min-height: #{map.get(tokens.$touch, tab-min-height)};
@@ -148,7 +156,6 @@ $qds-material-scopes: '.qds-theme-dark, body.qds-ui.body--dark, .qds-variant-one
     --qds-color-primary: #{map.get(tokens.$dark-palette, primary)};
     --qds-color-primary-light: #{map.get(tokens.$dark-palette, primary-light)};
     --qds-color-primary-dark: #{map.get(tokens.$dark-palette, primary-dark)};
-    --qds-color-primary-pressed: #{map.get(tokens.$dark-palette, primary-pressed)};
     --qds-color-secondary: #{map.get(tokens.$dark-palette, secondary)};
     --qds-color-accent: #{map.get(tokens.$dark-palette, accent)};
     --qds-color-positive: #{map.get(tokens.$dark-palette, positive)};

@@ -108,6 +108,12 @@
   --qds-surface-info-soft: rgba(var(--qds-color-info-rgb), 0.14);
   --qds-surface-focus-block: rgba(var(--qds-color-primary-rgb), 0.18);
   --qds-surface-transient: color-mix(in srgb, var(--qds-surface-0) 92%, var(--qds-color-primary));
+  --qds-fill-hover-mix: #{map.get(tokens.$fill-state, hover-mix)};
+  --qds-fill-pressed-mix: #{map.get(tokens.$fill-state, pressed-mix)};
+  --qds-fill-state-base: var(--qds-surface-0);
+  --qds-text-on-fill-pressed-mix: #{map.get(tokens.$fill-state, on-pressed-mix)};
+  --qds-color-primary-hover: color-mix(in srgb, var(--qds-color-primary) var(--qds-fill-hover-mix), var(--qds-fill-state-base));
+  --qds-color-primary-pressed: color-mix(in srgb, var(--qds-color-primary) var(--qds-fill-pressed-mix), var(--qds-fill-state-base));
   --qds-fg-primary: var(--qds-fg-brand);
   @each $role in secondary, accent, positive, negative, warning, info {
     --qds-fg-#{$role}: color-mix(in srgb, var(--qds-color-#{$role}) 50%, var(--qds-text-strong));
@@ -135,7 +141,7 @@
   --qds-field-description-color: color-mix(in srgb, var(--qds-text-muted) 75%, var(--qds-text));
   --qds-field-help-gap: var(--qds-space-xs);
   --qds-row-gap: 0.125rem;
-  --qds-row-radius: var(--qds-radius-md);
+  --qds-row-radius: var(--qds-radius-control);
   --qds-row-inset: var(--qds-space-sm);
   --qds-progress-stripe: rgba(255, 255, 255, 0.24);
   --qds-button-min-height: var(--qds-control-size-md);
@@ -251,7 +257,6 @@
     --qds-color-primary: #{map.get(tokens.$palette, primary)};
     --qds-color-primary-light: #{map.get(tokens.$palette, primary-light)};
     --qds-color-primary-dark: #{map.get(tokens.$palette, primary-dark)};
-    --qds-color-primary-pressed: #{map.get(tokens.$palette, primary-pressed)};
     --qds-color-secondary: #{map.get(tokens.$palette, secondary)};
     --qds-color-accent: #{map.get(tokens.$palette, accent)};
     --qds-color-positive: #{map.get(tokens.$palette, positive)};
@@ -404,6 +409,7 @@
     --qds-field-min-height: #{map.get(map.get(tokens.$components, field), min-height)};
     --qds-field-dense-min-height: #{map.get(map.get(tokens.$components, field), dense-min-height)};
     --qds-tab-min-height: #{map.get(map.get(tokens.$components, tab), min-height)};
+    --qds-toolbar-dense-min-height: #{map.get(map.get(tokens.$components, toolbar), dense-min-height)};
 
     --qds-glass-blur: #{map.get(map.get(tokens.$effects, glass), blur)};
     --qds-glass-saturate: #{map.get(map.get(tokens.$effects, glass), saturate)};

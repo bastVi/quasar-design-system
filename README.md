@@ -18,7 +18,7 @@ The default language is Microsoft Fluent 2-inspired and neutral-first: colour ma
 - neutral grey surfaces and text, a Fluent blue brand for the primary CTA, charcoal secondary, marigold accent
 - compact 24/32/40px controls with quiet 1px strokes and subtle state layers
 - label-above fields
-- 6px control and 12px card/dialog radii; cards lift with a layered shadow instead of a stroke
+- Windows 11 geometry: 4px control and 8px card/dialog radii (variants keep their own); cards are flat layers with a hairline stroke
 - a clear 2px brand focus stroke
 - adaptive light/dark/system mode
 - deliberate variant overlays (see Variants), not separate brands

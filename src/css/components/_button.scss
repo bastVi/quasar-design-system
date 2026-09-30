@@ -3,7 +3,7 @@
 @use '../materials';
 
 $roles: (
-  primary: (hover: var(--qds-color-primary-dark), pressed: var(--qds-color-primary-pressed)),
+  primary: (hover: var(--qds-color-primary-hover), pressed: var(--qds-color-primary-pressed)),
   secondary: (),
   accent: (),
   positive: (),
@@ -14,8 +14,8 @@ $roles: (
 
 @function role-value($role, $key) {
   $defaults: (
-    hover: color-mix(in srgb, var(--qds-color-#{$role}) 88%, var(--qds-fg-strong)),
-    pressed: color-mix(in srgb, var(--qds-color-#{$role}) 76%, var(--qds-fg-strong)),
+    hover: color-mix(in srgb, var(--qds-color-#{$role}) var(--qds-fill-hover-mix), var(--qds-fill-state-base)),
+    pressed: color-mix(in srgb, var(--qds-color-#{$role}) var(--qds-fill-pressed-mix), var(--qds-fill-state-base)),
     fg: var(--qds-fg-#{$role}),
   );
   @return map.get(map.merge($defaults, map.get($roles, $role)), $key);
@@ -204,10 +204,11 @@ $accent-fills: ();
       border-color: color-mix(in srgb, currentColor 60%, transparent);
     }
 
-    // States swap --qds-button-fill so only the base rule needs !important against Quasar's bg-*.
+    // States swap --qds-button-fill/-on-fill so only the base rule needs !important against Quasar's bg-*/text-*.
     .qds-ui .q-btn.bg-#{$role}:not(.qds-tonal) {
       --qds-button-fill: var(--qds-color-#{$role});
-      color: var(--qds-text-on-#{$role}) !important;
+      --qds-button-on-fill: var(--qds-text-on-#{$role});
+      color: var(--qds-button-on-fill) !important;
       background-color: var(--qds-button-fill) !important;
       border-color: transparent;
     }
@@ -218,6 +219,7 @@ $accent-fills: ();
 
     .qds-ui .q-btn.bg-#{$role}:not(.qds-tonal, .disabled):active {
       --qds-button-fill: #{role-value($role, pressed)};
+      --qds-button-on-fill: color-mix(in srgb, var(--qds-text-on-#{$role}) var(--qds-text-on-fill-pressed-mix), transparent);
     }
 
     .qds-ui .q-btn.bg-#{$role}.qds-tonal {

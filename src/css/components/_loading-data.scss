@@ -27,6 +27,7 @@ $term: ':is(.qds-ui.qds-variant-term, .qds-ui .qds-variant-term)';
   }
 
   .qds-ui .q-skeleton { background: var(--qds-bg-layer); }
+  .qds-ui .q-skeleton:not(.q-skeleton--square, .q-skeleton--type-circle, .q-skeleton--type-QAvatar, .q-skeleton--type-QChip, .q-skeleton--type-QCheckbox, .q-skeleton--type-QRadio, .q-skeleton--type-QToggle) { border-radius: var(--qds-radius-control); }
   .qds-ui .q-skeleton--bordered { border: var(--qds-border-width-control) solid var(--qds-stroke-subtle); }
 
   .qds-ui .q-tree {

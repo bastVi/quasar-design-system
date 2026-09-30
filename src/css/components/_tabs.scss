@@ -34,6 +34,7 @@ $one: ':is(.qds-ui.qds-variant-one, .qds-ui .qds-variant-one)';
   .qds-ui .q-tabs--vertical .q-tab__indicator.absolute-right { right: auto; inset-inline-start: 0; }
   .qds-ui .q-tabs--vertical .q-tab__indicator.absolute-left { left: auto; inset-inline-end: 0; }
 
+  .qds-ui .q-tab__content > .q-badge--floating { translate: none; }
   .qds-ui .q-tabs .q-tabs__arrow { color: var(--qds-fg-muted); text-shadow: none; }
   .qds-ui .q-tabs .q-tabs__arrow:hover { color: var(--qds-fg-strong); }
   .qds-ui .q-tab-panels { color: var(--qds-fg-default); background: transparent; }

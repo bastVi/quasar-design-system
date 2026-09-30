@@ -1,5 +1,8 @@
 @use '../materials';
 
+// Groups of three or more unlabelled children wrap on narrow screens; pairs and labelled groups stay on one row.
+$wrap: '.qds-ui .qds-field-group:where(:has(> :nth-child(3)):not(:has(> .q-field--labeled)))';
+
 @mixin styles {
   .qds-ui .qds-form-field {
     display: flex;
@@ -71,6 +74,21 @@
   .qds-ui .qds-field-group > .q-btn:not(:last-child) {
     border-start-end-radius: 0;
     border-end-end-radius: 0;
+  }
+
+  @media (max-width: 30rem) {
+    #{$wrap} { flex-wrap: wrap; }
+    #{$wrap} > :first-child { flex-basis: 100%; }
+    #{$wrap} > :not(:first-child) { margin-block-start: calc(-1 * var(--qds-border-width-control)); }
+    #{$wrap} > :nth-child(2) { margin-inline-start: 0; }
+    #{$wrap} > .q-field:not(:first-child) { min-width: 6rem; }
+    #{$wrap} > .q-btn { min-height: var(--qds-button-min-height); }
+    #{$wrap} > :first-child .q-field__control { border-start-end-radius: var(--qds-field-radius); border-end-start-radius: 0; }
+    #{$wrap} > .q-btn:first-child { border-start-end-radius: var(--qds-button-radius); border-end-start-radius: 0; }
+    #{$wrap} > :nth-child(2) .q-field__control { border-end-start-radius: var(--qds-field-radius); }
+    #{$wrap} > .q-btn:nth-child(2) { border-end-start-radius: var(--qds-button-radius); }
+    #{$wrap} > :last-child:not(:first-child) .q-field__control,
+    #{$wrap} > .q-btn:last-child:not(:first-child) { border-start-end-radius: 0; }
   }
 
   .qds-ui :is(kbd:not(:has(kbd)), .qds-kbd) {

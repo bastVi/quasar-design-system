@@ -6,7 +6,6 @@ $palette: (
   primary: #0f6cbd,
   primary-light: #479ef5,
   primary-dark: #115ea3,
-  primary-pressed: #0c3b5e,
   secondary: #424242,
   accent: #c08400,
   positive: #107c10,
@@ -26,7 +25,6 @@ $dark-palette: (
   primary: #1976ca,
   primary-light: #479ef5,
   primary-dark: #0f6cbd,
-  primary-pressed: #0c3b5e,
   secondary: #525252,
   accent: #eaa300,
   positive: #108510,
@@ -41,7 +39,7 @@ $dark-palette-rgb: (
   negative: '214, 57, 61', warning: '232, 89, 12', info: '117, 117, 117',
 ) !default;
 
-$light-surfaces: (0: #ffffff, 1: #fafafa, 2: #f5f5f5, 3: #f0f0f0, glass: #ffffff) !default;
+$light-surfaces: (0: #ffffff, 1: #f3f3f3, 2: #eeeeee, 3: #e8e8e8, glass: #ffffff) !default;
 $dark-surfaces: (0: #292929, 1: #1f1f1f, 2: #2e2e2e, 3: #3d3d3d, glass: #292929) !default;
 $light-text: (default: #242424, strong: #1a1a1a, muted: #616161) !default;
 $dark-text: (default: #f5f5f5, strong: #ffffff, muted: #adadad) !default;
@@ -62,9 +60,9 @@ $borders: (light: #d1d1d1, subtle: #e0e0e0, dark: #666666, dark-subtle: #525252)
 $light-semantic: (
   fg-default: #242424, fg-strong: #1a1a1a, fg-muted: #616161, fg-disabled: #bdbdbd,
   fg-on-brand: #ffffff, fg-brand: var(--qds-color-primary),
-  bg-canvas: #ffffff, bg-surface-1: #fafafa, bg-surface-2: #f5f5f5, bg-layer: #f0f0f0,
+  bg-canvas: #ffffff, bg-surface-1: #f3f3f3, bg-surface-2: #eeeeee, bg-layer: #e8e8e8,
   bg-flyout: #ffffff, bg-overlay: rgba(0, 0, 0, 0.4),
-  bg-card: #ffffff, bg-card-hover: #fafafa,
+  bg-card: #ffffff, bg-card-hover: #f3f3f3,
   stroke-default: #d1d1d1, stroke-subtle: #e0e0e0, stroke-strong: #616161,
   stroke-focus: var(--qds-color-primary), stroke-error: #d13438, stroke-divider: #e0e0e0,
   state-hover: rgba(0, 0, 0, 0.04), state-pressed: rgba(0, 0, 0, 0.08),
@@ -102,7 +100,7 @@ $dark-semantic: (
 ) !default;
 
 $space: (xs: 0.25rem, sm: 0.5rem, md: 1rem, lg: 1.5rem, xl: 2rem) !default;
-$radius: (xs: 2px, sm: 4px, md: 8px, lg: 12px, xl: 16px, full: 9999px, control: 6px) !default;
+$radius: (xs: 2px, sm: 4px, md: 8px, lg: 8px, xl: 16px, full: 9999px, control: 4px) !default;
 
 // Fluent two-part shadows: (ambient blur, key offset-y, key blur) per step; alpha pairs per scheme.
 $shadow-steps: (2: (2px, 1px, 2px), 4: (2px, 2px, 4px), 8: (2px, 4px, 8px), 16: (2px, 8px, 16px), 28: (8px, 14px, 28px), 64: (8px, 32px, 64px)) !default;
@@ -159,9 +157,11 @@ $typography: map.merge((
 
 $motion: (duration-fast: 100ms, duration-medium: 150ms, duration-base: 200ms, duration-slow: 250ms, ease-out: cubic-bezier(0, 0, 0, 1), ease-in-out: cubic-bezier(0.33, 0, 0.67, 1), fast: 100ms cubic-bezier(0, 0, 0, 1), base: 200ms cubic-bezier(0.33, 0, 0.67, 1)) !default;
 $state-opacity: (hover: 0.08, focus: 0.12, press: 0.16, disabled: 0.5, tonal-bg: 0.12, tonal-hover: 0.18, tonal-border: 0.2, tonal-text-mix: 72%) !default;
+// Solid role fills: WinUI lightens toward the layer, capped by WCAG; variants darken toward strong text.
+$fill-state: (hover-mix: 95%, pressed-mix: 90%, on-pressed-mix: 90%, variant-hover-mix: 88%, variant-pressed-mix: 76%) !default;
 $border-width: (control: 1px) !default;
-// Coarse pointers: 40px controls, 44px rows and tabs.
-$touch: (control-size-sm: 2rem, control-size-md: 2.5rem, row-min-height: 2.75rem, tab-min-height: 2.75rem) !default;
+// Coarse pointers: 32/40/48px controls, 44px rows and tabs.
+$touch: (control-size-sm: 2rem, control-size-md: 2.5rem, control-size-lg: 3rem, row-min-height: 2.75rem, tab-min-height: 2.75rem) !default;
 $icon-size: (xs: 0.75rem, sm: 0.875rem, md: 1rem, lg: 1.25rem) !default;
 $control: (size-sm: 1.5rem, size-md: 2rem, size-lg: 2.5rem, font-size-sm: 0.875rem, icon-opacity: 0.72, icon-opacity-active: 0.88, letter-spacing: 0, text-transform: none, content-line-height: 1) !default;
 $inline: (icon-gap: 0.375rem, dense-icon-gap: 0.25rem) !default;
@@ -174,6 +174,7 @@ $components: (
   chip: (min-height: 1.75rem, padding: 0 0.75rem, dense-min-height: 1.5rem, dense-padding: 0 0.5rem),
   field: (padding-inline: 0.75rem, label-size: 0.8125rem, focus-border-width: 2px, min-height: 3rem, dense-min-height: 2.5rem, focus-stroke-mix: 20%, halo-mix: 24%),
   tab: (min-height: 2.25rem),
+  toolbar: (dense-min-height: 2.5rem),
 ) !default;
 $chrome: (border-mix: 18%, border-soft-mix: 8%, surface-mix: 100%, surface-strong-mix: 100%, separator-mix: 14%, handle-border-mix: 42%, handle-primary-mix: 12%) !default;
 $effects: (glass: (blur: 0, saturate: 1, border-mix: 24%)) !default;
@@ -202,7 +203,7 @@ $variants: (
     primary: #2e5fb8, primary-light: #6f9cf2, primary-dark: #183b7c, secondary: #65558f, accent: #a65e2e, positive: #24765a, negative: #ba384e, warning: #9a6400, info: #246c9c,
     primary-rgb: '46, 95, 184', primary-light-rgb: '111, 156, 242', primary-dark-rgb: '24, 59, 124', secondary-rgb: '101, 85, 143', accent-rgb: '166, 94, 46', positive-rgb: '36, 118, 90', negative-rgb: '186, 56, 78', warning-rgb: '154, 100, 0', info-rgb: '36, 108, 156',
     light-surface-0: #f9f9ff, light-surface-1: #f1f3fb, light-surface-2: #e8ebf5, light-surface-3: #dce1ee, light-text: #1b1b21, light-text-strong: #111117, light-text-muted: #5e5e69, light-border: #c7c8d2, light-border-subtle: #e1e2eb, light-on-fill: (primary: #ffffff, secondary: #ffffff, accent: #ffffff, positive: #ffffff, negative: #ffffff, warning: #ffffff, info: #ffffff), shadow-sm: none, shadow-md: 0 7px 18px rgba(42, 50, 78, 0.09), shadow-lg: 0 14px 28px rgba(42, 50, 78, 0.13),
-    radius-control: 14px, radius-lg: 20px, space-md: 1.125rem, motion-fast: 0.18s cubic-bezier(0.2, 0, 0, 1), control-size-sm: 2.5rem, control-size-md: 2.75rem, control-size-lg: 3rem, tonal-bg-opacity: 0.14, card-acrylic-tint-rgb: '46, 95, 184', card-tonal-opacity: 0.045, card-fallback-tonal-opacity: 0.035, card-readable-tonal-opacity: 0.07, card-readable-surface-mix: 100%, card-header-tonal-opacity: 0.08, card-header-surface-mix: 100%, card-border-mix: 18%, card-backdrop-blur: 0, card-backdrop-saturate: 1, chrome-border-mix: 18%, chrome-border-soft-mix: 10%, chrome-surface-mix: 100%, chrome-surface-strong-mix: 100%, separator-mix: 18%, handle-border-mix: 42%, handle-primary-mix: 18%, soft-brand: #e1ebff, soft-accent: #f9e3d2, soft-positive: #d8f1e6, soft-warning: #fae9ba, soft-negative: #f9dce1, soft-info: #d9ecfb, soft-focus-block: #d7e4ff, soft-transient: #eff3ff, button-padding-inline: 1rem, button-dense-padding-inline: 0.875rem, field-label-size: 0.8125rem, list-item-min-height: 3.5rem, menu-item-min-height: 3rem, expansion-item-min-height: 3.25rem,
+    radius-control: 14px, radius-lg: 20px, space-md: 1.125rem, motion-fast: 0.18s cubic-bezier(0.2, 0, 0, 1), control-size-sm: 2.5rem, control-size-md: 2.75rem, control-size-lg: 3rem, tonal-bg-opacity: 0.14, card-acrylic-tint-rgb: '46, 95, 184', card-tonal-opacity: 0.045, card-fallback-tonal-opacity: 0.035, card-readable-tonal-opacity: 0.07, card-readable-surface-mix: 100%, card-header-tonal-opacity: 0.08, card-header-surface-mix: 100%, card-border-mix: 18%, card-backdrop-blur: 0, card-backdrop-saturate: 1, chrome-border-mix: 18%, chrome-border-soft-mix: 10%, chrome-surface-mix: 100%, chrome-surface-strong-mix: 100%, separator-mix: 18%, handle-border-mix: 42%, handle-primary-mix: 18%, soft-brand: #e1ebff, soft-accent: #f9e3d2, soft-positive: #d8f1e6, soft-warning: #fae9ba, soft-negative: #f9dce1, soft-info: #d9ecfb, soft-focus-block: #d7e4ff, soft-transient: #eff3ff, button-padding-inline: 1rem, button-dense-padding-inline: 0.875rem, field-label-size: 0.8125rem, list-item-min-height: 3.5rem, menu-item-min-height: 3rem, expansion-item-min-height: 3.25rem, toolbar-dense-min-height: 3rem,
     dark-primary: #adc6ff, dark-primary-light: #d7e2ff, dark-primary-dark: #7ba6ef, dark-secondary: #d0bcff, dark-accent: #ffb787, dark-positive: #82d7b4, dark-negative: #ffb1be, dark-warning: #f4c56b, dark-info: #9dcaff,
     dark-primary-rgb: '173, 198, 255', dark-primary-light-rgb: '215, 226, 255', dark-primary-dark-rgb: '123, 166, 239', dark-secondary-rgb: '208, 188, 255', dark-accent-rgb: '255, 183, 135', dark-positive-rgb: '130, 215, 180', dark-negative-rgb: '255, 177, 190', dark-warning-rgb: '244, 197, 107', dark-info-rgb: '157, 202, 255',
     dark-surface-0: #20212a, dark-surface-1: #191a22, dark-surface-2: #2a2c37, dark-surface-3: #363945, dark-text: #e4e2eb, dark-text-strong: #fdfbff, dark-text-muted: #c5c3ce, dark-border: #555966, dark-border-subtle: #363943, dark-on-fill: (primary: #20212a, secondary: #20212a, accent: #20212a, positive: #20212a, negative: #20212a, warning: #20212a, info: #20212a), dark-shadow-sm: none, dark-shadow-md: 0 10px 24px rgba(0, 0, 0, 0.24), dark-shadow-lg: 0 18px 36px rgba(0, 0, 0, 0.32), dark-card-acrylic-tint-rgb: '173, 198, 255', dark-card-tonal-opacity: 0.06, dark-card-fallback-tonal-opacity: 0.045, dark-card-readable-tonal-opacity: 0.08, dark-card-readable-surface-mix: 100%, dark-card-header-tonal-opacity: 0.08, dark-card-header-surface-mix: 100%, dark-soft-brand: #303b58, dark-soft-accent: #4f3b32, dark-soft-positive: #2e4b40, dark-soft-warning: #504329, dark-soft-negative: #513640, dark-soft-info: #294658, dark-soft-focus-block: #3c4d75, dark-soft-transient: #293043,

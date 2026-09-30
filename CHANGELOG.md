@@ -52,6 +52,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
   `terminal` are still accepted as legacy aliases (options, `setVariant`, persisted state), but the
   `.qds-variant-mobile` / `.qds-variant-terminal` classes are no longer emitted or styled; update any consumer
   selectors that target them. The `$variants` map in `./tokens/default` is keyed `one` / `term` as well.
+- **Fluent geometry (Windows 11)**: `--qds-radius-control` is 4px and `--qds-radius-lg` (cards, dialogs, tables,
+  bordered lists) is 8px; list and navigation rows (`--qds-row-radius`) use the 4px control radius at 36px. Ink,
+  One and Term keep their own radii. Quasar's compile-time Sass radii (`$generic-border-radius` and friends) come
+  from `$radius control` and are global to every variant, so QTable cards, `.rounded-borders` and default-shape
+  QSkeletons now read the runtime radius tokens instead.
+- **Fluent light surfaces**: a Mica-like base — `--qds-surface-1` `#f3f3f3`, `--qds-surface-2` `#eeeeee`,
+  `--qds-surface-3` `#e8e8e8` — so layers separate from the page. Dark surfaces are unchanged.
+- **Solid role buttons**: in Fluent, hover and press lighten toward the layer (95% / 90% of the role fill) and the
+  pressed label uses the 90% on-fill text, keeping ≥ 4.5:1 at rest and hover and ≥ 3:1 pressed for every role in
+  light and dark. New tokens `--qds-color-primary-hover`, `--qds-fill-hover-mix`, `--qds-fill-pressed-mix`,
+  `--qds-fill-state-base` and `--qds-text-on-fill-pressed-mix`. Checked checkbox, radio and toggle hovers use
+  `--qds-color-primary-hover` too. Ink, One and Term keep their darker states.
+- **Breaking — pressed primary**: `--qds-color-primary-pressed` is now derived from the fill-state tokens (a lighter
+  Fluent press) instead of the fixed dark `#0c3b5e`, and the `primary-pressed` key is removed from the `$palette` /
+  `$dark-palette` maps in `./tokens/default`. Consumers that read either should use `--qds-color-primary-dark` for
+  a darker primary.
+- **Touch**: coarse pointers use a 32 / 40 / 48px control ramp (`--qds-control-size-lg` is now 48px) so dense,
+  default and large controls stay distinct; toggles, which size from it, grow to 48 × 24px. Dense toolbars read
+  the new `--qds-toolbar-dense-min-height` (40px; One 48px).
+- **Fields**: filled and standout hover fills mix 8% of the foreground instead of 12%, keeping placeholder and
+  affix text ≥ 4.5:1 in Fluent.
+- **Tabs**: a floating badge inside a tab stays within the tab strip instead of being clipped.
+- **Field groups**: below 30rem, groups of three or more unlabelled children wrap — the first child takes its own
+  row and the joined corners follow the wrap. Pairs and groups with labelled fields stay on one row.
 
 ## [0.8.0-rc.2] — 2026-09-29
 

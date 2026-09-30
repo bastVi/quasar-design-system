@@ -88,7 +88,7 @@
   .qds-ui .q-checkbox:not(.disabled):hover .q-checkbox__inner--truthy,
   .qds-ui .q-checkbox:not(.disabled):hover .q-checkbox__inner--indet,
   .qds-ui .q-radio:not(.disabled):hover .q-radio__inner--truthy {
-    color: var(--qds-color-primary-dark);
+    color: var(--qds-color-primary-hover);
   }
 
   .qds-ui .q-checkbox .q-checkbox__svg {
@@ -219,7 +219,7 @@
   }
 
   .qds-ui .q-toggle:not(.disabled):hover .q-toggle__inner--truthy {
-    color: var(--qds-color-primary-dark);
+    color: var(--qds-color-primary-hover);
   }
 
   .qds-ui .q-toggle.disabled .q-toggle__track {

@@ -14,6 +14,7 @@ export const QDS_TOKENS = [
   '--qds-color-primary',
   '--qds-color-primary-light',
   '--qds-color-primary-dark',
+  '--qds-color-primary-hover',
   '--qds-color-primary-pressed',
   '--qds-color-secondary',
   '--qds-color-accent',
@@ -147,6 +148,12 @@ export const QDS_TOKENS = [
   '--qds-tonal-hover-opacity',
   '--qds-tonal-border-opacity',
   '--qds-tonal-text-mix',
+
+  // ── Solid fill states ───────────────────────────────────────────────
+  '--qds-fill-hover-mix',
+  '--qds-fill-pressed-mix',
+  '--qds-fill-state-base',
+  '--qds-text-on-fill-pressed-mix',
 
   // ── Border widths ───────────────────────────────────────────────────
   '--qds-border-width-control',
@@ -406,6 +413,7 @@ export const QDS_TOKENS = [
 
   // ── Toolbar (derived) ───────────────────────────────────────────────
   '--qds-toolbar-bg',
+  '--qds-toolbar-dense-min-height',
 
   // ── Field (derived) ─────────────────────────────────────────────────
   '--qds-field-label-bg',
