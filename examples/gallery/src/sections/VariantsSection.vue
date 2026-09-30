@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
 
-type VariantName = 'fluent' | 'ink' | 'mobile' | 'terminal'
+type VariantName = 'fluent' | 'ink' | 'one' | 'term'
 
 type VariantSample = {
   name: VariantName
@@ -24,14 +24,14 @@ const variants: VariantSample[] = [
     sample: 'Editorial spread 07',
   },
   {
-    name: 'mobile',
+    name: 'one',
     label: 'One',
     intent: 'One UI-inspired focus blocks, rounder groups, and touch-first control rhythm.',
     sample: 'Touch panel 04',
   },
   {
-    name: 'terminal',
-    label: 'Terminal',
+    name: 'term',
+    label: 'Term',
     intent: 'Developer shell: monospace type, crisp hairlines, compact amber controls.',
     sample: 'qdsctl --inspect',
   },
@@ -40,8 +40,8 @@ const variants: VariantSample[] = [
 const pages = reactive<Record<VariantName, number>>({
   fluent: 3,
   ink: 3,
-  mobile: 3,
-  terminal: 3,
+  one: 3,
+  term: 3,
 })
 </script>
 

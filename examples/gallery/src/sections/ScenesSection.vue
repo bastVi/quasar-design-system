@@ -1,5 +1,5 @@
 <script setup lang="ts">
-type SceneVariant = 'fluent' | 'ink' | 'mobile' | 'terminal'
+type SceneVariant = 'fluent' | 'ink' | 'one' | 'term'
 
 type Scene = {
   variant: SceneVariant
@@ -25,17 +25,17 @@ const scenes: Scene[] = [
     detail: 'Paper-neutral surface with charcoal type and coordinated pastel role washes.',
   },
   {
-    variant: 'mobile',
+    variant: 'one',
     label: 'One',
     tagline: 'One UI rhythm',
-    wallpaper: '/scenes/qds-wallpaper-mobile.svg',
+    wallpaper: '/scenes/qds-wallpaper-one.svg',
     detail: 'Focus blocks, rounder controls, roomier rows, and calmer touch-first panels.',
   },
   {
-    variant: 'terminal',
-    label: 'Terminal',
+    variant: 'term',
+    label: 'Term',
     tagline: 'Amber on glass',
-    wallpaper: '/scenes/qds-wallpaper-terminal.svg',
+    wallpaper: '/scenes/qds-wallpaper-term.svg',
     detail: 'Near-black surfaces, crisp hairline cards, and restrained amber glow for developer UI.',
   },
 ]

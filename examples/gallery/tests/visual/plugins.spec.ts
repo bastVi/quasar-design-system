@@ -3,7 +3,7 @@ import { readFile, readdir } from 'node:fs/promises'
 import { MATRIX_VARIANTS, customProperty, resolvedColor, resolvedShadow } from './helpers'
 
 type Mode = 'light' | 'dark'
-type Variant = 'fluent' | 'ink' | 'mobile' | 'terminal'
+type Variant = 'fluent' | 'ink' | 'one' | 'term'
 
 const componentStylesDirectory = new URL('../../../../src/css/components/', import.meta.url)
 
@@ -275,7 +275,7 @@ test.describe('QDS plugin/global UI surfaces', () => {
 
     for (const proof of [
       { mode: 'dark' as const, variant: 'fluent' as const, type: 'negative' as const },
-      { mode: 'dark' as const, variant: 'terminal' as const, type: 'info' as const },
+      { mode: 'dark' as const, variant: 'term' as const, type: 'info' as const },
     ]) {
       await applyTheme(page, proof.mode, proof.variant)
       await page.locator(`[data-test="qds-notify-${proof.type}-trigger"]`).click()
@@ -345,7 +345,7 @@ test.describe('QDS plugin/global UI surfaces', () => {
 
     for (const proof of [
       { mode: 'light' as const, variant: 'ink' as const, shadow: 'none' },
-      { mode: 'dark' as const, variant: 'terminal' as const, shadow: 'none' },
+      { mode: 'dark' as const, variant: 'term' as const, shadow: 'none' },
     ]) {
       await applyTheme(page, proof.mode, proof.variant)
       await page.getByRole('button', { name: 'Show plugin notify' }).click()
@@ -455,7 +455,7 @@ test.describe('QDS plugin/global UI surfaces', () => {
           expect.soft(boundary.shadow, `${mode}/Ink overlay remains flat`).toBe('none')
           expect.soft(boundary.stroke, `${mode}/flat Ink overlay keeps a stroke boundary`).not.toBe('rgba(0, 0, 0, 0)')
         }
-        if (variant === 'mobile') {
+        if (variant === 'one') {
           const largeRadius = await page.locator('body').evaluate((element) => {
             const probe = document.createElement('span')
             probe.style.borderTopLeftRadius = 'var(--qds-radius-lg)'

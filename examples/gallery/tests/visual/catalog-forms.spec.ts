@@ -2,7 +2,7 @@ import { expect, test, type Page } from '@playwright/test'
 import { MATRIX_VARIANTS } from './helpers'
 
 type Mode = 'light' | 'dark'
-type Variant = 'fluent' | 'ink' | 'mobile' | 'terminal'
+type Variant = 'fluent' | 'ink' | 'one' | 'term'
 
 async function applyTheme(page: Page, mode: Mode, variant: Variant) {
   await page.evaluate(
@@ -368,7 +368,7 @@ test.describe('QDS catalog form picker gate', () => {
         if (variant === 'ink') {
           expect.soft(await page.locator('body').evaluate((el) => getComputedStyle(el).getPropertyValue('--qds-surface-positive-soft').trim()), `${mode}/ink has a pastel semantic role surface`).toBe(mode === 'light' ? '#d9f1e4' : '#30493e')
         }
-        if (variant === 'mobile') {
+        if (variant === 'one') {
           expect.soft(await computed(page, '[data-test="qds-catalog-input-error"] .q-field__control', 'min-height'), `${mode}/One label-above fields use the 44px One UI control height`).toBe('44px')
         }
       }
@@ -435,45 +435,45 @@ test.describe('QDS catalog form picker gate', () => {
     await page.evaluate(() => { document.documentElement.removeAttribute('dir') })
   })
 
-  test('Terminal and Ink dark selected date/time use semantic on-primary text, not white', async ({ page }) => {
+  test('Term and Ink dark selected date/time use semantic on-primary text, not white', async ({ page }) => {
     await page.goto('/#catalog')
 
-    // Terminal light: primary is yellow (#fcc40d), on-primary should be dark (#0d0d0c)
-    await applyTheme(page, 'light', 'terminal')
-    const terminalLightOnPrimary = await resolvedColor(page, '--qds-text-on-primary')
-    const terminalLightSelectedDate = page.locator('[data-test="qds-catalog-date"]').getByRole('button', { name: '17', exact: true })
-    await expect(terminalLightSelectedDate).toBeVisible()
-    await expect.poll(() => terminalLightSelectedDate.evaluate((el) => getComputedStyle(el as Element).color), { message: 'Terminal light selected date uses dark on-primary text, not white', timeout: 2000 }).toBe(terminalLightOnPrimary)
+    // Term light: primary is yellow (#fcc40d), on-primary should be dark (#0d0d0c)
+    await applyTheme(page, 'light', 'term')
+    const termLightOnPrimary = await resolvedColor(page, '--qds-text-on-primary')
+    const termLightSelectedDate = page.locator('[data-test="qds-catalog-date"]').getByRole('button', { name: '17', exact: true })
+    await expect(termLightSelectedDate).toBeVisible()
+    await expect.poll(() => termLightSelectedDate.evaluate((el) => getComputedStyle(el as Element).color), { message: 'Term light selected date uses dark on-primary text, not white', timeout: 2000 }).toBe(termLightOnPrimary)
     expect.soft(
-      await terminalLightSelectedDate.evaluate((el) => getComputedStyle(el as Element).color),
-      'Terminal light selected date text is not white',
+      await termLightSelectedDate.evaluate((el) => getComputedStyle(el as Element).color),
+      'Term light selected date text is not white',
     ).not.toBe('rgb(255, 255, 255)')
 
-    const terminalLightActiveTime = page.locator('[data-test="qds-catalog-time"] .q-time__clock-position--active').first()
-    await expect(terminalLightActiveTime).toBeVisible()
-    await expect.poll(() => terminalLightActiveTime.evaluate((el) => getComputedStyle(el as Element).color), { message: 'Terminal light active time uses dark on-primary text, not white', timeout: 2000 }).toBe(terminalLightOnPrimary)
+    const termLightActiveTime = page.locator('[data-test="qds-catalog-time"] .q-time__clock-position--active').first()
+    await expect(termLightActiveTime).toBeVisible()
+    await expect.poll(() => termLightActiveTime.evaluate((el) => getComputedStyle(el as Element).color), { message: 'Term light active time uses dark on-primary text, not white', timeout: 2000 }).toBe(termLightOnPrimary)
     expect.soft(
-      await terminalLightActiveTime.evaluate((el) => getComputedStyle(el as Element).color),
-      'Terminal light active time text is not white',
+      await termLightActiveTime.evaluate((el) => getComputedStyle(el as Element).color),
+      'Term light active time text is not white',
     ).not.toBe('rgb(255, 255, 255)')
 
-    // Terminal dark: primary is still yellow, on-primary should be dark (#0d0f12)
-    await applyTheme(page, 'dark', 'terminal')
-    const terminalDarkOnPrimary = await resolvedColor(page, '--qds-text-on-primary')
-    const terminalDarkSelectedDate = page.locator('[data-test="qds-catalog-date"]').getByRole('button', { name: '17', exact: true })
-    await expect(terminalDarkSelectedDate).toBeVisible()
-    await expect.poll(() => terminalDarkSelectedDate.evaluate((el) => getComputedStyle(el as Element).color), { message: 'Terminal dark selected date uses dark on-primary text, not white', timeout: 2000 }).toBe(terminalDarkOnPrimary)
+    // Term dark: primary is still yellow, on-primary should be dark (#0d0f12)
+    await applyTheme(page, 'dark', 'term')
+    const termDarkOnPrimary = await resolvedColor(page, '--qds-text-on-primary')
+    const termDarkSelectedDate = page.locator('[data-test="qds-catalog-date"]').getByRole('button', { name: '17', exact: true })
+    await expect(termDarkSelectedDate).toBeVisible()
+    await expect.poll(() => termDarkSelectedDate.evaluate((el) => getComputedStyle(el as Element).color), { message: 'Term dark selected date uses dark on-primary text, not white', timeout: 2000 }).toBe(termDarkOnPrimary)
     expect.soft(
-      await terminalDarkSelectedDate.evaluate((el) => getComputedStyle(el as Element).color),
-      'Terminal dark selected date text is not white',
+      await termDarkSelectedDate.evaluate((el) => getComputedStyle(el as Element).color),
+      'Term dark selected date text is not white',
     ).not.toBe('rgb(255, 255, 255)')
 
-    const terminalDarkActiveTime = page.locator('[data-test="qds-catalog-time"] .q-time__clock-position--active').first()
-    await expect(terminalDarkActiveTime).toBeVisible()
-    await expect.poll(() => terminalDarkActiveTime.evaluate((el) => getComputedStyle(el as Element).color), { message: 'Terminal dark active time uses dark on-primary text, not white', timeout: 2000 }).toBe(terminalDarkOnPrimary)
+    const termDarkActiveTime = page.locator('[data-test="qds-catalog-time"] .q-time__clock-position--active').first()
+    await expect(termDarkActiveTime).toBeVisible()
+    await expect.poll(() => termDarkActiveTime.evaluate((el) => getComputedStyle(el as Element).color), { message: 'Term dark active time uses dark on-primary text, not white', timeout: 2000 }).toBe(termDarkOnPrimary)
     expect.soft(
-      await terminalDarkActiveTime.evaluate((el) => getComputedStyle(el as Element).color),
-      'Terminal dark active time text is not white',
+      await termDarkActiveTime.evaluate((el) => getComputedStyle(el as Element).color),
+      'Term dark active time text is not white',
     ).not.toBe('rgb(255, 255, 255)')
 
     // Ink dark: primary is light cream (#f0e9db), on-primary should be dark (#25231f)

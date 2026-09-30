@@ -1,5 +1,5 @@
 $ink: ':is(.qds-ui.qds-variant-ink, .qds-ui .qds-variant-ink)';
-$mobile: ':is(.qds-ui.qds-variant-mobile, .qds-ui .qds-variant-mobile)';
+$one: ':is(.qds-ui.qds-variant-one, .qds-ui .qds-variant-one)';
 
 @mixin styles {
   .qds-ui :is(.q-layout, .q-page-container) { color: var(--qds-fg-default); background: transparent; }
@@ -12,12 +12,12 @@ $mobile: ':is(.qds-ui.qds-variant-mobile, .qds-ui .qds-variant-mobile)';
   #{$ink} .q-drawer { background: var(--qds-surface-0); }
   #{$ink} .q-drawer.q-drawer--bordered { border-color: var(--qds-separator-color); }
 
-  #{$mobile} .q-drawer .q-list {
+  #{$one} .q-drawer .q-list {
     margin: var(--qds-space-sm);
     padding: var(--qds-space-xs);
     background: var(--qds-surface-focus-block);
     border-radius: var(--qds-card-radius);
   }
 
-  #{$mobile} .q-drawer .q-item.q-item--active { background-color: var(--qds-surface-0); box-shadow: var(--qds-shadow-2); }
+  #{$one} .q-drawer .q-item.q-item--active { background-color: var(--qds-surface-0); box-shadow: var(--qds-shadow-2); }
 }

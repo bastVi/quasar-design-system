@@ -133,10 +133,10 @@ const carouselSlides = [
     src: mediaSvg('Ink', 'Editorial pastel roles', '#5f6f52', '#a98255', '#6366f1'),
   },
   {
-    name: 'mobile',
-    title: 'Mobile radius',
+    name: 'one',
+    title: 'One radius',
     caption: 'Large rounded frames with deterministic artwork.',
-    src: mediaSvg('Mobile', 'One UI inspired spacing', '#0f6cbd', '#14b8a6', '#ffb020'),
+    src: mediaSvg('One', 'One UI inspired spacing', '#0f6cbd', '#14b8a6', '#ffb020'),
   },
   {
     name: 'fluent',

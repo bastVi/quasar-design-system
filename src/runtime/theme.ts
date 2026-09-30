@@ -111,7 +111,13 @@ export const DEFAULT_DESIGN_SYSTEM_OPTIONS: Required<
 
 const THEME_MODES: DesignSystemMode[] = ['light', 'dark', 'system']
 const DESIGN_SYSTEM_SCOPE_CLASS = 'qds-ui'
-const LEGACY_VARIANT_CLASSES = ['qds-variant-air', 'qds-variant-glass', 'qds-variant-feather']
+const LEGACY_VARIANT_CLASSES = [
+  'qds-variant-air',
+  'qds-variant-glass',
+  'qds-variant-feather',
+  'qds-variant-mobile',
+  'qds-variant-terminal',
+]
 let fallbackController: DesignSystemController | null = null
 
 export function configureDesignSystem(app: App, options: DesignSystemOptions = {}): DesignSystemController {
@@ -335,6 +341,14 @@ function normalizeVariant(value: unknown): DesignSystemVariantName {
 
   if (value === 'feather') {
     return 'ink'
+  }
+
+  if (value === 'mobile') {
+    return 'one'
+  }
+
+  if (value === 'terminal') {
+    return 'term'
   }
 
   return isDesignSystemVariantName(value) ? value : DEFAULT_DESIGN_SYSTEM_OPTIONS.variant

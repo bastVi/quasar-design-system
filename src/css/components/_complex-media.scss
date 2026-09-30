@@ -1,6 +1,6 @@
 $ink: ':is(.qds-ui.qds-variant-ink, .qds-ui .qds-variant-ink)';
-$mobile: ':is(.qds-ui.qds-variant-mobile, .qds-ui .qds-variant-mobile)';
-$terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
+$one: ':is(.qds-ui.qds-variant-one, .qds-ui .qds-variant-one)';
+$term: ':is(.qds-ui.qds-variant-term, .qds-ui .qds-variant-term)';
 
 @mixin styles {
   .qds-ui :is(.q-stepper, .q-uploader) {
@@ -171,18 +171,18 @@ $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
   .qds-ui .q-uploader__file--uploaded .q-uploader__file-header > .q-btn { color: var(--qds-fg-positive, var(--qds-color-positive)); }
 
   #{$ink} :is(.q-stepper, .q-carousel, .q-uploader, .q-editor, .q-stepper__header, .q-editor__toolbar, .q-uploader__header),
-  #{$mobile} :is(.q-stepper, .q-carousel, .q-uploader) { background: var(--qds-surface-focus-block); border: var(--qds-border-width-control) solid var(--qds-separator-color); }
+  #{$one} :is(.q-stepper, .q-carousel, .q-uploader) { background: var(--qds-surface-focus-block); border: var(--qds-border-width-control) solid var(--qds-separator-color); }
   #{$ink} .q-carousel :is(.q-carousel__control, .q-carousel__prev-arrow, .q-carousel__next-arrow) .q-btn { background: var(--qds-surface-focus-block); box-shadow: none; }
-  #{$mobile} .q-stepper__tab { min-height: 3.5rem; }
-  #{$mobile} .q-scrollarea { --qds-scrollbar-size: 0.75rem; }
+  #{$one} .q-stepper__tab { min-height: 3.5rem; }
+  #{$one} .q-scrollarea { --qds-scrollbar-size: 0.75rem; }
 
-  #{$terminal} :is(.q-stepper, .q-carousel, .q-uploader, .q-editor) {
+  #{$term} :is(.q-stepper, .q-carousel, .q-uploader, .q-editor) {
     font-family: var(--qds-font-family);
     background: var(--qds-surface-0);
     border: var(--qds-border-width-control) solid color-mix(in srgb, var(--qds-color-primary) 24%, var(--qds-border));
     box-shadow: none;
   }
-  #{$terminal} :is(.q-carousel .q-carousel__control .q-btn, .q-pull-to-refresh__puller) {
+  #{$term} :is(.q-carousel .q-carousel__control .q-btn, .q-pull-to-refresh__puller) {
     background: var(--qds-surface-1);
     border-color: color-mix(in srgb, var(--qds-color-primary) 28%, var(--qds-border));
     box-shadow: none;

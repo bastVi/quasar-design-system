@@ -342,15 +342,15 @@ test.describe('Fluent control geometry and Phosphor icon contract', () => {
     }
   })
 
-  test('retains control geometry in Ink, One, and Terminal smoke states', async ({ page }) => {
+  test('retains control geometry in Ink, One, and Term smoke states', async ({ page }) => {
     await page.goto('/#components')
     const md = await coarsePointer(page) ? 40 : 32
-    for (const variant of ['ink', 'mobile', 'terminal'] as const) {
+    for (const variant of ['ink', 'one', 'term'] as const) {
       await applyTheme(page, 'dark', variant)
       const input = await expectFieldGeometry(page, 'qds-control-input')
       const multiple = await expectFieldGeometry(page, 'qds-control-select-multiple')
       await expect(multiple.field.locator('.q-chip').first()).toBeVisible()
-      expect.soft(input.controlBounds.height, `${variant} standard input keeps its control height`).toBeCloseTo(variant === 'mobile' ? 44 : md, 0)
+      expect.soft(input.controlBounds.height, `${variant} standard input keeps its control height`).toBeCloseTo(variant === 'one' ? 44 : md, 0)
     }
   })
 })

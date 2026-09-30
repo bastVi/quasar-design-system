@@ -7,7 +7,7 @@ test.describe('QDS variant distinctiveness lab', () => {
     await applyTheme(page, 'light', 'fluent')
 
     await expect(page.getByRole('tab', { name: 'Variants' })).toHaveAttribute('aria-selected', 'true')
-    for (const variant of ['fluent', 'ink', 'mobile', 'terminal'] as const) {
+    for (const variant of ['fluent', 'ink', 'one', 'term'] as const) {
       await expect(page.locator(`[data-test="qds-variant-card-${variant}"]`), `${variant} card`).toBeVisible()
       await expect(page.locator(`[data-test="qds-variant-roles-${variant}"]`), `${variant} role fixtures`).toBeVisible()
       await expect(page.locator(`[data-test="qds-variant-progress-${variant}"] .q-linear-progress`), `${variant} progress fixtures`).toHaveCount(2)
@@ -28,17 +28,17 @@ test.describe('QDS variant distinctiveness lab', () => {
     expect.soft(await computed(page, '[data-test="qds-variant-card-ink"] .variant-card__nested', 'backdrop-filter'), 'Ink is flat, not blurred').toBe('none')
     expect.soft(await computed(page, '[data-test="qds-variant-card-ink"] .variant-card__nested', 'box-shadow'), 'Ink content is matte').toBe('none')
 
-    const one = page.locator('[data-test="qds-variant-card-mobile"]')
+    const one = page.locator('[data-test="qds-variant-card-one"]')
     const fluentRow = await fluent.locator('.q-list .q-item').first().evaluate((el) => getComputedStyle(el).minHeight)
     const oneRow = await one.locator('.q-list .q-item').first().evaluate((el) => getComputedStyle(el).minHeight)
     expect.soft(parseFloat(oneRow), 'One list rows are touch-forward').toBeGreaterThanOrEqual(44)
     expect.soft(parseFloat(oneRow), 'One rows exceed Fluent density').toBeGreaterThan(parseFloat(fluentRow))
     expect.soft(await one.evaluate((el) => getComputedStyle(el).getPropertyValue('--qds-surface-focus-block').trim()), 'One focus-block token is available').toBe('#d7e4ff')
 
-    const terminal = page.locator('[data-test="qds-variant-card-terminal"]')
-    expect.soft(await terminal.evaluate((el) => getComputedStyle(el).getPropertyValue('--qds-font-family').trim()), 'Terminal body font token is monospace').toContain('ui-monospace')
-    expect.soft(await terminal.evaluate((el) => getComputedStyle(el).getPropertyValue('--qds-control-text-transform').trim()), 'Terminal controls request uppercase').toBe('uppercase')
-    expect.soft(await computed(page, '[data-test="qds-variant-card-terminal"] .q-btn', 'text-transform'), 'Terminal button renders uppercase').toBe('uppercase')
+    const term = page.locator('[data-test="qds-variant-card-term"]')
+    expect.soft(await term.evaluate((el) => getComputedStyle(el).getPropertyValue('--qds-font-family').trim()), 'Term body font token is monospace').toContain('ui-monospace')
+    expect.soft(await term.evaluate((el) => getComputedStyle(el).getPropertyValue('--qds-control-text-transform').trim()), 'Term controls request uppercase').toBe('uppercase')
+    expect.soft(await computed(page, '[data-test="qds-variant-card-term"] .q-btn', 'text-transform'), 'Term button renders uppercase').toBe('uppercase')
     expect.soft(await resolvedColor(page, '--qds-color-primary'), 'Fluent primary remains calibrated from source tokens').toBe('rgb(15, 108, 189)')
   })
 })

@@ -1,8 +1,8 @@
 @use '../materials';
 
 $ink: ':is(.qds-ui.qds-variant-ink, .qds-ui .qds-variant-ink)';
-$mobile: ':is(.qds-ui.qds-variant-mobile, .qds-ui .qds-variant-mobile)';
-$terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
+$one: ':is(.qds-ui.qds-variant-one, .qds-ui .qds-variant-one)';
+$term: ':is(.qds-ui.qds-variant-term, .qds-ui .qds-variant-term)';
 
 @mixin styles {
   .qds-ui :is(.q-ajax-bar, .q-loading-bar) { background: var(--qds-color-primary); box-shadow: none; }
@@ -85,7 +85,7 @@ $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
   .qds-ui :is(.q-virtual-scroll__padding, .q-virtual-scroll__slice) { border-color: var(--qds-stroke-subtle); }
 
   #{$ink} :is(.q-linear-progress__track, .q-skeleton) { background: var(--qds-surface-brand-soft); }
-  #{$mobile} .q-tree__node-header { min-height: 2.75rem; }
-  #{$terminal} .q-linear-progress { border-radius: 0; }
-  #{$terminal} .q-inner-loading { @include materials.solid(var(--qds-surface-0)); }
+  #{$one} .q-tree__node-header { min-height: 2.75rem; }
+  #{$term} .q-linear-progress { border-radius: 0; }
+  #{$term} .q-inner-loading { @include materials.solid(var(--qds-surface-0)); }
 }

@@ -1,10 +1,10 @@
 import { expect, type Page } from '@playwright/test'
 
 export type Mode = 'light' | 'dark'
-export type Variant = 'fluent' | 'ink' | 'mobile' | 'terminal'
+export type Variant = 'fluent' | 'ink' | 'one' | 'term'
 
-export const CANONICAL_VARIANTS: Variant[] = ['fluent', 'ink', 'mobile', 'terminal']
-export const MATRIX_VARIANTS: Exclude<Variant, 'terminal'>[] = ['fluent', 'ink', 'mobile']
+export const CANONICAL_VARIANTS: Variant[] = ['fluent', 'ink', 'one', 'term']
+export const MATRIX_VARIANTS: Exclude<Variant, 'term'>[] = ['fluent', 'ink', 'one']
 
 export async function applyTheme(page: Page, mode: Mode, variant: Variant) {
   await page.waitForFunction(() => Boolean((window as unknown as { __qdsGallery?: unknown }).__qdsGallery))

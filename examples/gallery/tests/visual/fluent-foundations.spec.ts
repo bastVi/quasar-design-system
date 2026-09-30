@@ -56,7 +56,7 @@ test.describe('Fluent foundation contract', () => {
     expect(await customProperty(page, '--qds-compact-action-size')).toBe(coarse ? '2.5rem' : '2rem')
     expect(await customProperty(page, '--qds-compact-action-icon-size')).toBe('1rem')
 
-    await applyTheme(page, 'light', 'mobile')
+    await applyTheme(page, 'light', 'one')
     expect(await computed(page, `${panel} .q-btn.q-btn--unelevated:not(.q-btn--dense)`, 'min-height')).toBe('44px')
     expect(await computed(page, `${defaultField} .q-field__control`, 'min-height'), 'One default field control meets the 44px touch height').toBe('44px')
     expect(await computed(page, `${floatField} .q-field__control`, 'min-height')).toBe('48px')

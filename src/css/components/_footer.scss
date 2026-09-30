@@ -1,7 +1,7 @@
 @mixin styles {
   .qds-ui .q-footer { border-top: var(--qds-border-width-control) solid var(--qds-stroke-subtle); }
 
-  :is(.qds-ui.qds-variant-mobile, .qds-ui .qds-variant-mobile) .q-footer {
+  :is(.qds-ui.qds-variant-one, .qds-ui .qds-variant-one) .q-footer {
     border-start-start-radius: var(--qds-card-radius);
     border-start-end-radius: var(--qds-card-radius);
     box-shadow: var(--qds-shadow-8);

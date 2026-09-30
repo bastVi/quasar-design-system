@@ -90,7 +90,7 @@ test.describe('QDS official stable data and layout modes', () => {
     expect(await computed(page, '[data-test="qds-tree-dark-no-connectors"] .q-tree__node-header', 'display', '::before')).toBe('none')
   })
 
-  for (const variant of ['ink', 'mobile'] as const) {
+  for (const variant of ['ink', 'one'] as const) {
     test(`keeps explicit QTable and QTree dark in light/${variant}`, async ({ page }) => {
       await openComponents(page)
       await applyTheme(page, 'light', variant)
@@ -134,9 +134,9 @@ test.describe('QDS official stable data and layout modes', () => {
     })
   }
 
-  test('QPagination input mode changes page and keeps QDS geometry in mobile', async ({ page }) => {
+  test('QPagination input mode changes page and keeps QDS geometry in One', async ({ page }) => {
     await openComponents(page)
-    await applyTheme(page, 'light', 'mobile')
+    await applyTheme(page, 'light', 'one')
 
     const pagination = page.locator('[data-test="qds-pagination-input"]')
     await expect(page.getByRole('group', { name: 'Input mode pagination' })).toBeVisible()
@@ -178,8 +178,8 @@ test.describe('QDS official stable data and layout modes', () => {
   for (const [mode, variant] of [
     ['dark', 'fluent'],
     ['light', 'ink'],
-    ['light', 'mobile'],
-    ['dark', 'terminal'],
+    ['light', 'one'],
+    ['dark', 'term'],
   ] as const) {
     test(`renders stable data/layout modes for ${mode}/${variant}`, async ({ page }) => {
       await openComponents(page)
@@ -196,7 +196,7 @@ test.describe('QDS official stable data and layout modes', () => {
   test('keeps the stable fixtures legible in RTL and reduced motion', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await openComponents(page)
-    await applyTheme(page, 'light', 'mobile')
+    await applyTheme(page, 'light', 'one')
     await page.evaluate(() => {
       document.documentElement.dir = 'rtl'
       document.body.dir = 'rtl'

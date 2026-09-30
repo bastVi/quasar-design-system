@@ -150,8 +150,8 @@ $accent-fills: ();
     color: var(--qds-fg-muted);
   }
 
-  .qds-ui .qds-variant-terminal .q-btn#{$filled},
-  .qds-ui.qds-variant-terminal .q-btn#{$filled} {
+  .qds-ui .qds-variant-term .q-btn#{$filled},
+  .qds-ui.qds-variant-term .q-btn#{$filled} {
     --qds-control-fill-default: color-mix(in srgb, var(--qds-surface-1) 84%, var(--qds-color-primary) 10%);
     --qds-control-fill-hover: color-mix(in srgb, var(--qds-surface-1) 78%, var(--qds-color-primary) 16%);
     --qds-control-fill-pressed: color-mix(in srgb, var(--qds-surface-2) 80%, var(--qds-color-primary) 14%);
@@ -274,13 +274,13 @@ $accent-fills: ();
     border-inline-start: var(--qds-border-width-control) solid color-mix(in srgb, currentColor 24%, transparent);
   }
 
-  .qds-ui .qds-variant-terminal .q-btn--flat,
-  .qds-ui.qds-variant-terminal .q-btn--flat {
+  .qds-ui .qds-variant-term .q-btn--flat,
+  .qds-ui.qds-variant-term .q-btn--flat {
     color: color-mix(in srgb, var(--qds-color-primary) 40%, var(--qds-text-strong));
   }
 
-  .qds-ui .qds-variant-mobile .q-btn:where(:not(.q-btn--fab, .q-btn--fab-mini, .q-btn--round, .q-btn--dense)),
-  .qds-ui.qds-variant-mobile .q-btn:where(:not(.q-btn--fab, .q-btn--fab-mini, .q-btn--round, .q-btn--dense)) {
+  .qds-ui .qds-variant-one .q-btn:where(:not(.q-btn--fab, .q-btn--fab-mini, .q-btn--round, .q-btn--dense)),
+  .qds-ui.qds-variant-one .q-btn:where(:not(.q-btn--fab, .q-btn--fab-mini, .q-btn--round, .q-btn--dense)) {
     padding-inline: max(var(--qds-button-padding-inline), var(--qds-space-md));
   }
 

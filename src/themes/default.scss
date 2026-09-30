@@ -88,39 +88,39 @@
   }
 }
 
-@mixin qds-mobile-sizing {
-  --qds-space-md: #{qds-variant-token(mobile, space-md)};
-  --qds-motion-fast: #{qds-variant-token(mobile, motion-fast)};
-  --qds-control-size-sm: #{qds-variant-token(mobile, control-size-sm)};
-  --qds-control-size-md: #{qds-variant-token(mobile, control-size-md)};
-  --qds-control-size-lg: #{qds-variant-token(mobile, control-size-lg)};
-  --qds-button-padding-inline: #{qds-variant-token(mobile, button-padding-inline)};
-  --qds-button-dense-padding-inline: #{qds-variant-token(mobile, button-dense-padding-inline)};
-  --qds-field-label-size: #{qds-variant-token(mobile, field-label-size)};
-  --qds-field-label-size-rest: #{qds-variant-token(mobile, field-label-size)};
-  --qds-field-label-size-float: #{qds-variant-token(mobile, field-label-size)};
-  --qds-list-item-min-height-value: #{qds-variant-token(mobile, list-item-min-height)};
-  --qds-menu-item-min-height-value: #{qds-variant-token(mobile, menu-item-min-height)};
-  --qds-expansion-item-min-height-value: #{qds-variant-token(mobile, expansion-item-min-height)};
+@mixin qds-one-sizing {
+  --qds-space-md: #{qds-variant-token(one, space-md)};
+  --qds-motion-fast: #{qds-variant-token(one, motion-fast)};
+  --qds-control-size-sm: #{qds-variant-token(one, control-size-sm)};
+  --qds-control-size-md: #{qds-variant-token(one, control-size-md)};
+  --qds-control-size-lg: #{qds-variant-token(one, control-size-lg)};
+  --qds-button-padding-inline: #{qds-variant-token(one, button-padding-inline)};
+  --qds-button-dense-padding-inline: #{qds-variant-token(one, button-dense-padding-inline)};
+  --qds-field-label-size: #{qds-variant-token(one, field-label-size)};
+  --qds-field-label-size-rest: #{qds-variant-token(one, field-label-size)};
+  --qds-field-label-size-float: #{qds-variant-token(one, field-label-size)};
+  --qds-list-item-min-height-value: #{qds-variant-token(one, list-item-min-height)};
+  --qds-menu-item-min-height-value: #{qds-variant-token(one, menu-item-min-height)};
+  --qds-expansion-item-min-height-value: #{qds-variant-token(one, expansion-item-min-height)};
 }
 
-@mixin qds-terminal-sizing {
-  --qds-control-letter-spacing: #{qds-variant-token(terminal, control-letter-spacing)};
-  --qds-control-text-transform: #{qds-variant-token(terminal, control-text-transform)};
-  --qds-button-min-height: #{qds-variant-token(terminal, button-min-height)};
-  --qds-button-padding-inline: #{qds-variant-token(terminal, button-padding-inline)};
-  --qds-button-dense-min-height: #{qds-variant-token(terminal, button-dense-min-height)};
-  --qds-button-dense-padding-inline: #{qds-variant-token(terminal, button-dense-padding-inline)};
-  --qds-button-round-size: #{qds-variant-token(terminal, button-round-size)};
-  --qds-field-label-size: #{qds-variant-token(terminal, field-label-size)};
-  --qds-list-item-min-height-value: #{qds-variant-token(terminal, list-item-min-height)};
-  --qds-menu-item-min-height-value: #{qds-variant-token(terminal, menu-item-min-height)};
-  --qds-expansion-item-min-height-value: #{qds-variant-token(terminal, expansion-item-min-height)};
-  --qds-table-row-height-value: #{qds-variant-token(terminal, table-row-height)};
-  --qds-table-header-height-value: #{qds-variant-token(terminal, table-header-height)};
+@mixin qds-term-sizing {
+  --qds-control-letter-spacing: #{qds-variant-token(term, control-letter-spacing)};
+  --qds-control-text-transform: #{qds-variant-token(term, control-text-transform)};
+  --qds-button-min-height: #{qds-variant-token(term, button-min-height)};
+  --qds-button-padding-inline: #{qds-variant-token(term, button-padding-inline)};
+  --qds-button-dense-min-height: #{qds-variant-token(term, button-dense-min-height)};
+  --qds-button-dense-padding-inline: #{qds-variant-token(term, button-dense-padding-inline)};
+  --qds-button-round-size: #{qds-variant-token(term, button-round-size)};
+  --qds-field-label-size: #{qds-variant-token(term, field-label-size)};
+  --qds-list-item-min-height-value: #{qds-variant-token(term, list-item-min-height)};
+  --qds-menu-item-min-height-value: #{qds-variant-token(term, menu-item-min-height)};
+  --qds-expansion-item-min-height-value: #{qds-variant-token(term, expansion-item-min-height)};
+  --qds-table-row-height-value: #{qds-variant-token(term, table-row-height)};
+  --qds-table-header-height-value: #{qds-variant-token(term, table-header-height)};
 }
 
-$qds-material-scopes: '.qds-theme-dark, body.qds-ui.body--dark, .qds-variant-mobile, .qds-theme-dark.qds-variant-mobile, .qds-theme-dark .qds-variant-mobile, body.qds-ui.body--dark.qds-variant-mobile, body.qds-ui.body--dark .qds-variant-mobile, .qds-variant-terminal, .qds-theme-dark.qds-variant-terminal, .qds-theme-dark .qds-variant-terminal, body.qds-ui.body--dark.qds-variant-terminal, body.qds-ui.body--dark .qds-variant-terminal';
+$qds-material-scopes: '.qds-theme-dark, body.qds-ui.body--dark, .qds-variant-one, .qds-theme-dark.qds-variant-one, .qds-theme-dark .qds-variant-one, body.qds-ui.body--dark.qds-variant-one, body.qds-ui.body--dark .qds-variant-one, .qds-variant-term, .qds-theme-dark.qds-variant-term, .qds-theme-dark .qds-variant-term, body.qds-ui.body--dark.qds-variant-term, body.qds-ui.body--dark .qds-variant-term';
 
 @layer qds.tokens {
   // fallbacks.scss is also a standalone entry and emits the full base contract.
@@ -212,26 +212,26 @@ $qds-material-scopes: '.qds-theme-dark, body.qds-ui.body--dark, .qds-variant-mob
     @include fallbacks.qds-material-tokens(solid);
   }
 
-  .qds-variant-mobile {
-    --qds-font-family: #{qds-variant-token(mobile, font-family)};
-    --qds-font-family-display: #{qds-variant-token(mobile, font-family-display)};
-    @include qds-variant-scheme(mobile);
-    @include qds-mobile-sizing;
+  .qds-variant-one {
+    --qds-font-family: #{qds-variant-token(one, font-family)};
+    --qds-font-family-display: #{qds-variant-token(one, font-family-display)};
+    @include qds-variant-scheme(one);
+    @include qds-one-sizing;
   }
 
-  .qds-theme-dark.qds-variant-mobile,
-  .qds-theme-dark .qds-variant-mobile,
-  body.qds-ui.body--dark.qds-variant-mobile,
-  body.qds-ui.body--dark .qds-variant-mobile {
-    @include qds-variant-scheme(mobile, true);
-    @include qds-mobile-sizing;
+  .qds-theme-dark.qds-variant-one,
+  .qds-theme-dark .qds-variant-one,
+  body.qds-ui.body--dark.qds-variant-one,
+  body.qds-ui.body--dark .qds-variant-one {
+    @include qds-variant-scheme(one, true);
+    @include qds-one-sizing;
   }
 
-  .qds-variant-terminal {
-    --qds-font-family: #{qds-variant-token(terminal, font-family)};
-    --qds-font-family-display: #{qds-variant-token(terminal, font-family-display)};
-    @include qds-variant-scheme(terminal);
-    @include qds-terminal-sizing;
+  .qds-variant-term {
+    --qds-font-family: #{qds-variant-token(term, font-family)};
+    --qds-font-family-display: #{qds-variant-token(term, font-family-display)};
+    @include qds-variant-scheme(term);
+    @include qds-term-sizing;
     @include fallbacks.qds-opaque-control-layers;
     --qds-fg-brand: color-mix(in srgb, var(--qds-color-primary) 40%, var(--qds-text-strong));
     @each $role in secondary, accent, positive, negative, warning, info {
@@ -239,12 +239,12 @@ $qds-material-scopes: '.qds-theme-dark, body.qds-ui.body--dark, .qds-variant-mob
     }
   }
 
-  .qds-theme-dark.qds-variant-terminal,
-  .qds-theme-dark .qds-variant-terminal,
-  body.qds-ui.body--dark.qds-variant-terminal,
-  body.qds-ui.body--dark .qds-variant-terminal {
-    @include qds-variant-scheme(terminal, true);
-    @include qds-terminal-sizing;
+  .qds-theme-dark.qds-variant-term,
+  .qds-theme-dark .qds-variant-term,
+  body.qds-ui.body--dark.qds-variant-term,
+  body.qds-ui.body--dark .qds-variant-term {
+    @include qds-variant-scheme(term, true);
+    @include qds-term-sizing;
     @include fallbacks.qds-opaque-control-layers;
     --qds-fg-brand: var(--qds-color-primary-light);
   }

@@ -1,5 +1,5 @@
-export type CanonicalDesignSystemVariantName = 'fluent' | 'ink' | 'mobile' | 'terminal'
-export type LegacyDesignSystemVariantName = 'studio' | 'air' | 'glass' | 'feather'
+export type CanonicalDesignSystemVariantName = 'fluent' | 'ink' | 'one' | 'term'
+export type LegacyDesignSystemVariantName = 'studio' | 'air' | 'glass' | 'feather' | 'mobile' | 'terminal'
 export type BuiltInDesignSystemVariantName = CanonicalDesignSystemVariantName | LegacyDesignSystemVariantName
 
 // Built-ins are typed narrowly while still accepting variants registered by
@@ -36,23 +36,25 @@ export const DESIGN_SYSTEM_VARIANTS = {
     description: 'Paper-neutral editorial surfaces with charcoal type and coordinated pastel role washes.',
     cssClass: 'qds-variant-ink',
   },
-  mobile: {
-    name: 'mobile',
+  one: {
+    name: 'one',
     label: 'One',
     description: 'One UI-inspired color, depth, shape, spacing, and touch-friendly control rhythm.',
-    cssClass: 'qds-variant-mobile',
+    cssClass: 'qds-variant-one',
   },
-  terminal: {
-    name: 'terminal',
-    label: 'Terminal',
+  term: {
+    name: 'term',
+    label: 'Term',
     description: 'Dark amber developer UI with near-black surfaces, crisp hairline cards, and restrained glow.',
-    cssClass: 'qds-variant-terminal',
+    cssClass: 'qds-variant-term',
   },
 } as Record<CanonicalDesignSystemVariantName, DesignSystemVariant> & {
   studio: DesignSystemVariant
   air: DesignSystemVariant
   glass: DesignSystemVariant
   feather: DesignSystemVariant
+  mobile: DesignSystemVariant
+  terminal: DesignSystemVariant
 }
 
 const LEGACY_VARIANT_ALIASES = {
@@ -80,6 +82,18 @@ const LEGACY_VARIANT_ALIASES = {
     description: 'Legacy alias for the ink variant.',
     cssClass: 'qds-variant-ink',
   },
+  mobile: {
+    name: 'mobile',
+    label: 'One',
+    description: 'Legacy alias for the one variant.',
+    cssClass: 'qds-variant-one',
+  },
+  terminal: {
+    name: 'terminal',
+    label: 'Term',
+    description: 'Legacy alias for the term variant.',
+    cssClass: 'qds-variant-term',
+  },
 } satisfies Record<LegacyDesignSystemVariantName, DesignSystemVariant>
 
 for (const [name, variant] of Object.entries(LEGACY_VARIANT_ALIASES)) {
@@ -93,7 +107,7 @@ for (const [name, variant] of Object.entries(LEGACY_VARIANT_ALIASES)) {
 export const DEFAULT_THEME: QuasarDesignTheme = {
   name: DEFAULT_THEME_NAME,
   label: 'Default',
-  description: 'Fluent 2 focused Quasar 2 design language with Ink, One, and Terminal variants.',
+  description: 'Fluent 2 focused Quasar 2 design language with Ink, One, and Term variants.',
   variants: DESIGN_SYSTEM_VARIANTS,
 }
 
@@ -102,8 +116,9 @@ export const DESIGN_SYSTEM_THEMES = {
 } as const
 
 export function isBuiltInDesignSystemVariantName(value: unknown): value is BuiltInDesignSystemVariantName {
-  return value === 'fluent' || value === 'ink' || value === 'mobile' || value === 'terminal'
+  return value === 'fluent' || value === 'ink' || value === 'one' || value === 'term'
     || value === 'studio' || value === 'air' || value === 'glass' || value === 'feather'
+    || value === 'mobile' || value === 'terminal'
 }
 
 // Accepts any non-empty string so external projects can register variants;

@@ -55,14 +55,14 @@ const EXPECTED: Record<Mode, Record<Variant, { surface: string; primary: string;
   light: {
     fluent: { surface: '#ffffff', primary: 'rgb(15, 108, 189)', controlRadius: '6px', cardRadius: '12px' },
     ink: { surface: '#fdf9f1', primary: 'rgb(48, 48, 45)', controlRadius: '10px', cardRadius: '16px' },
-    mobile: { surface: '#f9f9ff', primary: 'rgb(46, 95, 184)', controlRadius: '14px', cardRadius: '20px' },
-    terminal: { surface: '#f5f3ef', primary: 'rgb(252, 196, 13)', controlRadius: '6px', cardRadius: '10px' },
+    one: { surface: '#f9f9ff', primary: 'rgb(46, 95, 184)', controlRadius: '14px', cardRadius: '20px' },
+    term: { surface: '#f5f3ef', primary: 'rgb(252, 196, 13)', controlRadius: '6px', cardRadius: '10px' },
   },
   dark: {
     fluent: { surface: '#292929', primary: 'rgb(25, 118, 202)', controlRadius: '6px', cardRadius: '12px' },
     ink: { surface: '#25231f', primary: 'rgb(240, 233, 219)', controlRadius: '10px', cardRadius: '16px' },
-    mobile: { surface: '#20212a', primary: 'rgb(173, 198, 255)', controlRadius: '14px', cardRadius: '20px' },
-    terminal: { surface: '#0d0f12', primary: 'rgb(252, 196, 13)', controlRadius: '6px', cardRadius: '10px' },
+    one: { surface: '#20212a', primary: 'rgb(173, 198, 255)', controlRadius: '14px', cardRadius: '20px' },
+    term: { surface: '#0d0f12', primary: 'rgb(252, 196, 13)', controlRadius: '6px', cardRadius: '10px' },
   },
 }
 
@@ -79,7 +79,7 @@ test.describe('QDS override gate', () => {
         expect.soft(await resolvedColor(page, '--qds-color-primary'), 'primary color resolves from source tokens').toBe(expected.primary)
         expect.soft(await customProperty(page, '--qds-radius-control'), 'control radius token tracks the variant').toBe(expected.controlRadius)
         expect.soft(await computed(page, `${panel} .q-card`, 'border-radius'), 'QCard consumes the resolved card radius').toBe(expected.cardRadius)
-        expect.soft(await computed(page, `${panel} .q-field--outlined .q-field__control`, 'border-radius'), 'QField consumes the resolved control geometry').toBe(variant === 'mobile' ? '18px' : expected.controlRadius)
+        expect.soft(await computed(page, `${panel} .q-field--outlined .q-field__control`, 'border-radius'), 'QField consumes the resolved control geometry').toBe(variant === 'one' ? '18px' : expected.controlRadius)
         expect.soft(await computed(page, `${panel} .q-card`, 'background-color'), 'QCard has a rendered surface').not.toBe('rgba(0, 0, 0, 0)')
         const cardBorderStyle = await computed(page, `${panel} .q-card`, 'border-top-style')
         if (variant === 'ink') {
@@ -103,7 +103,7 @@ test.describe('QDS override gate', () => {
           expect.soft(await computed(page, `${panel} .q-card`, 'background-color'), 'Ink strokeless card is defined by its pastel wash').toBe(await resolvedColor(page, '--qds-surface-brand-soft'))
           expect.soft(await computed(page, `${panel} .qds-display`, 'font-family'), 'Ink display type is editorial serif').toMatch(/Iowan Old Style|Palatino|Georgia/)
         }
-        if (variant === 'mobile') {
+        if (variant === 'one') {
           expect.soft(await customProperty(page, '--qds-surface-focus-block'), 'One focus-block token differs by mode').toBe(mode === 'light' ? '#d7e4ff' : '#3c4d75')
           expect.soft(await customProperty(page, '--qds-button-padding-inline'), 'One button padding token is emitted').toBe('1rem')
           expect.soft(await customProperty(page, '--qds-button-dense-min-height'), 'One dense button size token is emitted').toBe('2.5rem')
@@ -117,14 +117,14 @@ test.describe('QDS override gate', () => {
     }
   }
 
-  test('Terminal focused regression preserves compact uppercase monospace contrast', async ({ page }) => {
+  test('Term focused regression preserves compact uppercase monospace contrast', async ({ page }) => {
     await page.goto('/#components')
-    await applyTheme(page, 'dark', 'terminal')
+    await applyTheme(page, 'dark', 'term')
     const panel = '.q-tab-panel'
-    expect.soft(await customProperty(page, '--qds-font-family'), 'Terminal font token').toContain('ui-monospace')
-    expect.soft(await computed(page, `${panel} .q-btn--unelevated:not(.q-btn--dense)`, 'text-transform'), 'Terminal controls uppercase').toBe('uppercase')
-    expect.soft(await computed(page, `${panel} .q-btn--unelevated:not(.q-btn--dense)`, 'min-height'), 'Terminal controls remain compact').toBe('32px')
-    expect.soft(await computed(page, `${panel} .q-card`, 'background-color'), 'Terminal card has visible contrast surface').not.toBe(await resolvedColor(page, '--qds-text-strong'))
+    expect.soft(await customProperty(page, '--qds-font-family'), 'Term font token').toContain('ui-monospace')
+    expect.soft(await computed(page, `${panel} .q-btn--unelevated:not(.q-btn--dense)`, 'text-transform'), 'Term controls uppercase').toBe('uppercase')
+    expect.soft(await computed(page, `${panel} .q-btn--unelevated:not(.q-btn--dense)`, 'min-height'), 'Term controls remain compact').toBe('32px')
+    expect.soft(await computed(page, `${panel} .q-card`, 'background-color'), 'Term card has visible contrast surface').not.toBe(await resolvedColor(page, '--qds-text-strong'))
   })
 
   test('semantic solid foregrounds resolve for every scheme and role', async ({ page }) => {
@@ -132,7 +132,7 @@ test.describe('QDS override gate', () => {
     const roles = ['primary', 'secondary', 'accent', 'positive', 'negative', 'warning', 'info'] as const
 
     for (const mode of ['light', 'dark'] as const) {
-      for (const variant of ['fluent', 'ink', 'mobile', 'terminal'] as const) {
+      for (const variant of ['fluent', 'ink', 'one', 'term'] as const) {
         await applyTheme(page, mode, variant)
         const roleStyles = await page.evaluate((roles) => {
           const resolve = (property: string, declaration: 'backgroundColor' | 'color') => {
@@ -184,12 +184,12 @@ test.describe('QDS override gate', () => {
     }
   })
 
-  test('semantic foreground utilities match their on-fill tokens in terminal and ink modes', async ({ page }) => {
+  test('semantic foreground utilities match their on-fill tokens in term and ink modes', async ({ page }) => {
     await page.goto('/#tokens')
     const roles = ['solid', 'primary', 'secondary', 'accent', 'positive', 'negative', 'warning', 'info'] as const
 
     for (const mode of ['light', 'dark'] as const) {
-      for (const variant of ['terminal', 'ink'] as const) {
+      for (const variant of ['term', 'ink'] as const) {
         await applyTheme(page, mode, variant)
         await expect(page.locator('[data-test="qds-semantic-foreground-utilities"]')).toBeVisible()
 
@@ -213,7 +213,7 @@ test.describe('QDS override gate', () => {
     const neutralBadgeVariants = ['tonal', 'outline'] as const
 
     for (const mode of ['light', 'dark'] as const) {
-      for (const variant of ['fluent', 'ink', 'mobile', 'terminal'] as const) {
+      for (const variant of ['fluent', 'ink', 'one', 'term'] as const) {
         await applyTheme(page, mode, variant)
         await page.waitForTimeout(250)
         await expect(page.locator('[data-test="qds-semantic-contrast-fixtures"]')).toBeVisible()
@@ -316,7 +316,7 @@ test.describe('QDS override gate', () => {
     const action = header.locator('.q-btn--round')
 
     for (const mode of ['light', 'dark'] as const) {
-      for (const variant of ['fluent', 'ink', 'mobile', 'terminal'] as const) {
+      for (const variant of ['fluent', 'ink', 'one', 'term'] as const) {
         await applyTheme(page, mode, variant)
         const [headerBox, actionBox, paddingEnd] = await Promise.all([
           header.boundingBox(),
@@ -334,7 +334,7 @@ test.describe('QDS override gate', () => {
   test('legacy aliases normalize to canonical state, classes, and four switcher entries', async ({ page }) => {
     await page.goto('/')
     const aliases = [
-      ['studio', 'fluent'], ['air', 'fluent'], ['glass', 'fluent'], ['feather', 'ink'],
+      ['studio', 'fluent'], ['air', 'fluent'], ['glass', 'fluent'], ['feather', 'ink'], ['mobile', 'one'], ['terminal', 'term'],
     ] as const
     for (const [input, canonical] of aliases) {
       const state = await page.evaluate(({ input, canonical }) => {
@@ -345,6 +345,7 @@ test.describe('QDS override gate', () => {
           value: ds.variant.value,
           canonicalClass: document.body.classList.contains(`qds-variant-${canonical}`),
           oldClass: document.body.classList.contains(`qds-variant-${input}`),
+          dataVariant: document.body.dataset.qdsVariant,
           labels: Array.from(document.querySelectorAll('[aria-label="Variant"] .gallery-switcher__button'))
             .map((el) => el.getAttribute('aria-label')),
         }
@@ -353,7 +354,8 @@ test.describe('QDS override gate', () => {
       expect.soft(state.value, `${input} stores canonical value`).toBe(canonical)
       expect.soft(state.canonicalClass, `${input} writes canonical class`).toBe(true)
       expect.soft(state.oldClass, `${input} old class is absent`).toBe(false)
-      expect.soft(state.labels, `${input} exposes only canonical switcher entries`).toEqual(['Fluent', 'Ink', 'One', 'Terminal'])
+      expect.soft(state.dataVariant, `${input} writes the canonical data-qds-variant`).toBe(canonical)
+      expect.soft(state.labels, `${input} exposes only canonical switcher entries`).toEqual(['Fluent', 'Ink', 'One', 'Term'])
     }
   })
 

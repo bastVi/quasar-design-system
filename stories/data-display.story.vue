@@ -80,7 +80,7 @@ const tableRows: CoverageRow[] = [
               <div class="row justify-end q-mt-md qds-story-pagination">
                 <QPagination v-model="page" data-test="qds-story-pagination" color="primary" :max="5" :max-pages="5" boundary-numbers direction-links />
               </div>
-              <p class="qds-text-muted q-mt-sm q-mb-none">Switch to Ink or Mobile to verify the same pagination proof against variant tokens.</p>
+              <p class="qds-text-muted q-mt-sm q-mb-none">Switch to Ink or One to verify the same pagination proof against variant tokens.</p>
             </QCard>
 
             <div class="row q-col-gutter-lg">

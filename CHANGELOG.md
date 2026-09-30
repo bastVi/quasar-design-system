@@ -38,7 +38,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
   `--qds-control-stroke-default|secondary|strong|top|bottom|on-accent-top|on-accent-bottom`, `--qds-card-fill`,
   `--qds-card-stroke` and `--qds-control-halo`. `--qds-control-fill-*` are now translucent layer values instead of
   aliases of `--qds-surface-*`, so surface overrides no longer flow into them; override the control tokens directly.
-  Ink, Terminal, reduced transparency, forced colours and browsers without `backdrop-filter` use opaque layers and
+  Ink, Term, reduced transparency, forced colours and browsers without `backdrop-filter` use opaque layers and
   no halo.
 - **Buttons**: neutral filled buttons use the layer fill with an elevation border; accent buttons gain a light top
   and dark bottom edge (not on date picker selections); pressed neutral text is muted.
@@ -47,6 +47,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
   Nested cards stay strokeless; maximized dialog cards stay opaque.
 - **Lists**: the active item is a subtle pill with an accent indicator bar.
 - `.qds-field--required` is visual only; pair it with `required` or `aria-required` for assistive technology.
+- **Breaking — variant IDs**: `mobile` is now `one` and `terminal` is now `term` (labels **One** and **Term**).
+  The runtime writes `qds-variant-one` / `qds-variant-term` and `data-qds-variant="one|term"`. `mobile` and
+  `terminal` are still accepted as legacy aliases (options, `setVariant`, persisted state), but the
+  `.qds-variant-mobile` / `.qds-variant-terminal` classes are no longer emitted or styled; update any consumer
+  selectors that target them. The `$variants` map in `./tokens/default` is keyed `one` / `term` as well.
 
 ## [0.8.0-rc.2] — 2026-09-29
 

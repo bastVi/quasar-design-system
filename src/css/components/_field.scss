@@ -34,14 +34,14 @@
     --qds-field-fill: var(--qds-surface-transient);
   }
 
-  .qds-ui.qds-variant-terminal .q-field,
-  .qds-ui .qds-variant-terminal .q-field { --qds-field-stroke: color-mix(in srgb, var(--qds-color-primary) 24%, var(--qds-border)); }
+  .qds-ui.qds-variant-term .q-field,
+  .qds-ui .qds-variant-term .q-field { --qds-field-stroke: color-mix(in srgb, var(--qds-color-primary) 24%, var(--qds-border)); }
 
-  .qds-ui.qds-variant-mobile .q-field,
-  .qds-ui .qds-variant-mobile .q-field { --qds-field-fill: var(--qds-surface-focus-block); }
+  .qds-ui.qds-variant-one .q-field,
+  .qds-ui .qds-variant-one .q-field { --qds-field-fill: var(--qds-surface-focus-block); }
 
-  .qds-ui.qds-variant-mobile :is(.q-field--outlined, .q-field--filled),
-  .qds-ui .qds-variant-mobile :is(.q-field--outlined, .q-field--filled) { --qds-field-radius: calc(var(--qds-radius-control) + 0.25rem); }
+  .qds-ui.qds-variant-one :is(.q-field--outlined, .q-field--filled),
+  .qds-ui .qds-variant-one :is(.q-field--outlined, .q-field--filled) { --qds-field-radius: calc(var(--qds-radius-control) + 0.25rem); }
 
   // Label above the control: the root reserves the band, the label sits in it.
   .qds-ui .q-field--labeled { padding-top: var(--qds-field-band); }
@@ -62,8 +62,8 @@
 
   .qds-ui .q-field--rounded .q-field__control { padding-inline: calc(var(--qds-field-padding-inline) + var(--qds-space-xs)); }
 
-  .qds-ui.qds-variant-mobile :is(.q-field--outlined, .q-field--filled) .q-field__control,
-  .qds-ui .qds-variant-mobile :is(.q-field--outlined, .q-field--filled) .q-field__control { padding-inline: max(var(--qds-field-padding-inline), var(--qds-space-md)); }
+  .qds-ui.qds-variant-one :is(.q-field--outlined, .q-field--filled) .q-field__control,
+  .qds-ui .qds-variant-one :is(.q-field--outlined, .q-field--filled) .q-field__control { padding-inline: max(var(--qds-field-padding-inline), var(--qds-space-md)); }
 
   .qds-ui .q-field .q-field__control-container,
   .qds-ui .q-field--dense.q-field--labeled .q-field__control-container { padding-block: 0; }

@@ -2,7 +2,7 @@ import { expect, test, type Page } from '@playwright/test'
 import { customProperty, resolvedColor } from './helpers'
 
 type Mode = 'light' | 'dark'
-type Variant = 'fluent' | 'ink' | 'mobile' | 'terminal'
+type Variant = 'fluent' | 'ink' | 'one' | 'term'
 type ComplexMediaTestHook = {
   getRtl: () => boolean
   setRtl: (rtl: boolean) => boolean
@@ -14,10 +14,10 @@ declare global {
   }
 }
 
-const EXPECTED_MEDIA_RADIUS: Record<Extract<Variant, 'fluent' | 'mobile' | 'terminal'>, string> = {
+const EXPECTED_MEDIA_RADIUS: Record<Extract<Variant, 'fluent' | 'one' | 'term'>, string> = {
   fluent: '12px',
-  mobile: '20px',
-  terminal: '10px',
+  one: '20px',
+  term: '10px',
 }
 
 async function applyTheme(page: Page, mode: Mode, variant: Variant) {
@@ -238,12 +238,12 @@ test.describe('QDS catalog complex media gate', () => {
     await expect(page.getByLabel('Previous carousel slide')).toBeVisible()
     await expect(page.getByLabel('Next carousel slide')).toBeVisible()
     await expect(page.getByLabel('Show Editorial surface')).toHaveAttribute('aria-current', 'true')
-    await expect(page.getByLabel('Show Mobile radius')).toHaveAttribute('aria-pressed', 'false')
+    await expect(page.getByLabel('Show One radius')).toHaveAttribute('aria-pressed', 'false')
     expect.soft(await computed(page, '[data-test="qds-carousel-controls"] .q-btn', 'border-top-width'), 'custom carousel controls keep their QDS frame').toBe('1px')
-    await page.getByLabel('Show Mobile radius').click()
-    await expect(carousel.getByText('Mobile radius')).toBeVisible()
+    await page.getByLabel('Show One radius').click()
+    await expect(carousel.getByText('One radius')).toBeVisible()
     await expect(carousel.getByText('Editorial surface')).not.toBeVisible()
-    await expect(page.getByLabel('Show Mobile radius')).toHaveAttribute('aria-current', 'true')
+    await expect(page.getByLabel('Show One radius')).toHaveAttribute('aria-current', 'true')
     await page.locator('[data-test="qds-carousel-fullscreen"]').click()
     await expect(carousel).toHaveClass(/fullscreen/)
     expect.soft(await computed(page, '[data-test="qds-carousel"]', 'background-color'), 'fullscreen carousel keeps its tokenized surface').toBe(await tokenColor(page, '[data-test="qds-carousel"]', '--qds-surface-1'))
@@ -274,7 +274,7 @@ test.describe('QDS catalog complex media gate', () => {
     await expect(page.locator('.catalog-fab-stage .material-icons')).toHaveCount(0)
     await expect(page.locator('[data-test="qds-editor"] .material-icons')).toHaveCount(0)
 
-    for (const variant of ['fluent', 'ink', 'mobile', 'terminal'] as const) {
+    for (const variant of ['fluent', 'ink', 'one', 'term'] as const) {
       await applyTheme(page, 'dark', variant)
       const sentContentFg = await computed(page, '[data-test="qds-chat-sent"] .q-message-text-content', 'color')
       const receivedContentFg = await computed(page, '[data-test="qds-chat-received"] .q-message-text-content', 'color')
@@ -291,7 +291,7 @@ test.describe('QDS catalog complex media gate', () => {
     await page.goto('/')
     await page.getByRole('tab', { name: 'Catalog' }).click()
 
-    for (const variant of ['mobile', 'terminal'] as const) {
+    for (const variant of ['one', 'term'] as const) {
       await applyTheme(page, 'dark', variant)
 
       await expect(page.locator('[data-test="qds-timeline"]')).toBeVisible()
@@ -315,8 +315,8 @@ test.describe('QDS catalog complex media gate', () => {
       await expect(carouselControls.locator('.material-icons')).toHaveCount(0)
       await expect(uploaderHeader.locator('.material-icons')).toHaveCount(0)
 
-      if (variant === 'terminal') {
-        expect.soft(await computed(page, '[data-test="qds-editor"]', 'font-family'), 'terminal editor uses monospace family').toContain('ui-monospace')
+      if (variant === 'term') {
+        expect.soft(await computed(page, '[data-test="qds-editor"]', 'font-family'), 'term editor uses monospace family').toContain('ui-monospace')
       }
     }
   })
@@ -426,7 +426,7 @@ test.describe('QDS catalog complex media gate', () => {
     test.setTimeout(60_000)
     await page.goto('/#catalog')
     for (const mode of ['light', 'dark'] as const) {
-      for (const variant of ['fluent', 'ink', 'mobile', 'terminal'] as const) {
+      for (const variant of ['fluent', 'ink', 'one', 'term'] as const) {
         await applyTheme(page, mode, variant)
         await expect(page.locator('[data-test="qds-stepper"]')).toBeVisible()
         await expect(page.locator('[data-test="qds-timeline"]')).toBeVisible()
@@ -434,7 +434,7 @@ test.describe('QDS catalog complex media gate', () => {
         await expect(page.locator('[data-test="qds-carousel"]')).toBeVisible()
         await expect(page.locator('[data-test="qds-editor"]')).toBeVisible()
         await expect(page.locator('[data-test="qds-uploader"]')).toBeVisible()
-        expect.soft(await computed(page, '[data-test="qds-carousel"]', 'border-radius'), `${mode}/${variant} carousel geometry`).toBe(variant === 'mobile' ? '20px' : variant === 'ink' ? '16px' : variant === 'terminal' ? '10px' : await customProperty(page, '--qds-card-radius'))
+        expect.soft(await computed(page, '[data-test="qds-carousel"]', 'border-radius'), `${mode}/${variant} carousel geometry`).toBe(variant === 'one' ? '20px' : variant === 'ink' ? '16px' : variant === 'term' ? '10px' : await customProperty(page, '--qds-card-radius'))
         expect.soft(await computed(page, '[data-test="qds-timeline"] .q-timeline__subtitle', 'color'), `${mode}/${variant} timeline subtitle foreground`).toBe(await tokenColor(page, '[data-test="qds-timeline"]', '--qds-text-muted'))
         expect.soft(await computed(page, '[data-test="qds-timeline-dense"] .q-timeline__dot', 'background-color', '::after'), `${mode}/${variant} dense timeline rail`).toBe(await tokenColor(page, '[data-test="qds-timeline-dense"]', '--qds-timeline-rail'))
         const primaryMarker = '[data-test="qds-timeline"] .q-timeline__entry--left .q-timeline__dot'
@@ -466,7 +466,7 @@ test.describe('QDS catalog complex media gate', () => {
         if (variant === 'ink') {
           expect.soft(await computed(page, '[data-test="qds-editor"]', 'box-shadow'), `${mode}/Ink editor is matte`).toBe('none')
         }
-        if (variant === 'mobile') {
+        if (variant === 'one') {
           expect.soft(await computed(page, '[data-test="qds-editor"]', 'background-color'), `${mode}/One editor is grouped on a visible surface`).not.toBe('rgba(0, 0, 0, 0)')
         }
       }

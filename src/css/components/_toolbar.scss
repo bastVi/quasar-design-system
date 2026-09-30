@@ -1,5 +1,5 @@
 $ink: ':is(.qds-ui.qds-variant-ink, .qds-ui .qds-variant-ink)';
-$terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
+$term: ':is(.qds-ui.qds-variant-term, .qds-ui .qds-variant-term)';
 
 @mixin styles {
   .qds-ui :is(.q-header, .q-footer, .q-toolbar) { color: var(--qds-fg-default); background: var(--qds-toolbar-bg); }
@@ -40,7 +40,7 @@ $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
   .qds-ui .q-separator { background: var(--qds-stroke-divider); }
 
   #{$ink} :is(.q-header, .q-footer, .q-toolbar),
-  :is(#{$ink}, #{$terminal}) .q-bar:not(.q-bar--dark) { background: var(--qds-surface-0); }
+  :is(#{$ink}, #{$term}) .q-bar:not(.q-bar--dark) { background: var(--qds-surface-0); }
   #{$ink} .q-header { border-bottom-color: var(--qds-separator-color); }
-  #{$terminal} .q-bar:not(.q-bar--dark) { border: var(--qds-border-width-control) solid var(--qds-border-subtle); }
+  #{$term} .q-bar:not(.q-bar--dark) { border: var(--qds-border-width-control) solid var(--qds-border-subtle); }
 }

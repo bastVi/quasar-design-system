@@ -2,7 +2,7 @@ import { test, expect, type Page } from '@playwright/test'
 import { MATRIX_VARIANTS, customProperty, resolvedColor, resolvedShadow } from './helpers'
 
 type Mode = 'light' | 'dark'
-type Variant = 'fluent' | 'ink' | 'mobile'
+type Variant = 'fluent' | 'ink' | 'one'
 
 /** Drive the runtime controller exactly as an external app would. */
 async function applyTheme(page: Page, mode: Mode, variant: Variant) {
@@ -161,7 +161,7 @@ test.describe('QDS catalog data display gate', () => {
         if (variant === 'ink') {
           expect.soft(await computed(page, '[data-test="qds-expansion-expanded"]', 'box-shadow'), `${mode}/Ink data content is matte`).toBe('none')
         }
-        if (variant === 'mobile') {
+        if (variant === 'one') {
           expect.soft(await computed(page, '[data-test="qds-expansion-expanded"] .q-item', 'min-height'), `${mode}/One data rows meet touch height`).toBe('52px')
         }
       }

@@ -38,8 +38,8 @@ const listActions = [
 const gridActions = [
   { id: 'fluent', label: 'Fluent' },
   { id: 'ink', label: 'Ink' },
-  { id: 'mobile', label: 'One' },
-  { id: 'terminal', label: 'Terminal' },
+  { id: 'one', label: 'One' },
+  { id: 'term', label: 'Term' },
   {},
   { id: 'tokens', label: 'Tokens' },
   { id: 'motion', label: 'Motion' },

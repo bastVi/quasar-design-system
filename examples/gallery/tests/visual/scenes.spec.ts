@@ -7,7 +7,7 @@ test.describe('QDS scene gallery', () => {
     await applyTheme(page, 'light', 'fluent')
     await expect(page.getByRole('tab', { name: 'Scenes' })).toHaveClass(/q-tab--active/)
 
-    for (const variant of ['fluent', 'ink', 'mobile', 'terminal'] as const) {
+    for (const variant of ['fluent', 'ink', 'one', 'term'] as const) {
       const scene = page.locator(`[data-test="qds-scene-${variant}"]`)
       await expect(scene).toBeVisible()
       await expect(scene.locator(`[data-test="qds-scene-card-${variant}"]`)).toHaveClass(/qds-card--readable/)

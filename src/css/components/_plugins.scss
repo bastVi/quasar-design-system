@@ -1,8 +1,8 @@
 @use '../materials';
 
 $ink: ':is(.qds-ui.qds-variant-ink, .qds-ui .qds-variant-ink)';
-$mobile: ':is(.qds-ui.qds-variant-mobile, .qds-ui .qds-variant-mobile)';
-$terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
+$one: ':is(.qds-ui.qds-variant-one, .qds-ui .qds-variant-one)';
+$term: ':is(.qds-ui.qds-variant-term, .qds-ui .qds-variant-term)';
 
 @mixin styles {
   .qds-ui .q-dialog__inner > .q-bottom-sheet {
@@ -46,9 +46,9 @@ $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
   .qds-ui .q-loading .q-loading__message { margin: var(--qds-space-md) var(--qds-space-sm) 0; color: var(--qds-fg-muted); }
 
   #{$ink} .q-dialog__inner > .q-bottom-sheet,
-  #{$mobile} .q-dialog__inner > .q-bottom-sheet { @include materials.solid(var(--qds-surface-focus-block)); }
-  #{$mobile} .q-bottom-sheet--list .q-bottom-sheet__item { min-height: 3.5rem; margin-inline: 0; padding-inline: var(--qds-space-lg); }
-  #{$terminal} :is(.q-dialog__inner > .q-bottom-sheet, .q-loading .q-loading__box) {
+  #{$one} .q-dialog__inner > .q-bottom-sheet { @include materials.solid(var(--qds-surface-focus-block)); }
+  #{$one} .q-bottom-sheet--list .q-bottom-sheet__item { min-height: 3.5rem; margin-inline: 0; padding-inline: var(--qds-space-lg); }
+  #{$term} :is(.q-dialog__inner > .q-bottom-sheet, .q-loading .q-loading__box) {
     border: var(--qds-border-width-control) solid color-mix(in srgb, var(--qds-color-primary) 24%, var(--qds-border));
     box-shadow: none;
     @include materials.solid(var(--qds-surface-0));

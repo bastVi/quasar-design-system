@@ -1,10 +1,10 @@
 import { expect, test, type Page } from '@playwright/test'
 import { resolvedColor } from './helpers'
 
-async function forceTheme(page: Page, mode: 'light' | 'dark' = 'light', variant: 'fluent' | 'terminal' = 'fluent') {
+async function forceTheme(page: Page, mode: 'light' | 'dark' = 'light', variant: 'fluent' | 'term' = 'fluent') {
   await page.waitForFunction(() => Boolean((window as unknown as { __qdsGallery?: unknown }).__qdsGallery))
   await page.evaluate(({ mode, variant }) => {
-    const ds = (window as unknown as { __qdsGallery: { setMode: (mode: 'light' | 'dark') => void; setVariant: (variant: 'fluent' | 'terminal') => void } }).__qdsGallery
+    const ds = (window as unknown as { __qdsGallery: { setMode: (mode: 'light' | 'dark') => void; setVariant: (variant: 'fluent' | 'term') => void } }).__qdsGallery
     ds.setMode(mode)
     ds.setVariant(variant)
   }, { mode, variant })
@@ -159,7 +159,7 @@ test.describe('QDS optional QWindow extension', () => {
 
   })
 
-  test('close hover and focus use restrained destructive feedback in Fluent light/dark and Terminal', async ({ page }) => {
+  test('close hover and focus use restrained destructive feedback in Fluent light/dark and Term', async ({ page }) => {
     await page.goto('/#window')
     await page.emulateMedia({ reducedMotion: 'reduce' })
 
@@ -167,7 +167,7 @@ test.describe('QDS optional QWindow extension', () => {
     const closeAction = windowShell.locator('.qds-window__action--close')
     await expect(closeAction).toHaveClass(/(?:^|\s)q-btn(?:\s|$)/)
 
-    for (const [mode, variant] of [['light', 'fluent'], ['dark', 'fluent'], ['dark', 'terminal']] as const) {
+    for (const [mode, variant] of [['light', 'fluent'], ['dark', 'fluent'], ['dark', 'term']] as const) {
       await forceTheme(page, mode, variant)
       await closeAction.hover()
 

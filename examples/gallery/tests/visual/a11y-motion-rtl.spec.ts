@@ -200,7 +200,7 @@ test.describe('QDS accessibility, motion, and RTL evidence', () => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto('/#catalog')
 
-    for (const variant of ['ink', 'mobile'] as const) {
+    for (const variant of ['ink', 'one'] as const) {
       await page.evaluate((variant) => {
         const ds = (window as unknown as { __qdsGallery: any }).__qdsGallery
         ds.setMode('light')

@@ -262,7 +262,7 @@ test.describe('forms', () => {
     await expect.poll(() => shadow(0), 'newly selected pill glows').not.toBe('none')
   })
 
-  for (const variant of ['ink', 'terminal'] as const) {
+  for (const variant of ['ink', 'term'] as const) {
     test(`category pills stay flat in ${variant}`, async ({ page }, testInfo) => {
       await openForms(page, 'light', variant)
       const pills = page.locator(`${byHook('qds-forms-pills')} .q-chip`)

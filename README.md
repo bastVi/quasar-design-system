@@ -171,8 +171,8 @@ The package is structured around `src/themes/`. For now there is one real theme,
 
 - `fluent`: default Fluent 2-inspired direction with a Mica app backdrop, acrylic overlays, solid reading surfaces, and low-border content. Absorbs the legacy Air translucency behavior.
 - `ink`: paper-neutral editorial surfaces with charcoal type and coordinated pastel role washes.
-- `mobile` (labelled **One**): Samsung One UI-inspired focus blocks, rounding, spacing, and touch-friendly control rhythm.
-- `terminal`: dark amber developer UI with near-black surfaces, crisp hairline cards, restrained glow, and a monospace-forward feel.
+- `one`: Samsung One UI-inspired focus blocks, rounding, spacing, and touch-friendly control rhythm.
+- `term`: dark amber developer UI with near-black surfaces, crisp hairline cards, restrained glow, and a monospace-forward feel.
 
 They are not separate brands — deliberate overlays over the same token system.
 
@@ -181,11 +181,11 @@ Choose the variant once at app startup and let the runtime keep the matching bod
 ```ts
 configureDesignSystem(app, {
   mode: 'system',
-  variant: 'ink', // fluent | ink | mobile (One) | terminal
+  variant: 'ink', // fluent | ink | one | term
 })
 ```
 
-Legacy inputs `air`, `glass`, and `studio` resolve to `fluent`; `feather` resolves to `ink`. The runtime keeps persisted state and body classes compatible, but new apps should use the canonical names above.
+Legacy inputs `air`, `glass`, and `studio` resolve to `fluent`; `feather` resolves to `ink`; `mobile` resolves to `one`; `terminal` resolves to `term`. The runtime accepts these legacy names for options, `setVariant` and persisted state, but writes only the canonical body classes; new apps should use the canonical names above.
 
 ## Component Coverage
 

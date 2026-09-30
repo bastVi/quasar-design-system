@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 `@bastvi/quasar-design-system` — an opinionated **visual layer** for Quasar 2. Microsoft Fluent 2 is the
 primary direction, now with tonal/acrylic defaults; the `ink` variant is the paper-neutral editorial
-surface with charcoal type and pastel role washes, and the `mobile` variant references Samsung One UI
+surface with charcoal type and pastel role washes, and the `one` variant references Samsung One UI
 (rounding/spacing/focus blocks). It provides design tokens, surfaces, shape, motion, typography,
 Quasar component overrides, and a runtime light/dark/system + variant controller.
 
@@ -67,13 +67,13 @@ and `@include` it in `index.scss` (and the layered entry).
   `$q.dark`, and writes `data-qds-mode` / `data-qds-resolved` / `data-qds-variant` plus the
   `qds-theme-light|dark` and `.qds-ui` classes onto the target (default `document.body`).
 - `.qds-ui` is the scoping class the stronger overrides depend on — it is added here, not by hand.
-- Applies the `variant` as a body class (`qds-variant-fluent|ink|mobile|terminal`; legacy `air`/`glass`/`studio` normalize to `fluent`; legacy `feather` normalizes to `ink`).
+- Applies the `variant` as a body class (`qds-variant-fluent|ink|one|term`; legacy `air`/`glass`/`studio` normalize to `fluent`; legacy `feather` normalizes to `ink`; legacy `mobile`/`terminal` normalize to `one`/`term`).
 - Persists `{ mode, variant }` to `localStorage` and listens to system theme changes. Defaults live
   in `DEFAULT_DESIGN_SYSTEM_OPTIONS`.
 
 ### Themes vs variants — `src/themes/index.ts`
 
-There is **one theme** (`default`). "Variants" (`fluent`, `ink`, `mobile`, `terminal`) are small mood shifts
+There is **one theme** (`default`). "Variants" (`fluent`, `ink`, `one`, `term`) are small mood shifts
 expressed purely as CSS classes (`DESIGN_SYSTEM_VARIANTS[*].cssClass`) over the same token system —
 not separate brands. Legacy inputs `air`/`glass`/`studio` normalize to `fluent`; `feather` normalizes
 to `ink`. New themes start as variables-only files: `src/themes/{name}.scss` for CSS

@@ -76,7 +76,7 @@ test.describe('Fluent composition', () => {
     }))
 
     for (const scene of mobile) {
-      expect(scene.contained, '390px scene composition avoids clipping One and Terminal fixtures').toBe(true)
+      expect(scene.contained, '390px scene composition avoids clipping One and Term fixtures').toBe(true)
       expect(scene.scrollsHorizontally, '390px scene fixture does not rely on horizontal overflow').toBe(false)
     }
   })

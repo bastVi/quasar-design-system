@@ -72,8 +72,8 @@
   padding: var(--qds-space-xs) calc(var(--qds-space-md) + var(--qds-scrollbar-size)) var(--qds-space-xs) var(--qds-space-xs);
 }
 
-.qds-ui.qds-variant-terminal .catalog-scroll-box.q-scrollarea,
-.qds-ui .qds-variant-terminal .catalog-scroll-box.q-scrollarea {
+.qds-ui.qds-variant-term .catalog-scroll-box.q-scrollarea,
+.qds-ui .qds-variant-term .catalog-scroll-box.q-scrollarea {
   font-family: var(--qds-font-family);
   background:
     linear-gradient(180deg, rgba(var(--qds-color-primary-rgb), 0.035), transparent 42%),

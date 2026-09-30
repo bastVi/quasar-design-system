@@ -46,8 +46,8 @@ const modeIcons = {
 const variantIcons: Record<string, Component> = {
   fluent: PhPalette,
   ink: PhPenNib,
-  mobile: PhDeviceMobile,
-  terminal: PhTerminal,
+  one: PhDeviceMobile,
+  term: PhTerminal,
 }
 
 const modeOptions = modes.map((mode) => ({

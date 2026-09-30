@@ -29,14 +29,14 @@
     font-weight: var(--qds-font-weight-semibold);
   }
 
-  .qds-ui .qds-variant-mobile .q-pagination .q-btn,
-  .qds-ui.qds-variant-mobile .q-pagination .q-btn {
+  .qds-ui .qds-variant-one .q-pagination .q-btn,
+  .qds-ui.qds-variant-one .q-pagination .q-btn {
     flex-basis: 2.75rem;
     height: 2.75rem;
   }
 
-  .qds-ui .qds-variant-terminal .q-pagination .q-btn,
-  .qds-ui.qds-variant-terminal .q-pagination .q-btn {
+  .qds-ui .qds-variant-term .q-pagination .q-btn,
+  .qds-ui.qds-variant-term .q-pagination .q-btn {
     border-radius: var(--qds-radius-sm);
   }
 }
