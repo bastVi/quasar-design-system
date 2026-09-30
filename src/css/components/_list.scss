@@ -28,12 +28,12 @@ $mobile: ':is(.qds-ui.qds-variant-mobile, .qds-ui .qds-variant-mobile)';
   .qds-ui .q-item.q-manual-focusable--focused { background-color: var(--qds-state-hover); }
   .qds-ui .q-item.q-hoverable:active { background-color: var(--qds-state-pressed); }
   .qds-ui .q-item:focus-visible { outline: var(--qds-focus-ring-width) solid var(--qds-stroke-focus); outline-offset: calc(-1 * var(--qds-focus-ring-width)); }
-  .qds-ui .q-item:is(.q-item--active, [aria-selected='true']) { color: var(--qds-fg-strong); background-color: var(--qds-surface-brand-soft); }
+  .qds-ui .q-item:is(.q-item--active, [aria-selected='true']) { color: var(--qds-fg-strong); background-color: var(--qds-state-hover); }
 
   .qds-ui .q-item:is(.q-item--active, [aria-selected='true'])::before {
     position: absolute;
     inset-inline-start: 0;
-    inset-block: max(0.5rem, calc(50% - 0.625rem));
+    inset-block: max(0.5rem, calc(50% - 0.5rem));
     width: 3px;
     content: '';
     background: var(--qds-tab-active-rail);
@@ -75,7 +75,7 @@ $mobile: ':is(.qds-ui.qds-variant-mobile, .qds-ui .qds-variant-mobile)';
   #{$mobile} .q-list--bordered { background: var(--qds-surface-0); border-radius: var(--qds-card-radius); }
   #{$mobile} .q-list--separator > .q-item + .q-item { margin-inline-start: var(--qds-space-md); padding-inline-start: 0; }
   #{$mobile} .q-item { padding-inline: var(--qds-space-md); border-radius: var(--qds-radius-control); }
-  #{$mobile} .q-item:is(.q-item--active, [aria-selected='true']),
+  #{$mobile} .q-item:is(.q-item--active, [aria-selected='true']) { background-color: color-mix(in srgb, var(--qds-surface-focus-block) 78%, var(--qds-color-primary)); }
   #{$mobile} .q-expansion-item--expanded > .q-expansion-item__container > .q-item { background-color: var(--qds-surface-focus-block); }
   #{$mobile} .q-item:is(.q-item--active, [aria-selected='true'])::before { display: none; }
   #{$mobile} .q-expansion-item { border-radius: var(--qds-card-radius); }

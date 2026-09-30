@@ -28,6 +28,7 @@
 @use 'components/plugins';
 @use 'components/actions';
 @use 'components/forms';
+@use 'components/form-field';
 @use 'components/loading-data';
 @use 'components/complex-media';
 
@@ -61,6 +62,7 @@
   @include plugins.styles;
   @include actions.styles;
   @include forms.styles;
+  @include form-field.styles;
   @include loading-data.styles;
   @include complex-media.styles;
 }

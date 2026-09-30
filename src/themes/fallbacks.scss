@@ -54,11 +54,10 @@
   --qds-state-selected: #{map.get($scheme, state-selected)};
   --qds-state-disabled: #{map.get($scheme, state-disabled)};
   --qds-state-focus-indicator: #{map.get($scheme, state-focus-indicator)};
-  // Control fill aliases
-  --qds-control-fill-default: var(--qds-surface-0);
-  --qds-control-fill-hover: var(--qds-surface-1);
-  --qds-control-fill-pressed: var(--qds-surface-2);
-  --qds-control-fill-disabled: var(--qds-surface-2);
+  // Win11 control and card layers
+  @each $token in control-fill-default, control-fill-hover, control-fill-pressed, control-fill-disabled, control-fill-input-active, control-stroke-default, control-stroke-secondary, control-stroke-strong, control-stroke-top, control-stroke-bottom, control-stroke-on-accent-top, control-stroke-on-accent-bottom, card-fill, card-stroke {
+    --qds-#{$token}: #{map.get($scheme, $token)};
+  }
   --qds-segmented-track-bg: #{map.get($scheme, segmented-track-bg)};
   --qds-segmented-thumb-bg: #{map.get($scheme, segmented-thumb-bg)};
   --qds-bar-dark-bg: #{map.get($scheme, bar-dark-bg)};
@@ -128,6 +127,13 @@
   --qds-field-value-inset-block-start-dense: 1rem;
   --qds-field-value-inset-block-end-dense: 0.375rem;
   --qds-field-transition: var(--qds-motion-fast);
+  --qds-field-label-weight: var(--qds-font-weight-regular);
+  --qds-field-shadow: none;
+  --qds-field-focus-stroke: color-mix(in srgb, currentColor #{map.get(map.get(tokens.$components, field), focus-stroke-mix)}, var(--qds-control-stroke-default));
+  --qds-field-focus-halo: none;
+  --qds-control-halo: 0 0 8px color-mix(in srgb, currentColor #{map.get(map.get(tokens.$components, field), halo-mix)}, transparent);
+  --qds-field-description-color: color-mix(in srgb, var(--qds-text-muted) 75%, var(--qds-text));
+  --qds-field-help-gap: var(--qds-space-xs);
   --qds-row-gap: 0.125rem;
   --qds-row-radius: var(--qds-radius-md);
   --qds-row-inset: var(--qds-space-sm);
@@ -163,7 +169,7 @@
   --qds-card-header-bg-opaque: linear-gradient(135deg, rgba(var(--qds-card-acrylic-tint-rgb), var(--qds-card-header-tonal-opacity)), transparent 76%), var(--qds-surface-0);
   --qds-card-header-border: var(--qds-separator-color);
   --qds-card-radius: var(--qds-radius-lg);
-  --qds-card-shadow: var(--qds-card-shadow-value, var(--qds-shadow-sm));
+  --qds-card-shadow: var(--qds-card-shadow-value, none);
   --qds-chrome-border: color-mix(in srgb, var(--qds-border-subtle) var(--qds-chrome-border-mix, 46%), transparent);
   --qds-chrome-border-soft: color-mix(in srgb, var(--qds-border-subtle) var(--qds-chrome-border-soft-mix, 24%), transparent);
   --qds-chrome-surface: color-mix(in srgb, var(--qds-surface-1) var(--qds-chrome-surface-mix, 86%), transparent);
@@ -414,6 +420,19 @@
 }
 
 // materials
+@mixin qds-opaque-control-layers {
+  --qds-control-fill-default: var(--qds-surface-0);
+  --qds-control-fill-hover: var(--qds-surface-1);
+  --qds-control-fill-pressed: var(--qds-surface-2);
+  --qds-control-fill-disabled: var(--qds-surface-2);
+  --qds-control-fill-input-active: var(--qds-surface-0);
+  --qds-card-fill: var(--qds-surface-0);
+  --qds-card-stroke: var(--qds-stroke-subtle);
+  --qds-control-stroke-on-accent-top: transparent;
+  --qds-control-stroke-on-accent-bottom: transparent;
+  --qds-control-halo: none;
+}
+
 @mixin qds-material-tokens($scheme) {
   @if $scheme == solid {
     @each $level in thin, regular, thick {
@@ -423,6 +442,7 @@
     --qds-material-edge: inset 0 0 0 0 transparent;
     --qds-mica-alt: var(--qds-surface-1);
     --qds-backdrop: var(--qds-surface-1);
+    @include qds-opaque-control-layers;
   } @else {
     $values: map.get(tokens.$materials, $scheme);
     @each $level in thin, regular, thick {

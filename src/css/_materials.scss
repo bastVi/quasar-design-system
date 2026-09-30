@@ -13,3 +13,9 @@
   @if $fill { background: $fill; }
   @include backdrop(none);
 }
+
+// Win11 elevation edge as per-side colours; forced colours replace them with the system border.
+@mixin elevation-border($fill: null, $top: var(--qds-control-stroke-top), $bottom: var(--qds-control-stroke-bottom), $side: var(--qds-control-stroke-default)) {
+  @if $fill { background-color: $fill; }
+  border-color: $top $side $bottom;
+}

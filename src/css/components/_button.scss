@@ -1,4 +1,6 @@
+@use 'sass:list';
 @use 'sass:map';
+@use '../materials';
 
 $roles: (
   primary: (hover: var(--qds-color-primary-dark), pressed: var(--qds-color-primary-pressed)),
@@ -29,12 +31,18 @@ $soft-surfaces: (primary: surface-brand-soft, secondary: bg-layer, accent: surfa
 $height: clamp(var(--qds-button-size-sm), calc(var(--qds-button-min-height) + (1em - 0.875rem) * 2), var(--qds-button-size-lg));
 $padding: clamp(var(--qds-button-dense-padding-inline), calc(var(--qds-button-padding-inline) + 1em - 0.875rem), calc(var(--qds-button-padding-inline) + 0.25rem));
 $not-fab: ':where(:not(.q-btn--fab, .q-btn--fab-mini))';
+$filled: ':is(.q-btn--standard, .q-btn--unelevated, .q-btn--push):where(:not(.q-btn-toggle > .q-btn))';
+$accent-fills: ();
+
+@each $role, $_ in $roles {
+  $accent-fills: list.append($accent-fills, '.bg-#{$role}', comma);
+}
 
 @mixin styles {
   .qds-ui .q-btn {
     border: var(--qds-border-width-control) solid transparent;
     border-radius: var(--qds-button-radius);
-    background-color: transparent;
+    background: linear-gradient(var(--qds-button-state, transparent), var(--qds-button-state, transparent)) transparent;
     font-weight: var(--qds-font-weight-semibold);
     letter-spacing: var(--qds-control-letter-spacing);
     text-transform: var(--qds-control-text-transform);
@@ -81,11 +89,11 @@ $not-fab: ':where(:not(.q-btn--fab, .q-btn--fab-mini))';
   }
 
   .qds-ui .q-btn:not(.disabled):hover {
-    background-image: linear-gradient(var(--qds-state-hover), var(--qds-state-hover));
+    --qds-button-state: var(--qds-state-hover);
   }
 
   .qds-ui .q-btn:not(.disabled):active {
-    background-image: linear-gradient(var(--qds-state-pressed), var(--qds-state-pressed));
+    --qds-button-state: var(--qds-state-pressed);
   }
 
   // QBtn carries Quasar's `no-outline` utility.
@@ -126,21 +134,33 @@ $not-fab: ':where(:not(.q-btn--fab, .q-btn--fab-mini))';
     opacity: var(--qds-control-icon-opacity-active);
   }
 
-  .qds-ui .q-btn:is(.q-btn--standard, .q-btn--unelevated, .q-btn--push) {
+  .qds-ui .q-btn#{$filled} {
+    --qds-button-fill: var(--qds-control-fill-default);
     color: var(--qds-fg-default);
-    background-color: var(--qds-control-fill-default);
-    border-color: var(--qds-stroke-default);
+    background: var(--qds-button-fill);
+    @include materials.elevation-border;
   }
 
-  .qds-ui .qds-variant-terminal .q-btn:is(.q-btn--standard, .q-btn--unelevated, .q-btn--push),
-  .qds-ui.qds-variant-terminal .q-btn:is(.q-btn--standard, .q-btn--unelevated, .q-btn--push) {
-    background-color: color-mix(in srgb, var(--qds-surface-1) 84%, var(--qds-color-primary) 10%);
+  .qds-ui .q-btn#{$filled}:not(.disabled):hover {
+    --qds-button-fill: var(--qds-control-fill-hover);
+  }
+
+  .qds-ui .q-btn#{$filled}:not(.disabled):active {
+    --qds-button-fill: var(--qds-control-fill-pressed);
+    color: var(--qds-fg-muted);
+  }
+
+  .qds-ui .qds-variant-terminal .q-btn#{$filled},
+  .qds-ui.qds-variant-terminal .q-btn#{$filled} {
+    --qds-control-fill-default: color-mix(in srgb, var(--qds-surface-1) 84%, var(--qds-color-primary) 10%);
+    --qds-control-fill-hover: color-mix(in srgb, var(--qds-surface-1) 78%, var(--qds-color-primary) 16%);
+    --qds-control-fill-pressed: color-mix(in srgb, var(--qds-surface-2) 80%, var(--qds-color-primary) 14%);
     border-color: color-mix(in srgb, var(--qds-color-primary) 42%, var(--qds-border));
   }
 
-  .qds-ui .qds-variant-ink .q-btn:is(.q-btn--standard, .q-btn--unelevated, .q-btn--push),
-  .qds-ui.qds-variant-ink .q-btn:is(.q-btn--standard, .q-btn--unelevated, .q-btn--push) {
-    background-color: var(--qds-surface-transient);
+  .qds-ui .qds-variant-ink .q-btn#{$filled},
+  .qds-ui.qds-variant-ink .q-btn#{$filled} {
+    --qds-control-fill-default: var(--qds-surface-transient);
     border-color: var(--qds-separator-color);
   }
 
@@ -194,12 +214,10 @@ $not-fab: ':where(:not(.q-btn--fab, .q-btn--fab-mini))';
 
     .qds-ui .q-btn.bg-#{$role}:not(.qds-tonal, .disabled):hover {
       --qds-button-fill: #{role-value($role, hover)};
-      background-image: none;
     }
 
     .qds-ui .q-btn.bg-#{$role}:not(.qds-tonal, .disabled):active {
       --qds-button-fill: #{role-value($role, pressed)};
-      background-image: none;
     }
 
     .qds-ui .q-btn.bg-#{$role}.qds-tonal {
@@ -211,8 +229,16 @@ $not-fab: ':where(:not(.q-btn--fab, .q-btn--fab-mini))';
 
     .qds-ui .q-btn.bg-#{$role}.qds-tonal:not(.disabled):hover {
       --qds-button-fill: color-mix(in srgb, #{role-soft($role)}, var(--qds-color-#{$role}) 10%);
-      background-image: none;
     }
+
+    .qds-ui .q-btn.bg-#{$role}.qds-tonal:not(.disabled):active {
+      --qds-button-fill: color-mix(in srgb, #{role-soft($role)}, var(--qds-color-#{$role}) 18%);
+    }
+  }
+
+  // WinUI CalendarView selections stay flat accent fills.
+  .qds-ui .q-btn:is(#{$accent-fills}):not(.qds-tonal):where(:not(:is(.q-date__calendar-item, .q-date__months-item, .q-date__years-item) > .q-btn)) {
+    @include materials.elevation-border($top: var(--qds-control-stroke-on-accent-top), $side: var(--qds-control-stroke-on-accent-top), $bottom: var(--qds-control-stroke-on-accent-bottom));
   }
 
   // Fluent disabled: neutral fill, stroke and foreground instead of Quasar's opacity dimming.
@@ -221,8 +247,9 @@ $not-fab: ':where(:not(.q-btn--fab, .q-btn--fab-mini))';
     opacity: 1 !important;
   }
 
-  .qds-ui .q-btn.q-btn-item.disabled:is(.q-btn--standard, .q-btn--unelevated, .q-btn--push):where(:not(.q-btn-toggle > .q-btn)) {
-    background-color: var(--qds-control-fill-disabled) !important;
+  .qds-ui .q-btn.q-btn-item.disabled#{$filled} {
+    --qds-button-fill: var(--qds-control-fill-disabled);
+    background-color: var(--qds-button-fill) !important;
     border-color: var(--qds-stroke-subtle);
   }
 

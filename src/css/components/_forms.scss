@@ -17,6 +17,26 @@
   }
 
   .qds-ui .q-option-group :is(.q-checkbox, .q-radio, .q-toggle):is(:hover, :focus-within) { background: var(--qds-state-hover); }
+
+  .qds-ui .qds-option-group--card { gap: var(--qds-space-sm); }
+
+  .qds-ui .qds-option-group--card :is(.q-checkbox, .q-radio, .q-toggle) {
+    display: flex;
+    min-height: var(--qds-control-size-lg);
+    padding-block: var(--qds-space-xs);
+    padding-inline: var(--qds-space-sm) var(--qds-space-md);
+    background: var(--qds-control-fill-default);
+    border: var(--qds-border-width-control) solid var(--qds-control-stroke-secondary);
+    border-radius: var(--qds-radius-control);
+    transition: background-color var(--qds-motion-fast), border-color var(--qds-motion-fast);
+  }
+
+  .qds-ui .qds-option-group--card :is(.q-checkbox, .q-radio, .q-toggle):hover { background: var(--qds-control-fill-hover); }
+
+  .qds-ui .qds-option-group--card :is(.q-checkbox, .q-radio, .q-toggle):has(> .q-checkbox__inner--truthy, > .q-radio__inner--truthy, > .q-toggle__inner--truthy) {
+    background: var(--qds-surface-brand-soft);
+    border-color: var(--qds-stroke-focus);
+  }
   .qds-ui .q-file .q-field__native { align-items: center; gap: var(--qds-space-xs); }
 
   .qds-ui .q-file .q-file__dnd {

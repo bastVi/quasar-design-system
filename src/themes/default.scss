@@ -232,6 +232,7 @@ $qds-material-scopes: '.qds-theme-dark, body.qds-ui.body--dark, .qds-variant-mob
     --qds-font-family-display: #{qds-variant-token(terminal, font-family-display)};
     @include qds-variant-scheme(terminal);
     @include qds-terminal-sizing;
+    @include fallbacks.qds-opaque-control-layers;
     --qds-fg-brand: color-mix(in srgb, var(--qds-color-primary) 40%, var(--qds-text-strong));
     @each $role in secondary, accent, positive, negative, warning, info {
       --qds-fg-#{$role}: color-mix(in srgb, var(--qds-color-#{$role}) 40%, var(--qds-text-strong));
@@ -244,6 +245,7 @@ $qds-material-scopes: '.qds-theme-dark, body.qds-ui.body--dark, .qds-variant-mob
   body.qds-ui.body--dark .qds-variant-terminal {
     @include qds-variant-scheme(terminal, true);
     @include qds-terminal-sizing;
+    @include fallbacks.qds-opaque-control-layers;
     --qds-fg-brand: var(--qds-color-primary-light);
   }
 

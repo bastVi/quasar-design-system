@@ -1,4 +1,5 @@
 @use 'button';
+@use '../materials';
 
 @mixin styles {
   .qds-ui .q-chip {
@@ -7,14 +8,16 @@
     min-height: var(--qds-chip-min-height);
     padding: var(--qds-chip-padding);
     color: var(--qds-fg-default);
-    background: var(--qds-bg-layer);
-    border: var(--qds-border-width-control) solid transparent;
+    background: var(--qds-control-fill-default);
+    border: var(--qds-border-width-control) solid;
+    @include materials.elevation-border;
     border-radius: var(--qds-chip-radius);
     font-weight: var(--qds-font-weight-medium);
     letter-spacing: var(--qds-control-letter-spacing);
     transition:
       background-color var(--qds-motion-fast),
       border-color var(--qds-motion-fast),
+      box-shadow var(--qds-motion-fast),
       color var(--qds-motion-fast);
   }
 
@@ -28,17 +31,27 @@
     padding: var(--qds-chip-dense-padding);
   }
 
-  .qds-ui .q-chip--clickable:hover {
-    background-image: linear-gradient(var(--qds-state-hover), var(--qds-state-hover));
+  .qds-ui .q-chip--clickable:where(:not(.q-chip--selected)):hover {
+    background-color: var(--qds-control-fill-hover);
   }
 
-  .qds-ui .q-chip--clickable:active {
-    background-image: linear-gradient(var(--qds-state-pressed), var(--qds-state-pressed));
+  .qds-ui .q-chip--clickable:where(:not(.q-chip--selected)):active {
+    background-color: var(--qds-control-fill-pressed);
   }
 
-  .qds-ui .q-chip.q-chip--clickable:focus {
+  .qds-ui .q-chip:where([class*='bg-']) {
+    border-color: transparent;
+  }
+
+  .qds-ui .q-chip.q-chip--clickable[tabindex]:focus {
     box-shadow: none;
   }
+
+  .qds-ui .q-chip.q-chip--clickable[tabindex]:is(.q-chip--selected, :hover) {
+    box-shadow: var(--qds-control-halo);
+  }
+
+  .qds-ui .q-chip--selected:has(> .q-chip__content > svg:first-child) > .q-chip__icon--left { display: none; }
 
   .qds-ui .q-chip:focus-visible {
     outline: var(--qds-focus-ring-width) solid var(--qds-stroke-focus);
@@ -51,6 +64,7 @@
   }
 
   .qds-ui .q-chip--outline {
+    background: transparent;
     border-color: var(--qds-stroke-default);
   }
 

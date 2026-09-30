@@ -6,7 +6,7 @@
     --qds-field-icon: var(--qds-field-icon-size);
     --qds-field-gap: var(--qds-space-sm);
     --qds-field-radius: var(--qds-radius-control);
-    --qds-field-stroke: var(--qds-stroke-default);
+    --qds-field-stroke: var(--qds-control-stroke-default);
     --qds-field-fill: var(--qds-bg-surface-2);
     font-size: var(--qds-font-size-body1);
     line-height: var(--qds-line-height-body1);
@@ -116,11 +116,34 @@
     max-width: 100%;
     transform: none;
     font-size: var(--qds-field-label-font);
-    font-weight: var(--qds-font-weight-regular);
+    font-weight: var(--qds-field-label-weight);
     line-height: inherit;
     letter-spacing: normal;
     color: var(--qds-fg-default);
     transition: color var(--qds-field-transition);
+  }
+
+  .qds-ui :is(.q-field:has(:is(input, textarea)[required], [aria-required="true"]), .qds-field--required) .q-field__label::after,
+  .qds-ui .qds-form-field--required .qds-form-field__label::after {
+    content: "*";
+    content: "*" / "";
+    padding-inline-start: 0.125rem;
+    color: var(--qds-fg-negative);
+  }
+
+  .qds-ui .q-field--labeled .q-field__label:has(> .qds-field__hint) {
+    display: flex;
+    align-items: baseline;
+    gap: var(--qds-space-sm);
+    inset-inline-end: 0;
+  }
+
+  .qds-ui :is(.qds-field__hint, .qds-form-field__hint) {
+    order: 1;
+    margin-inline-start: auto;
+    font-size: var(--qds-font-size-caption);
+    font-weight: var(--qds-font-weight-regular);
+    color: var(--qds-field-description-color);
   }
 
   .qds-ui .q-field .q-field__marginal {
@@ -135,6 +158,12 @@
   .qds-ui .q-field .q-field__append { padding-inline: var(--qds-field-gap) 0; }
   .qds-ui .q-field .q-field__append + .q-field__append { padding-inline-start: var(--qds-space-xs); }
 
+  .qds-ui .q-field :is(.q-field__prepend, .q-field__append) .q-btn:is(.q-btn--round, .q-btn--dense) {
+    min-width: calc(var(--qds-field-icon) + var(--qds-space-xs));
+    min-height: calc(var(--qds-field-icon) + var(--qds-space-xs));
+    padding: 0;
+  }
+
   .qds-ui .q-field .q-field__marginal :is(.q-icon, svg) {
     width: var(--qds-field-icon);
     min-width: var(--qds-field-icon);
@@ -148,7 +177,7 @@
   // ::before draws the stroke box; ::after is the Fluent focus bar scaling in from the centre.
   .qds-ui .q-field .q-field__control::before {
     border: 0 solid var(--qds-field-stroke);
-    border-bottom-color: var(--qds-stroke-strong);
+    border-bottom-color: var(--qds-control-stroke-strong);
     background: none;
     opacity: 1;
     transition: border-color var(--qds-field-transition);
@@ -174,13 +203,15 @@
     transition-timing-function: var(--qds-motion-ease-out);
   }
 
-  .qds-ui .q-field--outlined .q-field__control { background: var(--qds-control-fill-default); }
+  .qds-ui .q-field--outlined .q-field__control {
+    background: var(--qds-control-fill-default);
+    box-shadow: var(--qds-field-shadow);
+    transition: background-color var(--qds-field-transition), box-shadow var(--qds-field-transition);
+  }
+
   .qds-ui .q-field--outlined .q-field__control::before { border-width: var(--qds-border-width-control); }
 
-  .qds-ui .q-field--outlined .q-field__control:hover::before {
-    border-color: color-mix(in srgb, var(--qds-field-stroke) 75%, var(--qds-stroke-strong));
-    border-bottom-color: var(--qds-stroke-strong);
-  }
+  .qds-ui .q-field--outlined .q-field__control:hover { background: var(--qds-control-fill-hover); }
 
   .qds-ui .q-field--filled .q-field__control::before,
   .qds-ui .q-field--standard .q-field__control::before { border-bottom-width: var(--qds-border-width-control); }
@@ -188,18 +219,38 @@
   .qds-ui .q-field--filled .q-field__control,
   .qds-ui .q-field--standout .q-field__control {
     background: var(--qds-field-fill);
+    box-shadow: var(--qds-field-shadow);
     transition: background-color var(--qds-field-transition), box-shadow var(--qds-field-transition);
   }
 
   .qds-ui .q-field--filled .q-field__control:hover,
   .qds-ui .q-field--standout .q-field__control:hover { background: color-mix(in srgb, var(--qds-field-fill) 88%, var(--qds-fg-default)); }
 
-  .qds-ui .q-field--standout.q-field--highlighted .q-field__control {
-    background: var(--qds-control-fill-default);
-    box-shadow: var(--qds-shadow-2);
-  }
+  .qds-ui .q-field--standout.q-field--highlighted .q-field__control { box-shadow: var(--qds-shadow-2); }
 
   .qds-ui .q-field--standout.q-field--highlighted :is(.q-field__native, .q-field__prefix, .q-field__suffix, .q-field__input, .q-field__prepend, .q-field__append) { color: var(--qds-fg-default); }
+
+  .qds-ui :is(.q-field--outlined, .q-field--filled).q-field--highlighted .q-field__control { box-shadow: var(--qds-field-focus-halo); }
+  .qds-ui :is(.q-field--outlined, .q-field--filled, .q-field--standout).q-field--focused .q-field__control { background: var(--qds-control-fill-input-active); }
+  .qds-ui .q-field--outlined.q-field--highlighted .q-field__control::before { border-color: var(--qds-field-focus-stroke); }
+
+  .qds-ui .qds-field--ghost {
+    --qds-field-shadow: none;
+    --qds-field-radius: var(--qds-radius-control);
+  }
+
+  .qds-ui .qds-field--ghost .q-field__control {
+    padding-inline: var(--qds-field-padding-inline);
+    background: transparent;
+    transition: background-color var(--qds-field-transition), box-shadow var(--qds-field-transition);
+  }
+
+  .qds-ui .qds-field--ghost .q-field__control:hover { background: var(--qds-state-hover); }
+  .qds-ui .qds-field--ghost.q-field--focused .q-field__control { background: var(--qds-control-fill-input-active); }
+
+  .qds-ui .qds-field--ghost .q-field__control::before,
+  .qds-ui .qds-field--ghost .q-field__control:hover::before,
+  .qds-ui .qds-field--ghost.q-field--highlighted .q-field__control::before { border-color: transparent; }
 
   .qds-ui .q-field--readonly .q-field__control::before,
   .qds-ui .q-field--readonly .q-field__control:hover::before {
@@ -208,12 +259,24 @@
   }
 
   .qds-ui .q-field--error .q-field__control::before,
-  .qds-ui .q-field--error .q-field__control:hover::before { border-color: var(--qds-stroke-error); }
+  .qds-ui .q-field--error .q-field__control:hover::before,
+  .qds-ui .q-field--error.q-field--highlighted .q-field__control::before { border-color: var(--qds-stroke-error); }
   .qds-ui .q-field--error .q-field__control::after { border-bottom-color: var(--qds-stroke-error); transform: scaleX(1); }
+
+  .qds-ui .qds-field--positive { --qds-field-tone: var(--qds-color-positive); --qds-field-tone-fg: var(--qds-fg-positive); }
+  .qds-ui .qds-field--warning { --qds-field-tone: var(--qds-color-warning); --qds-field-tone-fg: var(--qds-fg-warning); }
+  .qds-ui :is(.qds-field--positive, .qds-field--warning) .q-field__control { color: var(--qds-field-tone); }
+
+  .qds-ui :is(.qds-field--positive, .qds-field--warning) .q-field__control::before,
+  .qds-ui :is(.qds-field--positive, .qds-field--warning) .q-field__control:hover::before,
+  .qds-ui :is(.qds-field--positive, .qds-field--warning).q-field--highlighted .q-field__control::before { border-color: var(--qds-field-tone); }
+
+  .qds-ui :is(.qds-field--positive, .qds-field--warning) .q-field__control::after { transform: scaleX(1); }
+  .qds-ui :is(.qds-field--positive, .qds-field--warning) :is(.q-field__bottom, .q-field__append :is(.q-icon, svg)) { color: var(--qds-field-tone-fg); }
 
   .qds-ui .q-field--disabled.q-field--outlined .q-field__control { background: var(--qds-control-fill-disabled); }
 
-  .qds-ui .q-field--disabled .q-field__control::before { border-color: var(--qds-stroke-subtle); }
+  .qds-ui .q-field--disabled .q-field__control::before { border-color: var(--qds-control-stroke-default); }
 
   .qds-ui .q-field .q-field__bottom {
     min-height: 1.25rem;
@@ -259,6 +322,7 @@
     transform: translateY(-50%);
     font-size: var(--qds-field-label-size-rest);
     line-height: 1.2;
+    font-weight: var(--qds-font-weight-regular);
     color: var(--qds-fg-muted);
     transition:
       top var(--qds-field-transition),
@@ -298,5 +362,10 @@
       white-space: normal;
       overflow: visible;
     }
+  }
+
+  @media (forced-colors: active) {
+    .qds-ui .q-field--highlighted .q-field__control { box-shadow: none; }
+    .qds-ui .q-field--outlined.q-field--highlighted .q-field__control::before { border-color: Highlight; }
   }
 }

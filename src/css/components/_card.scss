@@ -3,6 +3,7 @@
 $ink: ':is(.qds-ui.qds-variant-ink, .qds-ui .qds-variant-ink)';
 $mobile: ':is(.qds-ui.qds-variant-mobile, .qds-ui .qds-variant-mobile)';
 $terminal: ':is(.qds-ui.qds-variant-terminal, .qds-ui .qds-variant-terminal)';
+$framed: '.q-card--bordered, .qds-card--readable, .qds-card--contrast, .qds-card--opaque, .qds-card--solid';
 $explicit-dark: '.qds-ui.qds-theme-light :is(.q-card--dark, .q-table--dark, .q-tree--dark, .q-stepper--dark, .q-list--dark, .q-menu--dark, .q-uploader--dark, .q-date--dark, .q-time--dark)';
 
 @mixin styles {
@@ -33,6 +34,16 @@ $explicit-dark: '.qds-ui.qds-theme-light :is(.q-card--dark, .q-table--dark, .q-t
     --qds-control-fill-hover: color-mix(in srgb, var(--qds-surface-0) 6%, var(--qds-text-strong));
     --qds-control-fill-pressed: color-mix(in srgb, var(--qds-surface-0) 10%, var(--qds-text-strong));
     --qds-control-fill-disabled: color-mix(in srgb, var(--qds-surface-0) 10%, var(--qds-text-strong));
+    --qds-control-stroke-default: color-mix(in srgb, var(--qds-surface-0) 8%, transparent);
+    --qds-control-stroke-top: color-mix(in srgb, var(--qds-surface-0) 10%, transparent);
+    --qds-control-stroke-bottom: var(--qds-control-stroke-default);
+    --qds-control-stroke-secondary: color-mix(in srgb, var(--qds-surface-0) 14%, transparent);
+    --qds-control-stroke-strong: color-mix(in srgb, var(--qds-surface-0) 54%, transparent);
+    --qds-control-stroke-on-accent-top: color-mix(in srgb, var(--qds-surface-0) 14%, transparent);
+    --qds-control-stroke-on-accent-bottom: color-mix(in srgb, var(--qds-text-strong) 40%, transparent);
+    --qds-control-fill-input-active: color-mix(in srgb, var(--qds-surface-0) 4%, var(--qds-text-strong));
+    --qds-card-fill: var(--qds-text-strong);
+    --qds-card-stroke: var(--qds-stroke-subtle);
     --qds-field-label-bg: var(--qds-text-strong);
     --qds-stroke-default: color-mix(in srgb, var(--qds-surface-0) 36%, transparent);
     --qds-stroke-subtle: color-mix(in srgb, var(--qds-surface-0) 16%, transparent);
@@ -59,7 +70,8 @@ $explicit-dark: '.qds-ui.qds-theme-light :is(.q-card--dark, .q-table--dark, .q-t
 
   .qds-ui :is(.q-card, .qds-card) {
     color: var(--qds-fg-default);
-    background: var(--qds-bg-card);
+    background: var(--qds-card-fill);
+    border: var(--qds-border-width-control) solid var(--qds-card-stroke);
     border-radius: var(--qds-card-radius);
     box-shadow: var(--qds-card-shadow);
   }
@@ -71,6 +83,8 @@ $explicit-dark: '.qds-ui.qds-theme-light :is(.q-card--dark, .q-table--dark, .q-t
   .qds-ui .q-card > .q-card__section:is(.qds-card__header, .qds-card-header) { padding: var(--qds-space-md); border-block-end: var(--qds-border-width-control) solid var(--qds-stroke-divider); }
   .qds-ui .q-card > .q-card__section:is(.qds-card__header--accent, .qds-card-header--accent) { color: var(--qds-fg-strong); background: var(--qds-surface-brand-soft); }
   .qds-ui :is(.q-card, .qds-card) :is(.q-card, .qds-card) { background: var(--qds-bg-surface-1); box-shadow: none; }
+  .qds-ui :is(.q-card, .qds-card) :is(.q-card, .qds-card):where(:not(#{$framed})) { border: 0; }
+  .qds-ui .q-dialog__inner--maximized > .q-card { background: var(--qds-bg-card); }
 
   .qds-ui .qds-material {
     border: var(--qds-border-width-control) solid var(--qds-material-stroke);
@@ -83,6 +97,7 @@ $explicit-dark: '.qds-ui.qds-theme-light :is(.q-card--dark, .q-table--dark, .q-t
   }
 
   #{$ink} :is(.q-card, .qds-card) { background: var(--qds-surface-brand-soft); }
+  #{$ink} :is(.q-card, .qds-card):where(:not(#{$framed})) { border: 0; }
   #{$ink} .q-card--bordered { border-color: color-mix(in srgb, var(--qds-color-primary) 28%, var(--qds-border)); }
   #{$ink} .q-card > .q-card__section:is(.qds-card__header, .qds-card-header) { background: var(--qds-surface-accent-soft); }
   #{$mobile} :is(.q-card, .qds-card) { background: var(--qds-surface-focus-block); border: var(--qds-border-width-control) solid var(--qds-separator-color); }

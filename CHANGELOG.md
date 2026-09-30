@@ -6,6 +6,48 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Added
+
+- **Fields**: a Windows 11 (WinUI 3) finish, with a layer fill, an elevation border and a strong bottom stroke.
+  On focus the field switches to the input-active fill and shows the accent bar. Fields have no halo by default.
+  Quasar `color`, forced colours and reduced motion are respected.
+- Field anatomy:
+  - A required mark on labels of `required` / `aria-required` controls, or with `.qds-field--required`.
+  - `.qds-field__hint` for the QInput `#label` slot.
+  - A `.qds-form-field` wrapper for any control: header, label, hint, description, help and error, with
+    `--required` and `--horizontal` modifiers.
+- Field variants: `.qds-field--ghost` and the `.qds-field--positive` / `--warning` validation tints.
+- Form compositions:
+  - `.qds-field-group` joins inputs, selects and buttons.
+  - `kbd` / `.qds-kbd` keycaps.
+  - `.qds-field--stepper` number fields.
+  - `.qds-field--dropzone` file tiles.
+  - `.qds-pin` code rows.
+  - `.qds-option-group--card` option tiles.
+- Settings cards: `.qds-settings-group` / `.qds-settings-card` rows with icon, header, description and action,
+  plus an expander variant on `QExpansionItem`.
+- Gallery: a new **Forms** tab covering:
+  - anatomy, variants × sizes and states;
+  - compositions;
+  - Store-style category pills;
+  - a Windows 11 Settings-style page.
+
+### Changed
+
+- **Windows 11 control layer**: new tokens `--qds-control-fill-input-active`,
+  `--qds-control-stroke-default|secondary|strong|top|bottom|on-accent-top|on-accent-bottom`, `--qds-card-fill`,
+  `--qds-card-stroke` and `--qds-control-halo`. `--qds-control-fill-*` are now translucent layer values instead of
+  aliases of `--qds-surface-*`, so surface overrides no longer flow into them; override the control tokens directly.
+  Ink, Terminal, reduced transparency, forced colours and browsers without `backdrop-filter` use opaque layers and
+  no halo.
+- **Buttons**: neutral filled buttons use the layer fill with an elevation border; accent buttons gain a light top
+  and dark bottom edge (not on date picker selections); pressed neutral text is muted.
+- **Chips**: layer fill with an elevation border; clickable and selected chips show the halo.
+- **Cards**: a flat translucent layer with a hairline `--qds-card-stroke`; `--qds-card-shadow` defaults to `none`.
+  Nested cards stay strokeless; maximized dialog cards stay opaque.
+- **Lists**: the active item is a subtle pill with an accent indicator bar.
+- `.qds-field--required` is visual only; pair it with `required` or `aria-required` for assistive technology.
+
 ## [0.8.0-rc.2] — 2026-09-29
 
 ### Added
