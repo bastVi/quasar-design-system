@@ -1,4 +1,4 @@
-export type Section = 'components' | 'forms' | 'catalog' | 'plugins'
+export type Section = 'components' | 'forms' | 'apps' | 'catalog' | 'plugins'
 
 export const FAMILIES: Record<Section, Record<string, readonly string[]>> = {
   components: {
@@ -40,6 +40,12 @@ export const FAMILIES: Record<Section, Record<string, readonly string[]>> = {
       'qds-forms-option-cards-checkbox',
     ],
     settings: ['qds-forms-pills', 'qds-forms-settings'],
+  },
+  apps: {
+    actions: ['qds-apps-split'],
+    navigation: ['qds-apps-nav', 'qds-apps-subpage'],
+    data: ['qds-apps-table-card'],
+    screens: ['qds-apps-dashboard', 'qds-apps-list-detail', 'qds-apps-dialog-flow'],
   },
   catalog: {
     actions: [

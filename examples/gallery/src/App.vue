@@ -20,6 +20,7 @@ import TokensSection from './sections/TokensSection.vue'
 import TypographySection from './sections/TypographySection.vue'
 import ComponentsSection from './sections/ComponentsSection.vue'
 import FormsSection from './sections/FormsSection.vue'
+import AppsSection from './sections/AppsSection.vue'
 import CatalogSection from './sections/CatalogSection.vue'
 import CompareSection from './sections/CompareSection.vue'
 import IconsSection from './sections/IconsSection.vue'
@@ -31,9 +32,9 @@ import WindowSection from './sections/WindowSection.vue'
 
 const ds = useDesignSystem()
 
-type GalleryTab = 'tokens' | 'typography' | 'compare' | 'components' | 'forms' | 'catalog' | 'variants' | 'scenes' | 'plugins' | 'window' | 'icons' | 'fonts'
+type GalleryTab = 'tokens' | 'typography' | 'compare' | 'components' | 'forms' | 'apps' | 'catalog' | 'variants' | 'scenes' | 'plugins' | 'window' | 'icons' | 'fonts'
 
-const tabs: GalleryTab[] = ['tokens', 'typography', 'compare', 'components', 'forms', 'catalog', 'variants', 'scenes', 'plugins', 'window', 'icons', 'fonts']
+const tabs: GalleryTab[] = ['tokens', 'typography', 'compare', 'components', 'forms', 'apps', 'catalog', 'variants', 'scenes', 'plugins', 'window', 'icons', 'fonts']
 const tab = ref<GalleryTab>(tabFromHash())
 
 const modes: DesignSystemMode[] = ['light', 'dark', 'system']
@@ -170,6 +171,7 @@ watch(tab, (value) => {
         <q-tab name="compare" label="Compare" />
         <q-tab name="components" label="Components" />
         <q-tab name="forms" label="Forms" />
+        <q-tab name="apps" label="Apps" />
         <q-tab name="catalog" label="Catalog" />
         <q-tab name="variants" label="Variants" />
         <q-tab name="scenes" label="Scenes" />
@@ -188,6 +190,7 @@ watch(tab, (value) => {
           <q-tab-panel name="compare"><CompareSection /></q-tab-panel>
           <q-tab-panel name="components"><ComponentsSection /></q-tab-panel>
           <q-tab-panel name="forms"><FormsSection /></q-tab-panel>
+          <q-tab-panel name="apps"><AppsSection /></q-tab-panel>
           <q-tab-panel name="catalog"><CatalogSection /></q-tab-panel>
           <q-tab-panel name="variants"><VariantsSection /></q-tab-panel>
           <q-tab-panel name="scenes"><ScenesSection /></q-tab-panel>

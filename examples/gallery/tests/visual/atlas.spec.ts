@@ -78,6 +78,7 @@ const clickItem = (target: string, text: string) => async (page: Page) => {
 const MOBILE_HOOKS: Record<Section, readonly string[]> = {
   components: ['qds-control-standard-button', 'qds-chip-avatar', 'qds-control-input', 'qds-pagination', 'qds-tabs-horizontal', 'qds-tabs-scroll'],
   forms: ['qds-forms-anatomy-field', 'qds-forms-horizontal', 'qds-forms-field-group', 'qds-forms-pin', 'qds-forms-option-cards-radio', 'qds-forms-pills', 'qds-forms-settings-group'],
+  apps: ['qds-apps-split', 'qds-apps-nav', 'qds-apps-subpage', 'qds-apps-tiles', 'qds-apps-list-detail'],
   catalog: [
     'qds-btn-toggle',
     'qds-banner-actions',
@@ -128,6 +129,21 @@ const OVERLAYS: Record<Section, readonly Overlay[]> = {
     { name: 'qds-dialog-prompt', open: clickHook('qds-dialog-prompt-trigger'), target: byHook('qds-dialog-prompt'), close: clickButton(byHook('qds-dialog-prompt'), 'Cancel'), mobile: true },
   ],
   forms: [],
+  apps: [
+    {
+      name: 'qds-apps-split-menu',
+      open: async (page) => page.locator(`${byHook('qds-apps-split')} .q-btn-dropdown__arrow-container`).click(),
+      target: `.q-menu:has(${byHook('qds-apps-split-menu')})`,
+      close: escape,
+    },
+    {
+      name: 'qds-apps-dialog',
+      open: clickHook('qds-apps-dialog-trigger'),
+      target: byHook('qds-apps-dialog'),
+      close: clickButton(byHook('qds-apps-dialog'), 'Cancel'),
+      mobile: true,
+    },
+  ],
   catalog: [],
   plugins: [
     {
