@@ -49,7 +49,7 @@ $tile-roles: (alert: negative, warning: warning, positive: positive);
     position: relative;
     display: grid;
     container: qds-tile / inline-size;
-    grid-template: 'icon label label' auto 'value value spark' auto 'meta meta meta' auto 'trend trend trend' auto / auto max-content minmax(0, 1fr);
+    grid-template: 'icon label label' auto 'value value spark' auto 'meta meta meta' 1fr 'trend trend trend' auto / auto max-content minmax(0, 1fr);
     align-content: start;
     align-items: center;
     min-inline-size: 0;
@@ -90,6 +90,7 @@ $tile-roles: (alert: negative, warning: warning, positive: positive);
   .qds-ui .qds-tile__meta {
     display: flex;
     grid-area: meta;
+    align-self: start;
     align-items: center;
     gap: var(--qds-space-xs);
     margin-block-start: var(--qds-space-xs);
@@ -128,6 +129,7 @@ $tile-roles: (alert: negative, warning: warning, positive: positive);
 
   // Narrow tiles give the sparkline its own full-width row.
   @container qds-tile (max-width: 10rem) {
+    .qds-ui .qds-tile__label { min-block-size: calc(2 * var(--qds-line-height-body2)); }
     .qds-ui .qds-tile__spark { grid-area: trend; justify-self: stretch; max-inline-size: none; margin-block-start: var(--qds-space-sm); padding-inline-start: 0; }
   }
 
