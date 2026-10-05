@@ -208,6 +208,7 @@ onMounted(() => narrowMedia.addEventListener('change', onNarrowChange))
 onBeforeUnmount(() => narrowMedia.removeEventListener('change', onNarrowChange))
 const dialogOpen = ref(false)
 const dialogStep = ref(1)
+const dialogSteps = ['Source', 'Configure', 'Review']
 const newService = ref('')
 const newRegion = ref('eu-west')
 const regionOptions = ['eu-west', 'us-east', 'ap-south']
@@ -611,6 +612,9 @@ function backDialog() {
         <q-card class="apps-dialog" data-test="qds-apps-dialog">
           <q-card-section class="q-pb-none">
             <div id="apps-dialog-title" class="text-h6 qds-display">Add service</div>
+            <div v-if="narrow" class="qds-text-muted text-caption" aria-live="polite" data-test="qds-apps-dialog-step-caption">
+              Step {{ dialogStep }} of {{ dialogSteps.length }} · {{ dialogSteps[dialogStep - 1] }}
+            </div>
           </q-card-section>
           <q-stepper v-model="dialogStep" flat animated :contracted="narrow" class="apps-dialog__stepper" data-test="qds-apps-dialog-stepper">
             <q-step :name="1" title="Source" :done="dialogStep > 1">

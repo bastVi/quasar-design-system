@@ -787,6 +787,11 @@ test.describe('apps', () => {
     expect.soft(fit.overflow, 'stepper header does not scroll horizontally').toBeLessThanOrEqual(0)
     expect.soft(fit.outside, 'every step stays inside the header').toBe(0)
     await expect(header, 'narrow screens contract the step labels').toHaveClass(/q-stepper__header--contracted/)
+    const caption = page.locator(byHook('qds-apps-dialog-step-caption'))
+    await expect(caption, 'contracted steps keep a named step caption').toHaveText('Step 1 of 3 · Source')
+    await expect(caption).toHaveAttribute('aria-live', 'polite')
+    await page.locator(`${byHook('qds-apps-dialog')} .q-card__actions .q-btn`).last().click()
+    await expect(caption, 'the caption follows the step').toHaveText('Step 2 of 3 · Configure')
   })
 
   test('dialog flow steps through and restores focus', async ({ page }, testInfo) => {
