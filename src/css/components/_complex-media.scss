@@ -187,4 +187,6 @@ $term: ':is(.qds-ui.qds-variant-term, .qds-ui .qds-variant-term)';
     border-color: color-mix(in srgb, var(--qds-color-primary) 28%, var(--qds-border));
     box-shadow: none;
   }
+
+  .qds-ui .q-dialog .q-stepper { background: transparent; }
 }

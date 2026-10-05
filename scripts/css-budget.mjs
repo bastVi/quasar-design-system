@@ -2,7 +2,7 @@ import { readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 
 const DIR = new URL('../src/css/components/', import.meta.url)
-const LIMITS = { important: 45, doubled: 0, lines: 2844 }
+const LIMITS = { important: 45, doubled: 0, lines: 3005 }
 
 const files = readdirSync(DIR).filter((name) => name.endsWith('.scss')).sort()
 const rows = files.map((name) => {

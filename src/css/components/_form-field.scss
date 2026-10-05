@@ -248,6 +248,8 @@ $wrap: '.qds-ui .qds-field-group:where(:has(> :nth-child(3)):not(:has(> .q-field
       grid-template: "icon header toggle" auto "icon description toggle" auto "icon action toggle" auto / auto minmax(0, 1fr) auto;
     }
 
+    .qds-ui .qds-settings-card__icon { align-self: start; }
+
     .qds-ui .qds-settings-card__action {
       justify-self: start;
       margin: var(--qds-space-sm) 0 0;

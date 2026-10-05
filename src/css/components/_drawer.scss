@@ -8,6 +8,7 @@ $one: ':is(.qds-ui.qds-variant-one, .qds-ui .qds-variant-one)';
   .qds-ui .q-drawer .q-list { padding: var(--qds-space-sm); }
   .qds-ui .q-drawer .q-list > .q-item + .q-item { margin-block-start: var(--qds-row-gap); }
   .qds-ui .q-drawer .q-layout__shadow::after { box-shadow: var(--qds-shadow-16); }
+  .qds-ui .q-drawer--mini .q-list { padding-inline: var(--qds-space-xs); }
 
   #{$ink} .q-drawer { background: var(--qds-surface-0); }
   #{$ink} .q-drawer.q-drawer--bordered { border-color: var(--qds-separator-color); }
@@ -19,5 +20,6 @@ $one: ':is(.qds-ui.qds-variant-one, .qds-ui .qds-variant-one)';
     border-radius: var(--qds-card-radius);
   }
 
+  #{$one} .q-drawer--mini .q-list { margin-inline: 0; }
   #{$one} .q-drawer .q-item.q-item--active { background-color: var(--qds-surface-0); box-shadow: var(--qds-shadow-2); }
 }

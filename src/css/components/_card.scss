@@ -68,7 +68,7 @@ $explicit-dark: '.qds-ui.qds-theme-light :is(.q-card--dark, .q-table--dark, .q-t
   #{$explicit-dark} .qds-text-muted { color: var(--qds-fg-muted); }
   #{$explicit-dark} .qds-text-strong { color: var(--qds-fg-strong); }
 
-  .qds-ui :is(.q-card, .qds-card) {
+  .qds-ui :is(.q-card, .qds-card, .qds-tile) {
     color: var(--qds-fg-default);
     background: var(--qds-card-fill);
     border: var(--qds-border-width-control) solid var(--qds-card-stroke);
@@ -82,8 +82,8 @@ $explicit-dark: '.qds-ui.qds-theme-light :is(.q-card--dark, .q-table--dark, .q-t
   .qds-ui :is(.q-card.cursor-pointer, a.q-card, .q-card[tabindex='0']):hover { background: var(--qds-bg-card-hover); }
   .qds-ui .q-card > .q-card__section:is(.qds-card__header, .qds-card-header) { padding: var(--qds-space-md); border-block-end: var(--qds-border-width-control) solid var(--qds-stroke-divider); }
   .qds-ui .q-card > .q-card__section:is(.qds-card__header--accent, .qds-card-header--accent) { color: var(--qds-fg-strong); background: var(--qds-surface-brand-soft); }
-  .qds-ui :is(.q-card, .qds-card) :is(.q-card, .qds-card) { background: var(--qds-bg-surface-1); box-shadow: none; }
-  .qds-ui :is(.q-card, .qds-card) :is(.q-card, .qds-card):where(:not(#{$framed})) { border: 0; }
+  .qds-ui :is(.q-card, .qds-card) :is(.q-card, .qds-card, .qds-tile) { background: var(--qds-bg-surface-1); box-shadow: none; }
+  .qds-ui :is(.q-card, .qds-card) :is(.q-card, .qds-card, .qds-tile):where(:not(#{$framed})) { border: 0; }
   .qds-ui .q-dialog__inner--maximized > .q-card { background: var(--qds-bg-card); }
 
   .qds-ui .qds-material {
@@ -96,14 +96,15 @@ $explicit-dark: '.qds-ui.qds-theme-light :is(.q-card--dark, .q-table--dark, .q-t
     .qds-ui .qds-material.qds-material--#{$level} { @include materials.material($level); }
   }
 
-  #{$ink} :is(.q-card, .qds-card) { background: var(--qds-surface-brand-soft); }
-  #{$ink} :is(.q-card, .qds-card):where(:not(#{$framed})) { border: 0; }
+  #{$ink} :is(.q-card, .qds-card, .qds-tile) { background: var(--qds-surface-brand-soft); }
+  #{$ink} :is(.q-card, .qds-card, .qds-tile):where(:not(#{$framed})) { border: 0; }
   #{$ink} .q-card--bordered { border-color: color-mix(in srgb, var(--qds-color-primary) 28%, var(--qds-border)); }
   #{$ink} .q-card > .q-card__section:is(.qds-card__header, .qds-card-header) { background: var(--qds-surface-accent-soft); }
-  #{$one} :is(.q-card, .qds-card) { background: var(--qds-surface-focus-block); border: var(--qds-border-width-control) solid var(--qds-separator-color); }
+  #{$one} :is(.q-card, .qds-card, .qds-tile) { background: var(--qds-surface-focus-block); border: var(--qds-border-width-control) solid var(--qds-separator-color); }
   #{$one} .q-card > .q-card__section:is(.qds-card__header, .qds-card-header) { background: var(--qds-surface-brand-soft); }
+  :is(#{$ink}, #{$one}) :is(.q-card, .qds-card) .qds-tile { background: var(--qds-surface-0); }
 
-  #{$term} :is(.q-card, .qds-card) {
+  #{$term} :is(.q-card, .qds-card, .qds-tile) {
     background: linear-gradient(180deg, rgba(var(--qds-color-primary-rgb), 0.035), transparent 42%), var(--qds-surface-0);
     border: var(--qds-border-width-control) solid color-mix(in srgb, var(--qds-color-primary) 24%, var(--qds-border));
   }

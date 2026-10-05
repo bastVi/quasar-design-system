@@ -31,6 +31,7 @@
 @use 'components/form-field';
 @use 'components/loading-data';
 @use 'components/complex-media';
+@use 'components/compositions';
 
 @layer qds.base {
   @include base.styles;
@@ -65,4 +66,5 @@
   @include form-field.styles;
   @include loading-data.styles;
   @include complex-media.styles;
+  @include compositions.styles;
 }

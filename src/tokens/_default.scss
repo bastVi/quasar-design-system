@@ -175,6 +175,7 @@ $components: (
   field: (padding-inline: 0.75rem, label-size: 0.8125rem, focus-border-width: 2px, min-height: 3rem, dense-min-height: 2.5rem, focus-stroke-mix: 20%, halo-mix: 24%),
   tab: (min-height: 2.25rem),
   toolbar: (dense-min-height: 2.5rem),
+  tile: (min-width: 11rem, spark-height: 2rem),
 ) !default;
 $chrome: (border-mix: 18%, border-soft-mix: 8%, surface-mix: 100%, surface-strong-mix: 100%, separator-mix: 14%, handle-border-mix: 42%, handle-primary-mix: 12%) !default;
 $effects: (glass: (blur: 0, saturate: 1, border-mix: 24%)) !default;

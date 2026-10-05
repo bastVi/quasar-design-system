@@ -43,7 +43,7 @@ $term: ':is(.qds-ui.qds-variant-term, .qds-ui .qds-variant-term)';
 
   .qds-ui .q-dialog__message { color: var(--qds-fg-default); }
 
-  .qds-ui .q-dialog .q-card__actions .q-btn:is(.q-btn--flat, .q-btn--outline):not(:last-child, .text-negative, .text-warning, .text-positive) { color: var(--qds-fg-default) !important; }
+  .qds-ui .q-dialog .q-card__actions .q-btn:is(.q-btn--flat, .q-btn--outline):not(:last-child, .text-negative, .text-warning, .text-positive, .disabled) { color: var(--qds-fg-default) !important; }
   // The Dialog plugin defaults its actions to Quasar's amber in dark mode.
   .qds-ui .q-dialog-plugin .q-btn.text-amber { color: var(--qds-fg-brand) !important; }
 

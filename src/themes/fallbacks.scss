@@ -411,6 +411,10 @@
     --qds-tab-min-height: #{map.get(map.get(tokens.$components, tab), min-height)};
     --qds-toolbar-dense-min-height: #{map.get(map.get(tokens.$components, toolbar), dense-min-height)};
 
+    // compositions
+    --qds-tile-min-width: #{map.get(map.get(tokens.$components, tile), min-width)};
+    --qds-tile-spark-height: #{map.get(map.get(tokens.$components, tile), spark-height)};
+
     --qds-glass-blur: #{map.get(map.get(tokens.$effects, glass), blur)};
     --qds-glass-saturate: #{map.get(map.get(tokens.$effects, glass), saturate)};
     --qds-glass-border-mix: #{map.get(map.get(tokens.$effects, glass), border-mix)};

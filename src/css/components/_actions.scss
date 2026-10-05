@@ -49,6 +49,8 @@ $one: ':is(.qds-ui.qds-variant-one, .qds-ui .qds-variant-one)';
   }
 
   .qds-ui .q-btn-group > .q-btn-item:is(:hover, :focus-visible) { z-index: 1; }
+  .qds-ui .q-btn-dropdown--split > .q-btn-dropdown__arrow-container { padding-inline: var(--qds-space-sm); }
+  .qds-ui .q-btn-dropdown--split .q-btn-dropdown__arrow { margin-inline-start: 0; }
 
   .qds-ui .q-btn-toggle {
     gap: 0.125rem;

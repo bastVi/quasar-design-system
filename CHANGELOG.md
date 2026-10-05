@@ -26,11 +26,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
   - `.qds-option-group--card` option tiles.
 - Settings cards: `.qds-settings-group` / `.qds-settings-card` rows with icon, header, description and action,
   plus an expander variant on `QExpansionItem`.
+- App compositions:
+  - `.qds-menu-row` rich menu items with `__icon`, `__title`, `__caption` and `__description`; multi-line rows
+    align to the title line.
+  - `.qds-subpage-tabs`: left-aligned 36px underline tabs over a hairline divider, with padded panels below.
+  - `.qds-table-segmented`: a 24px `QBtnToggle` inside a 32px dense table row.
+  - `.qds-tile-grid` / `.qds-tile` dashboard tiles with `__icon`, `__label`, `__value`, `__meta` and a `__spark`
+    sparkline; `--alert` / `--warning` / `--positive` tint the icon, meta and sparkline and add a tone ring that
+    stays visible in cards, Ink and forced colours.
+  - `.qds-sr-only` visually hidden text.
+  - Tokens `--qds-tile-min-width` (9rem) and `--qds-tile-spark-height` (2rem).
 - Gallery: a new **Forms** tab covering:
   - anatomy, variants × sizes and states;
   - compositions;
   - Store-style category pills;
   - a Windows 11 Settings-style page.
+- Gallery: a new **Apps** tab with consumer-app compositions on the Mica backdrop:
+  - a split button with rich menu rows;
+  - an expanded and mini NavigationView with nested destinations;
+  - a four-tab settings subpage;
+  - a dense table with segmented controls and expandable incident rows;
+  - Dashboard, List-detail and Dialog flow screens with a responsive tile grid.
 
 ### Changed
 
@@ -76,6 +92,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 - **Tabs**: a floating badge inside a tab stays within the tab strip instead of being clipped.
 - **Field groups**: below 30rem, groups of three or more unlabelled children wrap — the first child takes its own
   row and the joined corners follow the wrap. Pairs and groups with labelled fields stay on one row.
+- **Navigation**: in a `q-drawer` or `nav`, a collapsed `QExpansionItem` (or any expansion in a mini drawer) with
+  an active child shows the 3px indicator on its header; other collapsed expansions do not.
+- **Expansion items**: hovering, focusing or pressing an expanded header now adds a state layer.
+- **Split buttons**: the chevron segment is narrower (8px side padding, 34px wide at 32px height).
+- **Mini drawer**: 4px list padding, so items are 40px wide at `:mini-width="48"`.
+- **Forced colours**: navigation indicator rails and the selected `.qds-table-segmented` segment use `Highlight`.
 
 ## [0.8.0-rc.2] — 2026-09-29
 

@@ -415,6 +415,10 @@ export const QDS_TOKENS = [
   '--qds-toolbar-bg',
   '--qds-toolbar-dense-min-height',
 
+  // ── Tile (component) ────────────────────────────────────────────────
+  '--qds-tile-min-width',
+  '--qds-tile-spark-height',
+
   // ── Field (derived) ─────────────────────────────────────────────────
   '--qds-field-label-bg',
 
