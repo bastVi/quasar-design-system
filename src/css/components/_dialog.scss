@@ -1,6 +1,5 @@
 @use '../materials';
 
-$ink: ':is(.qds-ui.qds-variant-ink, .qds-ui .qds-variant-ink)';
 $one: ':is(.qds-ui.qds-variant-one, .qds-ui .qds-variant-one)';
 $term: ':is(.qds-ui.qds-variant-term, .qds-ui .qds-variant-term)';
 
@@ -46,12 +45,6 @@ $term: ':is(.qds-ui.qds-variant-term, .qds-ui .qds-variant-term)';
   .qds-ui .q-dialog .q-card__actions .q-btn:is(.q-btn--flat, .q-btn--outline):not(:last-child, .text-negative, .text-warning, .text-positive, .disabled) { color: var(--qds-fg-default) !important; }
   // The Dialog plugin defaults its actions to Quasar's amber in dark mode.
   .qds-ui .q-dialog-plugin .q-btn.text-amber { color: var(--qds-fg-brand) !important; }
-
-  #{$ink} .q-dialog__inner > .q-card {
-    background: var(--qds-surface-brand-soft);
-    border: var(--qds-border-width-control) solid color-mix(in srgb, var(--qds-color-primary) 30%, var(--qds-border));
-    box-shadow: none;
-  }
 
   #{$one} .q-dialog__inner--standard > .q-card { border-radius: var(--qds-radius-xl); @include materials.solid(var(--qds-surface-focus-block)); }
 

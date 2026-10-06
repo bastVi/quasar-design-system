@@ -46,8 +46,7 @@ $term: ':is(.qds-ui.qds-variant-term, .qds-ui .qds-variant-term)';
 
   #{$ink} .q-notification {
     --qds-notify-bg: var(--qds-notify-wash);
-    --qds-notification-shadow: none;
-    border-color: color-mix(in srgb, var(--qds-notify-accent) 32%, var(--qds-border));
+    border-color: color-mix(in srgb, var(--qds-notify-accent) 40%, var(--qds-stroke-strong));
   }
   #{$one} .q-notification { --qds-notify-bg: var(--qds-notify-wash); --qds-notification-radius: var(--qds-radius-lg); @include materials.solid; }
   #{$term} .q-notification {

@@ -127,6 +127,29 @@
   --qds-table-header-height-value: #{qds-variant-token(term, table-header-height)};
 }
 
+@mixin qds-ink-paper($scheme) {
+  @each $step, $geometry in tokens.$shadow-steps {
+    --qds-shadow-#{$step}: none;
+  }
+  @each $token in button-elevated-shadow-hover, elevation-card, elevation-flyout, elevation-dialog {
+    --qds-#{$token}: none;
+  }
+  --qds-stroke-strong: #{qds-variant-token(ink, '#{$scheme}-stroke-strong')};
+  --qds-control-stroke-strong: var(--qds-stroke-strong);
+  @each $token in control-stroke-default, control-stroke-secondary, control-stroke-top, control-stroke-bottom {
+    --qds-#{$token}: var(--qds-border);
+  }
+  --qds-material-stroke: var(--qds-stroke-strong);
+  --qds-menu-border: var(--qds-stroke-strong);
+  --qds-bg-overlay: #{qds-variant-token(ink, '#{$scheme}-scrim')};
+  --qds-color-primary-pressed: color-mix(in srgb, var(--qds-color-primary) 70%, var(--qds-surface-0));
+  --qds-fg-on-brand: var(--qds-text-on-primary);
+  --qds-text-on-solid: #{map.get(qds-variant-token(ink, light-on-fill), primary)};
+  @each $role in secondary, accent, positive, negative, warning, info {
+    --qds-fg-#{$role}: color-mix(in srgb, var(--qds-color-#{$role}) 80%, var(--qds-text-strong));
+  }
+}
+
 $qds-material-scopes: '.qds-theme-dark, body.qds-ui.body--dark, .qds-variant-one, .qds-theme-dark.qds-variant-one, .qds-theme-dark .qds-variant-one, body.qds-ui.body--dark.qds-variant-one, body.qds-ui.body--dark .qds-variant-one, .qds-variant-term, .qds-theme-dark.qds-variant-term, .qds-theme-dark .qds-variant-term, body.qds-ui.body--dark.qds-variant-term, body.qds-ui.body--dark .qds-variant-term';
 
 @layer qds.tokens {
@@ -207,8 +230,14 @@ $qds-material-scopes: '.qds-theme-dark, body.qds-ui.body--dark, .qds-variant-one
     --qds-font-family-display: #{qds-variant-token(ink, font-family-display)};
     @include qds-variant-scheme(ink);
     @include fallbacks.qds-material-tokens(solid);
-    --qds-list-item-min-height-value: #{qds-variant-token(ink, list-item-min-height)};
-    --qds-menu-item-min-height-value: #{qds-variant-token(ink, menu-item-min-height)};
+    @include qds-ink-paper(light);
+  }
+
+  @media not (pointer: coarse) {
+    .qds-variant-ink {
+      --qds-list-item-min-height-value: #{qds-variant-token(ink, list-item-min-height)};
+      --qds-menu-item-min-height-value: #{qds-variant-token(ink, menu-item-min-height)};
+    }
   }
 
   .qds-theme-dark.qds-variant-ink,
@@ -217,6 +246,7 @@ $qds-material-scopes: '.qds-theme-dark, body.qds-ui.body--dark, .qds-variant-one
   body.qds-ui.body--dark .qds-variant-ink {
     @include qds-variant-scheme(ink, true);
     @include fallbacks.qds-material-tokens(solid);
+    @include qds-ink-paper(dark);
   }
 
   .qds-variant-one {

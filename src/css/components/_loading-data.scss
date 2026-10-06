@@ -88,5 +88,6 @@ $term: ':is(.qds-ui.qds-variant-term, .qds-ui .qds-variant-term)';
   #{$ink} :is(.q-linear-progress__track, .q-skeleton) { background: var(--qds-surface-brand-soft); }
   #{$one} .q-tree__node-header { min-height: 2.75rem; }
   #{$term} .q-linear-progress { border-radius: 0; }
+  #{$ink} .q-inner-loading { @include materials.solid(var(--qds-surface-0)); }
   #{$term} .q-inner-loading { @include materials.solid(var(--qds-surface-0)); }
 }

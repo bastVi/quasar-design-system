@@ -299,23 +299,4 @@
     font-size: var(--qds-font-size-caption);
     font-weight: var(--qds-font-weight-semibold);
   }
-
-  .qds-ui.qds-variant-ink .q-checkbox .q-checkbox__inner--truthy .q-checkbox__bg,
-  .qds-ui.qds-variant-ink .q-checkbox .q-checkbox__inner--indet .q-checkbox__bg,
-  .qds-ui .qds-variant-ink .q-checkbox .q-checkbox__inner--truthy .q-checkbox__bg,
-  .qds-ui .qds-variant-ink .q-checkbox .q-checkbox__inner--indet .q-checkbox__bg,
-  .qds-ui.qds-variant-ink .q-toggle .q-toggle__inner--truthy .q-toggle__track,
-  .qds-ui .qds-variant-ink .q-toggle .q-toggle__inner--truthy .q-toggle__track {
-    background: var(--qds-surface-brand-soft);
-  }
-
-  .qds-ui.qds-variant-ink .q-checkbox .q-checkbox__svg,
-  .qds-ui .qds-variant-ink .q-checkbox .q-checkbox__svg {
-    color: var(--qds-color-primary);
-  }
-
-  .qds-ui.qds-variant-ink .q-toggle .q-toggle__inner--truthy .q-toggle__thumb::after,
-  .qds-ui .qds-variant-ink .q-toggle .q-toggle__inner--truthy .q-toggle__thumb::after {
-    background: var(--qds-color-primary);
-  }
 }

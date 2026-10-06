@@ -45,7 +45,7 @@ $term: ':is(.qds-ui.qds-variant-term, .qds-ui .qds-variant-term)';
   .qds-ui .q-loading .q-loading__spinner { color: var(--qds-color-primary); }
   .qds-ui .q-loading .q-loading__message { margin: var(--qds-space-md) var(--qds-space-sm) 0; color: var(--qds-fg-muted); }
 
-  #{$ink} .q-dialog__inner > .q-bottom-sheet,
+  #{$ink} .q-dialog__inner > .q-bottom-sheet { border: var(--qds-border-width-control) solid var(--qds-material-stroke); }
   #{$one} .q-dialog__inner > .q-bottom-sheet { @include materials.solid(var(--qds-surface-focus-block)); }
   #{$one} .q-bottom-sheet--list .q-bottom-sheet__item { min-height: 3.5rem; margin-inline: 0; padding-inline: var(--qds-space-lg); }
   #{$term} :is(.q-dialog__inner > .q-bottom-sheet, .q-loading .q-loading__box) {

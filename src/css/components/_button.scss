@@ -158,12 +158,6 @@ $accent-fills: ();
     border-color: color-mix(in srgb, var(--qds-color-primary) 42%, var(--qds-border));
   }
 
-  .qds-ui .qds-variant-ink .q-btn#{$filled},
-  .qds-ui.qds-variant-ink .q-btn#{$filled} {
-    --qds-control-fill-default: var(--qds-surface-transient);
-    border-color: var(--qds-separator-color);
-  }
-
   .qds-ui .q-btn--outline {
     border-color: var(--qds-stroke-default);
   }

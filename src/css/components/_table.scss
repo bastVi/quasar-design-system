@@ -45,7 +45,6 @@ $term: ':is(.qds-ui.qds-variant-term, .qds-ui .qds-variant-term)';
 
   .qds-ui .q-table__container.fullscreen { overflow: auto; background: var(--qds-bg-canvas); border-radius: 0; }
 
-  #{$ink} .q-table__container:not(.q-table--dark) { --qds-table-bg: var(--qds-surface-brand-soft); --qds-table-header-bg: var(--qds-surface-accent-soft); }
   #{$ink} .q-table tbody tr.selected > td:first-child { box-shadow: inset 3px 0 0 var(--qds-color-primary); }
 
   #{$one} .q-table__container:not(.q-table--dark) { --qds-table-bg: var(--qds-surface-focus-block); }

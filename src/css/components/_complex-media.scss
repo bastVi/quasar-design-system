@@ -170,9 +170,8 @@ $term: ':is(.qds-ui.qds-variant-term, .qds-ui .qds-variant-term)';
   .qds-ui .q-uploader__file--uploaded .q-uploader__file-header { background: var(--qds-surface-positive-soft); }
   .qds-ui .q-uploader__file--uploaded .q-uploader__file-header > .q-btn { color: var(--qds-fg-positive, var(--qds-color-positive)); }
 
-  #{$ink} :is(.q-stepper, .q-carousel, .q-uploader, .q-editor, .q-stepper__header, .q-editor__toolbar, .q-uploader__header),
+  #{$ink} :is(.q-stepper, .q-carousel, .q-uploader):where(:not(.q-stepper--bordered, .q-uploader--bordered, .qds-uploader--bordered)) { border: var(--qds-border-width-control) solid var(--qds-card-stroke); }
   #{$one} :is(.q-stepper, .q-carousel, .q-uploader) { background: var(--qds-surface-focus-block); border: var(--qds-border-width-control) solid var(--qds-separator-color); }
-  #{$ink} .q-carousel :is(.q-carousel__control, .q-carousel__prev-arrow, .q-carousel__next-arrow) .q-btn { background: var(--qds-surface-focus-block); box-shadow: none; }
   #{$one} .q-stepper__tab { min-height: 3.5rem; }
   #{$one} .q-scrollarea { --qds-scrollbar-size: 0.75rem; }
 

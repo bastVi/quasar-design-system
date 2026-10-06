@@ -98,6 +98,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 - **Split buttons**: the chevron segment is narrower (8px side padding, 34px wide at 32px height).
 - **Mini drawer**: 4px list padding, so items are 40px wide at `:mini-width="48"`.
 - **Forced colours**: navigation indicator rails and the selected `.qds-table-segmented` segment use `Highlight`.
+- **Ink (paper)**: a warm paper palette — light page `#f1ece4`, sheets `#fbf9f5` (never white), charcoal `#2e2c28`
+  ink; dark page `#1f1e1b`, sheets `#282622`, paper-tone text. Light role fills are muted pigments with paper text,
+  dark ones pastels with charcoal text, so every solid role button is ≥ 4.5:1 at rest, hover and press (fixes the
+  accent, warning and info hover gaps). Role washes are desaturated pastels.
+- **Ink surfaces**: cards are paper sheets with a hairline instead of a lavender wash; nested cards and tiles are
+  page-tone wells with a hairline. Menus, tooltips, dialogs, bottom sheets and toasts take a crisp
+  `--qds-stroke-strong` rule; the dialog scrim is a warm ink tint. Drop shadows (including `--qds-elevation-*`),
+  card tints and the inner-loading blur are off. Buttons use one hairline instead of the Win11 two-tone edge; fields
+  keep their `--qds-stroke-strong` bottom edge (≥ 3:1 on page, sheet and well).
+- **Ink selection and states**: checked checkboxes, radios and toggles fill with the charcoal (dark: paper) primary
+  and an on-fill glyph; pressed primary mixes toward the sheet so hover and press differ; `--qds-fg-on-brand` and
+  `--qds-text-on-solid` use the paper on-fill.
+- **Ink rows**: the 40 / 36px list and menu rows apply to fine pointers only, so coarse pointers get the 44px touch rows.
 
 ## [0.8.0-rc.2] — 2026-09-29
 

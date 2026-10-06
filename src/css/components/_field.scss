@@ -28,12 +28,6 @@
   .qds-ui .q-field--borderless { --qds-field-radius: 0; }
   .qds-ui .q-field--rounded { --qds-field-radius: var(--qds-radius-full); }
 
-  .qds-ui.qds-variant-ink .q-field,
-  .qds-ui .qds-variant-ink .q-field {
-    --qds-field-stroke: var(--qds-separator-color);
-    --qds-field-fill: var(--qds-surface-transient);
-  }
-
   .qds-ui.qds-variant-term .q-field,
   .qds-ui .qds-variant-term .q-field { --qds-field-stroke: color-mix(in srgb, var(--qds-color-primary) 24%, var(--qds-border)); }
 
