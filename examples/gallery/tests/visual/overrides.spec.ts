@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { QDS_TOKENS } from '../../../../src/tokens'
-import { applyTheme, computed, customProperty, MATRIX_VARIANTS, resolvedColor, type Mode, type Variant } from './helpers'
+import { applyTheme, coarsePointer, computed, customProperty, MATRIX_VARIANTS, resolvedColor, resolvedShadow, type Mode, type Variant } from './helpers'
 
 type Rgba = readonly [number, number, number, number]
 
@@ -54,13 +54,13 @@ async function renderedBoundaryContrast(page: Parameters<typeof computed>[0], se
 const EXPECTED: Record<Mode, Record<Variant, { surface: string; primary: string; controlRadius: string; cardRadius: string }>> = {
   light: {
     fluent: { surface: '#ffffff', primary: 'rgb(15, 108, 189)', controlRadius: '4px', cardRadius: '8px' },
-    ink: { surface: '#fdf9f1', primary: 'rgb(48, 48, 45)', controlRadius: '10px', cardRadius: '16px' },
+    ink: { surface: '#fbf9f5', primary: 'rgb(46, 44, 40)', controlRadius: '10px', cardRadius: '16px' },
     one: { surface: '#f9f9ff', primary: 'rgb(46, 95, 184)', controlRadius: '14px', cardRadius: '20px' },
     term: { surface: '#f5f3ef', primary: 'rgb(252, 196, 13)', controlRadius: '6px', cardRadius: '10px' },
   },
   dark: {
     fluent: { surface: '#292929', primary: 'rgb(25, 118, 202)', controlRadius: '4px', cardRadius: '8px' },
-    ink: { surface: '#25231f', primary: 'rgb(240, 233, 219)', controlRadius: '10px', cardRadius: '16px' },
+    ink: { surface: '#282622', primary: 'rgb(236, 229, 216)', controlRadius: '10px', cardRadius: '16px' },
     one: { surface: '#20212a', primary: 'rgb(173, 198, 255)', controlRadius: '14px', cardRadius: '20px' },
     term: { surface: '#0d0f12', primary: 'rgb(252, 196, 13)', controlRadius: '6px', cardRadius: '10px' },
   },
@@ -82,14 +82,9 @@ test.describe('QDS override gate', () => {
         expect.soft(await computed(page, `${panel} .q-field--outlined .q-field__control`, 'border-radius'), 'QField consumes the resolved control geometry').toBe(variant === 'one' ? '18px' : expected.controlRadius)
         expect.soft(await computed(page, `${panel} .q-card`, 'background-color'), 'QCard has a rendered surface').not.toBe('rgba(0, 0, 0, 0)')
         const cardBorderStyle = await computed(page, `${panel} .q-card`, 'border-top-style')
-        if (variant === 'ink') {
-          expect.soft(cardBorderStyle, `${variant} default card has no stroke`).toBe('none')
-          expect.soft(await computed(page, `${panel} .q-card`, 'border-top-width'), `${variant} default card stroke width is 0`).toBe('0px')
-        } else {
-          expect.soft(cardBorderStyle, `${variant} card renders a solid boundary`).toBe('solid')
-          expect.soft(await computed(page, `${panel} .q-card`, 'border-top-width'), `${variant} card boundary is 1px`).toBe('1px')
-          expect.soft(await computed(page, `${panel} .q-card`, 'border-top-color'), `${variant} card boundary has a non-transparent color`).not.toBe('rgba(0, 0, 0, 0)')
-        }
+        expect.soft(cardBorderStyle, `${variant} card renders a solid boundary`).toBe('solid')
+        expect.soft(await computed(page, `${panel} .q-card`, 'border-top-width'), `${variant} card boundary is 1px`).toBe('1px')
+        expect.soft(await computed(page, `${panel} .q-card`, 'border-top-color'), `${variant} card boundary has a non-transparent color`).not.toBe('rgba(0, 0, 0, 0)')
 
         if (variant === 'fluent') {
           expect.soft(await computed(page, `${panel} .q-card`, 'backdrop-filter'), 'Fluent content has no blur').toBe('none')
@@ -97,10 +92,11 @@ test.describe('QDS override gate', () => {
           expect.soft(await computed(page, `${panel} .q-card`, 'border-top-color'), 'Fluent card stroke is the card stroke token').toBe(await resolvedColor(page, '--qds-card-stroke'))
         }
         if (variant === 'ink') {
-          expect.soft(await customProperty(page, '--qds-surface-negative-soft'), 'Ink negative pastel wash token').toBe(mode === 'light' ? '#f8dce3' : '#563842')
+          expect.soft(await customProperty(page, '--qds-surface-negative-soft'), 'Ink negative pastel wash token').toBe(mode === 'light' ? '#f4dfe1' : '#4a3239')
           expect.soft(await computed(page, `${panel} .q-card`, 'backdrop-filter'), 'Ink content has no blur').toBe('none')
           expect.soft(await computed(page, `${panel} .q-card`, 'box-shadow'), 'Ink content stays flat').toBe('none')
-          expect.soft(await computed(page, `${panel} .q-card`, 'background-color'), 'Ink strokeless card is defined by its pastel wash').toBe(await resolvedColor(page, '--qds-surface-brand-soft'))
+          expect.soft(await computed(page, `${panel} .q-card`, 'background-color'), 'Ink card is a paper sheet').toBe(await resolvedColor(page, '--qds-surface-0'))
+          expect.soft(await computed(page, `${panel} .q-card`, 'border-top-color'), 'Ink card hairline is the card stroke token').toBe(await resolvedColor(page, '--qds-card-stroke'))
           expect.soft(await computed(page, `${panel} .qds-display`, 'font-family'), 'Ink display type is editorial serif').toMatch(/Iowan Old Style|Palatino|Georgia/)
         }
         if (variant === 'one') {
@@ -356,6 +352,35 @@ test.describe('QDS override gate', () => {
       expect.soft(state.oldClass, `${input} old class is absent`).toBe(false)
       expect.soft(state.dataVariant, `${input} writes the canonical data-qds-variant`).toBe(canonical)
       expect.soft(state.labels, `${input} exposes only canonical switcher entries`).toEqual(['Fluent', 'Ink', 'One', 'Term'])
+    }
+  })
+
+  test('ink paper stays matte with one control hairline, crisp overlay rules and touch rows', async ({ page }) => {
+    for (const mode of ['light', 'dark'] as const) {
+      await page.goto('/#catalog')
+      await applyTheme(page, mode, 'ink')
+      expect.soft(await resolvedShadow(page, '--qds-elevation-card'), `${mode}/ink card elevation is matte`).toBe('none')
+      await page.locator('[data-test="qds-catalog-color"]').scrollIntoViewIfNeeded()
+      expect.soft(await computed(page, '[data-test="qds-catalog-color"]', 'box-shadow'), `${mode}/ink QColor has no shadow`).toBe('none')
+      expect.soft(await resolvedColor(page, '--qds-control-stroke-top'), `${mode}/ink control edge is one hairline`).toBe(await resolvedColor(page, '--qds-control-stroke-bottom'))
+      const rowHeight = await page.locator('body').evaluate((body) => {
+        const probe = document.createElement('div')
+        probe.className = 'q-item'
+        body.append(probe)
+        const height = getComputedStyle(probe).minHeight
+        probe.remove()
+        return height
+      })
+      expect.soft(rowHeight, `${mode}/ink list rows follow the pointer`).toBe((await coarsePointer(page)) ? '44px' : '40px')
+
+      await page.goto('/#components')
+      const trigger = page.getByRole('button', { name: 'Open menu', exact: true })
+      await trigger.scrollIntoViewIfNeeded()
+      await trigger.click()
+      const menu = page.locator('.q-menu').first()
+      await expect(menu).toBeVisible()
+      expect.soft(await menu.evaluate((el) => getComputedStyle(el).borderTopColor), `${mode}/ink menu takes the crisp overlay rule`).toBe(await resolvedColor(page, '--qds-stroke-strong'))
+      await page.keyboard.press('Escape')
     }
   })
 

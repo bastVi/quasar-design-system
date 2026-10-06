@@ -20,8 +20,8 @@ test.describe('QDS scene gallery', () => {
     await page.goto('/#scenes')
     await applyTheme(page, 'light', 'ink')
     const ink = '[data-test="qds-scene-ink"]'
-    expect.soft(await customProperty(page, '--qds-surface-0'), 'Ink paper surface comes from current token source').toBe('#fdf9f1')
-    expect.soft(await customProperty(page, '--qds-surface-info-soft'), 'Ink coordinated pastel info surface').toBe('#dbeafb')
+    expect.soft(await customProperty(page, '--qds-surface-0'), 'Ink paper surface comes from current token source').toBe('#fbf9f5')
+    expect.soft(await customProperty(page, '--qds-surface-info-soft'), 'Ink coordinated pastel info surface').toBe('#dee7ef')
     expect.soft(await computed(page, `${ink} .scene-panel`, 'backdrop-filter'), 'Ink scene card has no blur').toBe('none')
     expect.soft(await computed(page, `${ink} .scene-panel`, 'box-shadow'), 'Ink scene content is flat').toBe('none')
 

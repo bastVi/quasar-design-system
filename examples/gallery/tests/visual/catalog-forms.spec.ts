@@ -366,7 +366,7 @@ test.describe('QDS catalog form picker gate', () => {
         expect.soft(await page.locator('[data-test="qds-catalog-date"]').getByRole('button', { name: '17', exact: true }).evaluate((el) => getComputedStyle(el).backgroundColor), `${mode}/${variant} selected date uses the active primary`).toBe(primary)
         expect.soft(await computed(page, '[data-test="qds-catalog-time"] .q-time__clock-position--active', 'background-color'), `${mode}/${variant} active time uses the active primary`).toBe(primary)
         if (variant === 'ink') {
-          expect.soft(await page.locator('body').evaluate((el) => getComputedStyle(el).getPropertyValue('--qds-surface-positive-soft').trim()), `${mode}/ink has a pastel semantic role surface`).toBe(mode === 'light' ? '#d9f1e4' : '#30493e')
+          expect.soft(await page.locator('body').evaluate((el) => getComputedStyle(el).getPropertyValue('--qds-surface-positive-soft').trim()), `${mode}/ink has a pastel semantic role surface`).toBe(mode === 'light' ? '#e2ecdf' : '#2f3f35')
         }
         if (variant === 'one') {
           expect.soft(await computed(page, '[data-test="qds-catalog-input-error"] .q-field__control', 'min-height'), `${mode}/One label-above fields use the 44px One UI control height`).toBe('44px')

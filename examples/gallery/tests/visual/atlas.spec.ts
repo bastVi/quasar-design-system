@@ -12,6 +12,10 @@ type Overlay = {
 }
 
 const MODES: Mode[] = ['light', 'dark']
+const INK_HOOKS: Partial<Record<Section, readonly string[]>> = {
+  forms: ['qds-forms-anatomy-field', 'qds-forms-option-cards-radio'],
+  apps: ['qds-apps-subpage', 'qds-apps-tiles'],
+}
 
 // Overlays are captured on the solid material fallback so baselines never depend on blurred page content.
 async function forceSolidMaterials(page: Page) {
@@ -211,6 +215,25 @@ test.describe('@screens atlas', () => {
       await target.evaluate((element) => element.scrollIntoView({ block: 'center' }))
       await expect(target).toBeVisible()
       await expect.soft(target).toHaveScreenshot(`atlas-qds-scene-materials-${mode}.png`)
+    })
+  }
+
+  for (const mode of MODES) {
+    test(`ink ${mode}`, async ({ page }) => {
+      for (const [section, hooks] of Object.entries(INK_HOOKS)) {
+        await page.goto(`./#${section}`)
+        await applyTheme(page, mode, 'ink')
+        await page.evaluate(async () => {
+          await document.fonts.ready
+        })
+        for (const hook of hooks) {
+          const target = page.locator(byHook(hook))
+          await expect(target, `${hook} is rendered exactly once`).toHaveCount(1)
+          await target.evaluate((element) => element.scrollIntoView({ block: 'center' }))
+          await expect(target).toBeVisible()
+          await expect.soft(target).toHaveScreenshot(`atlas-ink-${hook}-${mode}.png`, { stylePath: HIDE_GALLERY_HEADER })
+        }
+      }
     })
   }
 })
