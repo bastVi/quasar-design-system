@@ -1,5 +1,15 @@
+@use 'sass:map';
 @use 'button';
 @use '../materials';
+
+// Palette grey takes the neutral layer, as role chips take their tonal fill.
+$tonal-fills: ();
+
+@each $role, $_ in button.$roles {
+  $tonal-fills: map.set($tonal-fills, $role, (fg: button.role-value($role, fg), bg: button.role-soft($role)));
+}
+
+$tonal-fills: map.set($tonal-fills, 'grey', (fg: var(--qds-fg-default), bg: var(--qds-bg-layer)));
 
 @mixin styles {
   .qds-ui .q-chip {
@@ -109,23 +119,25 @@
     opacity: 1;
   }
 
-  @each $role, $_ in button.$roles {
-    .qds-ui .q-chip.bg-#{$role}:not(.qds-solid) {
-      color: button.role-value($role, fg) !important;
-      background-color: button.role-soft($role) !important;
+  @each $fill, $tone in $tonal-fills {
+    .qds-ui .q-chip.bg-#{$fill}:not(.qds-solid) {
+      color: map.get($tone, fg) !important;
+      background-color: map.get($tone, bg) !important;
     }
 
-    .qds-ui .q-chip.bg-#{$role}.qds-solid {
-      color: var(--qds-text-on-#{$role}) !important;
-      background-color: var(--qds-color-#{$role}) !important;
-    }
+    @if map.has-key(button.$roles, $fill) {
+      .qds-ui .q-chip.bg-#{$fill}.qds-solid {
+        color: var(--qds-text-on-#{$fill}) !important;
+        background-color: var(--qds-color-#{$fill}) !important;
+      }
 
-    .qds-ui .q-chip.text-#{$role} {
-      color: button.role-value($role, fg) !important;
-    }
+      .qds-ui .q-chip.text-#{$fill} {
+        color: button.role-value($fill, fg) !important;
+      }
 
-    .qds-ui .q-chip--outline.text-#{$role} {
-      border-color: currentColor;
+      .qds-ui .q-chip--outline.text-#{$fill} {
+        border-color: currentColor;
+      }
     }
   }
 

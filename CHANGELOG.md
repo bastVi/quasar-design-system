@@ -148,6 +148,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
   day cells, compact navigation arrows).
 - **One rows**: 48 / 40px list and menu rows and 48px expansion headers on fine pointers; coarse pointers keep the
   56 / 48 / 52px One UI touch rows.
+- **Term dense buttons** follow `--qds-control-size-sm` like dense fields (24px fine / 32px coarse; was a fixed
+  28px), so dense controls in one row share a height.
+
+### Fixed
+
+- QBtn `no-caps` is respected in variants that uppercase controls (Term).
+- Quasar `text-weight-*` / `text-bold` utilities win over the QDS type scale on headings and `text-*` steps again,
+  and `text-lowercase` / `text-capitalize` win over the uppercase overline.
+- Plain prose links inside `.qds-ui` take `--qds-fg-brand` (visited too), a soft underline that firms on hover and
+  the QDS focus ring; links with any `q-` class (Quasar components, spacing utilities) keep their own styling.
+- Custom `[role="button"]` / `[role="link"]` elements with a `tabindex` (and no `q-` class) get an inset QDS focus
+  ring instead of the browser one (zero specificity, so components keep theirs).
+- QChip `color="grey"` takes the neutral layer, as role chips take their tonal fill, instead of default text on the
+  palette grey.
+- Joined QBtnGroup / split-button segments draw their focus ring inside their own edge (in the on-fill ink on role
+  fills), so it no longer squares off against the next segment or overlaps nearby rows.
 
 ## [0.8.0-rc.2] — 2026-09-29
 

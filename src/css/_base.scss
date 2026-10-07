@@ -1,9 +1,11 @@
 @mixin qds-type-step($step) {
   font-size: var(--qds-font-size-#{$step});
-  font-weight: var(--qds-font-weight-#{$step});
   line-height: var(--qds-line-height-#{$step});
   letter-spacing: var(--qds-letter-spacing-#{$step}, normal);
 }
+
+// Quasar weight utilities keep priority over the type scale.
+$weight-utilities: '.text-weight-thin, .text-weight-light, .text-weight-regular, .text-weight-medium, .text-weight-bold, .text-weight-bolder, .text-bold';
 
 @mixin styles {
   body.qds-ui {
@@ -34,16 +36,47 @@
     body.qds-ui :where(#{$step}) {
       @include qds-type-step($step);
     }
+
+    body.qds-ui :where(#{$step}:not(#{$weight-utilities})) {
+      font-weight: var(--qds-font-weight-#{$step});
+    }
   }
 
   @each $step in h1, h2, h3, h4, h5, h6, subtitle1, subtitle2, body1, body2, caption, overline {
     body.qds-ui :where(.text-#{$step}) {
       @include qds-type-step($step);
     }
+
+    body.qds-ui :where(.text-#{$step}:not(#{$weight-utilities})) {
+      font-weight: var(--qds-font-weight-#{$step});
+    }
   }
 
-  body.qds-ui :where(.text-overline) {
+  body.qds-ui :where(.text-overline:not(.text-lowercase, .text-capitalize)) {
     text-transform: uppercase;
+  }
+
+  // Prose links only; Quasar components rendering anchors all carry a `q-` class.
+  :where(.qds-ui a[href]:not([class*='q-'])) {
+    color: var(--qds-fg-brand);
+    text-decoration-line: underline;
+    text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+    text-underline-offset: 0.2em;
+    border-radius: var(--qds-radius-xs);
+  }
+
+  :where(.qds-ui a[href]:not([class*='q-']):hover) {
+    text-decoration-color: currentColor;
+  }
+
+  :where(.qds-ui a[href]:not([class*='q-']):focus-visible) {
+    outline: var(--qds-focus-ring-width) solid var(--qds-stroke-focus);
+    outline-offset: var(--qds-focus-ring-offset);
+  }
+
+  :where(.qds-ui :is([role='button'], [role='link'])[tabindex]:not([class*='q-']):focus-visible) {
+    outline: var(--qds-focus-ring-width) solid var(--qds-stroke-focus);
+    outline-offset: calc(-1 * var(--qds-focus-ring-width));
   }
 
   // Ripple is a Material 2 tell; CSS states replace it.

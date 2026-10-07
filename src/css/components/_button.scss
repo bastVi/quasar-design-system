@@ -47,11 +47,14 @@ $role-texts: ();
     background: linear-gradient(var(--qds-button-state, transparent), var(--qds-button-state, transparent)) transparent;
     font-weight: var(--qds-font-weight-semibold);
     letter-spacing: var(--qds-control-letter-spacing);
-    text-transform: var(--qds-control-text-transform);
     transition:
       background-color var(--qds-motion-fast),
       border-color var(--qds-motion-fast),
       color var(--qds-motion-fast);
+  }
+
+  .qds-ui .q-btn:where(:not(.q-btn--no-uppercase)) {
+    text-transform: var(--qds-control-text-transform);
   }
 
   .qds-ui .q-btn#{$not-fab} {

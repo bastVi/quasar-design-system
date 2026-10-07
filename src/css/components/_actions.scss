@@ -50,6 +50,9 @@ $one: ':is(.qds-ui.qds-variant-one, .qds-ui .qds-variant-one)';
   }
 
   .qds-ui .q-btn-group > .q-btn-item:is(:hover, :focus-visible) { z-index: 1; }
+  // Joined segments ring inside their own edge; on a role fill the ring takes the on-fill ink.
+  .qds-ui .q-btn-group:where(:not(.q-btn-toggle)) > .q-btn-item:focus-visible { outline-offset: calc((var(--qds-focus-ring-width) + var(--qds-border-width-control)) * -1); }
+  .qds-ui .q-btn-group:where(:not(.q-btn-toggle)) > .q-btn-item[class*='bg-']:focus-visible { --qds-stroke-focus: currentColor; }
   .qds-ui .q-btn-dropdown--split > .q-btn-dropdown__arrow-container { padding-inline: var(--qds-space-sm); }
   .qds-ui .q-btn-dropdown--split .q-btn-dropdown__arrow { margin-inline-start: 0; }
 
