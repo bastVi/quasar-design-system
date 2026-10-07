@@ -457,7 +457,7 @@ test.describe('QDS catalog form picker gate', () => {
       'Term light active time text is not white',
     ).not.toBe('rgb(255, 255, 255)')
 
-    // Term dark: primary is still yellow, on-primary should be dark (#0d0f12)
+    // Term dark: primary is still yellow, on-primary should be dark (#0e0d0b)
     await applyTheme(page, 'dark', 'term')
     const termDarkOnPrimary = await resolvedColor(page, '--qds-text-on-primary')
     const termDarkSelectedDate = page.locator('[data-test="qds-catalog-date"]').getByRole('button', { name: '17', exact: true })

@@ -56,13 +56,13 @@ const EXPECTED: Record<Mode, Record<Variant, { surface: string; primary: string;
     fluent: { surface: '#ffffff', primary: 'rgb(15, 108, 189)', controlRadius: '4px', cardRadius: '8px' },
     ink: { surface: '#fbf9f5', primary: 'rgb(46, 44, 40)', controlRadius: '10px', cardRadius: '16px' },
     one: { surface: '#f9f9ff', primary: 'rgb(46, 95, 184)', controlRadius: '14px', cardRadius: '20px' },
-    term: { surface: '#f5f3ef', primary: 'rgb(252, 196, 13)', controlRadius: '6px', cardRadius: '10px' },
+    term: { surface: '#f8f6f0', primary: 'rgb(252, 196, 13)', controlRadius: '6px', cardRadius: '10px' },
   },
   dark: {
     fluent: { surface: '#292929', primary: 'rgb(25, 118, 202)', controlRadius: '4px', cardRadius: '8px' },
     ink: { surface: '#282622', primary: 'rgb(236, 229, 216)', controlRadius: '10px', cardRadius: '16px' },
     one: { surface: '#20212a', primary: 'rgb(173, 198, 255)', controlRadius: '14px', cardRadius: '20px' },
-    term: { surface: '#0d0f12', primary: 'rgb(252, 196, 13)', controlRadius: '6px', cardRadius: '10px' },
+    term: { surface: '#141412', primary: 'rgb(252, 196, 13)', controlRadius: '6px', cardRadius: '10px' },
   },
 }
 
@@ -381,6 +381,85 @@ test.describe('QDS override gate', () => {
       await expect(menu).toBeVisible()
       expect.soft(await menu.evaluate((el) => getComputedStyle(el).borderTopColor), `${mode}/ink menu takes the crisp overlay rule`).toBe(await resolvedColor(page, '--qds-stroke-strong'))
       await page.keyboard.press('Escape')
+    }
+  })
+
+  test('term stays crisp and opaque with ruled amber keys, readable text and touch rows', async ({ page }) => {
+    const ratio = async (first: string, second: string) => contrast(parseColor(await resolvedColor(page, first)), parseColor(await resolvedColor(page, second)))
+    for (const mode of ['light', 'dark'] as const) {
+      await page.goto('/#catalog')
+      await applyTheme(page, mode, 'term')
+      expect.soft(await resolvedShadow(page, '--qds-elevation-card'), `${mode}/term cards are flat`).toBe('none')
+      expect.soft(await resolvedShadow(page, '--qds-shadow-8'), `${mode}/term has no glow or drop shadow`).toBe('none')
+      expect.soft(await resolvedColor(page, '--qds-control-stroke-top'), `${mode}/term control edge is one hairline`).toBe(await resolvedColor(page, '--qds-control-stroke-bottom'))
+      expect.soft(await resolvedColor(page, '--qds-control-stroke-default'), `${mode}/term control stroke is the border hairline`).toBe(await resolvedColor(page, '--qds-border'))
+      expect.soft(await computed(page, '.q-card', 'background-image'), `${mode}/term card has no amber wash`).toBe('none')
+      expect.soft(await computed(page, '.q-card', 'background-color'), `${mode}/term card is an opaque pane`).toBe(await resolvedColor(page, '--qds-surface-0'))
+      for (const surface of ['--qds-surface-0', '--qds-surface-1', '--qds-surface-2']) {
+        expect.soft(await ratio('--qds-text-muted', surface), `${mode}/term muted text on ${surface}`).toBeGreaterThanOrEqual(4.5)
+        expect.soft(await ratio('--qds-border', surface), `${mode}/term control stroke on ${surface}`).toBeGreaterThanOrEqual(3)
+      }
+      for (const surface of ['--qds-surface-0', '--qds-surface-1']) {
+        expect.soft(await ratio('--qds-stroke-focus', surface), `${mode}/term focus ring on ${surface}`).toBeGreaterThanOrEqual(3)
+        expect.soft(await ratio('--qds-fg-brand', surface), `${mode}/term brand text on ${surface}`).toBeGreaterThanOrEqual(4.5)
+      }
+
+      const toggle = '[data-test="qds-btn-toggle"]'
+      expect.soft(await renderedContrast(page, `${toggle} .q-btn[aria-pressed="false"]`, toggle), `${mode}/term inactive segment text`).toBeGreaterThanOrEqual(4.5)
+      const checkbox = '[data-test="qds-catalog-checkbox"] .q-checkbox__bg'
+      expect.soft(await computed(page, checkbox, 'border-top-color'), `${mode}/term checked box is ruled in its on-fill ink`).toBe(await resolvedColor(page, '--qds-text-on-primary'))
+      if (mode === 'light') expect.soft(await renderedBoundaryContrast(page, checkbox, '.q-card'), 'light/term checked box boundary on cream').toBeGreaterThanOrEqual(3)
+
+      const rowHeight = await page.locator('body').evaluate((body) => {
+        const probe = document.createElement('div')
+        probe.className = 'q-item'
+        body.append(probe)
+        const height = getComputedStyle(probe).minHeight
+        probe.remove()
+        return height
+      })
+      expect.soft(rowHeight, `${mode}/term list rows follow the pointer`).toBe((await coarsePointer(page)) ? '44px' : '38px')
+
+      await page.goto('/#components')
+      const trigger = page.getByRole('button', { name: 'Open menu', exact: true })
+      await trigger.scrollIntoViewIfNeeded()
+      await trigger.click()
+      const menu = page.locator('.q-menu').first()
+      await expect(menu).toBeVisible()
+      expect.soft(await menu.evaluate((el) => getComputedStyle(el).backdropFilter), `${mode}/term menu keeps its acrylic`).toContain('blur')
+      expect.soft(await menu.evaluate((el) => getComputedStyle(el).borderTopColor), `${mode}/term menu takes the crisp hairline`).toBe(await resolvedColor(page, '--qds-border'))
+      await page.keyboard.press('Escape')
+
+      const cdp = await page.context().newCDPSession(page)
+      await cdp.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-transparency', value: 'reduce' }] })
+      await page.goto('/#components')
+      await applyTheme(page, mode, 'term')
+      await trigger.scrollIntoViewIfNeeded()
+      await trigger.click()
+      await expect(menu).toBeVisible()
+      expect.soft(await menu.evaluate((el) => getComputedStyle(el).backdropFilter), `${mode}/term menu turns solid under reduced transparency`).toBe('none')
+      expect.soft(await menu.evaluate((el) => getComputedStyle(el).backgroundColor), `${mode}/term solid menu is the pane surface`).toBe(await resolvedColor(page, '--qds-surface-0'))
+      await page.keyboard.press('Escape')
+      await cdp.send('Emulation.setEmulatedMedia', { features: [] })
+
+      await page.goto('/#forms')
+      await applyTheme(page, mode, 'term')
+      for (const state of ['positive', 'warning', 'error']) {
+        const stroke = parseColor(await computed(page, `[data-test="qds-forms-state-${state}"] .q-field__control`, 'border-top-color', '::before'))
+        for (const surface of ['--qds-surface-0', '--qds-surface-1', '--qds-surface-2']) {
+          expect.soft(contrast(stroke, parseColor(await resolvedColor(page, surface))), `${mode}/term ${state} field stroke on ${surface}`).toBeGreaterThanOrEqual(3)
+        }
+      }
+
+      await page.goto('/#scenes')
+      const eyebrow = '[data-test="qds-scene-term"] .scene-panel__eyebrow'
+      await page.locator(eyebrow).scrollIntoViewIfNeeded()
+      expect.soft(await renderedContrast(page, eyebrow, '[data-test="qds-scene-card-term"]'), `${mode}/term scene eyebrow is never amber text on cream`).toBeGreaterThanOrEqual(4.5)
+
+      await applyTheme(page, mode, 'one')
+      const frameCard = parseColor(await computed(page, '[data-test="qds-scene-card-term"]', 'background-color'))
+      expect.soft(frameCard[3], `${mode}/term scene card stays an opaque pane on a One page`).toBe(1)
+      expect.soft(await renderedContrast(page, '[data-test="qds-scene-card-term"] .scene-panel__copy', '[data-test="qds-scene-card-term"]'), `${mode}/term scene copy is readable on a One page`).toBeGreaterThanOrEqual(4.5)
     }
   })
 

@@ -189,6 +189,11 @@ const pages = reactive<Record<VariantName, number>>({
   text-transform: var(--qds-control-text-transform);
 }
 
+.variant-card.qds-variant-term .variant-card__eyebrow,
+.qds-variant-term .variants-kicker {
+  color: var(--qds-fg-brand);
+}
+
 .variant-card__title {
   margin: 0.2rem 0 0;
   color: var(--qds-text-strong);

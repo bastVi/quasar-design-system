@@ -34,9 +34,9 @@ const scenes: Scene[] = [
   {
     variant: 'term',
     label: 'Term',
-    tagline: 'Amber on glass',
+    tagline: 'Amber keys, hairline rules',
     wallpaper: '/scenes/qds-wallpaper-term.svg',
-    detail: 'Near-black surfaces, crisp hairline cards, and restrained amber glow for developer UI.',
+    detail: 'Opaque cream or near-black panes, crisp hairline rules, and amber fills with dark ink for developer UI.',
   },
 ]
 
@@ -184,6 +184,11 @@ const materials = [
   font-weight: var(--qds-font-weight-semibold);
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+.scene-frame--term .scene-panel__eyebrow,
+.qds-variant-term .scenes-kicker {
+  color: var(--qds-fg-brand);
 }
 
 .scene-panel__title {

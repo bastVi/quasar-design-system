@@ -114,11 +114,18 @@ test.describe('Fluent foundation contract', () => {
       }
     }
 
-    await applyTheme(page, 'light', 'term')
-    for (const role of roles) {
-      const { rest, hover, pressed } = await states(role)
-      expect.soft(luminance(hover.fill), `term ${role} hover keeps darkening`).toBeLessThan(luminance(rest.fill))
-      expect.soft(luminance(pressed.fill), `term ${role} press stays at or below hover`).toBeLessThanOrEqual(luminance(hover.fill))
+    for (const mode of ['light', 'dark'] as const) {
+      await applyTheme(page, mode, 'term')
+      for (const role of roles) {
+        const { rest, hover, pressed } = await states(role)
+        if (mode === 'light') {
+          expect.soft(luminance(hover.fill), `term ${role} hover keeps darkening`).toBeLessThan(luminance(rest.fill))
+          expect.soft(luminance(pressed.fill), `term ${role} press stays at or below hover`).toBeLessThanOrEqual(luminance(hover.fill))
+        }
+        expect.soft(rest.ratio, `${mode}/term ${role} rest text contrast`).toBeGreaterThanOrEqual(4.5)
+        expect.soft(hover.ratio, `${mode}/term ${role} hover text contrast`).toBeGreaterThanOrEqual(4.5)
+        expect.soft(pressed.ratio, `${mode}/term ${role} pressed text contrast`).toBeGreaterThanOrEqual(3)
+      }
     }
   })
 
