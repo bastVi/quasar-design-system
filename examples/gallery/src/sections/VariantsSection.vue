@@ -26,7 +26,7 @@ const variants: VariantSample[] = [
   {
     name: 'one',
     label: 'One',
-    intent: 'One UI-inspired focus blocks, rounder groups, and touch-first control rhythm.',
+    intent: 'One UI-inspired neutral blocks, pill controls, a calm blue accent, and touch-first rhythm.',
     sample: 'Touch panel 04',
   },
   {
@@ -190,7 +190,9 @@ const pages = reactive<Record<VariantName, number>>({
 }
 
 .variant-card.qds-variant-term .variant-card__eyebrow,
-.qds-variant-term .variants-kicker {
+.variant-card.qds-variant-one .variant-card__eyebrow,
+.qds-variant-term .variants-kicker,
+.qds-variant-one .variants-kicker {
   color: var(--qds-fg-brand);
 }
 

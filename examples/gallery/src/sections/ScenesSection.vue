@@ -27,9 +27,9 @@ const scenes: Scene[] = [
   {
     variant: 'one',
     label: 'One',
-    tagline: 'One UI rhythm',
+    tagline: 'Neutral blocks, calm blue',
     wallpaper: '/scenes/qds-wallpaper-one.svg',
-    detail: 'Focus blocks, rounder controls, roomier rows, and calmer touch-first panels.',
+    detail: 'Grey or true-black pages, rounded white and dark-grey blocks, pill controls, and a calm blue accent for touch-first panels.',
   },
   {
     variant: 'term',
@@ -187,7 +187,9 @@ const materials = [
 }
 
 .scene-frame--term .scene-panel__eyebrow,
-.qds-variant-term .scenes-kicker {
+.scene-frame--one .scene-panel__eyebrow,
+.qds-variant-term .scenes-kicker,
+.qds-variant-one .scenes-kicker {
   color: var(--qds-fg-brand);
 }
 

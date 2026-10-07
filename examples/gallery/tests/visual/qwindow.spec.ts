@@ -1,10 +1,10 @@
 import { expect, test, type Page } from '@playwright/test'
 import { resolvedColor } from './helpers'
 
-async function forceTheme(page: Page, mode: 'light' | 'dark' = 'light', variant: 'fluent' | 'term' = 'fluent') {
+async function forceTheme(page: Page, mode: 'light' | 'dark' = 'light', variant: 'fluent' | 'ink' | 'one' | 'term' = 'fluent') {
   await page.waitForFunction(() => Boolean((window as unknown as { __qdsGallery?: unknown }).__qdsGallery))
   await page.evaluate(({ mode, variant }) => {
-    const ds = (window as unknown as { __qdsGallery: { setMode: (mode: 'light' | 'dark') => void; setVariant: (variant: 'fluent' | 'term') => void } }).__qdsGallery
+    const ds = (window as unknown as { __qdsGallery: { setMode: (mode: 'light' | 'dark') => void; setVariant: (variant: 'fluent' | 'ink' | 'one' | 'term') => void } }).__qdsGallery
     ds.setMode(mode)
     ds.setVariant(variant)
   }, { mode, variant })
@@ -157,6 +157,19 @@ test.describe('QDS optional QWindow extension', () => {
     expect.soft(activeStyles.closeBackground, 'Active floating QWindow keeps close neutral at rest').toBe(neutralBackground)
     expect.soft(activeStyles.closeColor, 'Active floating QWindow keeps close neutral at rest').toBe(neutralColor)
 
+  })
+
+  test('Ink windows keep the focus-block surface and One windows sit on the transient surface', async ({ page }) => {
+    await page.goto('/#window')
+    const windowShell = page.locator('.qds-window').filter({ hasText: 'QDS window shell' })
+    for (const mode of ['light', 'dark'] as const) {
+      for (const [variant, token] of [['ink', '--qds-surface-focus-block'], ['one', '--qds-surface-transient']] as const) {
+        await forceTheme(page, mode, variant)
+        expect.soft(await windowShell.evaluate((el) => getComputedStyle(el).backgroundColor), `${mode}/${variant} window background`).toBe(await resolvedColor(page, token))
+      }
+      await forceTheme(page, mode, 'ink')
+      expect.soft(await windowShell.locator('.qds-window__titlebar').evaluate((el) => getComputedStyle(el).backgroundColor), `${mode}/ink window titlebar background`).toBe(await resolvedColor(page, '--qds-surface-focus-block'))
+    }
   })
 
   test('close hover and focus use restrained destructive feedback in Fluent light/dark and Term', async ({ page }) => {

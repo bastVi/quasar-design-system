@@ -16,7 +16,7 @@ declare global {
 
 const EXPECTED_MEDIA_RADIUS: Record<Extract<Variant, 'fluent' | 'one' | 'term'>, string> = {
   fluent: '8px',
-  one: '20px',
+  one: '24px',
   term: '10px',
 }
 
@@ -434,7 +434,7 @@ test.describe('QDS catalog complex media gate', () => {
         await expect(page.locator('[data-test="qds-carousel"]')).toBeVisible()
         await expect(page.locator('[data-test="qds-editor"]')).toBeVisible()
         await expect(page.locator('[data-test="qds-uploader"]')).toBeVisible()
-        expect.soft(await computed(page, '[data-test="qds-carousel"]', 'border-radius'), `${mode}/${variant} carousel geometry`).toBe(variant === 'one' ? '20px' : variant === 'ink' ? '16px' : variant === 'term' ? '10px' : await customProperty(page, '--qds-card-radius'))
+        expect.soft(await computed(page, '[data-test="qds-carousel"]', 'border-radius'), `${mode}/${variant} carousel geometry`).toBe(variant === 'one' ? '24px' : variant === 'ink' ? '16px' : variant === 'term' ? '10px' : await customProperty(page, '--qds-card-radius'))
         expect.soft(await computed(page, '[data-test="qds-timeline"] .q-timeline__subtitle', 'color'), `${mode}/${variant} timeline subtitle foreground`).toBe(await tokenColor(page, '[data-test="qds-timeline"]', '--qds-text-muted'))
         expect.soft(await computed(page, '[data-test="qds-timeline-dense"] .q-timeline__dot', 'background-color', '::after'), `${mode}/${variant} dense timeline rail`).toBe(await tokenColor(page, '[data-test="qds-timeline-dense"]', '--qds-timeline-rail'))
         const primaryMarker = '[data-test="qds-timeline"] .q-timeline__entry--left .q-timeline__dot'

@@ -55,13 +55,13 @@ const EXPECTED: Record<Mode, Record<Variant, { surface: string; primary: string;
   light: {
     fluent: { surface: '#ffffff', primary: 'rgb(15, 108, 189)', controlRadius: '4px', cardRadius: '8px' },
     ink: { surface: '#fbf9f5', primary: 'rgb(46, 44, 40)', controlRadius: '10px', cardRadius: '16px' },
-    one: { surface: '#f9f9ff', primary: 'rgb(46, 95, 184)', controlRadius: '14px', cardRadius: '20px' },
+    one: { surface: '#ffffff', primary: 'rgb(27, 95, 207)', controlRadius: '14px', cardRadius: '24px' },
     term: { surface: '#f8f6f0', primary: 'rgb(252, 196, 13)', controlRadius: '6px', cardRadius: '10px' },
   },
   dark: {
     fluent: { surface: '#292929', primary: 'rgb(25, 118, 202)', controlRadius: '4px', cardRadius: '8px' },
     ink: { surface: '#282622', primary: 'rgb(236, 229, 216)', controlRadius: '10px', cardRadius: '16px' },
-    one: { surface: '#20212a', primary: 'rgb(173, 198, 255)', controlRadius: '14px', cardRadius: '20px' },
+    one: { surface: '#1a1a1a', primary: 'rgb(47, 111, 220)', controlRadius: '14px', cardRadius: '24px' },
     term: { surface: '#141412', primary: 'rgb(252, 196, 13)', controlRadius: '6px', cardRadius: '10px' },
   },
 }
@@ -84,7 +84,9 @@ test.describe('QDS override gate', () => {
         const cardBorderStyle = await computed(page, `${panel} .q-card`, 'border-top-style')
         expect.soft(cardBorderStyle, `${variant} card renders a solid boundary`).toBe('solid')
         expect.soft(await computed(page, `${panel} .q-card`, 'border-top-width'), `${variant} card boundary is 1px`).toBe('1px')
-        expect.soft(await computed(page, `${panel} .q-card`, 'border-top-color'), `${variant} card boundary has a non-transparent color`).not.toBe('rgba(0, 0, 0, 0)')
+        const cardBorderColor = await computed(page, `${panel} .q-card`, 'border-top-color')
+        if (variant === 'one') expect.soft(cardBorderColor, 'One blocks separate by tone and roundness, not a stroke').toBe('rgba(0, 0, 0, 0)')
+        else expect.soft(cardBorderColor, `${variant} card boundary has a non-transparent color`).not.toBe('rgba(0, 0, 0, 0)')
 
         if (variant === 'fluent') {
           expect.soft(await computed(page, `${panel} .q-card`, 'backdrop-filter'), 'Fluent content has no blur').toBe('none')
@@ -100,14 +102,14 @@ test.describe('QDS override gate', () => {
           expect.soft(await computed(page, `${panel} .qds-display`, 'font-family'), 'Ink display type is editorial serif').toMatch(/Iowan Old Style|Palatino|Georgia/)
         }
         if (variant === 'one') {
-          expect.soft(await customProperty(page, '--qds-surface-focus-block'), 'One focus-block token differs by mode').toBe(mode === 'light' ? '#d7e4ff' : '#3c4d75')
+          expect.soft(await customProperty(page, '--qds-surface-focus-block'), 'One focus-block token differs by mode').toBe(mode === 'light' ? '#efefef' : '#242424')
           expect.soft(await customProperty(page, '--qds-button-padding-inline'), 'One button padding token is emitted').toBe('1rem')
           expect.soft(await customProperty(page, '--qds-button-dense-min-height'), 'One dense button size token is emitted').toBe('2.5rem')
           expect.soft(await customProperty(page, '--qds-button-dense-padding-inline'), 'One dense button padding token is emitted').toBe('.875rem')
           expect.soft(await customProperty(page, '--qds-button-round-size'), 'One round button size token is emitted').toBe('2.75rem')
           expect.soft(await customProperty(page, '--qds-field-label-size'), 'One field label token is emitted').toBe('.8125rem')
           expect.soft(await computed(page, `${panel} .q-btn--unelevated:not(.q-btn--dense)`, 'min-height'), 'One controls meet 44px touch target').toBe('44px')
-          expect.soft(await computed(page, `${panel} .q-card`, 'background-color'), 'One groups content on a visible focus-block surface').not.toBe('rgba(0, 0, 0, 0)')
+          expect.soft(await computed(page, `${panel} .q-card`, 'background-color'), 'One groups content on an opaque block surface').toBe(await resolvedColor(page, '--qds-surface-0'))
         }
       })
     }
@@ -460,6 +462,119 @@ test.describe('QDS override gate', () => {
       const frameCard = parseColor(await computed(page, '[data-test="qds-scene-card-term"]', 'background-color'))
       expect.soft(frameCard[3], `${mode}/term scene card stays an opaque pane on a One page`).toBe(1)
       expect.soft(await renderedContrast(page, '[data-test="qds-scene-card-term"] .scene-panel__copy', '[data-test="qds-scene-card-term"]'), `${mode}/term scene copy is readable on a One page`).toBeGreaterThanOrEqual(4.5)
+    }
+  })
+
+  test('one stays neutral with toned blocks, a calm blue accent, readable text and touch rows', async ({ page }) => {
+    const ratio = async (first: string, second: string) => contrast(parseColor(await resolvedColor(page, first)), parseColor(await resolvedColor(page, second)))
+    for (const mode of ['light', 'dark'] as const) {
+      await page.goto('/#catalog')
+      await applyTheme(page, mode, 'one')
+      expect.soft(await customProperty(page, '--qds-surface-1'), `${mode}/one page is neutral grey or true black`).toBe(mode === 'light' ? '#f2f2f2' : '#000000')
+      expect.soft(await computed(page, 'body', 'background-image', '::before'), `${mode}/one page has no tinted backdrop`).toBe('none')
+      for (const token of ['--qds-surface-0', '--qds-surface-focus-block', '--qds-surface-transient']) {
+        const [red, green, blue] = parseColor(await resolvedColor(page, token))
+        expect.soft(Math.max(red, green, blue) - Math.min(red, green, blue), `${mode}/one ${token} has no lavender cast`).toBe(0)
+      }
+      const [red, green, blue] = parseColor(await resolvedColor(page, '--qds-color-primary'))
+      expect.soft(blue > green && green > red, `${mode}/one primary is a calm blue, not purple`).toBe(true)
+      expect.soft(await computed(page, '.q-card', 'background-image'), `${mode}/one card has no tonal wash`).toBe('none')
+      expect.soft(await computed(page, '.q-card', 'background-color'), `${mode}/one card is an opaque block`).toBe(await resolvedColor(page, '--qds-surface-0'))
+      for (const surface of ['--qds-surface-0', '--qds-surface-1', '--qds-surface-2', '--qds-surface-focus-block', '--qds-surface-brand-soft']) {
+        expect.soft(await ratio('--qds-text-muted', surface), `${mode}/one muted text on ${surface}`).toBeGreaterThanOrEqual(4.5)
+        expect.soft(await ratio('--qds-fg-brand', surface), `${mode}/one brand text on ${surface}`).toBeGreaterThanOrEqual(4.5)
+      }
+      expect.soft(await ratio('--qds-text-muted', '--qds-control-fill-hover'), `${mode}/one placeholder on a hovered field`).toBeGreaterThanOrEqual(4.5)
+      for (const surface of ['--qds-surface-0', '--qds-surface-1']) {
+        expect.soft(await ratio('--qds-stroke-focus', surface), `${mode}/one focus ring on ${surface}`).toBeGreaterThanOrEqual(3)
+      }
+      expect.soft(await computed(page, '[data-test="qds-btn-toggle"] .q-btn', 'border-top-left-radius'), `${mode}/one segments are pills`).toBe('9999px')
+      const toggle = '[data-test="qds-btn-toggle"]'
+      expect.soft(await renderedContrast(page, `${toggle} .q-btn[aria-pressed="false"]`, toggle), `${mode}/one inactive segment text`).toBeGreaterThanOrEqual(4.5)
+
+      const rowHeight = await page.locator('body').evaluate((body) => {
+        const probe = document.createElement('div')
+        probe.className = 'q-item'
+        body.append(probe)
+        const height = getComputedStyle(probe).minHeight
+        probe.remove()
+        return height
+      })
+      expect.soft(rowHeight, `${mode}/one list rows follow the pointer`).toBe((await coarsePointer(page)) ? '56px' : '48px')
+
+      await page.goto('/#forms')
+      await applyTheme(page, mode, 'one')
+      for (const state of ['positive', 'warning', 'error']) {
+        const stroke = parseColor(await computed(page, `[data-test="qds-forms-state-${state}"] .q-field__control`, 'border-top-color', '::before'))
+        for (const surface of ['--qds-surface-0', '--qds-surface-focus-block']) {
+          expect.soft(contrast(stroke, parseColor(await resolvedColor(page, surface))), `${mode}/one ${state} field stroke on ${surface}`).toBeGreaterThanOrEqual(3)
+        }
+      }
+
+      const restStroke = parseColor(await computed(page, '[data-test="qds-forms-state-rest"] .q-field__control', 'border-top-color', '::before'))
+      for (const surface of ['--qds-surface-0', '--qds-surface-focus-block']) {
+        expect.soft(contrast(restStroke, parseColor(await resolvedColor(page, surface))), `${mode}/one rest field boundary on ${surface}`).toBeGreaterThanOrEqual(3)
+      }
+      await page.locator('[data-test="qds-forms-focus-trigger"]').click()
+      const focused = '[data-test="qds-forms-state-focus"] .q-field__control'
+      await expect(page.locator('[data-test="qds-forms-state-focus"] .q-field')).toHaveClass(/q-field--highlighted/)
+      expect.soft(await computed(page, focused, 'border-top-width', '::before'), `${mode}/one focus draws a 2px perimeter`).toBe('2px')
+      const focusStroke = await resolvedColor(page, '--qds-stroke-focus')
+      await expect.soft.poll(async () => computed(page, focused, 'border-top-color', '::before'), `${mode}/one focus perimeter is the brand stroke`).toBe(focusStroke)
+      expect.soft(await computed(page, focused, 'display', '::after'), `${mode}/one focus has no underline bar`).toBe('none')
+
+      await page.goto('/#components')
+      await applyTheme(page, mode, 'one')
+      await page.locator('[data-test="qds-dialog-prompt-trigger"]').click()
+      const dialog = page.locator('[data-test="qds-dialog-prompt"]')
+      await expect(dialog).toBeVisible()
+      await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur())
+      await expect(dialog.locator('.q-field').first()).not.toHaveClass(/q-field--focused/)
+      const dialogFill = parseColor(await dialog.evaluate((el) => getComputedStyle(el).backgroundColor))
+      await expect.soft.poll(async () => contrast(parseColor(await dialog.locator('.q-field__control').first().evaluate((el) => getComputedStyle(el).backgroundColor)), dialogFill), `${mode}/one field in a dialog is a visible step from the dialog fill`).toBeGreaterThanOrEqual(1.15)
+      await page.keyboard.press('Escape')
+
+      await page.goto('/#catalog')
+      await applyTheme(page, mode, 'one')
+      const date = page.locator('[data-test="qds-catalog-date"]')
+      await date.scrollIntoViewIfNeeded()
+      const fit = await date.evaluate((el) => {
+        const root = el.matches('.q-date') ? el : (el.querySelector('.q-date') as HTMLElement)
+        const overflow = (selector: string) => {
+          const node = root.querySelector(selector) as HTMLElement
+          return node.scrollWidth - node.clientWidth
+        }
+        return { days: overflow('.q-date__calendar-days'), navigation: overflow('.q-date__navigation'), content: (root.querySelector('.q-date__content') as HTMLElement).getBoundingClientRect().width - root.getBoundingClientRect().width }
+      })
+      expect.soft(fit.days, `${mode}/one calendar days fit their container`).toBeLessThanOrEqual(0)
+      expect.soft(fit.navigation, `${mode}/one calendar navigation fits`).toBeLessThanOrEqual(0)
+      expect.soft(fit.content, `${mode}/one calendar content fits the picker`).toBeLessThanOrEqual(0)
+
+      await page.goto('/#apps')
+      const navCard = page.locator('[data-test="qds-apps-nav-card"]')
+      const settledBox = async () => {
+        await expect.poll(async () => (await navCard.boundingBox())?.x ?? -1).toBeGreaterThanOrEqual(0)
+        return (await navCard.boundingBox())!
+      }
+      await applyTheme(page, mode, 'fluent')
+      const fluentCard = await settledBox()
+      await applyTheme(page, mode, 'one')
+      const oneCard = await settledBox()
+      expect.soft(Math.abs(oneCard.x - fluentCard.x), `${mode}/one page gutter stays within One's wider space step of Fluent`).toBeLessThanOrEqual(4)
+      expect.soft(Math.abs(oneCard.width - fluentCard.width), `${mode}/one cards keep the Fluent width within the gutter step`).toBeLessThanOrEqual(8)
+      const active = '[data-test="qds-apps-nav-drawer"] .q-item--active'
+      const block = parseColor(await computed(page, '[data-test="qds-apps-nav-drawer"] .q-list', 'background-color'))
+      const activeFill = parseColor(await computed(page, active, 'background-color'))
+      expect.soft(activeFill.slice(0, 3), `${mode}/one active nav item stands out from its block`).not.toEqual(block.slice(0, 3))
+      expect.soft(contrast(parseColor(await computed(page, active, 'color')), activeFill), `${mode}/one active nav label contrast`).toBeGreaterThanOrEqual(4.5)
+      expect.soft(await computed(page, '[data-test="qds-apps-subpage-panels"] .qds-settings-card', 'background-color'), `${mode}/one nested settings card takes the nested block tone`).toBe(await resolvedColor(page, '--qds-surface-focus-block'))
+
+      await page.goto('/#scenes')
+      await applyTheme(page, mode, 'term')
+      const frameCard = '[data-test="qds-scene-card-one"]'
+      await page.locator(frameCard).scrollIntoViewIfNeeded()
+      expect.soft(parseColor(await computed(page, frameCard, 'background-color'))[3], `${mode}/one scene card stays an opaque block on a Term page`).toBe(1)
+      expect.soft(await renderedContrast(page, `${frameCard} .scene-panel__copy`, frameCard), `${mode}/one scene copy is readable on a Term page`).toBeGreaterThanOrEqual(4.5)
     }
   })
 

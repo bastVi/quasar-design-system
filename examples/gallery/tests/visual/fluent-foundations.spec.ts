@@ -127,6 +127,18 @@ test.describe('Fluent foundation contract', () => {
         expect.soft(pressed.ratio, `${mode}/term ${role} pressed text contrast`).toBeGreaterThanOrEqual(3)
       }
     }
+
+    for (const mode of ['light', 'dark'] as const) {
+      await applyTheme(page, mode, 'one')
+      for (const role of roles) {
+        const { rest, hover, pressed } = await states(role)
+        expect.soft(luminance(hover.fill), `${mode}/one ${role} hover darkens under white text`).toBeLessThan(luminance(rest.fill))
+        expect.soft(luminance(pressed.fill), `${mode}/one ${role} press stays at or below hover`).toBeLessThanOrEqual(luminance(hover.fill))
+        expect.soft(rest.ratio, `${mode}/one ${role} rest text contrast`).toBeGreaterThanOrEqual(4.5)
+        expect.soft(hover.ratio, `${mode}/one ${role} hover text contrast`).toBeGreaterThanOrEqual(4.5)
+        expect.soft(pressed.ratio, `${mode}/one ${role} pressed text contrast`).toBeGreaterThanOrEqual(3)
+      }
+    }
   })
 
   test('uses independently tuned Fluent dark semantic fills, soft surfaces, and focus boundaries', async ({ page }) => {

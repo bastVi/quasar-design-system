@@ -1,5 +1,5 @@
 import { test, expect, type Page } from '@playwright/test'
-import { MATRIX_VARIANTS, customProperty, resolvedColor, resolvedShadow } from './helpers'
+import { MATRIX_VARIANTS, coarsePointer, customProperty, resolvedColor, resolvedShadow } from './helpers'
 
 type Mode = 'light' | 'dark'
 type Variant = 'fluent' | 'ink' | 'one'
@@ -162,7 +162,7 @@ test.describe('QDS catalog data display gate', () => {
           expect.soft(await computed(page, '[data-test="qds-expansion-expanded"]', 'box-shadow'), `${mode}/Ink data content is matte`).toBe('none')
         }
         if (variant === 'one') {
-          expect.soft(await computed(page, '[data-test="qds-expansion-expanded"] .q-item', 'min-height'), `${mode}/One data rows meet touch height`).toBe('52px')
+          expect.soft(await computed(page, '[data-test="qds-expansion-expanded"] .q-item', 'min-height'), `${mode}/One data rows follow the pointer`).toBe((await coarsePointer(page)) ? '52px' : '48px')
         }
       }
     }

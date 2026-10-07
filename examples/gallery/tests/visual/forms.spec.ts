@@ -121,7 +121,8 @@ test.describe('forms', () => {
         }
         const focused = await paint(page, target)
         if (variant === 'ink') expect.soft(parseColor(focused.background)[3], 'ink focused fill stays opaque').toBe(1)
-        expect.soft(focused.barShown, 'focus shows the bottom bar').toBe(true)
+        if (variant === 'one') expect.soft(focused.barShown, 'One focus draws the perimeter instead of the bar').toBe(false)
+        else expect.soft(focused.barShown, 'focus shows the bottom bar').toBe(true)
         expect.soft(focused.haloToken, 'focused fields keep the halo token at none').toBe('none')
       })
     }

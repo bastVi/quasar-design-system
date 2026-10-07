@@ -714,7 +714,7 @@ function backDialog() {
   color: var(--qds-fg-muted);
 }
 
-:global(.qds-variant-one) .apps-incidents__body {
+:global(.qds-variant-one .apps-incidents__body) {
   padding-inline: var(--qds-space-md);
 }
 
