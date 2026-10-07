@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { QDS_TOKENS } from '../../../../src/tokens'
-import { applyTheme, coarsePointer, computed, customProperty, MATRIX_VARIANTS, resolvedColor, resolvedShadow, type Mode, type Variant } from './helpers'
+import { applyTheme, CANONICAL_VARIANTS, coarsePointer, computed, customProperty, MATRIX_VARIANTS, resolvedColor, resolvedShadow, type Mode, type Variant } from './helpers'
 
 type Rgba = readonly [number, number, number, number]
 
@@ -120,7 +120,7 @@ test.describe('QDS override gate', () => {
     await applyTheme(page, 'dark', 'term')
     const panel = '.q-tab-panel'
     expect.soft(await customProperty(page, '--qds-font-family'), 'Term font token').toContain('ui-monospace')
-    expect.soft(await computed(page, `${panel} .q-btn--unelevated:not(.q-btn--dense)`, 'text-transform'), 'Term controls uppercase').toBe('uppercase')
+    expect.soft(await computed(page, `${panel} .q-btn--unelevated:not(.q-btn--dense, .q-btn--no-uppercase)`, 'text-transform'), 'Term controls uppercase').toBe('uppercase')
     expect.soft(await computed(page, `${panel} .q-btn--unelevated:not(.q-btn--dense)`, 'min-height'), 'Term controls remain compact').toBe('32px')
     expect.soft(await computed(page, `${panel} .q-card`, 'background-color'), 'Term card has visible contrast surface').not.toBe(await resolvedColor(page, '--qds-text-strong'))
   })
@@ -575,6 +575,64 @@ test.describe('QDS override gate', () => {
       await page.locator(frameCard).scrollIntoViewIfNeeded()
       expect.soft(parseColor(await computed(page, frameCard, 'background-color'))[3], `${mode}/one scene card stays an opaque block on a Term page`).toBe(1)
       expect.soft(await renderedContrast(page, `${frameCard} .scene-panel__copy`, frameCard), `${mode}/one scene copy is readable on a Term page`).toBeGreaterThanOrEqual(4.5)
+    }
+  })
+
+  test('quasar utilities, prose links, grey chips and custom focus survive every variant', async ({ page }) => {
+    const height = (selector: string) => page.locator(selector).first().evaluate((el) => el.getBoundingClientRect().height)
+    const ring = (selector: string) => page.locator(selector).first().evaluate((el) => {
+      (el as HTMLElement).focus()
+      const s = getComputedStyle(el)
+      return { visible: el.matches(':focus-visible'), style: s.outlineStyle, width: s.outlineWidth, color: s.outlineColor, offset: s.outlineOffset, ink: s.color }
+    })
+    for (const mode of ['light', 'dark'] as const) {
+      for (const variant of CANONICAL_VARIANTS) {
+        const cell = `${mode}/${variant}`
+        await page.goto('/#components')
+        await applyTheme(page, mode, variant)
+        expect.soft(await computed(page, '[data-test="qds-btn-variant-case"]', 'text-transform'), `${cell} button takes the variant case`).toBe(variant === 'term' ? 'uppercase' : 'none')
+        expect.soft(await computed(page, '[data-test="qds-btn-no-caps"]', 'text-transform'), `${cell} no-caps keeps the authored case`).toBe('none')
+        const row = '[data-test="qds-dense-row"]'
+        const field = await height(`${row} .q-field__control`)
+        for (const button of await page.locator(`${row} .q-btn`).all()) {
+          expect.soft(await button.evaluate((el) => el.getBoundingClientRect().height), `${cell} dense button matches the dense field`).toBe(field)
+        }
+        if (variant === 'term') expect.soft(field, `${cell} dense controls follow the pointer`).toBe((await coarsePointer(page)) ? 32 : 24)
+        const chip = '[data-test="qds-chip-grey"]'
+        expect.soft(await renderedContrast(page, chip, '.q-card'), `${cell} grey chip text contrasts with its fill`).toBeGreaterThanOrEqual(4.5)
+        expect.soft(await computed(page, chip, 'background-color'), `${cell} grey chip is the neutral layer`).toBe(await resolvedColor(page, '--qds-bg-layer'))
+
+        await page.goto('/#typography')
+        await applyTheme(page, mode, variant)
+        expect.soft(await computed(page, '[data-test="qds-type-subtitle-bold"]', 'font-weight'), `${cell} text-weight-bold beats the type scale`).toBe('700')
+        expect.soft(await computed(page, '[data-test="qds-type-subtitle"]', 'font-weight'), `${cell} subtitle keeps its scale weight`).toBe(await customProperty(page, '--qds-font-weight-subtitle1'))
+        expect.soft(await computed(page, '[data-test="qds-type-overline-capitalize"]', 'text-transform'), `${cell} text-capitalize beats the overline case`).toBe('capitalize')
+        const link = '[data-test="qds-type-link"]'
+        expect.soft(await computed(page, link, 'color'), `${cell} prose link takes the brand ink`).toBe(await resolvedColor(page, '--qds-fg-brand'))
+        expect.soft(await computed(page, link, 'text-decoration-line'), `${cell} prose link keeps an underline`).toBe('underline')
+        expect.soft(contrast(parseColor(await computed(page, link, 'color')), parseColor(await resolvedColor(page, '--qds-surface-0'))), `${cell} prose link contrast`).toBeGreaterThanOrEqual(4.5)
+        for (const anchor of await page.locator('[data-test="qds-type-anchors"] a').all()) {
+          expect.soft(await anchor.evaluate((el) => getComputedStyle(el).textDecorationLine), `${cell} Quasar anchor components keep no underline`).toBe('none')
+          expect.soft(await anchor.evaluate((el) => getComputedStyle(el).color), `${cell} Quasar anchor components keep their own ink`).not.toBe(await resolvedColor(page, '--qds-fg-brand'))
+        }
+        const focusStroke = await resolvedColor(page, '--qds-stroke-focus')
+        for (const target of [link, '[data-test="qds-type-role-button"]']) {
+          const focus = await ring(target)
+          expect.soft(focus.visible, `${cell} ${target} shows focus-visible`).toBe(true)
+          expect.soft([focus.style, focus.width, focus.color], `${cell} ${target} takes the QDS ring`).toEqual(['solid', '2px', focusStroke])
+          const offset = Number.parseFloat(focus.offset)
+          if (target === link) expect.soft(offset, `${cell} prose link ring sits outside the text`).toBeGreaterThan(0)
+          else expect.soft(offset, `${cell} custom control ring is inset so full-width rows keep all four sides`).toBeLessThan(0)
+        }
+
+        await page.goto('/#apps')
+        await applyTheme(page, mode, variant)
+        for (const segment of ['.q-btn-dropdown--current', '.q-btn-dropdown__arrow-container']) {
+          const focus = await ring(`[data-test="qds-apps-split"] ${segment}`)
+          expect.soft(Number.parseFloat(focus.offset), `${cell} joined ${segment} rings inside its edge`).toBeLessThan(0)
+          expect.soft(focus.color, `${cell} joined ${segment} ring takes the on-fill ink`).toBe(focus.ink)
+        }
+      }
     }
   })
 

@@ -109,6 +109,19 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
         <q-btn dense unelevated color="primary" label="Dense" no-caps />
       </div>
 
+      <div class="text-subtitle2 qds-text-muted q-mb-xs">Variant case &amp; <code>no-caps</code></div>
+      <div class="qds-button-row q-mb-md">
+        <q-btn unelevated color="primary" label="Variant case" data-test="qds-btn-variant-case" />
+        <q-btn unelevated color="primary" label="Keeps its case" no-caps data-test="qds-btn-no-caps" />
+      </div>
+
+      <div class="text-subtitle2 qds-text-muted q-mb-xs">Dense row</div>
+      <div class="row items-center no-wrap q-mb-md" style="gap: var(--qds-space-sm)" data-test="qds-dense-row">
+        <q-input dense outlined model-value="" name="components-dense-row" placeholder="Filter" aria-label="Filter" />
+        <q-btn dense outline label="Apply" no-caps />
+        <q-btn dense unelevated color="primary" label="Run" />
+      </div>
+
       <div class="text-subtitle2 qds-text-muted q-mb-xs">Round &amp; disabled</div>
       <div class="qds-button-row q-mb-lg">
         <q-btn round color="primary" aria-label="Add"><PhPlus :size="18" weight="regular" /></q-btn>
@@ -164,6 +177,7 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
         <q-chip clickable color="info" label="Clickable" />
         <q-chip dense color="info"><PhInfo :size="14" weight="regular" /> Dense</q-chip>
         <q-chip class="qds-solid" color="primary" label="Solid" />
+        <q-chip color="grey" label="Grey" data-test="qds-chip-grey" />
       </div>
       <div class="text-subtitle2 qds-text-muted q-mt-md q-mb-xs">Floating, multiline, square &amp; avatar</div>
       <div class="qds-button-row items-start q-pt-sm">

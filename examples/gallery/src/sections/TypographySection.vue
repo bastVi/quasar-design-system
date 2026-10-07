@@ -30,6 +30,22 @@ const weights = [
       </p>
     </div>
 
+    <div class="qds-card q-pa-lg" data-test="qds-type-utilities">
+      <div class="text-h6 qds-display q-mb-md">Utilities &amp; prose</div>
+      <div class="text-subtitle1" data-test="qds-type-subtitle">Subtitle at its scale weight</div>
+      <div class="text-subtitle1 text-weight-bold" data-test="qds-type-subtitle-bold">Subtitle with text-weight-bold</div>
+      <div class="text-overline text-capitalize" data-test="qds-type-overline-capitalize">overline with text-capitalize</div>
+      <p class="q-mt-sm">
+        Plain prose links take the brand ink, for example the
+        <a href="#typography" data-test="qds-type-link">release notes</a>, and keep an underline.
+      </p>
+      <div class="row items-center" style="gap: var(--qds-space-sm)" data-test="qds-type-anchors">
+        <div role="button" tabindex="0" class="qds-demo-role-button" data-test="qds-type-role-button">Custom role="button"</div>
+        <q-btn href="#typography" outline no-caps label="QBtn link" />
+        <q-list dense><q-item href="#typography" clickable class="qds-card">QItem link</q-item></q-list>
+      </div>
+    </div>
+
     <div class="qds-card q-pa-lg">
       <div class="text-h6 qds-display q-mb-md">Accent family</div>
       <p class="accent-text">
@@ -40,6 +56,14 @@ const weights = [
 </template>
 
 <style scoped>
+.qds-demo-role-button {
+  display: inline-block;
+  padding: var(--qds-space-xs) var(--qds-space-sm);
+  border: var(--qds-border-width-control) solid var(--qds-stroke-default);
+  border-radius: var(--qds-radius-control);
+  cursor: pointer;
+}
+
 .accent-text {
   font-family: var(--qds-font-family-accent);
   font-size: 1.25rem;

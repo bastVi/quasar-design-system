@@ -81,8 +81,8 @@ const pages = reactive<Record<VariantName, number>>({
           </div>
 
           <div class="qds-button-row qds-button-row--tight">
-            <q-btn unelevated color="primary" label="Apply" no-caps />
-            <q-btn outline color="primary" label="Inspect" no-caps />
+            <q-btn unelevated color="primary" label="Apply" />
+            <q-btn outline color="primary" label="Inspect" />
           </div>
 
           <q-list separator>
