@@ -1,5 +1,6 @@
 $banner-roles: (positive: positive, negative: negative, warning: warning, info: info);
 $ink-term: ':is(.qds-ui.qds-variant-ink, .qds-ui .qds-variant-ink, .qds-ui.qds-variant-term, .qds-ui .qds-variant-term)';
+$term: ':is(.qds-ui.qds-variant-term, .qds-ui .qds-variant-term)';
 $one: ':is(.qds-ui.qds-variant-one, .qds-ui .qds-variant-one)';
 
 @mixin styles {
@@ -70,6 +71,7 @@ $one: ':is(.qds-ui.qds-variant-one, .qds-ui .qds-variant-one)';
   .qds-ui .q-btn-toggle > .q-btn.q-btn-item:where(:not(.disabled)) { color: var(--qds-fg-muted) !important; }
 
   #{$ink-term} .q-btn-toggle > .q-btn.q-btn-item { border-color: transparent; }
+  #{$term} .q-btn-toggle > .q-btn.q-btn-item:is([aria-pressed='true'], .q-btn--active, .qds-active) { border-color: var(--qds-control-stroke-default); }
 
   .qds-ui .q-btn-toggle > .q-btn.q-btn-item:is([aria-pressed='true'], .q-btn--active, .qds-active) {
     color: var(--qds-fg-strong) !important;

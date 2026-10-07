@@ -443,6 +443,12 @@
   --qds-control-halo: none;
 }
 
+@mixin qds-acrylic($scheme, $level) {
+  $values: map.get(tokens.$materials, $scheme);
+  --qds-material-#{$level}-bg: color-mix(in srgb, var(--qds-surface-#{map.get($values, surface)}) #{map.get($values, $level)}, transparent);
+  --qds-material-#{$level}-filter: blur(var(--qds-material-#{$level}-blur)) saturate(var(--qds-material-saturate));
+}
+
 @mixin qds-material-tokens($scheme) {
   @if $scheme == solid {
     @each $level in thin, regular, thick {
@@ -456,8 +462,7 @@
   } @else {
     $values: map.get(tokens.$materials, $scheme);
     @each $level in thin, regular, thick {
-      --qds-material-#{$level}-bg: color-mix(in srgb, var(--qds-surface-#{map.get($values, surface)}) #{map.get($values, $level)}, transparent);
-      --qds-material-#{$level}-filter: blur(var(--qds-material-#{$level}-blur)) saturate(var(--qds-material-saturate));
+      @include qds-acrylic($scheme, $level);
     }
     --qds-material-stroke: #{map.get($values, stroke)};
     --qds-material-edge: inset 0 1px 0 #{map.get($values, edge)};

@@ -299,4 +299,29 @@
     font-size: var(--qds-font-size-caption);
     font-weight: var(--qds-font-weight-semibold);
   }
+
+  // Term checked marks are amber keys ruled and marked in their on-fill ink.
+  .qds-ui.qds-variant-term .q-checkbox:not(.disabled) :is(.q-checkbox__inner--truthy, .q-checkbox__inner--indet) .q-checkbox__bg,
+  .qds-ui .qds-variant-term .q-checkbox:not(.disabled) :is(.q-checkbox__inner--truthy, .q-checkbox__inner--indet) .q-checkbox__bg,
+  .qds-ui.qds-variant-term .q-toggle:not(.disabled) .q-toggle__inner--truthy .q-toggle__track,
+  .qds-ui .qds-variant-term .q-toggle:not(.disabled) .q-toggle__inner--truthy .q-toggle__track {
+    border-color: var(--qds-selection-on, var(--qds-text-on-primary));
+  }
+
+  .qds-ui.qds-variant-term .q-radio:not(.disabled) .q-radio__inner--truthy .q-radio__bg,
+  .qds-ui .qds-variant-term .q-radio:not(.disabled) .q-radio__inner--truthy .q-radio__bg {
+    background: currentColor;
+    border-color: var(--qds-selection-on, var(--qds-text-on-primary));
+  }
+
+  .qds-ui.qds-variant-term .q-radio:not(.disabled) .q-radio__inner--truthy .q-radio__check,
+  .qds-ui .qds-variant-term .q-radio:not(.disabled) .q-radio__inner--truthy .q-radio__check {
+    fill: var(--qds-selection-on, var(--qds-text-on-primary));
+    transform: none;
+  }
+
+  .qds-ui.qds-variant-term .q-slider:not(.disabled) .q-slider__thumb,
+  .qds-ui .qds-variant-term .q-slider:not(.disabled) .q-slider__thumb { border-color: var(--qds-selection-on, var(--qds-text-on-primary)); }
+  .qds-ui.qds-variant-term .q-slider:not(.disabled) .q-slider__selection,
+  .qds-ui .qds-variant-term .q-slider:not(.disabled) .q-slider__selection { outline: var(--qds-border-width-control) solid var(--qds-selection-on, var(--qds-text-on-primary)); }
 }

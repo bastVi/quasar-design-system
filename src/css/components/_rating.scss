@@ -1,3 +1,5 @@
+$term: ':is(.qds-ui.qds-variant-term, .qds-ui .qds-variant-term)';
+
 @mixin styles {
   .qds-ui .q-rating { gap: 0.125rem; color: var(--qds-color-accent); line-height: 1; vertical-align: middle; }
   .qds-ui .q-rating .q-rating__icon-container + .q-rating__icon-container { margin-left: 0; }
@@ -21,6 +23,9 @@
     outline: var(--qds-focus-ring-width) solid var(--qds-stroke-focus);
     outline-offset: var(--qds-focus-ring-offset);
   }
+
+  // Term amber stars deepen until filled marks hold 3:1 on cream.
+  #{$term} .q-rating { color: color-mix(in srgb, var(--qds-color-accent) 62%, var(--qds-text-strong)); }
 
   @each $role in primary, positive, negative {
     .qds-ui .q-rating .q-rating__icon.text-#{$role} { color: var(--qds-color-#{$role}); }

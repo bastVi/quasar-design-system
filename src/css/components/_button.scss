@@ -33,9 +33,11 @@ $padding: clamp(var(--qds-button-dense-padding-inline), calc(var(--qds-button-pa
 $not-fab: ':where(:not(.q-btn--fab, .q-btn--fab-mini))';
 $filled: ':is(.q-btn--standard, .q-btn--unelevated, .q-btn--push):where(:not(.q-btn-toggle > .q-btn))';
 $accent-fills: ();
+$role-texts: ();
 
 @each $role, $_ in $roles {
   $accent-fills: list.append($accent-fills, '.bg-#{$role}', comma);
+  $role-texts: list.append($role-texts, '.text-#{$role}', comma);
 }
 
 @mixin styles {
@@ -150,14 +152,6 @@ $accent-fills: ();
     color: var(--qds-fg-muted);
   }
 
-  .qds-ui .qds-variant-term .q-btn#{$filled},
-  .qds-ui.qds-variant-term .q-btn#{$filled} {
-    --qds-control-fill-default: color-mix(in srgb, var(--qds-surface-1) 84%, var(--qds-color-primary) 10%);
-    --qds-control-fill-hover: color-mix(in srgb, var(--qds-surface-1) 78%, var(--qds-color-primary) 16%);
-    --qds-control-fill-pressed: color-mix(in srgb, var(--qds-surface-2) 80%, var(--qds-color-primary) 14%);
-    border-color: color-mix(in srgb, var(--qds-color-primary) 42%, var(--qds-border));
-  }
-
   .qds-ui .q-btn--outline {
     border-color: var(--qds-stroke-default);
   }
@@ -236,6 +230,12 @@ $accent-fills: ();
   .qds-ui .q-btn:is(#{$accent-fills}):not(.qds-tonal):where(:not(:is(.q-date__calendar-item, .q-date__months-item, .q-date__years-item) > .q-btn)) {
     @include materials.elevation-border($top: var(--qds-control-stroke-on-accent-top), $side: var(--qds-control-stroke-on-accent-top), $bottom: var(--qds-control-stroke-on-accent-bottom));
   }
+
+  // Term role fills carry a rule in their on-fill ink so amber keys stay bounded on cream.
+  .qds-ui .qds-variant-term .q-btn:is(#{$accent-fills}):not(.qds-tonal, .disabled),
+  .qds-ui.qds-variant-term .q-btn:is(#{$accent-fills}):not(.qds-tonal, .disabled) { border-color: var(--qds-button-on-fill); }
+  .qds-ui .qds-variant-term .q-btn--outline:is(#{$role-texts}),
+  .qds-ui.qds-variant-term .q-btn--outline:is(#{$role-texts}) { border-color: currentColor; }
 
   // Fluent disabled: neutral fill, stroke and foreground instead of Quasar's opacity dimming.
   .qds-ui .q-btn.q-btn-item.disabled {

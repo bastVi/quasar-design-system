@@ -45,7 +45,7 @@ export const DESIGN_SYSTEM_VARIANTS = {
   term: {
     name: 'term',
     label: 'Term',
-    description: 'Dark amber developer UI with near-black surfaces, crisp hairline cards, and restrained glow.',
+    description: 'Opaque amber developer UI on warm cream or near-black panes, with hairline rules and monospace type.',
     cssClass: 'qds-variant-term',
   },
 } as Record<CanonicalDesignSystemVariantName, DesignSystemVariant> & {

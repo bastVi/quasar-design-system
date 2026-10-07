@@ -28,9 +28,6 @@
   .qds-ui .q-field--borderless { --qds-field-radius: 0; }
   .qds-ui .q-field--rounded { --qds-field-radius: var(--qds-radius-full); }
 
-  .qds-ui.qds-variant-term .q-field,
-  .qds-ui .qds-variant-term .q-field { --qds-field-stroke: color-mix(in srgb, var(--qds-color-primary) 24%, var(--qds-border)); }
-
   .qds-ui.qds-variant-one .q-field,
   .qds-ui .qds-variant-one .q-field { --qds-field-fill: var(--qds-surface-focus-block); }
 
@@ -260,6 +257,7 @@
   .qds-ui .qds-field--positive { --qds-field-tone: var(--qds-color-positive); --qds-field-tone-fg: var(--qds-fg-positive); }
   .qds-ui .qds-field--warning { --qds-field-tone: var(--qds-color-warning); --qds-field-tone-fg: var(--qds-fg-warning); }
   .qds-ui :is(.qds-field--positive, .qds-field--warning) .q-field__control { color: var(--qds-field-tone); }
+  :is(.qds-ui.qds-variant-term, .qds-ui .qds-variant-term) :is(.qds-field--positive, .qds-field--warning) { --qds-field-tone: var(--qds-field-tone-fg); }
 
   .qds-ui :is(.qds-field--positive, .qds-field--warning) .q-field__control::before,
   .qds-ui :is(.qds-field--positive, .qds-field--warning) .q-field__control:hover::before,

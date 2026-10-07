@@ -172,7 +172,7 @@ The package is structured around `src/themes/`. For now there is one real theme,
 - `fluent`: default Fluent 2-inspired direction with a Mica app backdrop, acrylic overlays, solid reading surfaces, and low-border content. Absorbs the legacy Air translucency behavior.
 - `ink`: paper-neutral editorial surfaces with charcoal type and coordinated pastel role washes.
 - `one`: Samsung One UI-inspired focus blocks, rounding, spacing, and touch-friendly control rhythm.
-- `term`: dark amber developer UI with near-black surfaces, crisp hairline cards, restrained glow, and a monospace-forward feel.
+- `term`: opaque amber developer UI on warm cream or near-black panes, with crisp hairline rules, amber fills carrying dark ink, and a monospace-forward feel.
 
 They are not separate brands — deliberate overlays over the same token system.
 

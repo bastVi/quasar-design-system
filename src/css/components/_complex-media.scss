@@ -177,13 +177,13 @@ $term: ':is(.qds-ui.qds-variant-term, .qds-ui .qds-variant-term)';
 
   #{$term} :is(.q-stepper, .q-carousel, .q-uploader, .q-editor) {
     font-family: var(--qds-font-family);
-    background: var(--qds-surface-0);
-    border: var(--qds-border-width-control) solid color-mix(in srgb, var(--qds-color-primary) 24%, var(--qds-border));
+    background: var(--qds-bg-card);
+    border: var(--qds-border-width-control) solid var(--qds-card-stroke);
     box-shadow: none;
   }
   #{$term} :is(.q-carousel .q-carousel__control .q-btn, .q-pull-to-refresh__puller) {
     background: var(--qds-surface-1);
-    border-color: color-mix(in srgb, var(--qds-color-primary) 28%, var(--qds-border));
+    border-color: var(--qds-border);
     box-shadow: none;
   }
 

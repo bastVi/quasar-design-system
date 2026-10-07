@@ -111,6 +111,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
   and an on-fill glyph; pressed primary mixes toward the sheet so hover and press differ; `--qds-fg-on-brand` and
   `--qds-text-on-solid` use the paper on-fill.
 - **Ink rows**: the 40 / 36px list and menu rows apply to fine pointers only, so coarse pointers get the 44px touch rows.
+- **Term (crisp)**: opaque warm-cream light panes (`#f8f6f0` on `#eeebe2`) and warm near-black dark panes (`#141412`
+  on `#0c0c0b`), charcoal / paper text, and no glow, drop shadows (including `--qds-elevation-*`), card tints or Win11
+  two-tone edges. Thin and thick materials (tooltips, dialogs, bottom sheets) and the header are solid; regular
+  acrylic stays on menus and opt-in `.qds-material` surfaces, with a crisp hairline. Muted text is ≥ 4.5:1 on every
+  surface (fixes the 4.13 placeholder and inactive `QBtnToggle` segment); the light negative fill is `#e86a6a` and
+  role presses mix 82% so every solid role button is ≥ 4.5:1 at rest and hover and ≥ 4.4:1 pressed.
+- **Term strokes**: controls, fields, outline buttons and overlays use `--qds-border` (≥ 3:1 on every surface; outline
+  role buttons are ruled in their role text colour); cards, nested cards, tiles, tables and steppers use the subtler
+  decorative `--qds-card-stroke`. Error, positive and warning field strokes use the role text colours (≥ 3:1). Cards
+  stay opaque Term panes even inside another variant's scope.
+- **Term amber**: amber stays a fill with dark ink. Solid role buttons (including the selected `QDate` day), checked
+  checkboxes, radios, toggles, slider thumbs and the slider selection carry a rule in their on-fill ink so they stay
+  bounded on cream; focus rings, tab rails and brand text use `--qds-fg-brand` (≥ 5.9:1); rating stars deepen to
+  ≥ 3:1. Neutral buttons drop the amber tint; the active `QBtnToggle` segment takes the control hairline.
+- **Term rows**: the 38 / 32px list and menu rows and 38px expansion headers apply to fine pointers only, so coarse
+  pointers get the 44px touch rows.
 
 ## [0.8.0-rc.2] — 2026-09-29
 

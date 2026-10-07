@@ -33,7 +33,7 @@ $term: ':is(.qds-ui.qds-variant-term, .qds-ui .qds-variant-term)';
   .qds-ui .q-menu .q-item + .q-item { margin-block-start: var(--qds-row-gap); }
   .qds-ui .q-menu .q-separator { margin-block: var(--qds-space-xs); margin-inline: calc(-1 * var(--qds-space-xs)); }
 
-  #{$term} .q-menu { border-color: color-mix(in srgb, var(--qds-color-primary) 28%, var(--qds-border) 72%); border-radius: var(--qds-radius-sm); }
+  #{$term} .q-menu { border-radius: var(--qds-radius-sm); }
   #{$term} .q-menu .q-item { border-radius: var(--qds-radius-xs); }
   #{$one} .q-menu { border-radius: var(--qds-card-radius); }
   #{$one} .q-menu .q-list { padding: var(--qds-space-sm); }

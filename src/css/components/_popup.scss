@@ -20,10 +20,4 @@
     border-radius: inherit;
     box-shadow: none;
   }
-
-  :is(.qds-ui.qds-variant-term, .qds-ui .qds-variant-term) .q-tooltip {
-    border-color: color-mix(in srgb, var(--qds-color-primary) 28%, var(--qds-border));
-    box-shadow: none;
-    @include materials.solid(var(--qds-surface-0));
-  }
 }
