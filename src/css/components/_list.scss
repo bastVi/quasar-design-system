@@ -77,9 +77,9 @@ $rail: ".qds-ui .q-item:is(.q-item--active, [aria-selected='true'])::before, .qd
   .qds-ui .q-expansion-item.qds-card > .q-expansion-item__container > .q-item { margin: var(--qds-space-xs); }
 
   #{$one} .q-list--bordered { background: var(--qds-surface-0); border-radius: var(--qds-card-radius); }
-  #{$one} .q-list--separator > .q-item + .q-item { margin-inline-start: var(--qds-space-md); padding-inline-start: 0; }
+  #{$one} .q-list--separator > .q-item + .q-item { margin-inline-start: var(--qds-space-md); padding-inline-start: 0; border-radius: 0; }
   #{$one} .q-item { padding-inline: var(--qds-space-md); border-radius: var(--qds-radius-control); }
-  #{$one} .q-item:is(.q-item--active, [aria-selected='true']) { background-color: color-mix(in srgb, var(--qds-surface-focus-block) 78%, var(--qds-color-primary)); }
+  #{$one} .q-item:is(.q-item--active, [aria-selected='true']) { color: var(--qds-fg-brand); background-color: var(--qds-surface-brand-soft); }
   #{$one} .q-expansion-item--expanded > .q-expansion-item__container > .q-item { background-color: var(--qds-surface-focus-block); }
   #{$one} .q-item:is(.q-item--active, [aria-selected='true'])::before,
   #{$one} #{$nav-parent}::before { display: none; }

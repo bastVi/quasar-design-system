@@ -105,10 +105,45 @@
   --qds-field-label-size: #{qds-variant-token(one, field-label-size)};
   --qds-field-label-size-rest: #{qds-variant-token(one, field-label-size)};
   --qds-field-label-size-float: #{qds-variant-token(one, field-label-size)};
-  --qds-list-item-min-height-value: #{qds-variant-token(one, list-item-min-height)};
-  --qds-menu-item-min-height-value: #{qds-variant-token(one, menu-item-min-height)};
-  --qds-expansion-item-min-height-value: #{qds-variant-token(one, expansion-item-min-height)};
   --qds-toolbar-dense-min-height: #{qds-variant-token(one, toolbar-dense-min-height)};
+}
+
+@mixin qds-one-rows($prefix: '') {
+  @each $row in list-item, menu-item, expansion-item {
+    --qds-#{$row}-min-height-value: #{qds-variant-token(one, '#{$prefix}#{$row}-min-height')};
+  }
+}
+
+@mixin qds-one-control-layers {
+  --qds-card-stroke: transparent;
+  --qds-control-fill-default: var(--qds-surface-focus-block);
+  --qds-control-fill-hover: var(--qds-surface-2);
+  --qds-control-fill-pressed: var(--qds-surface-3);
+}
+
+@mixin qds-one-blocks($scheme) {
+  @include fallbacks.qds-opaque-control-layers;
+  --qds-mica-alt: var(--qds-surface-1);
+  --qds-backdrop: var(--qds-surface-1);
+  @include qds-one-control-layers;
+  @each $token in control-stroke-default, control-stroke-secondary, control-stroke-top, control-stroke-bottom {
+    --qds-#{$token}: var(--qds-border-subtle);
+  }
+  --qds-control-stroke-strong: #{qds-variant-token(one, '#{$scheme}-field-stroke')};
+  --qds-color-primary-pressed: color-mix(in srgb, var(--qds-color-primary-dark) 88%, var(--qds-fill-state-base));
+  --qds-button-radius: var(--qds-radius-full);
+  --qds-segmented-track-bg: var(--qds-surface-2);
+  --qds-stroke-error: var(--qds-fg-negative);
+  @if $scheme == dark {
+    --qds-segmented-thumb-bg: color-mix(in srgb, var(--qds-surface-3) 88%, var(--qds-text));
+    --qds-fill-state-base: var(--qds-surface-1);
+    --qds-stroke-focus: var(--qds-fg-brand);
+  } @else {
+    --qds-segmented-thumb-bg: var(--qds-surface-0);
+    @each $role in secondary, accent, positive, negative, warning, info {
+      --qds-fg-#{$role}: color-mix(in srgb, var(--qds-color-#{$role}) 80%, var(--qds-text-strong));
+    }
+  }
 }
 
 @mixin qds-term-sizing {
@@ -166,6 +201,7 @@
   --qds-tab-active-rail: var(--qds-fg-brand);
 }
 
+$qds-one-scopes: '.qds-variant-one, .qds-theme-dark.qds-variant-one, .qds-theme-dark .qds-variant-one, body.qds-ui.body--dark.qds-variant-one, body.qds-ui.body--dark .qds-variant-one';
 $qds-material-scopes: '.qds-theme-dark, body.qds-ui.body--dark, .qds-variant-one, .qds-theme-dark.qds-variant-one, .qds-theme-dark .qds-variant-one, body.qds-ui.body--dark.qds-variant-one, body.qds-ui.body--dark .qds-variant-one, .qds-variant-term, .qds-theme-dark.qds-variant-term, .qds-theme-dark .qds-variant-term, body.qds-ui.body--dark.qds-variant-term, body.qds-ui.body--dark .qds-variant-term';
 
 @layer qds.tokens {
@@ -270,6 +306,15 @@ $qds-material-scopes: '.qds-theme-dark, body.qds-ui.body--dark, .qds-variant-one
     --qds-font-family-display: #{qds-variant-token(one, font-family-display)};
     @include qds-variant-scheme(one);
     @include qds-one-sizing;
+    @include qds-one-blocks(light);
+  }
+
+  @media not (pointer: coarse) {
+    .qds-variant-one { @include qds-one-rows; }
+  }
+
+  @media (pointer: coarse) {
+    .qds-variant-one { @include qds-one-rows('touch-'); }
   }
 
   .qds-theme-dark.qds-variant-one,
@@ -278,6 +323,7 @@ $qds-material-scopes: '.qds-theme-dark, body.qds-ui.body--dark, .qds-variant-one
   body.qds-ui.body--dark .qds-variant-one {
     @include qds-variant-scheme(one, true);
     @include qds-one-sizing;
+    @include qds-one-blocks(dark);
   }
 
   .qds-variant-term {
@@ -314,9 +360,11 @@ $qds-material-scopes: '.qds-theme-dark, body.qds-ui.body--dark, .qds-variant-one
 
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
     #{$qds-material-scopes} { @include fallbacks.qds-material-tokens(solid); }
+    #{$qds-one-scopes} { @include qds-one-control-layers; }
   }
 
   @media (prefers-reduced-transparency: reduce), (forced-colors: active) {
     #{$qds-material-scopes} { @include fallbacks.qds-material-tokens(solid); }
+    #{$qds-one-scopes} { @include qds-one-control-layers; }
   }
 }

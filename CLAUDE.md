@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 `@bastvi/quasar-design-system` — an opinionated **visual layer** for Quasar 2. Microsoft Fluent 2 is the
 primary direction, now with tonal/acrylic defaults; the `ink` variant is the paper-neutral editorial
 surface with charcoal type and pastel role washes, and the `one` variant references Samsung One UI
-(rounding/spacing/focus blocks). It provides design tokens, surfaces, shape, motion, typography,
+(neutral grey or true-black pages, rounded blocks, pill controls, a calm blue accent). It provides design tokens, surfaces, shape, motion, typography,
 Quasar component overrides, and a runtime light/dark/system + variant controller.
 
 It is a pure visual product: **no business logic, no entity/model layer, no API/transport code, no

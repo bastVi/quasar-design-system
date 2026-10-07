@@ -1,3 +1,5 @@
+$one: ':is(.qds-ui.qds-variant-one, .qds-ui .qds-variant-one)';
+
 @mixin styles {
   .qds-ui .q-option-group {
     display: flex;
@@ -98,6 +100,9 @@
   .qds-ui .q-date__range-from::before { border-start-start-radius: var(--qds-radius-full); border-end-start-radius: var(--qds-radius-full); }
   .qds-ui .q-date__range-to::before { border-start-end-radius: var(--qds-radius-full); border-end-end-radius: var(--qds-radius-full); }
   .qds-ui .q-date__event { background: var(--qds-color-primary); box-shadow: 0 0 0 1px var(--qds-bg-flyout); }
+  #{$one} .q-date__content { width: 100%; min-width: 0; }
+  #{$one} .q-date__arrow { width: auto; --qds-button-dense-min-height: 1.75rem; }
+  #{$one} .q-date__calendar-days { --qds-button-dense-min-height: 2rem; }
   .qds-ui :is(.q-date__actions, .q-time__actions) { gap: var(--qds-space-sm); padding: var(--qds-space-sm) var(--qds-space-md) var(--qds-space-md); }
 
   .qds-ui :is(.q-date__navigation .q-btn, .q-date__calendar-item button, .q-date__months-item .q-btn, .q-date__years-item .q-btn):focus-visible {

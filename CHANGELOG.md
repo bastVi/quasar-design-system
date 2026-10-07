@@ -127,6 +127,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
   ≥ 3:1. Neutral buttons drop the amber tint; the active `QBtnToggle` segment takes the control hairline.
 - **Term rows**: the 38 / 32px list and menu rows and 38px expansion headers apply to fine pointers only, so coarse
   pointers get the 44px touch rows.
+- **Breaking — One (One UI 8 neutral)**: One palette, surface, text, border, role-wash, focus-block and shadow token
+  values changed. Light page `#f2f2f2` with white blocks, dark true-black page with `#1a1a1a` blocks; the lavender
+  focus-block cast, Mica tint and card tints are gone. Calm blue accent (`#1b5fcf`, dark fill `#2f6fdc` with
+  light-blue `--qds-fg-brand`) and desaturated role fills with white text, ≥ 4.5:1 at rest and hover in both modes
+  (hover and press darken). Muted text, placeholders (including hovered fields), brand text and the focus ring meet
+  contrast on every One surface (fixes the 4.05 dark placeholder and 4.18 muted-on-focus-block gaps).
+- **One surfaces**: cards and blocks separate by tone and roundness (24px radius, no stroke); nested cards, tiles,
+  carousels and settings cards take the grey `--qds-surface-focus-block`; dialogs (28px), floating bottom sheets
+  (all corners rounded, inset from the edges) and windows sit on `--qds-surface-transient`, and controls, cards and
+  fields inside them step one tone up from the overlay. Card headers drop the brand wash; carousels sit on a block
+  tone; explicit bordered steppers, framed media, bordered tables and bordered uploaders keep their stroke. The mini
+  drawer rail is one block. Menus keep their acrylic.
+- **One controls**: pill buttons, pill segmented tracks and tabs (the dark selected segment is a lighter step);
+  fields fill with the nested grey (filled and standout too, and flip inside nested blocks) behind a 1px perimeter
+  that is ≥ 3:1 on blocks and nested blocks; focus and validation states draw a 2px perimeter in the brand or role
+  colour instead of the focus bar. Neutral controls keep one subtle hairline (no Win11 two-tone edge). Field-group
+  buttons follow the field radius. Pressed primary is one step darker than hover. Active list and navigation rows
+  take the brand wash with brand text, so they stand out from their block. `QDate` fits narrow containers (flexible
+  day cells, compact navigation arrows).
+- **One rows**: 48 / 40px list and menu rows and 48px expansion headers on fine pointers; coarse pointers keep the
+  56 / 48 / 52px One UI touch rows.
 
 ## [0.8.0-rc.2] — 2026-09-29
 

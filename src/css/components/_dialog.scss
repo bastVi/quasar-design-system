@@ -45,5 +45,12 @@ $one: ':is(.qds-ui.qds-variant-one, .qds-ui .qds-variant-one)';
   // The Dialog plugin defaults its actions to Quasar's amber in dark mode.
   .qds-ui .q-dialog-plugin .q-btn.text-amber { color: var(--qds-fg-brand) !important; }
 
-  #{$one} .q-dialog__inner--standard > .q-card { border-radius: var(--qds-radius-xl); @include materials.solid(var(--qds-surface-focus-block)); }
+  #{$one} .q-dialog__inner > :is(.q-card, .q-bottom-sheet) {
+    --qds-surface-focus-block: color-mix(in srgb, var(--qds-surface-transient) 92%, var(--qds-text));
+    --qds-card-fill: var(--qds-surface-focus-block);
+    --qds-control-fill-default: var(--qds-surface-focus-block);
+    --qds-control-fill-hover: color-mix(in srgb, var(--qds-surface-transient) 90%, var(--qds-text));
+  }
+
+  #{$one} .q-dialog__inner--standard > .q-card { border-color: transparent; border-radius: calc(var(--qds-card-radius) + 0.25rem); @include materials.solid(var(--qds-surface-transient)); }
 }

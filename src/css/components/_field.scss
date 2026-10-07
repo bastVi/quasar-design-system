@@ -1,3 +1,5 @@
+$one-field: ':is(.qds-ui.qds-variant-one, .qds-ui .qds-variant-one) :is(.q-field--outlined, .q-field--filled)';
+
 @mixin styles {
   .qds-ui .q-field {
     --qds-field-height: var(--qds-field-size-md);
@@ -29,7 +31,7 @@
   .qds-ui .q-field--rounded { --qds-field-radius: var(--qds-radius-full); }
 
   .qds-ui.qds-variant-one .q-field,
-  .qds-ui .qds-variant-one .q-field { --qds-field-fill: var(--qds-surface-focus-block); }
+  .qds-ui .qds-variant-one .q-field { --qds-field-fill: var(--qds-control-fill-default); --qds-field-stroke: var(--qds-control-stroke-strong); }
 
   .qds-ui.qds-variant-one :is(.q-field--outlined, .q-field--filled),
   .qds-ui .qds-variant-one :is(.q-field--outlined, .q-field--filled) { --qds-field-radius: calc(var(--qds-radius-control) + 0.25rem); }
@@ -55,6 +57,12 @@
 
   .qds-ui.qds-variant-one :is(.q-field--outlined, .q-field--filled) .q-field__control,
   .qds-ui .qds-variant-one :is(.q-field--outlined, .q-field--filled) .q-field__control { padding-inline: max(var(--qds-field-padding-inline), var(--qds-space-md)); }
+
+  // One fields draw the full perimeter instead of the focus bar.
+  #{$one-field} .q-field__control::before { border-width: var(--qds-border-width-control); }
+  #{$one-field} .q-field__control::after { display: none; }
+  #{$one-field}:is(.q-field--highlighted, .q-field--error, .qds-field--positive, .qds-field--warning) .q-field__control::before { border-width: var(--qds-field-focus-border-width); }
+  #{$one-field}.q-field--highlighted:not(.q-field--error, .qds-field--positive, .qds-field--warning) .q-field__control::before { border-color: var(--qds-stroke-focus); }
 
   .qds-ui .q-field .q-field__control-container,
   .qds-ui .q-field--dense.q-field--labeled .q-field__control-container { padding-block: 0; }
@@ -258,6 +266,7 @@
   .qds-ui .qds-field--warning { --qds-field-tone: var(--qds-color-warning); --qds-field-tone-fg: var(--qds-fg-warning); }
   .qds-ui :is(.qds-field--positive, .qds-field--warning) .q-field__control { color: var(--qds-field-tone); }
   :is(.qds-ui.qds-variant-term, .qds-ui .qds-variant-term) :is(.qds-field--positive, .qds-field--warning) { --qds-field-tone: var(--qds-field-tone-fg); }
+  :is(.qds-ui.qds-variant-one, .qds-ui .qds-variant-one) :is(.qds-field--positive, .qds-field--warning) { --qds-field-tone: var(--qds-field-tone-fg); }
 
   .qds-ui :is(.qds-field--positive, .qds-field--warning) .q-field__control::before,
   .qds-ui :is(.qds-field--positive, .qds-field--warning) .q-field__control:hover::before,

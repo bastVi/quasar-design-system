@@ -42,6 +42,14 @@
   .qds-ui .qds-variant-ink .qds-window__titlebar,
   .qds-ui.qds-variant-one .qds-window,
   .qds-ui .qds-variant-one .qds-window { background: var(--qds-surface-focus-block); }
+  .qds-ui.qds-variant-one .qds-window,
+  .qds-ui .qds-variant-one .qds-window {
+    --qds-surface-focus-block: color-mix(in srgb, var(--qds-surface-transient) 92%, var(--qds-text));
+    --qds-card-fill: var(--qds-surface-focus-block);
+    --qds-control-fill-default: var(--qds-surface-focus-block);
+    --qds-control-fill-hover: color-mix(in srgb, var(--qds-surface-transient) 90%, var(--qds-text));
+    background: var(--qds-surface-transient);
+  }
   .qds-ui.qds-variant-ink .qds-window:not(.qds-window--active),
   .qds-ui .qds-variant-ink .qds-window:not(.qds-window--active),
   .qds-ui.qds-variant-one .qds-window:not(.qds-window--active),

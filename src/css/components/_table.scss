@@ -47,8 +47,7 @@ $term: ':is(.qds-ui.qds-variant-term, .qds-ui .qds-variant-term)';
 
   #{$ink} .q-table tbody tr.selected > td:first-child { box-shadow: inset 3px 0 0 var(--qds-color-primary); }
 
-  #{$one} .q-table__container:not(.q-table--dark) { --qds-table-bg: var(--qds-surface-focus-block); }
-  #{$one} .q-table__container { border: var(--qds-border-width-control) solid var(--qds-separator-color); }
+  #{$one} .q-table__container:where(:not(.q-table--bordered, .qds-table--bordered)) { border-color: transparent; }
   #{$one} :is(.q-table__top, .q-table__bottom) { min-height: 3.5rem; }
 
   #{$term} .q-table__container { border: var(--qds-border-width-control) solid var(--qds-card-stroke); }

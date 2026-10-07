@@ -39,7 +39,7 @@ export const DESIGN_SYSTEM_VARIANTS = {
   one: {
     name: 'one',
     label: 'One',
-    description: 'One UI-inspired color, depth, shape, spacing, and touch-friendly control rhythm.',
+    description: 'One UI-inspired neutral blocks, calm blue accent, pill controls, and touch-friendly rhythm.',
     cssClass: 'qds-variant-one',
   },
   term: {

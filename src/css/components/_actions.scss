@@ -151,6 +151,6 @@ $one: ':is(.qds-ui.qds-variant-one, .qds-ui .qds-variant-one)';
     .qds-ui .q-banner:is(.bg-#{$role}, .text-#{$role}) .q-banner__avatar { color: var(--qds-color-#{$role}); }
   }
 
-  #{$one} .q-btn-toggle { padding: 0.25rem; background: var(--qds-surface-focus-block); border-radius: var(--qds-radius-lg); }
+  #{$one} .q-btn-toggle { padding: 0.25rem; }
   #{$one} .q-btn-toggle > .q-btn-item { min-height: var(--qds-button-min-height); }
 }

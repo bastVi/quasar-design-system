@@ -60,6 +60,7 @@ $wrap: '.qds-ui .qds-field-group:where(:has(> :nth-child(3)):not(:has(> .q-field
   .qds-ui .qds-field-group > * { position: relative; margin: 0; }
   .qds-ui .qds-field-group > .q-field { flex: 1 1 0; min-width: 0; }
   .qds-ui .qds-field-group > .q-btn { align-self: stretch; min-height: 0; }
+  :is(.qds-ui.qds-variant-one, .qds-ui .qds-variant-one) .qds-field-group > .q-btn { --qds-button-radius: calc(var(--qds-radius-control) + 0.25rem); }
   .qds-ui .qds-field-group > * + * { margin-inline-start: calc(-1 * var(--qds-border-width-control)); }
   .qds-ui .qds-field-group > :hover { z-index: 1; }
   .qds-ui .qds-field-group > :is(.q-field--highlighted, :focus-visible) { z-index: 2; }

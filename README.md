@@ -160,7 +160,8 @@ regular material; dialogs and the bottom sheet the thick one; tooltips the thin 
 `qds-material--thick`) to opt an element into a material.
 
 Materials fall back to solid surfaces without `backdrop-filter` support, under `prefers-reduced-transparency: reduce`,
-and in forced-colors mode. The `ink` variant is always solid.
+and in forced-colors mode. The `ink` variant is always solid; `term` keeps acrylic only on menus and opt-in materials;
+`one` keeps acrylic menus, tooltips and popups on a flat page (no Mica tint), with solid dialogs and bottom sheets.
 
 Tokens: `--qds-material-{thin,regular,thick}-{bg,blur,filter}`, `--qds-material-saturate`, `--qds-material-stroke`,
 `--qds-material-edge`, `--qds-mica-alt`, `--qds-backdrop` (a full `background` value, not a colour).
@@ -171,7 +172,7 @@ The package is structured around `src/themes/`. For now there is one real theme,
 
 - `fluent`: default Fluent 2-inspired direction with a Mica app backdrop, acrylic overlays, solid reading surfaces, and low-border content. Absorbs the legacy Air translucency behavior.
 - `ink`: paper-neutral editorial surfaces with charcoal type and coordinated pastel role washes.
-- `one`: Samsung One UI-inspired focus blocks, rounding, spacing, and touch-friendly control rhythm.
+- `one`: Samsung One UI-inspired neutral grey or true-black pages, rounded blocks, pill controls, a calm blue accent, and touch-friendly rhythm.
 - `term`: opaque amber developer UI on warm cream or near-black panes, with crisp hairline rules, amber fills carrying dark ink, and a monospace-forward feel.
 
 They are not separate brands — deliberate overlays over the same token system.
