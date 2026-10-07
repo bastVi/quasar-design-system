@@ -461,7 +461,7 @@ function onPinBackspace(index: number) {
     <q-card class="q-pa-lg" data-test="qds-forms-settings">
       <div class="forms-settings">
         <nav aria-label="Settings sections">
-          <q-list class="forms-settings__nav">
+          <q-list role="none" class="forms-settings__nav">
             <q-item
               v-for="entry in settingsNav"
               :key="entry.value"

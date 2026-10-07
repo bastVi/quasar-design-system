@@ -155,7 +155,7 @@ test.describe('QDS official stable data and layout modes', () => {
     for (const button of await pagination.locator('.q-btn').all()) {
       await expect(button, 'Fluent input-mode buttons use the 6px control radius').toHaveCSS('border-top-left-radius', await resolvedRadius(page, '--qds-radius-control'))
     }
-    await expect(page.locator('[data-test="qds-pagination"] .q-btn[aria-current="true"]'), 'Fluent selected page keeps the control radius').toHaveCSS('border-top-left-radius', await resolvedRadius(page, '--qds-radius-control'))
+    await expect(page.locator('[data-test="qds-pagination"] .q-btn[aria-current="page"]'), 'Fluent selected page keeps the control radius').toHaveCSS('border-top-left-radius', await resolvedRadius(page, '--qds-radius-control'))
   })
 
   test('drawer containers preserve seamless and mini-to-overlay states without behavior automation', async ({ page }) => {

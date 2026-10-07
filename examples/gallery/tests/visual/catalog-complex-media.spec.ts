@@ -272,7 +272,7 @@ test.describe('QDS catalog complex media gate', () => {
     await expect(page.locator('[data-test="qds-carousel-controls"] .material-icons')).toHaveCount(0)
     await expect(page.locator('.catalog-uploader-header .material-icons')).toHaveCount(0)
     await expect(page.locator('.catalog-fab-stage .material-icons')).toHaveCount(0)
-    await expect(page.locator('[data-test="qds-editor"] .material-icons')).toHaveCount(0)
+    await expect(page.locator('.qds-editor-proof .material-icons')).toHaveCount(0)
 
     for (const variant of ['fluent', 'ink', 'one', 'term'] as const) {
       await applyTheme(page, 'dark', variant)
@@ -304,7 +304,7 @@ test.describe('QDS catalog complex media gate', () => {
 
       expect.soft(await computed(page, '[data-test="qds-carousel"]', 'border-radius'), `${variant} carousel radius`).toBe(EXPECTED_MEDIA_RADIUS[variant])
       await expectStepperErrorHalo(page, variant)
-      expect.soft(await computed(page, '[data-test="qds-editor"]', 'border-top-width'), `${variant} editor keeps framed chrome`).toBe('1px')
+      expect.soft(await computed(page, '.qds-editor-proof', 'border-top-width'), `${variant} editor keeps framed chrome`).toBe('1px')
       expect.soft(await computed(page, '[data-test="qds-uploader"]', 'border-top-width'), `${variant} uploader keeps framed chrome`).toBe('1px')
       expect.soft(await computed(page, '[data-test="qds-uploader-disabled"]', 'opacity'), `${variant} disabled uploader state is softened`).toBe('0.6')
       expect.soft(await computed(page, '[data-test="qds-scroll-area"] .q-scrollarea__thumb', 'background-color'), `${variant} scroll thumb is themed`).not.toBe('rgba(0, 0, 0, 0)')
@@ -316,7 +316,7 @@ test.describe('QDS catalog complex media gate', () => {
       await expect(uploaderHeader.locator('.material-icons')).toHaveCount(0)
 
       if (variant === 'term') {
-        expect.soft(await computed(page, '[data-test="qds-editor"]', 'font-family'), 'term editor uses monospace family').toContain('ui-monospace')
+        expect.soft(await computed(page, '.qds-editor-proof', 'font-family'), 'term editor uses monospace family').toContain('ui-monospace')
       }
     }
   })
@@ -401,23 +401,23 @@ test.describe('QDS catalog complex media gate', () => {
     await page.getByRole('tab', { name: 'Catalog' }).click()
     await applyTheme(page, 'light', 'fluent')
 
-    const editor = page.locator('[data-test="qds-editor"]')
-    await page.focus('[data-test="qds-editor"] .q-editor__content')
-    expect.soft(await computed(page, '[data-test="qds-editor"]', 'border-top-color'), 'focused editor receives QDS focus border').toBe(await resolvedColor(page, '--qds-color-primary'))
+    const editor = page.locator('.qds-editor-proof')
+    await page.focus('.qds-editor-proof .q-editor__content')
+    expect.soft(await computed(page, '.qds-editor-proof', 'border-top-color'), 'focused editor receives QDS focus border').toBe(await resolvedColor(page, '--qds-color-primary'))
     await expect(editor.locator('.q-btn-dropdown')).toHaveCount(2)
 
     await editor.locator('.q-btn-dropdown').first().click()
     await expect(page.locator('.q-menu').first()).toBeVisible()
     await page.keyboard.press('Escape')
 
-    const readonlyEditor = page.locator('[data-test="qds-editor-readonly"]')
+    const readonlyEditor = page.locator('.qds-editor-proof-readonly')
     await expect(readonlyEditor).toBeVisible()
     await expect(readonlyEditor.locator('.q-editor__content')).toHaveAttribute('contenteditable', 'false')
-    expect.soft(await computed(page, '[data-test="qds-editor-readonly"]', 'background-color'), 'read-only editor keeps the tokenized surface').toBe(await tokenColor(page, '[data-test="qds-editor-readonly"]', '--qds-surface-0'))
+    expect.soft(await computed(page, '.qds-editor-proof-readonly', 'background-color'), 'read-only editor keeps the tokenized surface').toBe(await tokenColor(page, '.qds-editor-proof-readonly', '--qds-surface-0'))
 
     await editor.locator('.q-editor__toolbar .q-btn').last().click()
     await expect(editor).toHaveClass(/fullscreen/)
-    expect.soft(await computed(page, '[data-test="qds-editor"]', 'background-color'), 'fullscreen editor keeps the tokenized surface').toBe(await tokenColor(page, '[data-test="qds-editor"]', '--qds-surface-0'))
+    expect.soft(await computed(page, '.qds-editor-proof', 'background-color'), 'fullscreen editor keeps the tokenized surface').toBe(await tokenColor(page, '.qds-editor-proof', '--qds-surface-0'))
     await editor.locator('.q-editor__toolbar .q-btn').last().click()
     await expect(editor).not.toHaveClass(/fullscreen/)
   })
@@ -464,10 +464,10 @@ test.describe('QDS catalog complex media gate', () => {
         expect.soft(await computed(page, '[data-test="qds-uploader"]', 'border-top-color'), `${mode}/${variant} uploader surface boundary`).not.toBe('rgba(0, 0, 0, 0)')
         await expectStepperErrorHalo(page, `${mode}/${variant}`)
         if (variant === 'ink') {
-          expect.soft(await computed(page, '[data-test="qds-editor"]', 'box-shadow'), `${mode}/Ink editor is matte`).toBe('none')
+          expect.soft(await computed(page, '.qds-editor-proof', 'box-shadow'), `${mode}/Ink editor is matte`).toBe('none')
         }
         if (variant === 'one') {
-          expect.soft(await computed(page, '[data-test="qds-editor"]', 'background-color'), `${mode}/One editor is grouped on a visible surface`).not.toBe('rgba(0, 0, 0, 0)')
+          expect.soft(await computed(page, '.qds-editor-proof', 'background-color'), `${mode}/One editor is grouped on a visible surface`).not.toBe('rgba(0, 0, 0, 0)')
         }
       }
     }

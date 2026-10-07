@@ -560,7 +560,7 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
       </div>
       <q-layout view="hHh lpR fFf" container style="height: 320px; border-radius: var(--qds-card-radius); overflow: hidden">
         <q-drawer v-model="drawerOpen" data-test="qds-drawer" show-if-above bordered :width="220">
-          <q-list>
+          <q-list role="none">
             <q-item clickable active>
               <q-item-section avatar><PhSparkle :size="18" weight="duotone" /></q-item-section>
               <q-item-section>Overview</q-item-section>
@@ -601,7 +601,7 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
           <div class="text-subtitle2 qds-text-muted q-mb-sm">Seamless drawer</div>
           <q-layout view="hHh lpR fFf" container style="height: 190px; border-radius: var(--qds-card-radius); overflow: hidden">
             <q-drawer v-model="drawerSeamlessOpen" data-test="qds-drawer-seamless" behavior="desktop" :width="164">
-              <q-list>
+              <q-list role="none">
                 <q-item clickable active>
                   <q-item-section avatar><PhSparkle :size="18" weight="duotone" /></q-item-section>
                   <q-item-section>Overview</q-item-section>
@@ -637,7 +637,7 @@ function notify(type: 'positive' | 'negative' | 'warning' | 'info') {
                   </q-item>
                 </q-list>
               </template>
-              <q-list>
+              <q-list role="none">
                 <q-item clickable active>
                   <q-item-section avatar><PhSparkle :size="18" weight="duotone" /></q-item-section>
                   <q-item-section>Overview</q-item-section>

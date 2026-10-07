@@ -253,11 +253,12 @@ function backDialog() {
           no-caps
           :label="deployLabel"
           toggle-aria-label="More deploy actions"
+          toggle-aria-haspopup="menu"
           data-test="qds-apps-split-button"
           @click="runDeploy"
           @show="focusMenuRow(0)"
         >
-          <q-list ref="deployMenu" role="none" class="apps-menu" data-test="qds-apps-split-menu" @keydown="moveMenuFocus">
+          <q-list ref="deployMenu" role="menu" class="apps-menu" data-test="qds-apps-split-menu" @keydown="moveMenuFocus">
             <q-item
               v-for="target in deployTargets"
               :key="target.value"

@@ -206,7 +206,9 @@ test.describe('QDS catalog form picker gate', () => {
     expect.soft(nativeFileChooserCount, 'Readonly and disabled QFile fields do not activate the native chooser by pointer or keyboard').toBe(0)
     await expect(page.locator('[data-test="qds-catalog-file-affordances"] .q-field__prepend svg')).toBeVisible()
     await expect(page.locator('[data-test="qds-catalog-file-affordances"] .q-field__append svg')).toBeVisible()
-    await emptyFile.locator('.q-field__native').dispatchEvent('dragover')
+    // Quasar 2.25+ drives the QFile drop overlay through useDropZone, which arms on `dragenter`
+    // (not the legacy `dragover`); a bare dragenter toggles q-file--dnd and renders .q-file__dnd.
+    await emptyFile.locator('.q-field__native').dispatchEvent('dragenter')
     await expect(emptyFile, 'QFile drag-over state has the native dnd class').toHaveClass(/q-file--dnd/)
     await expect(emptyFile.locator('.q-file__dnd'), 'QFile drag-over surface is visible without a file chooser').toBeVisible()
     expect.soft(await computed(page, '[data-test="qds-catalog-file-empty"] .q-file__dnd', 'outline-style'), 'QFile drag-over surface uses a dashed visual affordance').toBe('dashed')
@@ -259,7 +261,7 @@ test.describe('QDS catalog form picker gate', () => {
     expect.soft(await computed(page, '[data-test="qds-catalog-date"]', 'border-top-color'), 'QDate bordered frame is softened').not.toBe('rgb(200, 200, 200)')
     expect.soft(await computed(page, '[data-test="qds-catalog-time"]', 'border-top-color'), 'QTime bordered frame is softened').not.toBe('rgb(200, 200, 200)')
 
-    const selectedDate = page.locator('[data-test="qds-catalog-date"]').getByRole('button', { name: '17', exact: true })
+    const selectedDate = page.locator('[data-test="qds-catalog-date"]').getByRole('button', { name: '17 August 2029', exact: true })
     await expect(selectedDate).toBeVisible()
     expect.soft(await selectedDate.evaluate((el) => getComputedStyle(el as Element).backgroundColor), 'QDate selected day uses primary').toBe(primary)
     expect.soft(await selectedDate.evaluate((el) => getComputedStyle(el as Element).color), 'QDate selected day uses on-solid text').toBe(onSolid)
@@ -363,7 +365,7 @@ test.describe('QDS catalog form picker gate', () => {
         expect.soft(await computedPseudo(page, '[data-test="qds-catalog-input-error"] .q-field__control', '::after', 'border-bottom-color'), `${mode}/${variant} error bar is semantic`).toBe(await resolvedColor(page, '--qds-stroke-error'))
         expect.soft(await computedPseudo(page, '[data-test="qds-catalog-file-readonly"] .q-field__control', '::before', 'border-top-style'), `${mode}/${variant} QFile readonly outline is distinct`).toBe('dashed')
         expect.soft(await computed(page, '[data-test="qds-catalog-file-disabled"] .q-field__control', 'background-color'), `${mode}/${variant} QFile disabled surface remains visible`).not.toBe('rgba(0, 0, 0, 0)')
-        expect.soft(await page.locator('[data-test="qds-catalog-date"]').getByRole('button', { name: '17', exact: true }).evaluate((el) => getComputedStyle(el).backgroundColor), `${mode}/${variant} selected date uses the active primary`).toBe(primary)
+        expect.soft(await page.locator('[data-test="qds-catalog-date"]').getByRole('button', { name: '17 August 2029', exact: true }).evaluate((el) => getComputedStyle(el).backgroundColor), `${mode}/${variant} selected date uses the active primary`).toBe(primary)
         expect.soft(await computed(page, '[data-test="qds-catalog-time"] .q-time__clock-position--active', 'background-color'), `${mode}/${variant} active time uses the active primary`).toBe(primary)
         if (variant === 'ink') {
           expect.soft(await page.locator('body').evaluate((el) => getComputedStyle(el).getPropertyValue('--qds-surface-positive-soft').trim()), `${mode}/ink has a pastel semantic role surface`).toBe(mode === 'light' ? '#e2ecdf' : '#2f3f35')
@@ -441,7 +443,7 @@ test.describe('QDS catalog form picker gate', () => {
     // Term light: primary is yellow (#fcc40d), on-primary should be dark (#0d0d0c)
     await applyTheme(page, 'light', 'term')
     const termLightOnPrimary = await resolvedColor(page, '--qds-text-on-primary')
-    const termLightSelectedDate = page.locator('[data-test="qds-catalog-date"]').getByRole('button', { name: '17', exact: true })
+    const termLightSelectedDate = page.locator('[data-test="qds-catalog-date"]').getByRole('button', { name: '17 August 2029', exact: true })
     await expect(termLightSelectedDate).toBeVisible()
     await expect.poll(() => termLightSelectedDate.evaluate((el) => getComputedStyle(el as Element).color), { message: 'Term light selected date uses dark on-primary text, not white', timeout: 2000 }).toBe(termLightOnPrimary)
     expect.soft(
@@ -460,7 +462,7 @@ test.describe('QDS catalog form picker gate', () => {
     // Term dark: primary is still yellow, on-primary should be dark (#0e0d0b)
     await applyTheme(page, 'dark', 'term')
     const termDarkOnPrimary = await resolvedColor(page, '--qds-text-on-primary')
-    const termDarkSelectedDate = page.locator('[data-test="qds-catalog-date"]').getByRole('button', { name: '17', exact: true })
+    const termDarkSelectedDate = page.locator('[data-test="qds-catalog-date"]').getByRole('button', { name: '17 August 2029', exact: true })
     await expect(termDarkSelectedDate).toBeVisible()
     await expect.poll(() => termDarkSelectedDate.evaluate((el) => getComputedStyle(el as Element).color), { message: 'Term dark selected date uses dark on-primary text, not white', timeout: 2000 }).toBe(termDarkOnPrimary)
     expect.soft(
@@ -479,7 +481,7 @@ test.describe('QDS catalog form picker gate', () => {
     // Ink dark: primary is light cream (#f0e9db), on-primary should be dark (#25231f)
     await applyTheme(page, 'dark', 'ink')
     const inkDarkOnPrimary = await resolvedColor(page, '--qds-text-on-primary')
-    const inkDarkSelectedDate = page.locator('[data-test="qds-catalog-date"]').getByRole('button', { name: '17', exact: true })
+    const inkDarkSelectedDate = page.locator('[data-test="qds-catalog-date"]').getByRole('button', { name: '17 August 2029', exact: true })
     await expect(inkDarkSelectedDate).toBeVisible()
     await expect.poll(() => inkDarkSelectedDate.evaluate((el) => getComputedStyle(el as Element).color), { message: 'Ink dark selected date uses dark on-primary text, not white', timeout: 2000 }).toBe(inkDarkOnPrimary)
     expect.soft(

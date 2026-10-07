@@ -117,14 +117,14 @@ test.describe('apps', () => {
     const current = block.locator('.q-btn-dropdown--current')
     const arrow = block.locator('.q-btn-dropdown__arrow-container')
     const status = page.locator(byHook('qds-apps-split-status'))
-    const menu = page.locator(`[role="menu"]:has(${byHook('qds-apps-split-menu')})`)
+    const menu = page.locator(`[role="menu"]${byHook('qds-apps-split-menu')}`)
 
     await current.focus()
     await page.keyboard.press('Enter')
     await expect(status, 'Enter runs the primary action').toHaveText('Deploy to production started.')
     await expect(menu, 'primary action does not open the menu').toHaveCount(0)
 
-    await expect(arrow).toHaveAttribute('aria-haspopup', 'true')
+    await expect(arrow).toHaveAttribute('aria-haspopup', 'menu')
     await expect(arrow).toHaveAccessibleName('More deploy actions')
     await arrow.focus()
     await page.keyboard.press('Space')
