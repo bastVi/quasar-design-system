@@ -65,6 +65,8 @@ async function tightClip(page: Page, selector: string) {
 }
 
 const byHook = (hook: string) => `[data-test="${hook}"]`
+// QEditor passes data-test to its content node, so the shot targets the editor root.
+const captureTarget = (hook: string) => (hook === 'qds-editor' ? `.q-editor:has(${byHook(hook)})` : byHook(hook))
 
 const escape = async (page: Page) => {
   await page.keyboard.press('Escape')
@@ -113,7 +115,7 @@ const OVERLAYS: Record<Section, readonly Overlay[]> = {
     {
       name: 'qds-select-popup',
       open: async (page) => page.locator(`${byHook('qds-control-select')} .q-field__control`).click(),
-      target: '.q-menu[role="listbox"]',
+      target: '.q-menu:has([role="listbox"])',
       close: escape,
     },
     {
@@ -175,7 +177,7 @@ test.describe('@screens atlas', () => {
 
         const hooks = Object.values(FAMILIES[section]).flat()
         for (const hook of mobile ? MOBILE_HOOKS[section] : hooks) {
-          const target = page.locator(byHook(hook))
+          const target = page.locator(captureTarget(hook))
           await expect(target, `${hook} is rendered exactly once`).toHaveCount(1)
           // Centre the target so the sticky gallery header never overlaps the crop.
           await target.evaluate((element) => element.scrollIntoView({ block: 'center' }))
